@@ -119,8 +119,24 @@
   });
 
   if ("serviceWorker" in navigator) {
+    const hadController = Boolean(navigator.serviceWorker.controller);
+    let reloading = false;
+    let registration = null;
+    let lastUpdateCheck = 0;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (!hadController || reloading || !document.querySelector("#home.active, #curriculum.active")) return;
+      reloading = true;
+      if (document.querySelector("#curriculum.active")) window.location.hash = "curriculum";
+      window.location.reload();
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState !== "visible" || !registration || Date.now() - lastUpdateCheck < 60000) return;
+      lastUpdateCheck = Date.now();
+      registration.update().catch((error) => console.warn("앱 업데이트 확인 생략", error));
+    });
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./service-worker.js", { scope: "./" })
+      navigator.serviceWorker.register("./service-worker.js", { scope: "./", updateViaCache: "none" })
+        .then((result) => { registration = result; lastUpdateCheck = Date.now(); })
         .catch((error) => console.warn("서비스 워커 등록 실패", error));
     }, { once: true });
   }

@@ -1,4 +1,4 @@
-const CACHE_NAME = "anjwa-career-shell-v1.06.03";
+const CACHE_NAME = "anjwa-career-shell-v1.06.04";
 const DATA_CACHE_NAME = "anjwa-career-data-v1";
 const OFFLINE_URL = "./index.html";
 const APP_SHELL = [
@@ -54,14 +54,15 @@ async function putIfUsable(cacheName, request, response) {
 
 async function networkFirst(request, cacheName, fallbackUrl) {
   try {
-    const response = await fetch(request);
+    const response = await fetch(request, { cache: "no-cache" });
     await putIfUsable(cacheName, request, response);
     return response;
   } catch (error) {
-    const cached = await caches.match(request, { ignoreSearch: true });
+    const cache = await caches.open(cacheName);
+    const cached = await cache.match(request, { ignoreSearch: true });
     if (cached) return cached;
     if (fallbackUrl) {
-      const fallback = await caches.match(fallbackUrl, { ignoreSearch: true });
+      const fallback = await cache.match(fallbackUrl, { ignoreSearch: true });
       if (fallback) return fallback;
     }
     throw error;
@@ -69,7 +70,8 @@ async function networkFirst(request, cacheName, fallbackUrl) {
 }
 
 async function staleWhileRevalidate(request) {
-  const cached = await caches.match(request, { ignoreSearch: true });
+  const cache = await caches.open(CACHE_NAME);
+  const cached = await cache.match(request, { ignoreSearch: true });
   const update = fetch(request)
     .then(async (response) => {
       await putIfUsable(CACHE_NAME, request, response);

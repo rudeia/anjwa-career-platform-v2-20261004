@@ -2583,6 +2583,8 @@ const state = {
   activeGrade: "1",
   activeCurriculumPlan: "current2026",
   activeCurriculumScope: "semester",
+  curriculumGrade: "1",
+  curriculumSemester: "1",
   curriculumSorts: [],
   recommendationMode: "major",
   topicArea: "all",
@@ -2722,22 +2724,36 @@ function getInitialViewFromHash() {
   return "";
 }
 
-function bindControls() {
-  $("#curriculumPlan").addEventListener("change", (event) => {
-    state.activeCurriculumPlan = event.target.value;
-    const currentGrade = currentCurriculumGradeByPlan[state.activeCurriculumPlan];
-    if (currentGrade) $("#curriculumGrade").value = currentGrade;
-    saveState(false);
-    renderCurriculum();
+function bindCurriculumControls() {
+  const fields = {
+    curriculumPlan: "activeCurriculumPlan",
+    curriculumScope: "activeCurriculumScope",
+    curriculumGrade: "curriculumGrade",
+    curriculumSemester: "curriculumSemester"
+  };
+  Object.entries(fields).forEach(([id, key]) => {
+    const update = (event) => {
+      const value = event.target.value;
+      if (state[key] === value) return;
+      state[key] = value;
+      if (id === "curriculumPlan") {
+        state.curriculumGrade = currentCurriculumGradeByPlan[value] || state.curriculumGrade;
+      }
+      renderCurriculum();
+      try {
+        saveState(false);
+      } catch (error) {
+        console.warn("교육과정 조회 조건 저장 생략", error);
+      }
+    };
+    $("#" + id).addEventListener("input", update);
+    $("#" + id).addEventListener("change", update);
   });
-  $("#curriculumScope").addEventListener("change", (event) => {
-    state.activeCurriculumScope = event.target.value;
-    saveState(false);
-    renderCurriculum();
-  });
-  $("#curriculumGrade").addEventListener("change", renderCurriculum);
-  $("#curriculumSemester").addEventListener("change", renderCurriculum);
   $("#curriculumSearch").addEventListener("input", renderCurriculum);
+}
+
+function bindControls() {
+  bindCurriculumControls();
 
   bindRecommendationControls();
   bindTopicExplorerControls();
@@ -3356,8 +3372,6 @@ function renderCurriculumPlanOptions() {
     state.activeCurriculumPlan = curriculumPlanOrder.find((key) => curriculumData.plans[key]) || "";
   }
   select.value = state.activeCurriculumPlan;
-  const currentGrade = currentCurriculumGradeByPlan[state.activeCurriculumPlan];
-  if (currentGrade) $("#curriculumGrade").value = currentGrade;
 }
 
 function renderPlannerPlanOptions() {
@@ -5078,6 +5092,8 @@ function renderCurriculum() {
 
   $("#curriculumPlan").value = state.activeCurriculumPlan;
   $("#curriculumScope").value = state.activeCurriculumScope;
+  $("#curriculumGrade").value = state.curriculumGrade;
+  $("#curriculumSemester").value = state.curriculumSemester;
   $("#curriculumPlanTitle").textContent = getCurriculumPlanLabel(state.activeCurriculumPlan);
   $("#curriculumPlanDescription").textContent = plan.description;
   const updatedTarget = $("#curriculumUpdatedDate");
@@ -8656,6 +8672,8 @@ function saveState(showMessage) {
     activeGrade: state.activeGrade,
     activeCurriculumPlan: state.activeCurriculumPlan,
     activeCurriculumScope: state.activeCurriculumScope,
+    curriculumGrade: state.curriculumGrade,
+    curriculumSemester: state.curriculumSemester,
     plannerPlan: state.plannerPlan,
     plannerPlans: state.plannerPlans,
     plannerStudentNumber: state.plannerStudentNumber,
@@ -8678,6 +8696,9 @@ function loadState() {
     state.activeGrade = saved.activeGrade || state.activeGrade;
     state.activeCurriculumPlan = saved.activeCurriculumPlan || state.activeCurriculumPlan;
     state.activeCurriculumScope = saved.activeCurriculumScope || state.activeCurriculumScope;
+    state.curriculumGrade = /^[123]$/.test(saved.curriculumGrade)
+      ? saved.curriculumGrade : currentCurriculumGradeByPlan[state.activeCurriculumPlan] || "1";
+    state.curriculumSemester = /^[12]$/.test(saved.curriculumSemester) ? saved.curriculumSemester : "1";
     state.plannerPlan = saved.plannerPlan || state.plannerPlan;
     state.plannerPlans = saved.plannerPlans || {};
     state.plannerStudentNumber = normalizeStudentNumber(saved.plannerStudentNumber);

@@ -2252,7 +2252,45 @@ window.ANJWA_CURRICULUM_DATA = {
           },
           "row": 85
         }
-      ]
+      ],
+      "summary": {
+        "1-1": {
+          "courseCredits": 31,
+          "creativeCredits": 3,
+          "totalCredits": 34,
+          "courseCount": "7 (4)"
+        },
+        "1-2": {
+          "courseCredits": 31,
+          "creativeCredits": 3,
+          "totalCredits": 34,
+          "courseCount": "8 (3)"
+        },
+        "2-1": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "7 (3)"
+        },
+        "2-2": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "7 (3)"
+        },
+        "3-1": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "9 (1)"
+        },
+        "3-2": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "5 (2)"
+        }
+      }
     },
     "incoming2026": {
       "label": "2026학년도 신입생",
@@ -3603,7 +3641,45 @@ window.ANJWA_CURRICULUM_DATA = {
           },
           "row": 89
         }
-      ]
+      ],
+      "summary": {
+        "1-1": {
+          "courseCredits": 31,
+          "creativeCredits": 3,
+          "totalCredits": 34,
+          "courseCount": "7 (4)"
+        },
+        "1-2": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "7 (3)"
+        },
+        "2-1": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "7 (3)"
+        },
+        "2-2": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "7 (3)"
+        },
+        "3-1": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "9 (1)"
+        },
+        "3-2": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "5 (2)"
+        }
+      }
     },
     "incoming2025": {
       "label": "2025학년도 신입생",
@@ -4954,7 +5030,45 @@ window.ANJWA_CURRICULUM_DATA = {
           },
           "row": 89
         }
-      ]
+      ],
+      "summary": {
+        "1-1": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "7 (3)"
+        },
+        "1-2": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "6 (4)"
+        },
+        "2-1": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "7 (3)"
+        },
+        "2-2": {
+          "courseCredits": 31,
+          "creativeCredits": 3,
+          "totalCredits": 34,
+          "courseCount": "8 (3)"
+        },
+        "3-1": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "8 (1)"
+        },
+        "3-2": {
+          "courseCredits": 29,
+          "creativeCredits": 3,
+          "totalCredits": 32,
+          "courseCount": "6 (2)"
+        }
+      }
     },
     "incoming2024": {
       "label": "2024학년도 신입생",
