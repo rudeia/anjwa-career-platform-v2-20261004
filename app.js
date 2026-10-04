@@ -2715,7 +2715,8 @@ function setView(viewId) {
   if (viewId === "courseDesigner") renderCourseDesigner();
   $all(".view").forEach((view) => view.classList.toggle("active", view.id === viewId));
   $all(".nav-button").forEach((button) => {
-    const active = button.dataset.view === viewId;
+    const navView = ["courseDesigner", "topicExplorer"].includes(viewId) ? "careerHub" : viewId;
+    const active = button.dataset.view === navView;
     button.classList.toggle("active", active);
     if (active) button.setAttribute("aria-current", "page");
     else button.removeAttribute("aria-current");
@@ -8890,6 +8891,8 @@ function formatDateLabel(value) {
 
 function showToast(message) {
   const toast = $("#toast");
+  if (!toast) return;
+  toast.dataset.tone = /저장했습니다|저장했|저장되|저장 완료/.test(message) ? "saved" : "";
   toast.textContent = message;
   toast.classList.add("show");
   window.setTimeout(() => toast.classList.remove("show"), 2200);
