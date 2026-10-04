@@ -107,7 +107,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (["/ui-v2.css", "/styles.css", "/app.js", "/curriculum-data.js", "/site-meta.js"].some((path) => url.pathname.endsWith(path))) {
+  if (["/ui-v2.css", "/styles.css", "/app.js", "/curriculum-data.js", "/site-meta.js", "/subject-guide-data.js", "/admission-pages.js", "/recommendation-data.js", "/university-recommendation-data.js", "/course-designer-data.js", "/topic-data.js"].some((path) => url.pathname.endsWith(path))) {
     event.respondWith(networkFirst(request, CACHE_NAME));
     return;
   }
