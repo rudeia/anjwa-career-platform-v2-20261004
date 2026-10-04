@@ -8940,6 +8940,7 @@ function renderAdmissionDetailPage(pageKey, page, tabs) {
 
     ${page.basis ? `<aside class="admission-basis-note"><strong>자료 기준</strong><span>${escapeHtml(page.basis)}</span><small>최근 확인 2026.07.18</small></aside>` : ""}
 
+    ${page.feature === "recommendations" ? '<details class="compact-guide recommendation-intro"><summary>추천 과목 사용법</summary>' : ''}
     <div class="detail-hero ${page.tone === "holistic" ? "holistic-hero" : "subject-hero"}">
       <div>
         <span class="label">${escapeHtml(page.heroLabel || "핵심 이해")}</span>
@@ -8950,6 +8951,8 @@ function renderAdmissionDetailPage(pageKey, page, tabs) {
         ${renderAdmissionDetailGuide(pageKey, page)}
       </div>
     </div>
+
+    ${page.feature === "recommendations" ? '</details>' : ''}
 
     ${page.body || ""}
   `;

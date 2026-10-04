@@ -1,4 +1,4 @@
-const CACHE_NAME = "anjwa-career-shell-v2.00.00";
+const CACHE_NAME = "anjwa-career-shell-v2.00.01";
 const DATA_CACHE_NAME = "anjwa-career-data-v1";
 const OFFLINE_URL = "./index.html";
 const APP_SHELL = [

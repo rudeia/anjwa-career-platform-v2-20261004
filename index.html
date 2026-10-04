@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=20261004a" />
+    <link rel="stylesheet" href="./ui-v2.css?v=20261004b" />
   </head>
   <body>
     <div class="app-shell">
@@ -308,7 +308,7 @@
               </fieldset>
             </div>
 
-            <div class="course-designer-path-guide" id="courseDesignerPathGuide"></div>
+            <details class="compact-guide"><summary>선택 방법 안내</summary><div class="course-designer-path-guide" id="courseDesignerPathGuide"></div></details>
             <div class="course-designer-exploration" id="courseDesignerExploration" hidden></div>
 
             <div class="course-designer-interest-head">
@@ -319,7 +319,9 @@
               </div>
               <strong id="courseDesignerInterestCount">0 / 3</strong>
             </div>
+<div class="course-designer-choice-layout">
             <div class="course-designer-interest-groups" id="courseDesignerInterestGroups"></div>
+<aside class="course-designer-selection-panel" aria-label="선택 요약"><h3>선택 요약</h3>
             <div class="course-designer-priority-list" id="courseDesignerPriorityList" hidden></div>
 
             <div class="course-designer-actions">
@@ -329,6 +331,7 @@
                 <button class="primary-button" id="courseDesignerGenerateButton" type="button">과목 선택안 살펴보기</button>
               </div>
             </div>
+</aside></div>
           </section>
 
           <div class="course-designer-version-notice" id="courseDesignerVersionNotice" hidden></div>
@@ -523,10 +526,10 @@
                 <input id="plannerStudentNumber" type="text" inputmode="numeric" maxlength="12"
                   autocomplete="off" placeholder="예: 10101" />
               </label>
-              <button class="ghost-button" id="savePlanButton">저장</button>
-              <button class="primary-button" id="loadPlanButton">저장 내용 불러오기</button>
+              <button class="primary-button" id="savePlanButton">저장</button>
+              <button class="ghost-button" id="loadPlanButton">저장 내용 불러오기</button>
               <button class="primary-button" id="plannerExportButton" type="button">PDF 내보내기</button>
-              <button class="ghost-button reset-button" id="resetPlanButton" type="button">현재 학년도 초기화</button>
+              <details class="toolbar-more"><summary>더 보기</summary><div><button class="ghost-button reset-button" id="resetPlanButton" type="button">현재 학년도 초기화</button></div></details>
               <span class="planner-save-status" id="plannerSaveStatus">입력 내용은 이 기기의 브라우저에 저장됩니다.</span>
             </div>
           </div>
@@ -629,8 +632,7 @@
                 과목
                 <select id="selfEvalSubjectSelect"></select>
               </label>
-              <button class="ghost-button" id="loadSelfEvalButton" type="button">저장 내용 불러오기</button>
-              <button class="ghost-button reset-button" id="resetSelfEvalButton" type="button">현재 과목 초기화</button>
+              <details class="toolbar-more"><summary>불러오기 · 초기화</summary><div><button class="ghost-button" id="loadSelfEvalButton" type="button">저장 내용 불러오기</button><button class="ghost-button reset-button" id="resetSelfEvalButton" type="button">현재 과목 초기화</button></div></details>
             </div>
             <div class="control-row creative-eval-control-row" id="creativeEvalControls" hidden>
               <label>
@@ -645,65 +647,27 @@
                   <option value="3">3학년</option>
                 </select>
               </label>
-              <button class="ghost-button" id="loadCreativeEvalButton" type="button">저장 내용 불러오기</button>
-              <button class="ghost-button reset-button" id="resetCreativeEvalButton" type="button">현재 활동 초기화</button>
+              <details class="toolbar-more"><summary>불러오기 · 초기화</summary><div><button class="ghost-button" id="loadCreativeEvalButton" type="button">저장 내용 불러오기</button><button class="ghost-button reset-button" id="resetCreativeEvalButton" type="button">현재 활동 초기화</button></div></details>
             </div>
           </div>
 
-          <div class="self-eval-guide" id="selfEvalSubjectGuide">
-            <article>
-              <span class="label">작성 원칙</span>
-              <h3>모든 과목은 학업역량을 보여줄 기회입니다</h3>
-              <p>
-                희망 진로와 직접 연결되는 과목은 진로역량을 보여주기 좋습니다.
-                하지만 다른 과목도 질문 만들기, 자료 해석, 토론, 발표, 협업, 피드백 반영을 통해
-                학업역량과 공동체역량을 충분히 보여줄 수 있습니다.
-              </p>
-            </article>
-            <article>
-              <span class="label">좋은 흐름</span>
-              <h3>동기 → 질문 → 개념 → 과정 → 결과 → 한계 → 후속 탐구</h3>
-              <p>
-                좋은 자기평가서는 활동 이름을 나열하지 않습니다.
-                수업과 수행평가에서 진행한 내용을 먼저 바탕으로 삼고,
-                시간이 부족하거나 더 깊이 알고 싶은 주제가 있다면 교과 선생님과 이야기해 개별 탐구 질문을 정리할 수 있습니다.
-              </p>
-            </article>
-            <article>
-              <span class="label">심화 도움말</span>
-              <h3>좋은 세특으로 바뀌는 과정을 봅니다</h3>
-              <p>
-                아쉬운 자기평가 문장이 수업 기반 탐구, 과정, 결과, 후속 활동이 보이는 세특형 표현으로 어떻게 바뀌는지 확인합니다.
-              </p>
-              <button class="ghost-button self-eval-guide-button" type="button" data-self-help="advanced">심화 도움말 보기</button>
-            </article>
-          </div>
-
-          <div class="creative-eval-guide" id="creativeEvalGuide" hidden>
-            <article>
-              <span class="label">작성 원칙</span>
-              <h3>활동 이름보다 내가 한 행동을 적습니다</h3>
-              <p>참여 계기, 구체적인 역할, 실행 과정, 확인한 변화, 배운 점이 이어지도록 정리합니다.</p>
-            </article>
-            <article>
-              <span class="label">학년별 성장</span>
-              <h3>탐색에서 심화와 종합으로 발전합니다</h3>
-              <p>1학년은 참여와 발견, 2학년은 연결과 심화, 3학년은 주도성과 성찰이 드러나면 좋습니다.</p>
-            </article>
-            <article>
-              <span class="label">기록 범위</span>
-              <h3>각 학년의 대표 흐름을 한 번 정리합니다</h3>
-              <p>활동을 모두 나열하지 말고 자율·진로·동아리에서 가장 의미 있었던 성장 흐름을 선택합니다.</p>
-            </article>
-          </div>
-
           <div class="self-eval-layout" id="selfEvalSubjectWorkspace">
-            <aside class="self-eval-side-panel">
+
+
+            <form class="self-eval-form" id="selfEvalForm">
+              <div class="workspace-current-subject">
               <span class="label">현재 작성 과목</span>
               <h3 id="selfEvalCurrentSubject">과목을 선택하세요</h3>
               <p id="selfEvalCurrentMeta">학년도와 과목을 선택하면 과목별 자기평가서를 작성할 수 있습니다.</p>
               <div class="self-eval-status" id="selfEvalSaveStatus">로컬 브라우저 저장 방식입니다.</div>
-              <div class="self-eval-competency-box">
+</div>
+              <div id="selfEvalFields"></div>
+              <div class="self-eval-submit-row">
+                <button class="ghost-button" id="saveSelfEvalButton" type="button">작성 내용 저장</button>
+                <button class="primary-button" id="exportSelfEvalButton" type="button">PDF 내보내기</button>
+              </div>
+            </form>
+<aside class="self-eval-side-panel">              <div class="self-eval-competency-box">
                 <b>강조하고 싶은 역량</b>
                 <label><input type="checkbox" value="학업역량" data-self-eval-competency /> 학업역량</label>
                 <label><input type="checkbox" value="진로역량" data-self-eval-competency /> 진로역량</label>
@@ -711,15 +675,33 @@
                 <label class="self-eval-competency-note-label" for="selfEvalCompetencyNote">강조하고 싶은 장면 <span>선택</span></label>
                 <input id="selfEvalCompetencyNote" class="self-eval-competency-note" type="text" placeholder="예: 자료를 다시 분석하며 질문을 수정한 과정" />
               </div>
-            </aside>
+                      <div class="self-eval-guide" id="selfEvalSubjectGuide">
+            <details class="workspace-help"><summary>작성 원칙</summary>
+              <h3>모든 과목은 학업역량을 보여줄 기회입니다</h3>
+              <p>
+                희망 진로와 직접 연결되는 과목은 진로역량을 보여주기 좋습니다.
+                하지만 다른 과목도 질문 만들기, 자료 해석, 토론, 발표, 협업, 피드백 반영을 통해
+                학업역량과 공동체역량을 충분히 보여줄 수 있습니다.
+              </p>
+            </details>
+            <details class="workspace-help"><summary>좋은 흐름</summary>
+              <h3>동기 → 질문 → 개념 → 과정 → 결과 → 한계 → 후속 탐구</h3>
+              <p>
+                좋은 자기평가서는 활동 이름을 나열하지 않습니다.
+                수업과 수행평가에서 진행한 내용을 먼저 바탕으로 삼고,
+                시간이 부족하거나 더 깊이 알고 싶은 주제가 있다면 교과 선생님과 이야기해 개별 탐구 질문을 정리할 수 있습니다.
+              </p>
+            </details>
+            <details class="workspace-help"><summary>심화 도움말</summary>
+              <h3>좋은 세특으로 바뀌는 과정을 봅니다</h3>
+              <p>
+                아쉬운 자기평가 문장이 수업 기반 탐구, 과정, 결과, 후속 활동이 보이는 세특형 표현으로 어떻게 바뀌는지 확인합니다.
+              </p>
+              <button class="ghost-button self-eval-guide-button" type="button" data-self-help="advanced">심화 도움말 보기</button>
+            </details>
+          </div>
 
-            <form class="self-eval-form" id="selfEvalForm">
-              <div id="selfEvalFields"></div>
-              <div class="self-eval-submit-row">
-                <button class="ghost-button" id="saveSelfEvalButton" type="button">작성 내용 저장</button>
-                <button class="primary-button" id="exportSelfEvalButton" type="button">PDF 내보내기</button>
-              </div>
-            </form>
+</aside>
           </div>
 
           <div class="creative-eval-workspace" id="creativeEvalWorkspace" hidden>
@@ -741,12 +723,21 @@
               <p>분야와 주제를 고른 뒤 버튼을 누르면 1·2·3학년 활동의 발전 과정을 확인할 수 있습니다.</p>
             </div>
             <div class="self-eval-layout creative-eval-layout">
-              <aside class="self-eval-side-panel creative-eval-side-panel">
+
+              <form class="self-eval-form creative-eval-form" id="creativeEvalForm">
+                <div class="workspace-current-subject">
                 <span class="label" id="creativeEvalCurrentGrade">1학년 창체</span>
                 <h3 id="creativeEvalCurrentType">자율활동</h3>
                 <p id="creativeEvalCurrentGuide">학교와 학급 안에서 발견한 문제, 맡은 역할, 함께 만든 변화를 정리합니다.</p>
                 <div class="self-eval-status" id="creativeEvalSaveStatus">로컬 브라우저 저장 방식입니다.</div>
-                <div class="self-eval-competency-box">
+  </div>
+              <div id="creativeEvalFields"></div>
+                <div class="self-eval-submit-row">
+                  <button class="ghost-button" id="saveCreativeEvalButton" type="button">창체 내용 저장</button>
+                  <button class="primary-button" id="exportCreativeEvalButton" type="button">학년 창체 PDF</button>
+                </div>
+              </form>
+<aside class="self-eval-side-panel creative-eval-side-panel">              <div class="self-eval-competency-box">
                   <b>강조하고 싶은 역량</b>
                   <label><input type="checkbox" value="학업역량" data-creative-eval-competency /> 학업역량</label>
                   <label><input type="checkbox" value="진로역량" data-creative-eval-competency /> 진로역량</label>
@@ -754,14 +745,22 @@
                   <label class="self-eval-competency-note-label" for="creativeEvalCompetencyNote">강조하고 싶은 장면 <span>선택</span></label>
                   <input id="creativeEvalCompetencyNote" class="self-eval-competency-note" type="text" placeholder="예: 의견 차이를 조사 결과로 조정한 과정" />
                 </div>
-              </aside>
-              <form class="self-eval-form creative-eval-form" id="creativeEvalForm">
-                <div id="creativeEvalFields"></div>
-                <div class="self-eval-submit-row">
-                  <button class="ghost-button" id="saveCreativeEvalButton" type="button">창체 내용 저장</button>
-                  <button class="primary-button" id="exportCreativeEvalButton" type="button">학년 창체 PDF</button>
-                </div>
-              </form>
+                        <div class="creative-eval-guide" id="creativeEvalGuide" hidden>
+            <details class="workspace-help"><summary>작성 원칙</summary>
+              <h3>활동 이름보다 내가 한 행동을 적습니다</h3>
+              <p>참여 계기, 구체적인 역할, 실행 과정, 확인한 변화, 배운 점이 이어지도록 정리합니다.</p>
+            </details>
+            <details class="workspace-help"><summary>학년별 성장</summary>
+              <h3>탐색에서 심화와 종합으로 발전합니다</h3>
+              <p>1학년은 참여와 발견, 2학년은 연결과 심화, 3학년은 주도성과 성찰이 드러나면 좋습니다.</p>
+            </details>
+            <details class="workspace-help"><summary>기록 범위</summary>
+              <h3>각 학년의 대표 흐름을 한 번 정리합니다</h3>
+              <p>활동을 모두 나열하지 말고 자율·진로·동아리에서 가장 의미 있었던 성장 흐름을 선택합니다.</p>
+            </details>
+          </div>
+
+</aside>
             </div>
           </div>
 
@@ -800,8 +799,8 @@
     <script src="./university-recommendation-data.js?v=20260710b"></script>
     <script src="./course-designer-data.js?v=20260723g"></script>
     <script src="./topic-data.js?v=20260710b"></script>
-    <script src="./app.js?v=20261004a"></script>
-    <script src="./pwa-install.js?v=2.00.00" defer></script>
-    <script src="./site-meta.js?v=2.00.00" defer></script>
+    <script src="./app.js?v=20261004b"></script>
+    <script src="./pwa-install.js?v=2.00.01" defer></script>
+    <script src="./site-meta.js?v=2.00.01" defer></script>
   </body>
 </html>

@@ -397,20 +397,6 @@ window.ANJWA_ADMISSION_PAGES = {
         <div class="content-block">
           <h3>추천 과목 조회</h3>
           <p>희망 학과가 정해졌다면 학과명으로, 아직 넓게 고민 중이라면 계열명으로 찾아보세요. 관심 과목을 먼저 고르면 그 과목과 연결해 생각해 볼 수 있는 학과 예시도 확인할 수 있습니다.</p>
-          <div class="recommendation-use-grid">
-            <article>
-              <b>핵심과목</b>
-              <span>학과 공부를 시작할 때 특히 먼저 확인하면 좋은 과목입니다. 자료에 없으면 비워 둡니다.</span>
-            </article>
-            <article>
-              <b>권장과목</b>
-              <span>들어두면 전공 공부를 이해하는 데 도움이 되는 과목입니다. 모두 들어야 한다는 뜻은 아닙니다.</span>
-            </article>
-            <article>
-              <b>추천과목</b>
-              <span>공식 요구 과목이 아니라, 과목 선택을 넓게 생각해 보기 위한 참고 과목입니다.</span>
-            </article>
-          </div>
           <div class="recommendation-view-panel">
             <div class="recommendation-view-tabs" aria-label="추천 과목 보기 방식">
               <button class="active" type="button" data-recommendation-mode="major">학과·계열로 찾기</button>
@@ -433,6 +419,21 @@ window.ANJWA_ADMISSION_PAGES = {
             <div class="recommendation-results" id="majorRecommendationResults"></div>
             <div class="recommendation-results" id="subjectRecommendationResults"></div>
           </div>
+<details class="compact-guide"><summary>핵심·권장·추천 과목의 차이</summary>          <div class="recommendation-use-grid">
+            <article>
+              <b>핵심과목</b>
+              <span>학과 공부를 시작할 때 특히 먼저 확인하면 좋은 과목입니다. 자료에 없으면 비워 둡니다.</span>
+            </article>
+            <article>
+              <b>권장과목</b>
+              <span>들어두면 전공 공부를 이해하는 데 도움이 되는 과목입니다. 모두 들어야 한다는 뜻은 아닙니다.</span>
+            </article>
+            <article>
+              <b>추천과목</b>
+              <span>공식 요구 과목이 아니라, 과목 선택을 넓게 생각해 보기 위한 참고 과목입니다.</span>
+            </article>
+          </div>
+</details>
           <div class="recommendation-legend" aria-label="추천 과목 배지 범례">
             <span><b class="legend-chip grade-1"></b> 1학년 교육과정</span>
             <span><b class="legend-chip grade-2"></b> 2학년 교육과정</span>

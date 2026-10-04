@@ -128,3 +128,114 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
 .app-bottom-nav .nav-button svg { flex-shrink: 0; }
 .site-update-footer { padding-bottom: 110px !important; }
 @media print { .site-update-footer { padding-bottom: 0 !important; } }
+
+/* Shared selection colors and compact, optional help. */
+:root { --teal: #235acb; }
+.self-eval-mode-switch button.active,
+.creative-eval-type-switch button.active,
+.recommendation-view-tabs button.active,
+.in-page-tabs a.active,
+.in-page-tabs.holistic-tabs a.active,
+.planner-mode-switch button.active {
+  background: var(--blue); color: #fff; border-color: #1946a5;
+}
+.course-designer-step-tabs button.active,
+.course-designer-status-switch button.active {
+  background: #edf2fa; border-color: var(--blue); color: #1946a5;
+}
+.course-designer-path-guide { background: #edf2fa; }
+.compact-guide { border: 1px solid var(--line); border-radius: 8px; background: #fff; margin-bottom: 12px; }
+.compact-guide > summary, .workspace-help > summary { cursor: pointer; padding: 12px 14px; font-weight: 650; font-size: 14px; color: var(--muted); }
+.compact-guide .course-designer-path-guide { margin-bottom: 0; }
+.compact-guide .detail-hero { margin-bottom: 0; border: 0; }
+.compact-guide .recommendation-use-grid { margin: 0; padding: 0 14px 14px; }
+.toolbar-more { position: relative; min-width: 0; }
+.toolbar-more > summary { cursor: pointer; list-style: none; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 12px; border: 1px solid var(--line); background: #fff; border-radius: 8px; color: var(--muted); font-size: 13px; font-weight: 650; }
+.toolbar-more > summary::after { content: '⌄'; }
+.toolbar-more > div { position: absolute; right: 0; top: calc(100% + 6px); z-index: 90; width: 210px; display: grid; gap: 8px; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 10px; box-shadow: var(--shadow); }
+.toolbar-more button { width: 100%; }
+#selfEvaluation .self-eval-guide,
+#selfEvaluation .creative-eval-guide { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0; }
+.workspace-help { border-top: 1px solid var(--line); }
+.workspace-help > summary { padding: 12px 0; }
+.workspace-help h3 { font-size: 15px; line-height: 1.5; }
+.workspace-help p { font-size: 13px; line-height: 1.65; }
+.workspace-current-subject { padding: 6px 4px 16px; border-bottom: 1px solid var(--line); }
+.workspace-current-subject h3 { margin: 6px 0; font-size: 20px; }
+.workspace-current-subject p { margin: 0 0 10px; color: var(--muted); font-size: 13px; }
+.workspace-current-subject .self-eval-status { background: #edf2fa; }
+.self-eval-control-row { grid-template-columns: minmax(160px, 1fr) minmax(140px, .8fr) minmax(220px, 1.5fr) auto; }
+.creative-eval-control-row { grid-template-columns: minmax(200px, 1fr) minmax(140px, .7fr) auto; }
+#selfEvaluation .self-eval-layout { grid-template-columns: minmax(0, 1fr) 280px; }
+#selfEvaluation .self-eval-side-panel { position: static; }
+.curriculum-search-toggle span { font-size: 14px; }
+@media screen and (min-width: 1024px) {
+  html { scroll-padding-top: 90px; }
+  .main-content, .advanced-page .main-content { width: min(1180px, calc(100% - 64px)); padding-top: 104px; padding-bottom: 48px; }
+  .app-bottom-nav { top: 0; bottom: auto; left: 0; transform: none; width: 100%; min-height: 72px; display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 10px max(32px, calc((100% - 1180px) / 2)); border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: #fff; box-shadow: 0 2px 12px rgba(17,24,39,.035); }
+  .app-bottom-nav::before { content: '안좌고 진로진학'; margin-right: auto; font-size: 18px; font-weight: 750; color: var(--ink); white-space: nowrap; }
+  .app-bottom-nav .nav-button { min-height: 44px; min-width: 102px; flex-direction: row; gap: 8px; padding: 9px 14px; border-color: transparent; background: transparent; font-size: 14px; }
+  .app-bottom-nav .nav-button:not(.active):hover { background: #edf2fa; border-color: var(--line); }
+  .app-bottom-nav .nav-button svg { width: 20px; height: 20px; }
+  .site-update-footer { width: min(1180px, calc(100% - 64px)) !important; padding-bottom: 0 !important; }
+  .section-title-row h1, .section-title-row h2 { font-size: 28px; }
+  .section-head p { max-width: 850px; font-size: 14px; line-height: 1.6; }
+  #curriculum .curriculum-filter-panel { grid-template-columns: minmax(260px, 1.2fr) minmax(250px, 1fr) minmax(180px, .7fr); grid-template-areas: 'plan grade semester' 'scope scope scope' 'search search search'; gap: 8px 20px; }
+  #curriculum .curriculum-filter-panel .filter-plan select { margin-top: 6px; }
+  #curriculum .curriculum-options { max-width: 580px; }
+  #curriculum .v2-credit-line { justify-content: flex-start; gap: 20px; }
+  #curriculum .v2-credit-line strong { margin-left: auto; }
+  #selfEvaluation { max-width: 1100px; margin: 0 auto; }
+  #selfEvaluation .self-eval-head { grid-template-columns: 1fr auto; grid-template-areas: 'title title' 'mode identity' 'controls controls' 'creative creative'; align-items: end; gap: 12px 24px; margin-bottom: 18px; }
+  #selfEvaluation .section-title-wrap { grid-area: title; }
+  #selfEvaluation .self-eval-mode-switch { grid-area: mode; width: min(440px, 100%); }
+  #selfEvaluation .self-eval-identity-row { grid-area: identity; grid-template-columns: 150px auto; width: auto; }
+  #selfEvalSubjectControls { grid-area: controls; gap: 12px; }
+  #creativeEvalControls { grid-area: creative; gap: 12px; }
+  #selfEvaluation .self-eval-side-panel { position: sticky; top: 92px; max-height: calc(100dvh - 110px); overflow-y: auto; }
+  #selfEvaluation .self-eval-form { min-width: 0; }
+  .self-eval-layout .self-eval-form { padding: 16px; }
+  .course-designer-control-grid { grid-template-columns: 290px minmax(0, 1fr); margin-bottom: 12px; }
+  .course-designer-document-bar { margin-bottom: 10px; }
+  .course-designer-setup { padding: 18px; }
+  .course-designer-document-bar > span { font-size: 12px; }
+  .planner-control-row { gap: 10px; }
+  .planner-control-row #loadPlanButton { font-size: 13px; }
+}
+@media screen and (max-width: 1023px) {
+  #selfEvaluation .self-eval-layout { grid-template-columns: 1fr; }
+  .self-eval-control-row, .creative-eval-control-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .self-eval-control-row label:nth-child(3) { grid-column: 1 / -1; }
+  .toolbar-more > div { width: min(210px, 85vw); }
+}
+@media print {
+  .toolbar-more, .compact-guide, .self-eval-side-panel { display: none !important; }
+}
+.workspace-current-subject { display: block !important; }
+.workspace-current-subject .self-eval-status { margin: 0; }
+@media screen and (min-width: 1024px) {
+  .app-bottom-nav .nav-button { flex: 0 0 auto; width: auto; }
+}
+.planner-mode-buttons button.active { background: var(--blue); border-color: #1946a5; color: #fff; }
+.course-designer-selection-panel > h3 { display: none; }
+@media screen and (min-width: 1024px) {
+  :is(button, a, input, select, textarea, summary) { scroll-margin-top: 100px; scroll-margin-bottom: 24px; }
+  .course-designer-choice-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; align-items: start; gap: 20px; }
+  .course-designer-selection-panel { position: sticky; top: 92px; border: 1px solid var(--line); border-radius: 8px; padding: 16px; background: #f7f9fc; }
+  .course-designer-selection-panel > h3 { display: block; font-size: 16px; margin: 0 0 12px; }
+  .course-designer-selection-panel .course-designer-actions { display: grid; margin-top: 10px; border-top: 0; padding-top: 0; }
+  .course-designer-selection-panel .course-designer-actions > div { display: grid; gap: 8px; }
+  .course-designer-selection-panel .course-designer-actions button { width: 100%; }
+  .course-designer-choice-layout .course-designer-interest-group > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media screen and (min-width: 1024px) {
+.course-designer-selection-panel .course-designer-priority-list { padding: 10px; }
+.course-designer-selection-panel .course-designer-priority-list li { min-width: 0; width: 100%; }
+}
+@media screen and (min-width: 1024px) {
+  .course-designer-selection-panel .course-designer-priority-list { grid-template-columns: 1fr; }
+  .course-designer-selection-panel .course-designer-priority-list li > span { white-space: nowrap; background: #edf2fa; }
+  .course-designer-selection-panel .course-designer-priority-list li > b { white-space: normal; overflow-wrap: anywhere; }
+}
+.self-eval-control-row select, .creative-eval-control-row select { width: 100%; min-width: 0; }
