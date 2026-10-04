@@ -2585,6 +2585,7 @@ const state = {
   activeCurriculumScope: "semester",
   curriculumGrade: "1",
   curriculumSemester: "1",
+  curriculumSemesters: ["1"],
   curriculumSorts: [],
   recommendationMode: "major",
   topicArea: "all",
@@ -2713,7 +2714,12 @@ function setView(viewId) {
   }
   if (viewId === "courseDesigner") renderCourseDesigner();
   $all(".view").forEach((view) => view.classList.toggle("active", view.id === viewId));
-  $all(".nav-button").forEach((button) => button.classList.toggle("active", button.dataset.view === viewId));
+  $all(".nav-button").forEach((button) => {
+    const active = button.dataset.view === viewId;
+    button.classList.toggle("active", active);
+    if (active) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
+  });
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -2736,6 +2742,8 @@ function bindCurriculumControls() {
       const value = event.target.value;
       if (state[key] === value) return;
       state[key] = value;
+      if (id === "curriculumSemester") state.curriculumSemesters = [value];
+      if (id === "curriculumScope" && ["grade", "plan"].includes(value)) state.curriculumSemesters = ["1", "2"];
       if (id === "curriculumPlan") {
         state.curriculumGrade = currentCurriculumGradeByPlan[value] || state.curriculumGrade;
       }
@@ -2750,6 +2758,34 @@ function bindCurriculumControls() {
     $("#" + id).addEventListener("change", update);
   });
   $("#curriculumSearch").addEventListener("input", renderCurriculum);
+  $all("[data-curriculum-grade]").forEach((button) => button.addEventListener("click", () => {
+    state.activeCurriculumScope = button.dataset.curriculumGrade === "all" ? "semesterAllGrades" : "semester";
+    if (button.dataset.curriculumGrade !== "all") state.curriculumGrade = button.dataset.curriculumGrade;
+    renderCurriculum();
+    try { saveState(false); } catch (error) { console.warn("조회 조건 저장 생략", error); }
+  }));
+  $all("[data-curriculum-semester]").forEach((button) => button.addEventListener("click", () => {
+    toggleCurriculumSemester(button.dataset.curriculumSemester);
+  }));
+  $("#curriculumSearchToggle")?.addEventListener("click", () => {
+    const panel = $("#curriculumSearchPanel");
+    panel.hidden = !panel.hidden;
+    $("#curriculumSearchToggle").setAttribute("aria-expanded", String(!panel.hidden));
+    if (!panel.hidden) $("#curriculumSearch").focus();
+    else { $("#curriculumSearch").value = ""; renderCurriculum(); }
+  });
+}
+
+function toggleCurriculumSemester(value) {
+  if (!["1", "2"].includes(value)) return;
+  const selected = state.curriculumSemesters || [state.curriculumSemester];
+  if (selected.includes(value) && selected.length === 1) return;
+  state.curriculumSemesters = selected.includes(value) ? selected.filter((item) => item !== value) : [...selected, value].sort();
+  state.curriculumSemester = state.curriculumSemesters[0];
+  if (state.activeCurriculumScope === "grade") state.activeCurriculumScope = "semester";
+  if (state.activeCurriculumScope === "plan") state.activeCurriculumScope = "semesterAllGrades";
+  renderCurriculum();
+  try { saveState(false); } catch (error) { console.warn("조회 조건 저장 생략", error); }
 }
 
 function bindControls() {
@@ -5103,7 +5139,10 @@ function renderCurriculum() {
   $("#curriculumCourseSectionTitle").textContent = getCurriculumCourseSectionTitle(scope);
   const grade = $("#curriculumGrade").value;
   const semester = $("#curriculumSemester").value;
-  const semesterKeys = getCurriculumSemesterKeys(scope, grade, semester);
+  const selectedSemesters = state.curriculumSemesters || [semester];
+  const semesterKeys = ["grade", "plan"].includes(scope)
+    ? getCurriculumSemesterKeys(scope, grade, semester)
+    : selectedSemesters.flatMap((value) => getCurriculumSemesterKeys(scope, grade, value));
   const query = normalizeText($("#curriculumSearch").value);
   updateCurriculumScopeControls(scope);
 
@@ -5125,22 +5164,53 @@ function renderCurriculum() {
     ? visibleCourses.map((course) => renderCurriculumRow(course, semesterKeys, courseGroupMap.get(course.id) || [])).join("")
     : `<tr><td colspan="6">해당 조건에 맞는 과목이 없습니다.</td></tr>`;
   renderCurriculumChoiceGroups(choiceGroups, semesterCourses, Boolean(query));
+  renderCurriculumMobileList(plan, semesterKeys, semesterCourses);
+  syncCurriculumButtons(scope, grade, semesterKeys);
+}
+
+function syncCurriculumButtons(scope, grade, semesterKeys) {
+  const allGrades = ["plan", "semesterAllGrades"].includes(scope);
+  $all("[data-curriculum-grade]").forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.curriculumGrade === (allGrades ? "all" : grade)));
+  });
+  $all("[data-curriculum-semester]").forEach((button) => {
+    const selected = semesterKeys.some((key) => key.endsWith("-" + button.dataset.curriculumSemester));
+    button.setAttribute("aria-pressed", String(selected));
+    button.textContent = `${selected ? "✓ " : ""}${button.dataset.curriculumSemester}학기`;
+  });
+  const target = $("#curriculumCourseSectionTitle");
+  if (target) target.textContent = `${allGrades ? "전학년" : grade + "학년"} · ${[...new Set(semesterKeys.map((key) => key.split("-")[1]))].sort().map((value) => value + "학기").join("·")}`;
+}
+
+function renderCurriculumMobileList(plan, semesterKeys, courses) {
+  const target = $("#curriculumMobileList");
+  if (!target) return;
+  const groups = buildCurriculumChoiceGroups(plan.courses, semesterKeys);
+  const courseGroups = buildCourseChoiceGroupMap(groups);
+  const orderedKeys = curriculumSemesterOrder.filter((key) => semesterKeys.includes(key));
+  target.innerHTML = orderedKeys.map((key) => {
+    const rows = sortCurriculumCourses(courses.filter((course) => course.semesters.includes(key)), [key], courseGroups);
+    if (!rows.length) return "";
+    let previousGroup = "";
+    const content = rows.map((course) => {
+      const choice = (courseGroups.get(course.id) || []).find((group) => group.semesterKey === key || group.semesterLabel === getSemesterLabel(key));
+      const section = getCurriculumSectionBaseLabel(course, [key]);
+      const groupId = choice?.id || section;
+      const heading = groupId !== previousGroup ? `<div class="mobile-choice-heading"><b>${escapeHtml(section)}</b><span>${choice ? escapeHtml(`${choice.shortLabel} · ${choice.choiceText}${choice.creditText ? " · " + choice.creditText : ""}`) : ""}</span></div>` : "";
+      previousGroup = groupId;
+      return `${heading}<details class="mobile-course-detail"><summary class="mobile-course-row"><span class="mobile-course-name">${escapeHtml(course.name)}</span><span class="mobile-course-area">${escapeHtml(course.area)}</span><b class="mobile-course-credits">${course.credits || "-"}</b></summary><div class="mobile-course-extra"><span>${escapeHtml(course.category)} · ${escapeHtml(getSemesterLabel(key))}</span>${choice ? `<span>${escapeHtml(`${choice.shortLabel} · ${choice.choiceText}`)}</span>` : ""}${renderCourseNameWithInfo(course)}</div></details>`;
+    }).join("");
+    return `<section class="mobile-semester-section" aria-label="${escapeHtml(getSemesterLabel(key))}">${orderedKeys.length > 1 ? `<h4>${escapeHtml(getSemesterLabel(key))}</h4>` : ""}<div class="mobile-table-head"><span>과목명</span><span>교과군</span><span>학점</span></div>${content}</section>`;
+  }).join("") || '<p class="empty-note">해당 조건에 맞는 과목이 없습니다.</p>';
 }
 
 function renderCurriculumSummary(plan, semesterKeys, semesterCourses) {
-  const summary = getCurriculumSummaryForScope(plan, semesterKeys);
-  const fixedCount = semesterCourses.filter((course) => course.section.includes("학교지정")).length;
-  const choiceCount = semesterCourses.filter((course) => course.section.includes("학생선택")).length;
-  const jointCount = semesterCourses.filter((course) => course.section.includes("공동교육")).length;
-  const totalLabel = semesterKeys.length === 1 ? "학기 총학점" : "범위 총학점";
-  $("#curriculumSummary").innerHTML = `
-    <span><b>${summary.courseCredits ?? "-"}</b>교과 이수학점</span>
-    <span><b>${summary.creativeCredits ?? "-"}</b>창체</span>
-    <span><b>${summary.totalCredits ?? "-"}</b>${totalLabel}</span>
-    <span><b>${semesterKeys.length}</b>조회 학기</span>
-    <span><b>${semesterCourses.length}</b>표시 과목</span>
-    <span><b>${fixedCount}/${choiceCount}/${jointCount}</b>지정·선택·공동</span>
-  `;
+  const grades = [...new Set(semesterKeys.map((key) => key.split("-")[0]))];
+  $("#curriculumSummary").innerHTML = grades.map((grade) => {
+    const keys = semesterKeys.filter((key) => key.startsWith(grade + "-"));
+    const summary = getCurriculumSummaryForScope(plan, keys);
+    return `<div class="v2-credit-line">${grades.length > 1 ? `<small>${grade}학년</small>` : ""}<span class="credit-components"><b>${summary.courseCredits ?? "-"}</b>교과 이수학점 <i>+</i> <b>${summary.creativeCredits ?? "-"}</b>창체</span><strong>${keys.length > 1 ? "연간 " : "총 "}${summary.totalCredits ?? "-"}학점</strong></div>`;
+  }).join("");
 }
 
 function renderCurriculumRow(course, semesterKeys, groupInfos) {
@@ -8674,6 +8744,7 @@ function saveState(showMessage) {
     activeCurriculumScope: state.activeCurriculumScope,
     curriculumGrade: state.curriculumGrade,
     curriculumSemester: state.curriculumSemester,
+    curriculumSemesters: state.curriculumSemesters,
     plannerPlan: state.plannerPlan,
     plannerPlans: state.plannerPlans,
     plannerStudentNumber: state.plannerStudentNumber,
@@ -8699,6 +8770,11 @@ function loadState() {
     state.curriculumGrade = /^[123]$/.test(saved.curriculumGrade)
       ? saved.curriculumGrade : currentCurriculumGradeByPlan[state.activeCurriculumPlan] || "1";
     state.curriculumSemester = /^[12]$/.test(saved.curriculumSemester) ? saved.curriculumSemester : "1";
+    state.curriculumSemesters = Array.isArray(saved.curriculumSemesters)
+      ? [...new Set(saved.curriculumSemesters.filter((value) => ["1", "2"].includes(value)))].sort()
+      : ["grade", "plan"].includes(state.activeCurriculumScope) ? ["1", "2"] : [state.curriculumSemester];
+    if (!state.curriculumSemesters.length) state.curriculumSemesters = [state.curriculumSemester];
+    state.curriculumSemester = state.curriculumSemesters[0];
     state.plannerPlan = saved.plannerPlan || state.plannerPlan;
     state.plannerPlans = saved.plannerPlans || {};
     state.plannerStudentNumber = normalizeStudentNumber(saved.plannerStudentNumber);

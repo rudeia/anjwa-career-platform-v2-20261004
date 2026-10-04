@@ -1,0 +1,6 @@
+dist/
+node_modules/
+.vercel/
+작업.md
+검증*.png
+검증*.jpg

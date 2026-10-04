@@ -96,4 +96,25 @@ vm.runInNewContext(
 );
 assert.match(summaryElement.innerHTML, /29<\/b>교과 이수학점/);
 
+// Independent semester toggles retain one selection and update mobile rows immediately.
+vm.runInNewContext('state.activeCurriculumPlan="incoming2027"; state.activeCurriculumScope="semester"; state.curriculumGrade="1"; state.curriculumSemesters=["1"]; toggleCurriculumSemester("2");', context);
+assert.equal(vm.runInNewContext('state.curriculumSemesters.join(",")', context), "1,2");
+assert.match(summaryElement.innerHTML, /68학점/);
+assert.match(element("#curriculumMobileList").innerHTML, /공통국어1/);
+assert.match(element("#curriculumMobileList").innerHTML, /공통국어2/);
+vm.runInNewContext('toggleCurriculumSemester("1");', context);
+assert.equal(vm.runInNewContext('state.curriculumSemesters.join(",")', context), "2");
+assert.doesNotMatch(element("#curriculumMobileList").innerHTML, /공통국어1/);
+assert.match(element("#curriculumMobileList").innerHTML, /공통국어2/);
+vm.runInNewContext('toggleCurriculumSemester("2");', context);
+assert.equal(vm.runInNewContext('state.curriculumSemesters.join(",")', context), "2");
+vm.runInNewContext('state.activeCurriculumScope="semesterAllGrades"; renderCurriculum();', context);
+assert.equal((summaryElement.innerHTML.match(/v2-credit-line/g) || []).length, 3);
+assert.match(summaryElement.innerHTML, /34학점/);
+assert.match(summaryElement.innerHTML, /32학점/);
+// Persisted two-semester selection survives reload.
+context.localStorage.getItem = () => JSON.stringify({activeCurriculumPlan: "incoming2027", activeCurriculumScope: "semester", curriculumGrade: "2", curriculumSemesters: ["1", "2"]});
+vm.runInNewContext('loadState(); renderCurriculum();', context);
+assert.equal(vm.runInNewContext('state.curriculumSemesters.join(",")', context), "1,2");
+assert.match(summaryElement.innerHTML, /64학점/);
 console.log("curriculum filter tests passed");

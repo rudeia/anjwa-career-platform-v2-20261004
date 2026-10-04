@@ -1,0 +1,1 @@
+{"name":"anjwa-career-v2","private":true,"version":"2.0.0","scripts":{"build":"node scripts/build-static.cjs","test":"node --test tests/*.test.js"}}

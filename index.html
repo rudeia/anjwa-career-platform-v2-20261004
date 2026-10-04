@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#267a55" />
+    <meta name="theme-color" content="#235acb" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="안좌고 진로진학" />
@@ -12,6 +12,7 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
+    <link rel="stylesheet" href="./ui-v2.css?v=20261004a" />
   </head>
   <body>
     <div class="app-shell">
@@ -122,11 +123,7 @@
                 </h2>
                 <button class="ghost-button back-home-button" data-view="home">첫 화면으로</button>
               </div>
-              <p class="curriculum-lead">
-                <span class="lead-first">우리학교의 교육과정을 살펴봅시다.</span>
-                <span>올해 개설되는 교과목은 무엇인지, 내가 다음 학기에 듣는 과목은 어떤 것인지 살펴봅니다.</span>
-                <span>다음 학년도에 들을 수 있는 과목은 어떤 것이 있는지 확인하고, 나의 진로와 연계하여 생각해봅시다.</span>
-              </p>
+              <p class="curriculum-lead">학년과 학기별 과목을 확인하세요.</p>
             </div>
           </div>
 
@@ -136,33 +133,45 @@
                 교육과정
                 <select id="curriculumPlan"></select>
               </label>
-              <label class="filter-scope">
-                조회 범위
+              <details class="filter-scope curriculum-options">
+                <summary>조회 범위 · 이용 안내</summary>
+                <label>조회 범위
                 <select id="curriculumScope">
                   <option value="semester">선택 학기만</option>
                   <option value="semesterAllGrades">선택 학기 전학년</option>
                   <option value="grade">선택 학년 전체</option>
                   <option value="plan">전체 교육과정</option>
-                </select>
-              </label>
+                </select></label>
+                <p>학기 버튼은 함께 선택할 수 있습니다. 선택 묶음의 정해진 과목 수와 학점을 확인하세요.</p>
+              </details>
               <label class="filter-grade">
                 학년
-                <select id="curriculumGrade">
+                <select id="curriculumGrade" class="v2-legacy-control" aria-hidden="true" tabindex="-1">
                   <option value="1">1학년</option>
                   <option value="2">2학년</option>
                   <option value="3">3학년</option>
                 </select>
+                <span class="curriculum-segments" id="curriculumGradeButtons" role="group" aria-label="조회 학년">
+                  <button type="button" data-curriculum-grade="all" aria-pressed="false">전체</button>
+                  <button type="button" data-curriculum-grade="1" aria-pressed="true">1학년</button>
+                  <button type="button" data-curriculum-grade="2" aria-pressed="false">2학년</button>
+                  <button type="button" data-curriculum-grade="3" aria-pressed="false">3학년</button>
+                </span>
               </label>
               <label class="filter-semester">
                 학기
-                <select id="curriculumSemester">
+                <select id="curriculumSemester" class="v2-legacy-control" aria-hidden="true" tabindex="-1">
                   <option value="1">1학기</option>
                   <option value="2">2학기</option>
                 </select>
+                <span class="curriculum-segments" id="curriculumSemesterButtons" role="group" aria-label="조회 학기 (중복 선택 가능)">
+                  <button type="button" data-curriculum-semester="1" aria-pressed="true">✓ 1학기</button>
+                  <button type="button" data-curriculum-semester="2" aria-pressed="false">2학기</button>
+                </span>
               </label>
-              <label class="filter-search">
+              <label class="filter-search" id="curriculumSearchPanel" hidden>
                 과목 검색
-                <input id="curriculumSearch" type="search" placeholder="예: 미적분, 보건" />
+                <input id="curriculumSearch" type="search" placeholder="과목명 또는 교과군 검색" />
               </label>
             </div>
 
@@ -184,7 +193,8 @@
 
             <div class="curriculum-content">
               <section class="subject-list-panel">
-                <h3 id="curriculumCourseSectionTitle">해당 학기 과목</h3>
+                <div class="curriculum-results-head"><h3 id="curriculumCourseSectionTitle">해당 학기 과목</h3><button type="button" class="curriculum-search-toggle" id="curriculumSearchToggle" aria-expanded="false" aria-controls="curriculumSearchPanel"><span aria-hidden="true">⌕</span> 검색</button></div>
+                <div class="curriculum-mobile-list" id="curriculumMobileList" aria-live="polite"></div>
                 <div class="curriculum-table-wrap">
                   <table class="curriculum-table">
                     <thead>
@@ -765,6 +775,14 @@
       </main>
     </div>
 
+    <nav class="app-bottom-nav" aria-label="주요 메뉴">
+      <button class="nav-button active" type="button" data-view="home" aria-current="page"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-7 9 7v11h-6v-7H9v7H3z"/></svg><b>홈</b></button>
+      <button class="nav-button" type="button" data-view="curriculum"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3h16v18H4z M8 7h8 M8 12h8 M8 17h5"/></svg><b>교육과정</b></button>
+      <button class="nav-button" type="button" data-view="courseDesigner"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9z M15 9l-2 4-4 2 2-4z"/></svg><b>진로 탐색</b></button>
+      <button class="nav-button" type="button" data-view="planner"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14v18H5z M9 7h6 M9 12h6 M9 17h4"/></svg><b>학생부</b></button>
+      <button class="nav-button" type="button" data-view="selfEvaluation"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1L20 7l-3-3L5 16z M14 7l3 3"/></svg><b>자기평가</b></button>
+    </nav>
+
     <div class="subject-info-modal" id="subjectInfoModal" hidden>
       <div class="subject-info-backdrop" data-close-subject-info></div>
       <section class="subject-info-dialog" role="dialog" aria-modal="true" aria-labelledby="subjectInfoTitle">
@@ -782,8 +800,8 @@
     <script src="./university-recommendation-data.js?v=20260710b"></script>
     <script src="./course-designer-data.js?v=20260723g"></script>
     <script src="./topic-data.js?v=20260710b"></script>
-    <script src="./app.js?v=20261002a"></script>
-    <script src="./pwa-install.js?v=1.06.04" defer></script>
-    <script src="./site-meta.js?v=1.06.04" defer></script>
+    <script src="./app.js?v=20261004a"></script>
+    <script src="./pwa-install.js?v=2.00.00" defer></script>
+    <script src="./site-meta.js?v=2.00.00" defer></script>
   </body>
 </html>
