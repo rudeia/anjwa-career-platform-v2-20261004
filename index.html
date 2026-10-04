@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=20261004c" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.01.00" />
   </head>
   <body>
     <div class="app-shell">
@@ -432,12 +432,12 @@
             <div>
               <span class="label">AI로 질문 확장하기</span>
               <h3>답을 대신 쓰게 하지 말고, 질문을 더 좋게 만드는 데 씁니다</h3>
-              <p>아래 문장을 복사해 과목명과 수업 개념만 바꿔 넣으면 탐구 계획을 세우는 데 도움이 됩니다.</p>
+              <p>선생님이 안내한 사용 범위 안에서 질문 후보를 비교하세요. AI가 제시한 자료의 실재 여부와 근거를 원문으로 확인하고, 하지 않은 활동이나 결과를 만들게 하지 마세요.</p>
             </div>
             <ol>
               <li>나는 <b>[과목]</b>에서 <b>[수업 개념]</b>을 배웠어. 이 개념에서 출발할 수 있는 고등학생 수준의 탐구 질문 5개를 제안해줘.</li>
               <li>그중 수업 내용과 가장 잘 연결되는 질문 2개를 고르고, 필요한 자료와 탐구 방법을 알려줘.</li>
-              <li>선택한 주제를 <b>동기 → 질문 → 개념 → 과정 → 결과 → 한계 → 후속 탐구</b> 흐름으로 정리해줘.</li>
+              <li>선택한 주제의 질문·자료·방법·한계를 정리해줘. 결과는 실제 활동 후에 적을 수 있도록 비워 둬.</li>
             </ol>
           </div>
 
@@ -459,7 +459,7 @@
               </select>
             </label>
             <label>
-              학년
+              활동 예시 학년
               <select id="topicGradeFilter">
                 <option value="all">전체 학년</option>
                 <option value="1">1학년</option>
@@ -474,6 +474,7 @@
             <button class="ghost-button" id="topicResetButton" type="button">초기화</button>
           </div>
 
+          <p class="content-status-note">표시 과목은 관련 교과 예시입니다. 입학년도별 학교 개설 과목과 대조하세요. 활동 예시의 학년은 학교의 과목 개설 학년과 다를 수 있습니다. 학년 미지정 주제는 모든 학년 검색에 포함됩니다. 선수 개념·자료·수행 범위를 선생님과 확인하세요.</p>
           <div class="topic-result-head">
             <div>
               <span class="label">주제 예시</span>
@@ -795,13 +796,13 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="./curriculum-data.js?v=20261002a"></script>
     <script src="./subject-guide-data.js?v=20260718b"></script>
-    <script src="./recommendation-data.js?v=20260723g"></script>
-    <script src="./university-recommendation-data.js?v=20260710b"></script>
-    <script src="./course-designer-data.js?v=20260723g"></script>
-    <script src="./topic-data.js?v=20260710b"></script>
-    <script src="./app.js?v=20261004c"></script>
+    <script src="./recommendation-data.js?v=2.01.00"></script>
+    <script src="./university-recommendation-data.js?v=2.01.00"></script>
+    <script src="./course-designer-data.js?v=2.01.00"></script>
+    <script src="./topic-data.js?v=2.01.00"></script>
+    <script src="./app.js?v=2.01.00"></script>
     <script src="./pwa-install.js?v=2.00.01" defer></script>
-    <script src="./site-meta.js?v=2.00.02" defer></script>
+    <script src="./site-meta.js?v=2.01.00" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

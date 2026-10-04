@@ -266,3 +266,16 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
 #toast[data-tone="saved"] { background:#176a4c; }
 #toast[data-tone="saved"]::before { content:'✓';margin-right:8px; }
 @media(prefers-reduced-motion:reduce) { .button-feedback-playing,.button-feedback-wave { animation:none!important; } .button-feedback-wave { display:none; } .home-shortcut,.launch-card,.app-bottom-nav .nav-button,.curriculum-segments button { transition:none!important;transform:none!important; } }
+
+/* 검토한 안내문·연구 근거: 모바일에서도 조건과 출처를 읽을 수 있게 표시 */
+.content-status-note,.topic-limits {padding:12px 14px;border-left:3px solid #b77718;background:#fff9ed;color:#4b3b22;border-radius:6px;line-height:1.7}
+.topic-source,.topic-details {margin-top:12px}
+.topic-source small,.topic-context-note,.university-recommendation-card small {display:block;line-height:1.6;color:#586779;margin-top:7px}
+.topic-source a,.admission-comparison a {overflow-wrap:anywhere;color:#164fb8;text-decoration:underline;text-underline-offset:3px}
+.review-table-scroll {overflow-x:auto;margin:16px 0;border:1px solid #ccd6e5;border-radius:10px}
+.review-table-scroll table {width:100%;min-width:560px;border-collapse:collapse}
+.review-table-scroll th,.review-table-scroll td {padding:13px;vertical-align:top;border-bottom:1px solid #dbe3ed;text-align:left;line-height:1.65}
+.review-table-scroll thead {background:#edf3fd}
+.reviewed-copy .explainer-card p {margin:0;line-height:1.8}
+.topic-details ol {padding-left:24px;line-height:1.8}
+.topic-details .topic-source p {font-size:14px}

@@ -1,4 +1,4 @@
-const CACHE_NAME = "anjwa-career-shell-v2.00.02";
+const CACHE_NAME = "anjwa-career-shell-v2.01.00";
 const DATA_CACHE_NAME = "anjwa-career-data-v1";
 const OFFLINE_URL = "./index.html";
 const APP_SHELL = [
@@ -14,6 +14,13 @@ const APP_SHELL = [
   "./university-recommendation-data.js",
   "./course-designer-data.js",
   "./topic-data.js",
+  "./admission-pages.js",
+  "./learning-data/ai-confidence-synthetic.csv",
+  "./learning-data/feedback-synthetic.csv",
+  "./learning-data/medical-access-observation-template.csv",
+  "./learning-data/corrosion-observation-template.csv",
+  "./learning-data/local-history-source-template.csv",
+
   "./site-meta.js",
   "./pwa-install.css",
   "./pwa-install.js",

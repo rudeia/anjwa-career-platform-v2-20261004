@@ -202,63 +202,63 @@ const competencies = [
   {
     label: "학업역량",
     title: "수업을 통해 배우고 탐구하는 힘",
-    body: "과목 성취도, 학습 태도, 문제 해결 과정, 자료 분석, 발표와 토론 참여가 함께 드러난다."
+    body: "과목 성취도와 학습 태도를 살펴봅니다. 문제를 풀거나 자료를 분석할 때 어떤 근거를 썼는지, 발표와 토론에서 무엇을 배웠는지도 돌아봅니다."
   },
   {
     label: "진로역량",
-    title: "관심 분야를 확장하는 흐름",
-    body: "희망 전공과 관련된 과목 선택, 독서, 탐구활동, 동아리, 진로활동이 연결될수록 설득력이 커진다."
+    title: "관심을 알아보고 선택한 이유",
+    body: "관심 분야를 알아본 경험과 과목 선택의 이유를 살펴봅니다. 관심이 바뀌었다면 바뀐 이유와 이후 배운 내용을 설명합니다."
   },
   {
     label: "공동체역량",
     title: "함께 배우고 실천하는 태도",
-    body: "협업, 의사소통, 역할 수행, 갈등 조정, 학교와 지역사회 안에서의 실천 경험이 중요하다."
+    body: "함께 활동하며 맡은 일을 수행한 과정, 의견이 달랐을 때 조정한 경험, 학교와 지역사회에서 실천한 내용을 살펴봅니다."
   },
   {
     label: "세특",
     title: "활동 목록보다 사고 과정",
-    body: "세특은 무엇을 했는지보다 수업 안에서 어떻게 생각하고 탐구하며 성장했는지를 보여주는 자료다."
+    body: "세특은 교사가 수업과 평가에서 관찰한 학습 내용과 참여 과정을 기록하는 자료입니다."
   },
   {
     label: "과목 선택",
     title: "진로와 학업 흐름의 증거",
-    body: "전공 관련 과목을 왜 선택했는지, 그 과목에서 어떤 탐구를 했는지가 서류 평가에서 의미를 갖는다."
+    body: "과목을 선택한 이유와 실제로 배운 내용을 설명합니다. 대학마다 평가 기준이 다르므로 전공과 연결된 활동만이 유리하다고 단정하지 않습니다."
   },
   {
     label: "면접 대비",
-    title: "기록을 설명할 수 있어야 함",
-    body: "학생이 작성한 탐구활동과 자기평가서는 면접에서 자신의 활동을 구체적으로 설명하는 기초 자료가 된다."
+    title: "면접이 있는 전형의 준비",
+    body: "서류 기반 면접이 있는 전형이라면 기록된 활동에서 실제로 한 일과 배운 점을 자신의 말로 설명합니다."
   }
 ];
 
 const sechukExamples = {
   motivation: {
     title: "탐구 동기",
-    text: "예: 통합과학 수업에서 감염병 확산 그래프를 보며, 같은 감염병도 지역의 의료 접근성에 따라 피해가 달라질 수 있다는 점이 궁금해졌습니다."
+    text: "가상 예시: 통합사회 수업에서 지역 격차 자료를 읽고 두 지역의 의료시설 분포가 어떻게 다른지 궁금해졌습니다."
   },
   question: {
     title: "탐구 질문",
-    text: "예: 의료 접근성이 낮은 지역에서는 어떤 요인이 감염병 대응을 어렵게 만들까? 교통, 병원 수, 고령 인구 비율 중 어떤 변수가 더 크게 작용할까?"
+    text: "가상 예시: 두 지역의 인구와 병원 수를 같은 연도 자료로 비교하면 어떤 차이가 보일까?"
   },
   concept: {
     title: "수업 개념 연결",
-    text: "예: 확률과 통계의 자료 분석, 통합사회에서 배운 지역 격차, 생명과학의 감염과 면역 개념을 함께 사용해 질문을 정리했습니다."
+    text: "가상 예시: 통합사회에서 배운 지역 격차와 통계 자료의 기준 연도를 비교하는 방법으로 질문을 정리했습니다."
   },
   process: {
     title: "탐구 과정",
-    text: "예: 공공데이터를 찾아 지역별 병원 수와 고령 인구 비율을 표로 정리하고, 친구들과 변수별 영향 가능성을 토론한 뒤 그래프로 비교했습니다."
+    text: "가상 예시: 공개 자료의 지역 범위와 기준 연도를 확인하고 두 지역의 병원 수와 고령 인구 비율을 표와 그래프로 정리했습니다."
   },
   result: {
     title: "결과",
-    text: "예: 단순히 병원 수만 보는 것보다 이동 시간, 고령 인구 비율, 예방 정보 접근성이 함께 작용한다는 점을 알게 되었습니다."
+    text: "가상 예시: 병원 수와 고령 인구 비율을 정리했지만 두 자료만으로 실제 의료 이용의 차이를 설명하기 어려웠습니다. 이동시간과 정보 접근성은 추가로 조사할 질문으로 남겼습니다."
   },
   limit: {
     title: "한계",
-    text: "예: 사용한 자료가 시·군 단위라 개인별 이동 거리나 실제 진료 경험을 충분히 반영하지 못했습니다. 통계 자료만으로 판단하는 데 한계가 있었습니다."
+    text: "가상 예시: 자료는 시·군 단위이고 개인의 이동시간이나 진료 경험은 조사하지 않았습니다. 실제 이용의 어려움을 확인한 결과로 해석할 수는 없습니다."
   },
   follow: {
     title: "후속 활동",
-    text: "예: 다음 진로활동에서는 보건소 접근성, 원격 진료, 지역 의료 정책을 조사하고, 사회문제 탐구나 동아리 활동에서 개선 방안을 제안해 볼 수 있습니다."
+    text: "가상 예시: 더 알아보고 싶다면 같은 종류 시설까지의 이동시간을 비교할 자료를 구할 수 있는지 확인해 보겠습니다."
   }
 };
 
@@ -2700,6 +2700,10 @@ function init() {
 }
 
 function bindNavigation() {
+  window.addEventListener("hashchange", () => {
+    const view = getInitialViewFromHash();
+    if (view) setView(view);
+  });
   $all("[data-view]").forEach((button) => {
     button.addEventListener("click", () => setView(button.dataset.view));
   });
@@ -3251,18 +3255,31 @@ function getFilteredTopicRecords({ area, subject, level, grade, query }) {
 function getTopicGrades(topic) {
   if (Array.isArray(topic.grades) && topic.grades.length) return topic.grades.map(Number).filter(Boolean);
   if (topic.grade) return [Number(topic.grade)].filter(Boolean);
-  return topic.level === "심화" ? [2, 3] : [1, 2];
+  return [1, 2, 3];
 }
 
 function getTopicGradeLabel(topic) {
-  return `${getTopicGrades(topic).join("·")}학년`;
+  return topic.grade || topic.grades?.length ? `${getTopicGrades(topic).join("·")}학년 예시` : "선수 개념 확인";
 }
 
 function getTopicDevelopmentText(topic) {
-  if (topic.nextStep) return topic.nextStep;
-  return topic.level === "심화"
-    ? "자료의 한계와 다른 해석 가능성을 점검하고, 새로운 자료로 재검증하거나 대안을 제안해 봅니다."
-    : "비교할 자료와 기준을 늘리고, 변수를 구분해 다음 학년의 분석 탐구로 발전시켜 봅니다.";
+  return topic.nextStep || "더 궁금한 점이 있으면 이번 자료에서 확인하지 못한 질문을 하나 골라 보세요.";
+}
+
+function renderContentSourceLink(url, label) {
+  try {
+    if (new URL(url).protocol !== "https:") return "";
+    return `<a href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
+  } catch { return ""; }
+}
+
+function renderTopicResearch(topic) {
+  const sources = (topic.sourceIds || []).map((id) => topicData.researchSources?.[id]).filter(Boolean);
+  if (!sources.length) return "";
+  return `<div class="topic-card-section topic-research"><b>비교해 읽을 연구</b>
+    ${topic.researchConnection ? `<p>${escapeHtml(topic.researchConnection)}</p>` : ""}
+    ${sources.map((source) => `<div class="topic-source">${renderContentSourceLink(source.url, `${source.authors} (${source.year}) · ${source.title}`)}
+      <small>${escapeHtml(source.verificationLevel)}</small><p>${escapeHtml(source.transferLimit)}</p></div>`).join("")}</div>`;
 }
 
 function renderTopicCard(topic) {
@@ -3285,9 +3302,20 @@ function renderTopicCard(topic) {
         <p>${escapeHtml(topic.question)}</p>
       </div>
       <div class="topic-card-section">
-        <b>진행 방법</b>
+        <b>해볼 방법</b>
         <p>${escapeHtml(topic.method)}</p>
       </div>
+      ${topic.measure ? `<div class="topic-card-section"><b>확인할 자료·값</b><p>${escapeHtml(topic.measure)}</p></div>` : ""}
+      <div class="topic-card-section topic-limits"><b>결론을 쓸 때 확인하세요</b><p>${escapeHtml(topic.limits || "사용한 자료와 조건을 함께 적습니다.")}</p></div>
+      <details class="compact-guide topic-details"><summary>준비 자료·분석 순서·연구 보기</summary>
+        ${topic.concepts?.length ? `<div class="topic-card-section"><b>배울 개념</b><p>${topic.concepts.map(escapeHtml).join(" · ")}</p></div>` : ""}
+        <div class="topic-card-section"><b>준비 자료와 조건</b><p>${escapeHtml(topic.materials || topic.preparation || "자료와 수행 범위를 선생님과 확인합니다.")}</p></div>
+        ${topic.steps?.length ? `<ol>${topic.steps.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol>` : ""}
+        ${topic.resultPrompt || topic.reflection ? `<p><b>결과를 해석할 질문</b> ${escapeHtml(topic.resultPrompt || topic.reflection)}</p>` : ""}
+        ${topic.worksheet ? `<div class="topic-card-section"><a class="ghost-button" href="${escapeAttribute(topic.worksheet.url)}" download>${escapeHtml(topic.worksheet.label)}</a><p>${escapeHtml(topic.worksheet.note)}</p></div>` : ""}
+        ${renderTopicResearch(topic)}
+        <p class="topic-context-note">${escapeHtml(topic.gradeBasis || "선수 개념과 학교 개설 학년을 확인합니다.")} ${escapeHtml(topic.exampleStatus || "")}</p>
+      </details>
       <div class="topic-card-footer">
         <div>
           <b>결과물</b>
@@ -3299,7 +3327,7 @@ function renderTopicCard(topic) {
         </div>
       </div>
       <div class="topic-card-section topic-development">
-        <b>다음 학년 발전 방향</b>
+        <b>더 알아보고 싶다면</b>
         <p>${escapeHtml(getTopicDevelopmentText(topic))}</p>
       </div>
       <div class="topic-keyword-row">
@@ -4017,7 +4045,7 @@ function buildCourseDesignerSubjectCandidates() {
 
 function buildCourseDesignerOfficialEvidenceMap(selectedInterests, recordMap) {
   const evidenceMap = new Map();
-  const universityRecords = getUniversityRecommendationRecords();
+  const universityRecords = getUniversityRecommendationRecords().filter((record) => record.verificationStatus === "verified");
   selectedInterests.forEach((interest) => {
     (interest.recordIds || []).forEach((recordId) => {
       const guideRecord = recordMap.get(recordId);
@@ -4379,7 +4407,8 @@ function renderCourseDesignerResults() {
   const basis = $("#courseDesignerResultBasis");
   const resultTitle = $("#courseDesignerResultTitle");
   if (basis) {
-    basis.textContent = `${getCurriculumPlanLabel(state.courseDesignerPlan)} · ${planMeta?.standard || ""} 개정 · 교육과정 ${formatDateLabel(curriculumData.updated)}`;
+    const entranceYear = Number(state.courseDesignerPlan.replace("incoming", ""));
+    basis.textContent = `${getCurriculumPlanLabel(state.courseDesignerPlan)} · ${planMeta?.standard || ""} 개정 · 일반적인 3년 이수 기준 ${entranceYear + 3}학년도 대입 · 교육과정 ${formatDateLabel(curriculumData.updated)}`;
   }
   if (resultTitle) {
     resultTitle.textContent = state.courseDesignerStatus === "clear"
@@ -4555,7 +4584,7 @@ function buildCourseDesignerPrintDocument(studentNumber, exportTime, fileTitle) 
   </div>
   ${sections}
   <footer>
-    <p>과목의 핵심·권장 표시는 대학별 자료에서 확인된 사례이며 모든 대학의 공통 필수 조건을 뜻하지 않습니다. 최종 선택 전 학교 교육과정과 희망 대학의 최신 모집 안내를 확인하세요.</p>
+    <p>과목 연결은 학습 내용에 따른 비교 후보입니다. 원문과 적용 학년도가 확인되지 않은 대학 자료는 공식 이수 조건으로 사용하지 않았습니다. 최종 선택 전 학교 교육과정과 지원 학년도의 대학 안내를 확인하세요.</p>
     <p class="export-time">저장 시각: ${escapeHtml(exportTime.display)}</p>
   </footer>
 </body>
@@ -4771,7 +4800,7 @@ function renderCourseDesignerGradeCard(context, selectedCourses, grade) {
         </div>
       </div>
       <div class="course-designer-grade-courses">
-        <b>먼저 살펴볼 선택과목 <small>관련성이 높은 과목 최대 5개</small></b>
+        <b>먼저 살펴볼 선택과목 <small>비교 후보 최대 5개 · 입시 우선순위 아님</small></b>
         ${selectedCourses.length
           ? selectedCourses.map((candidate) => renderCourseDesignerCourseCard(candidate, grade)).join("")
           : `<p class="course-designer-grade-empty">이 화면에서 먼저 보여줄 선택과목이 없습니다. 다음 학년 과목을 살펴보거나, 기본 과목에서 관심 분야와 이어지는 질문을 찾아보세요.</p>`}
@@ -5018,18 +5047,17 @@ function getCourseDesignerCourseReason(candidate) {
     || sourceSubjects.map((subject) => conceptMap[subject]).find(Boolean)
     || `${candidate.course?.name || "이 과목"}에서 다루는 개념과 탐구 방법을 익힙니다.`;
   const interestLabel = primaryInterest?.label || [...candidate.interests][0] || "선택한 관심";
-  const interestSummary = primaryInterest?.summary || "관련 학문에서 필요한 개념과 자료 해석 방법을 탐구합니다.";
   const interestReasonMap = courseDesignerData.interestSubjectReasons?.[primaryInterest?.id] || {};
   const specificReason = interestReasonMap[candidate.course?.name]
     || sourceSubjects.map((subject) => interestReasonMap[subject]).find(Boolean)
     || "";
   const connectionText = specificReason
-    || `‘${interestLabel}’ 분야에서는 ${interestSummary} 이 과목에서 익힌 개념과 탐구 방법이 그 과정의 기초가 됩니다.`;
+    || "이 과목의 학습 내용을 관심 학과의 교육과정과 비교해 보세요. 구체적인 연결은 과목 안내와 학과 수업 소개에서 확인합니다.";
   const sharedText = linkedInterests.length > 1
-    ? ` 또 ${linkedInterests.slice(1).map((interest) => interest.label).join("·")} 분야와도 함께 연결됩니다.`
+    ? ` 다른 관심 분야인 ${linkedInterests.slice(1).map((interest) => interest.label).join("·")}에서도 이 과목을 비교 후보로 골랐습니다.`
     : "";
   const renamed = isCourseDesignerLinkedSubject(candidate)
-    ? ` 대학 자료의 ${sourceSubjects.slice(0, 2).join("·")}와 우리학교 ${candidate.course.name}을 비슷한 학습 흐름으로 연결했으므로, 세부 내용은 과목 안내에서 다시 확인하세요.`
+    ? ` 등록 자료의 ${sourceSubjects.slice(0, 2).join("·")}와 우리학교 ${candidate.course.name}은 학습 내용의 관련성을 참고해 연결했습니다. 대학의 공식 대체 이수 인정은 아니므로 과목 내용과 인정 여부를 따로 확인하세요.`
     : "";
   return `${concept} ${connectionText}${sharedText}${renamed}`;
 }
@@ -5828,6 +5856,8 @@ function renderRecommendationModeState() {
     button.classList.toggle("active", button.dataset.recommendationMode === mode);
   });
 
+  const filterPlan = $("#recommendationPlanFilter")?.value || "all";
+  const yearNote = filterPlan === "all" ? "고교 입학 연도와 대입 학년도는 다릅니다. 자신의 지원 학년도 자료를 확인하세요." : `${filterPlan.replace("incoming", "")} 신입생은 일반적인 3년 이수 기준 ${Number(filterPlan.replace("incoming", "")) + 3}학년도 대입 대상입니다. 대학 자료의 적용 학년도를 따로 확인하세요.`;
   const help = $("#recommendationModeHelp");
   if (!help) return;
   if (mode === "subject") {
@@ -5835,7 +5865,7 @@ function renderRecommendationModeState() {
     return;
   }
   if (mode === "university") {
-    help.textContent = "대학명과 학과명을 입력하면 대학별 권장과목 자료에서 확인되는 과목을 보여줍니다.";
+    help.textContent = `대학명과 학과명을 입력하면 등록된 과목 자료와 확인 상태를 보여줍니다. 적용 학년도와 원문 확인 전에는 필수 이수 조건으로 해석하지 마세요. ${yearNote}`;
     return;
   }
   if (mode === "advanced") {
@@ -6005,7 +6035,7 @@ function getUniversityRecommendationRecords() {
       ...(record.recommendedSubjects || [])
     ]).length > 0;
     const haystack = normalizeText([record.university, record.department].join(" "));
-    return hasSubjects && !["사관", "육군사관", "국방", "군사"].some((word) => haystack.includes(normalizeText(word)));
+    return (hasSubjects || Boolean(record.note)) && !["사관", "육군사관", "국방", "군사"].some((word) => haystack.includes(normalizeText(word)));
   });
 }
 
@@ -6048,7 +6078,7 @@ function recordMatchesUniversity(record, universityQuery, departmentQuery) {
   const combinedTarget = `${normalizeUniversitySearchTerm(record.university || "")}${departmentTarget}`;
   if (universityQuery && !departmentQuery && combinedTarget.includes(universityQuery)) return true;
   const universityMatch = !universityQuery || universityTarget.includes(universityQuery) || normalizeUniversitySearchTerm(record.university || "").includes(universityQuery);
-  const departmentMatch = !departmentQuery || departmentTarget.includes(departmentQuery) || departmentQuery.includes(departmentTarget);
+  const departmentMatch = !departmentQuery || normalizeText(record.department || "").includes(departmentQuery) || departmentTarget.includes(departmentQuery) || departmentQuery.includes(departmentTarget);
   return universityMatch && departmentMatch;
 }
 
@@ -6070,21 +6100,25 @@ function renderUniversityRecommendationCard(record) {
         </div>
       </div>
       <div class="subject-badge-section">
-        <b>핵심 과목</b>
-        ${renderSubjectBadgeRow(coreSubjects, "core", "자료상 별도 핵심 과목이 확인되지 않았습니다.")}
+        <b>등록 자료의 핵심 분류</b>
+        ${renderSubjectBadgeRow(coreSubjects, "core", "등록 자료에 별도 핵심과목 정보가 없습니다. 대학의 미제시인지 자료 누락인지는 공식 안내를 확인하세요.")}
       </div>
       <div class="subject-badge-section">
-        <b>권장 과목</b>
-        ${renderSubjectBadgeRow(recommendedSubjects, "recommended", "자료상 별도 권장 과목이 확인되지 않았습니다.")}
+        <b>등록 자료의 권장 분류</b>
+        ${renderSubjectBadgeRow(recommendedSubjects, "recommended", "등록 자료에 별도 권장과목 정보가 없습니다. 공식 안내를 확인하세요.")}
       </div>
-      ${note ? `<p class="university-recommendation-note">${escapeHtml(note)}</p>` : ""}
+      <p class="content-status-note">${record.verificationStatus === "incomplete-note" ? "이 안내는 대상이나 단위 확인이 필요합니다. 아래 등록 원문 일부를 확정된 이수 조건으로 해석하지 마세요." : record.verificationStatus === "verified" ? "공식 원문의 적용 학년도와 조건을 함께 확인하세요." : "적용 학년도와 공식 원문 조건을 확인한 뒤 과목 선택에 참고하세요."}</p>
+      <small>적용 대입학년도: ${record.admissionYear ? escapeHtml(record.admissionYear) : "확인 필요"}</small>
+      ${note ? `<div class="university-recommendation-note"><b>${record.verificationStatus === "incomplete-note" ? "등록 원문 일부" : "등록 안내"}</b><p>${escapeHtml(note)}</p></div>` : ""}
+      ${record.sourceUrl ? `<p>${renderContentSourceLink(record.sourceUrl, record.sourceTitle || "공식 원문")}</p>` : ""}
+      ${record.nameSource ? `<p>${renderContentSourceLink(record.nameSource.url, record.nameSource.title)}<small>${escapeHtml(record.nameSource.scope)}</small></p>` : ""}
     </article>
   `;
 }
 
 function getUniversityRecommendationNote(record) {
   const note = String(record.note || "").trim();
-  if (!note || isGenericRecommendationSubject(note)) return "";
+  if (!note) return "";
   return note;
 }
 
@@ -6171,6 +6205,7 @@ function openSubjectInfoPopup(course) {
     <div class="subject-guide-meta" aria-label="과목 기본 정보">
       <span>${escapeHtml(course.area || "교과 확인")}</span>
       <span>${escapeHtml(formatSubjectCategory(course.category))}</span>
+      ${guide.curriculum ? `<span>${escapeHtml(guide.curriculum)}</span>` : ""}
       ${(guide.badges || []).map((badge) => `<span class="subject-guide-badge">${escapeHtml(badge)}</span>`).join("")}
     </div>
     <section class="subject-guide-opening">
@@ -6216,7 +6251,7 @@ function openSubjectInfoPopup(course) {
     </details>
     <p class="subject-guide-basis">안내 기준 · ${escapeHtml(guide.basisLabel)} · ${escapeHtml(formatDateLabel(subjectGuideData.updated))}</p>
     <p class="subject-info-caution">
-      이 안내는 과목 선택을 돕는 참고 자료이며 대학의 공식 핵심·권장 과목을 뜻하지 않습니다. 실제 수업 내용과 개설 여부는 학교 안내를, 대학 반영 여부는 해당 학년도 대학 자료를 확인하세요. 희망 진로와 직접 연결되지 않는 과목도 질문·자료 해석·토론·협업을 통해 학업역량과 공동체역량을 보여줄 수 있습니다.
+      교육과정이 다른 과목은 학습 내용이 이어지더라도 같은 공식 과목으로 간주하지 않습니다. 이 안내는 과목 선택을 돕는 참고 자료이며 대학의 공식 핵심·권장 과목을 뜻하지 않습니다. 실제 수업 내용과 개설 여부는 학교 안내를, 대학 반영 여부는 해당 학년도 대학 자료를 확인하세요. 희망 진로와 직접 연결되지 않는 과목도 질문·자료 해석·토론·협업을 통해 학업역량과 공동체역량을 보여줄 수 있습니다.
     </p>
   `;
 
@@ -6226,10 +6261,12 @@ function openSubjectInfoPopup(course) {
 }
 
 function getSubjectGuideInfo(course, relation) {
+  const subjectProfile = subjectGuideData.subjectProfiles?.[course.name] || {};
   const areaProfile = subjectGuideData.areaProfiles?.[course.area] || {};
   const groupProfile = subjectGuideData.groupProfiles?.[relation.title] || {};
   return {
-    learning: groupProfile.learning || relation.description || areaProfile.learning || getSubjectConnectionPoint(course),
+    learning: subjectProfile.learning || groupProfile.learning || areaProfile.learning || relation.description || getSubjectConnectionPoint(course),
+    curriculum: subjectProfile.curriculum || "",
     activities: groupProfile.activities || areaProfile.activities || ["수업 개념에서 질문 만들기", "자료를 찾아 근거 비교하기", "결과와 한계를 자신의 말로 정리하기"],
     competencies: groupProfile.competencies || areaProfile.competencies || ["질문 만들기", "자료 해석", "성찰"],
     relatedSubjects: groupProfile.relatedSubjects || [],
@@ -6542,9 +6579,7 @@ function getSubjectRelationCompareNames(subject) {
 
 function getSubjectConnectionPoint(course) {
   const name = course.name || "이 과목";
-  const area = course.area || "교과";
-  const category = course.category || "과목";
-  return `${name}은 ${area} ${category}의 관점에서 진로 관심을 넓혀 볼 수 있는 과목입니다. 아래 학과들은 이 과목에서 다루는 개념이나 탐구 방식과 연결해 생각해볼 수 있는 예시입니다.`;
+  return `${name}에서 배우는 개념과 탐구 방법을 아래 학과의 공부와 비교해 보세요. 학과 예시는 대학의 필수 이수 과목을 뜻하지 않습니다.`;
 }
 
 function renderRecommendationCard(record) {
@@ -6557,19 +6592,19 @@ function renderRecommendationCard(record) {
         </div>
       </div>
       <div class="subject-badge-section">
-        <b>핵심 과목</b>
-        ${renderSubjectBadgeRow(getRecordCoreSubjects(record), "core", "자료상 별도 핵심 과목이 확인되지 않았습니다.")}
+        <b>먼저 살펴볼 과목</b>
+        ${renderSubjectBadgeRow(getRecordCoreSubjects(record), "core", "앱의 탐색 제안에 먼저 살펴볼 과목이 없습니다. 대학의 미제시 여부를 뜻하지 않습니다.")}
       </div>
       <div class="subject-badge-section">
-        <b>권장 과목</b>
-        ${renderSubjectBadgeRow(getRecordRecommendedSubjects(record), "recommended", "자료상 별도 권장 과목이 확인되지 않았습니다.")}
+        <b>함께 살펴볼 과목</b>
+        ${renderSubjectBadgeRow(getRecordRecommendedSubjects(record), "recommended", "앱의 탐색 제안에 함께 살펴볼 과목이 없습니다. 대학 안내는 따로 확인하세요.")}
       </div>
       <div class="subject-badge-section suggested">
         <b>추천과목 <span>참고 과목</span></b>
         ${renderSubjectBadgeRow(getRecordSuggestedSubjects(record), "suggested", "추가 추천과목은 상담 과정에서 보완합니다.")}
       </div>
       ${renderRecommendationDepartmentExamples(record)}
-      <p>${escapeHtml(record.note)}</p>
+      <p>${escapeHtml(record.note)}</p><small>앱의 계열 탐색 제안입니다. 대학의 공통 필수과목이나 공식 이수 조건을 뜻하지 않습니다.</small>
     </article>
   `;
 }
@@ -8941,7 +8976,7 @@ function renderAdmissionDetailPage(pageKey, page, tabs) {
       ${tabs.map((tab) => `<a class="${tab.key === pageKey ? "active" : ""}" href="${escapeAttribute(tab.href)}">${escapeHtml(tab.label)}</a>`).join("")}
     </nav>
 
-    ${page.basis ? `<aside class="admission-basis-note"><strong>자료 기준</strong><span>${escapeHtml(page.basis)}</span><small>최근 확인 2026.07.18</small></aside>` : ""}
+    ${page.basis ? `<aside class="admission-basis-note"><strong>자료 기준</strong><span>${escapeHtml(page.basis)}</span>${page.checkedAt ? `<small>사례 자료 확인 ${escapeHtml(page.checkedAt)}</small>` : ""}</aside>` : ""}
 
     ${page.feature === "recommendations" ? '<details class="compact-guide recommendation-intro"><summary>추천 과목 사용법</summary>' : ''}
     <div class="detail-hero ${page.tone === "holistic" ? "holistic-hero" : "subject-hero"}">
@@ -8972,69 +9007,8 @@ function renderAdmissionDetailGuide(pageKey, page) {
 }
 
 function getAdmissionDetailGuide(pageKey, page) {
-  const guideMap = {
-    subject: {
-      title: "먼저 확인할 것",
-      items: ["교과전형은 내신 평균만 보는 전형이 아니라는 점을 잡습니다.", "성적, 학점수, 대학별 계산법, 수능최저, 서류 반영을 나누어 봅니다."]
-    },
-    "subject-flow": {
-      title: "읽는 순서",
-      items: ["내 성적을 먼저 읽고, 대학 반영 방식으로 다시 계산합니다.", "마지막에 수능최저와 추천 가능 여부를 확인합니다."]
-    },
-    "subject-score": {
-      title: "성적표에서 볼 것",
-      items: ["등급 개수만 보지 말고 과목별 학점수 비중을 함께 봅니다.", "대학 환산점수는 평균등급과 다를 수 있음을 확인합니다."]
-    },
-    "subject-calculation": {
-      title: "대학 사례를 보는 법",
-      items: ["사례의 숫자를 외우기보다 대학마다 계산 방식이 다르다는 점을 확인합니다.", "지원 전에는 반드시 해당 연도 모집요강의 산출식을 다시 확인합니다."]
-    },
-    "subject-minimum": {
-      title: "수능최저 확인",
-      items: ["수능최저는 합격 가능성을 가르는 문턱입니다.", "대학, 전형, 모집단위별 기준이 다르므로 학과 단위로 확인합니다."]
-    },
-    "subject-document": {
-      title: "서류 반영 확인",
-      items: ["교과전형이어도 서류평가가 들어가면 과목 이수와 학생부 흐름이 중요합니다.", "전공 관련 과목을 들었는지, 수업 기록이 연결되는지 봅니다."]
-    },
-    "subject-misunderstanding": {
-      title: "오해를 풀며 점검",
-      items: ["내신 평균, 과목 선택, 수능최저, 추천, 출결에 대한 오해를 하나씩 확인합니다.", "상담 전에는 내가 해당되는 질문을 표시해 두면 좋습니다."]
-    },
-    holistic: {
-      title: "종합전형의 중심",
-      items: ["활동량보다 수업 속 질문과 성장 흐름을 봅니다.", "과목 선택, 세특, 탐구, 창체, 면접이 자연스럽게 이어지는지 확인합니다."]
-    },
-    "holistic-flow": {
-      title: "읽는 순서",
-      items: ["전형 방식, 학생부 항목, 평가역량, 과목 선택, 세특, 면접 순서로 봅니다.", "각 단계가 따로 놀지 않고 하나의 성장 흐름이 되는지 확인합니다."]
-    },
-    "holistic-record": {
-      title: "학생부 읽는 법",
-      items: ["학생부 항목을 따로 외우기보다 항목 사이의 연결을 봅니다.", "독서와 탐구는 세특, 창체, 면접 설명으로 이어질 때 의미가 커집니다."]
-    },
-    "holistic-competency": {
-      title: "역량 확인",
-      items: ["학업역량이 중심이고, 진로역량과 공동체역량은 수업 안에서 함께 드러납니다.", "희망 진로와 직접 관련 없는 과목도 학업역량을 보여줄 수 있습니다."]
-    },
-    "holistic-subjects": {
-      title: "추천 과목 사용법",
-      items: ["희망 학과가 정해졌다면 학과명으로, 아직 고민 중이라면 계열명으로 찾아봅니다.", "대학별로 확인하고 싶을 때는 대학명과 학과명을 함께 넣어 좁혀 봅니다."]
-    },
-    "holistic-sechuk": {
-      title: "세특 흐름 만들기",
-      items: ["진로를 억지로 붙이지 말고 수업 개념에서 질문을 시작합니다.", "동기, 질문, 개념, 과정, 결과, 한계, 후속 탐구가 이어지는지 봅니다."]
-    },
-    "holistic-ai": {
-      title: "AI 사용 기준",
-      items: ["AI는 학생부 문장을 대신 쓰는 도구가 아니라 질문을 넓히는 도구입니다.", "주제 후보, 반론, 한계, 추가 자료를 찾는 용도로 사용합니다."]
-    },
-    "holistic-interview": {
-      title: "면접 준비",
-      items: ["학생부에 적힌 내용을 외우기보다 왜 했는지와 무엇을 배웠는지 설명합니다.", "결과뿐 아니라 과정, 한계, 다음 탐구까지 말할 수 있어야 합니다."]
-    }
-  };
-  return guideMap[pageKey] || {
+  if (page.guide) return page.guide;
+  return {
     title: "이 페이지에서 할 일",
     items: [page.summary || "상단 탭으로 필요한 내용을 나누어 확인합니다."]
   };

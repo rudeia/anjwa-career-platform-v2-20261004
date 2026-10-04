@@ -1,12 +1,12 @@
 window.ANJWA_COURSE_DESIGNER = {
-  schemaVersion: 4,
-  updated: "2026-07-23",
-  officialBasis: {
-    admissionYear: "2028학년도",
-    label: "대학·모집단위별 핵심·권장과목 자료",
-    caution: "대학마다 과목을 제시하고 반영하는 방법이 다릅니다. '핵심' 표시를 모든 대학이 공통으로 요구하는 필수과목으로 이해하지 마세요."
+  "schemaVersion": 4,
+  "updated": "2026-10-04",
+  "officialBasis": {
+    "admissionYear": "2028학년도",
+    "label": "대학·모집단위별 핵심·권장과목 자료",
+    "caution": "2028학년도 자료를 참고한 탐색용 안내입니다. 지원 학년도·전형·모집단위의 공식 안내를 다시 확인하세요. 미확인 등록 자료를 공식 필수과목으로 해석하지 않습니다."
   },
-  subjectConcepts: {
+  "subjectConcepts": {
     "대수": "식·방정식·함수의 관계를 이용해 문제를 수학적으로 표현합니다.",
     "미적분Ⅰ": "변화율과 누적량을 바탕으로 변하는 현상을 해석합니다.",
     "미적분Ⅱ": "여러 자연·사회 현상의 변화를 함수와 미분·적분으로 정교하게 설명합니다.",
@@ -57,412 +57,730 @@ window.ANJWA_COURSE_DESIGNER = {
     "미술": "관찰과 조형 원리를 바탕으로 생각을 시각적으로 표현합니다.",
     "음악": "소리의 구조를 이해하고 연주·창작·감상으로 표현합니다."
   },
-  interestSubjectReasons: {
-    computer_ai: {
+  "interestSubjectReasons": {
+    "computer_ai": {
       "확률과 통계": "데이터의 분포와 모델의 오차를 해석하는 데 직접 쓰입니다.",
       "미적분Ⅰ": "함수의 변화와 최적화 원리를 이해하는 수학적 기초가 됩니다.",
       "미적분Ⅱ": "인공지능·데이터 분야의 심화 수학을 준비할 때 살펴볼 수 있습니다.",
       "정보": "알고리즘을 설계하고 프로그램으로 구현하는 전공의 핵심 학습 방식과 바로 연결됩니다.",
-      "데이터 과학": "실제 자료를 정제하고 분석해 결론을 만드는 과정을 경험할 수 있습니다."
+      "데이터 과학": "실제 자료를 정제하고 분석해 결론을 만드는 과정을 경험할 수 있습니다.",
+      "기하": "벡터로 자료의 방향과 거리를 표현하는 방법을 살펴봅니다. 데이터 표현의 기초를 비교할 수 있습니다.",
+      "수학과제 탐구": "자료를 분류할 기준과 오차의 정의를 정하고 모형의 예측과 정답을 비교하는 활동을 해 봅니다.",
+      "대수": "지수·로그·수열의 관계를 익혀 알고리즘 설명에 나오는 증가·감소와 반복 구조를 읽습니다."
     },
-    computer_engineering: {
+    "computer_engineering": {
       "물리학": "컴퓨터 구조, 전자회로, 신호와 통신 장치가 작동하는 원리를 이해하는 데 직접 연결됩니다.",
       "미적분Ⅱ": "연속적으로 변하는 신호와 시스템의 동작을 수학적으로 분석하는 기초가 됩니다.",
       "확률과 통계": "통신 오류, 네트워크 성능, 시스템 데이터를 분석할 때 활용됩니다.",
       "정보": "하드웨어가 수행할 명령과 알고리즘을 설계하고 구현하는 기반이 됩니다.",
-      "전자기와 양자": "반도체 소자와 전자·통신 장치의 물리적 원리를 더 깊게 이해할 때 연결됩니다."
+      "전자기와 양자": "반도체 소자와 전자·통신 장치의 물리적 원리를 더 깊게 이해할 때 연결됩니다.",
+      "기하": "좌표와 벡터로 장치의 위치·방향을 표현하는 방법을 익혀 위치 정보나 센서 자료를 읽어 봅니다."
     },
-    chem_material: {
+    "chem_material": {
       "화학": "물질의 구조·성질·반응을 이해하는 이 분야의 중심 과목입니다.",
       "물리학": "소재의 전기·열·역학적 성질과 에너지 변환을 설명할 때 필요합니다.",
-      "생명과학": "바이오소재·생화학처럼 생명 현상과 물질을 함께 다루는 세부 전공에서 의미가 큽니다."
+      "생명과학": "바이오소재·생화학처럼 생명 현상과 물질을 함께 다루는 세부 전공에서 의미가 큽니다.",
+      "미적분Ⅱ": "반응이나 물질 이동을 나타낸 함수에서 변화율·누적량이 뜻하는 값을 확인합니다.",
+      "기하": "물질 구조를 공간 도형으로 표현할 때 원자의 배치와 방향을 설명하는 기초가 됩니다.",
+      "과학의 역사와 문화": "재료나 에너지 기술이 어떤 문제와 실험에서 발전했는지 역사 자료로 살펴봅니다.",
+      "확률과 통계": "시료를 반복 측정한 자료의 평균·분포를 읽고 재료 특성의 차이와 편차를 구분합니다."
     },
-    life_environment: {
+    "life_environment": {
       "생명과학": "생명 현상을 세포와 개체 수준에서 이해하는 출발점입니다.",
       "화학": "생명체 안의 물질과 반응을 분자 수준에서 설명하는 데 필요합니다.",
       "세포와 물질대사": "세포의 기능과 에너지 전환을 다루어 생명과학·생명공학과 직접 연결됩니다.",
       "생물의 유전": "유전 정보의 전달과 발현을 다루어 생명공학의 핵심 질문으로 이어집니다.",
-      "확률과 통계": "실험 결과와 생명 데이터를 비교하고 해석하는 데 활용됩니다."
+      "확률과 통계": "실험 결과와 생명 데이터를 비교하고 해석하는 데 활용됩니다.",
+      "미적분Ⅱ": "생물량이나 물질 농도의 변화 그래프에서 변화율을 읽고 단순 모형의 가정을 비교합니다."
     },
-    food_agri_life: {
+    "food_agri_life": {
       "세포와 물질대사": "생물의 성장과 식품 성분의 대사 과정을 이해하는 데 연결됩니다.",
       "생물의 유전": "육종·생물자원처럼 유전 정보를 활용하는 세부 분야에서 의미가 큽니다.",
-      "확률과 통계": "생산·품질·실험 자료를 비교하고 신뢰도를 판단하는 데 필요합니다."
+      "확률과 통계": "생산·품질·실험 자료를 비교하고 신뢰도를 판단하는 데 필요합니다.",
+      "생명과학": "생명체의 성장·대사·생태 관계를 배우며 작물·동물·식품의 생물학적 현상을 설명할 기초를 익힙니다."
     },
-    environment_ecology: {
+    "environment_ecology": {
       "화학": "오염 물질의 성질과 환경 속 반응을 설명하는 데 필요합니다.",
       "생명과학": "생태계의 생물과 환경이 서로 영향을 주는 과정을 이해하는 데 연결됩니다.",
       "지구과학": "기후·대기·물·토양이 하나의 시스템으로 변하는 과정을 살펴볼 수 있습니다.",
-      "확률과 통계": "환경 관측 자료의 변화와 불확실성을 분석하는 데 활용됩니다."
+      "확률과 통계": "환경 관측 자료의 변화와 불확실성을 분석하는 데 활용됩니다.",
+      "미적분Ⅱ": "오염 물질이나 생물 개체수의 변화 그래프에서 증가·감소의 속도를 비교합니다.",
+      "지구시스템과학": "대기·해양·지권·생물권의 상호작용을 배워 환경 변화가 여러 계통과 이어지는지 살펴봅니다.",
+      "기후변화와 지속가능한 세계": "기후 대응 대안을 환경·사회·경제 조건으로 비교하며 서로 충돌하는 판단 기준을 설명합니다."
     },
-    nursing_health: {
+    "nursing_health": {
       "생명과학": "인체의 구조와 기능을 이해하는 간호학 학습의 기초가 됩니다.",
       "세포와 물질대사": "질병과 회복 과정에서 나타나는 세포·에너지 변화를 이해하는 데 연결됩니다.",
       "확률과 통계": "보건 자료와 연구 결과를 읽고 간호 판단의 근거를 확인할 때 활용됩니다.",
       "사회와 문화": "환자의 생활환경과 건강 격차를 개인뿐 아니라 사회의 관점에서 이해하게 합니다.",
-      "인간과 심리": "환자와 보호자의 행동·정서를 이해하고 의사소통을 고민할 때 도움을 줍니다."
+      "인간과 심리": "환자와 보호자의 행동·정서를 이해하고 의사소통을 고민할 때 도움을 줍니다.",
+      "미적분Ⅱ": "시간에 따른 생리 자료의 변화율을 읽는 기초를 비교합니다. 실제 환자의 상태 판단은 전문 지식과 별도 기준이 필요합니다.",
+      "보건": "예방·건강 정보·보건 서비스 내용을 배우고 대상자에게 필요한 정보를 어떻게 설명하는지 살펴봅니다."
     },
-    business_economics: {
+    "business_economics": {
       "확률과 통계": "시장·소비자·기업 자료를 비교하고 의사결정의 근거를 만드는 데 쓰입니다.",
       "미적분Ⅰ": "비용과 수익의 변화를 함수로 분석하는 수학적 기초가 됩니다.",
       "미적분Ⅱ": "경제·금융·정량분석을 더 깊게 공부하려는 경우에 살펴볼 과목입니다.",
       "경제": "시장과 정책, 기업 활동을 이해하는 상경계열의 직접적인 기초 과목입니다.",
-      "사회와 문화": "조직·소비자·사회 변화가 기업과 시장에 미치는 영향을 해석하게 합니다."
+      "사회와 문화": "조직·소비자·사회 변화가 기업과 시장에 미치는 영향을 해석하게 합니다.",
+      "수학과제 탐구": "가격·비용·수익의 변수를 정한 모형을 만들고 가정이 달라질 때 계산 결과가 바뀌는지 비교합니다."
     },
-    media_communication: {
+    "media_communication": {
       "매체 의사소통": "매체의 표현 방식과 수용자에게 미치는 영향을 직접 분석합니다.",
       "확률과 통계": "이용자 조사와 여론 자료를 읽고 결과를 과장하지 않도록 돕습니다.",
       "데이터 과학": "디지털 이용 기록과 콘텐츠 반응 자료를 분석하는 데 연결됩니다.",
-      "정보": "디지털 매체가 데이터를 저장·전달하는 기본 구조를 이해할 때 도움이 됩니다."
+      "정보": "디지털 매체가 데이터를 저장·전달하는 기본 구조를 이해할 때 도움이 됩니다.",
+      "사회와 문화": "매체의 생산·수용이 이루어지는 집단과 사회 조건을 읽어 표현과 실제 반응을 구분합니다.",
+      "주제 탐구 독서": "같은 쟁점을 다룬 글의 주장·근거·원출처를 대조해 보도와 해설의 차이를 읽습니다.",
+      "문학과 영상": "같은 이야기가 글과 영상에서 어떻게 다르게 표현되는지 비교해 매체의 구성 방식을 설명합니다.",
+      "사회문제 탐구": "정보 전달 문제를 좁혀 조사하고 게시물 내용·공유·독자 반응을 서로 다른 지표로 다룹니다."
     },
-    humanities_language: {
+    "humanities_language": {
       "문학": "작품의 언어와 맥락을 깊이 읽는 어문·문학 분야의 중심 과목입니다.",
       "주제 탐구 독서": "여러 글을 비교하며 질문과 근거를 발전시키는 전공 탐구의 기초가 됩니다.",
-      "매체 의사소통": "언어가 매체에 따라 다르게 구성되고 받아들여지는 방식을 분석하게 합니다."
+      "매체 의사소통": "언어가 매체에 따라 다르게 구성되고 받아들여지는 방식을 분석하게 합니다.",
+      "사회와 문화": "작품과 언어가 사용되는 사회·집단의 맥락을 배워 텍스트 해석에 참고합니다.",
+      "문학과 영상": "문학의 장면·갈등이 영상에서 바뀌는 방식을 비교하며 매체별 표현과 해석을 설명합니다."
     },
-    humanities_history: {
+    "humanities_history": {
       "세계사": "시대와 지역의 변화를 비교하고 역사적 인과 관계를 설명하는 중심 과목입니다.",
-      "한국지리": "사건이 일어난 공간과 지역의 특성을 이해할 때 보완적으로 활용됩니다."
+      "한국지리": "사건이 일어난 공간과 지역의 특성을 이해할 때 보완적으로 활용됩니다.",
+      "동아시아 역사 기행": "장소와 역사 자료를 대조하며 같은 사건이 지역별로 어떻게 기록되고 기억되는지 살펴봅니다.",
+      "역사로 탐구하는 현대 세계": "현대 쟁점의 역사적 맥락을 자료로 읽고 현재의 판단을 과거에 그대로 적용하지 않는 연습을 합니다.",
+      "주제 탐구 독서": "같은 역사 쟁점을 다룬 글의 자료·관점·반론을 비교하고 자신의 해석 근거를 적습니다.",
+      "사회와 문화": "사회의 제도·집단 관계를 배우며 역사 변화의 사회적 맥락을 설명할 개념을 비교합니다."
     },
-    humanities_philosophy: {
+    "humanities_philosophy": {
       "윤리와 사상": "주요 사상가와 윤리 이론을 비교해 철학적 질문의 기반을 만듭니다.",
       "생활과 윤리": "이론을 실제 가치 갈등에 적용하고 자신의 판단 근거를 점검하게 합니다.",
-      "철학": "개념과 논증을 직접 분석해 철학 전공의 학습 방식과 연결됩니다."
+      "철학": "개념과 논증을 직접 분석해 철학 전공의 학습 방식과 연결됩니다.",
+      "인간과 철학": "개념과 주장의 전제를 구분하고 반론을 검토해 철학적 질문에 대한 판단을 설명합니다.",
+      "주제 탐구 독서": "같은 가치 문제를 다룬 글의 논거를 비교하고 결론이 다른 이유를 전제에서 찾아봅니다.",
+      "사회와 문화": "규범·집단·제도에 관한 개념을 익혀 현실의 가치 갈등을 설명하는 자료와 연결합니다."
     },
-    arts_sports: {
+    "arts_sports": {
       "생명과학": "근육·호흡·순환처럼 운동 중 나타나는 생명 현상을 이해하는 데 연결됩니다.",
-      "보건": "운동 손상 예방, 회복, 건강 관리 계획을 세울 때 활용됩니다."
+      "보건": "운동 손상 예방, 회복, 건강 관리 계획을 세울 때 활용됩니다.",
+      "운동과 건강": "교사가 허용한 운동 활동에서 수행과 회복 조건을 관찰하고 건강 정보의 적용 범위를 확인합니다.",
+      "스포츠 문화": "스포츠의 규칙·참여·사회적 의미를 자료로 읽고 수행 능력과 문화 해석을 구분합니다."
     },
-    arts_design: {
+    "arts_design": {
       "매체 의사소통": "시각 이미지와 매체가 의미를 전달하고 수용자에게 영향을 주는 방식을 분석하게 합니다.",
-      "문학과 영상": "이야기와 장면을 영상 언어로 구성하는 과정을 비교할 수 있습니다."
+      "문학과 영상": "이야기와 장면을 영상 언어로 구성하는 과정을 비교할 수 있습니다.",
+      "미술 감상과 비평": "작품의 조형 요소와 맥락을 근거로 해석하고 서로 다른 감상을 비교합니다.",
+      "미술 창작": "표현 목적에 맞춰 재료·구도·색을 선택하고 제작 과정에서 바꾼 부분과 이유를 설명합니다.",
+      "미술": "관찰과 조형 요소를 익히고 작품의 표현 의도와 실제로 사용한 기법을 비교합니다."
+    },
+    "engineering_general": {
+      "미적분Ⅱ": "함수의 변화율과 누적량을 이용해 공학 모형에서 운동·에너지 변화가 어떻게 표현되는지 읽어 봅니다.",
+      "기하": "벡터와 공간도형으로 구조물의 방향·위치 관계를 표현하는 방법을 비교합니다.",
+      "수학과제 탐구": "공학 문제 하나를 골라 변수와 가정을 정하고 계산 결과가 조건에 따라 달라지는지 분석합니다.",
+      "확률과 통계": "반복 측정의 편차와 제품 표본 자료를 해석할 때 평균·분포·확률을 사용합니다."
+    },
+    "mechanical_electronic": {
+      "미적분Ⅱ": "위치·전류처럼 시간에 따라 변하는 양을 함수로 표현하고 변화율이 뜻하는 물리량을 살펴봅니다.",
+      "기하": "힘의 방향과 공간상의 부품 위치를 벡터·도형으로 표현하는 공부와 연결됩니다.",
+      "수학과제 탐구": "장치의 변수와 제한 조건을 정한 간단한 모형에서 설계안의 차이를 비교해 봅니다.",
+      "확률과 통계": "반복 측정값의 분포를 읽고 장치나 공정에서 관찰한 편차를 설명하는 데 참고합니다."
+    },
+    "earth_space": {
+      "지구과학": "지질·대기·해양·천문 현상의 관측 자료를 읽고 공간과 시간에 따른 변화를 설명합니다.",
+      "미적분Ⅱ": "기온·위치·농도처럼 변하는 양의 그래프에서 변화율과 누적량을 해석합니다.",
+      "지구시스템과학": "기후와 환경 자료를 대기·해양·지권·생물권의 상호작용으로 읽어 봅니다.",
+      "행성우주과학": "행성과 우주에 관한 관측 자료·모형을 비교하며 관측한 사실과 추론을 구분합니다.",
+      "기하": "천체나 관측 지점의 위치·방향을 좌표와 공간도형으로 표현하는 공부를 살펴봅니다.",
+      "기후변화와 지속가능한 세계": "기후 자료의 변화와 사회의 대응을 함께 비교해 자연 현상 설명과 정책 판단을 구분합니다.",
+      "확률과 통계": "여러 시점의 관측값을 분포·상관으로 읽고 측정 오차와 빠진 자료의 영향을 확인합니다."
+    },
+    "medicine_pharmacy": {
+      "생명과학": "인체와 생명체의 조절·대사·유전 원리를 이해하는 기초를 익힙니다. 질병이나 치료 효과는 별도 근거로 확인합니다.",
+      "세포와 물질대사": "세포의 구조와 물질대사 과정을 배우며 생리 현상을 세포 수준에서 설명하는 공부를 살펴봅니다.",
+      "미적분Ⅱ": "시간에 따라 변하는 양을 함수로 읽고 변화율·누적량을 해석합니다. 단순 모형으로 복용량을 결정하지 않습니다.",
+      "보건": "건강 정보의 출처와 예방·건강 관리 내용을 읽으며 의학적 사실과 개인 판단을 구분합니다.",
+      "확률과 통계": "임상 연구의 비율·표본·분포를 읽고 가상 검사 사례에서 조건부확률을 계산해 봅니다."
+    },
+    "health_rehabilitation": {
+      "생명과학": "신체의 조절과 생명 현상에 관한 기초를 익혀 건강·재활 분야의 학습 내용을 이해합니다.",
+      "세포와 물질대사": "세포 활동과 에너지 이용 과정을 배우며 신체 기능에 대한 설명의 기초를 살펴봅니다.",
+      "보건": "건강 관리와 보건 정보의 출처를 확인하는 방법을 배우고 학생이 할 수 있는 관찰과 전문 판단을 구분합니다.",
+      "사회와 문화": "건강 서비스 이용에서 개인·집단·제도 조건이 어떻게 다른지 사회 자료를 읽습니다.",
+      "확률과 통계": "측정 자료의 개인차·분포를 읽고 재활 효과를 비교한 연구의 대상과 지표를 확인합니다."
+    },
+    "law_public": {
+      "사회와 문화": "개인과 집단·제도의 관계를 익혀 정책이 적용되는 사회적 조건을 설명합니다.",
+      "한국지리 탐구": "지역의 인구·시설·생활권 자료를 읽고 지역에 따라 달라지는 행정 서비스 조건을 비교합니다.",
+      "확률과 통계": "정책·여론 자료의 표본과 비율을 읽고 수치가 설명할 수 있는 범위를 확인합니다."
+    },
+    "society_media": {
+      "사회와 문화": "집단·규범·사회 제도를 배워 행동이나 사회 문제를 개인의 특성만으로 설명하지 않고 조건을 비교합니다.",
+      "사회문제 탐구": "사회 문제를 조사 가능한 질문으로 좁히고 자료의 출처·방법·한계를 기록하는 연습을 합니다.",
+      "확률과 통계": "설문 자료의 분포와 표본을 해석하고 응답자 집단과 전체 집단을 구분합니다."
+    },
+    "geography_urban": {
+      "한국지리 탐구": "지역의 인구·산업·생활권을 지도와 통계로 읽고 도시 공간의 차이를 설명합니다.",
+      "세계시민과 지리": "세계 지역의 이동·환경·생활 조건을 비교하며 공간적 관계와 지역 차이를 살펴봅니다.",
+      "사회와 문화": "도시 공간을 이용하는 집단·제도·생활 방식의 차이를 공간 자료와 함께 해석합니다.",
+      "기후변화와 지속가능한 세계": "도시의 기후 대응 대안을 환경·비용·형평성의 기준으로 나누어 비교합니다.",
+      "사회문제 탐구": "주거·교통·시설 접근 문제를 조사 질문으로 좁히고 공간 자료와 실제 이용 경험을 구분합니다.",
+      "확률과 통계": "지역별 인구·시설 자료의 비율과 분포를 읽고 자료 단위에 따라 해석이 달라지는지 확인합니다."
+    },
+    "education": {
+      "교육의 이해": "교육의 목적·학습·학교에 관한 설명을 읽고 서로 다른 교육 관점을 비교합니다.",
+      "사회와 문화": "학습자가 속한 집단과 사회 조건을 읽으며 개인의 학습 경험과 제도 차이를 구분합니다."
+    },
+    "education_language": {
+      "교육의 이해": "국어 수업의 목표와 학습자의 이해를 어떻게 확인할지 교육 관점에서 생각해 봅니다.",
+      "주제 탐구 독서": "글의 주장·근거를 읽고 학습자가 헷갈릴 부분을 설명하는 질문을 만듭니다.",
+      "언어생활 탐구": "실제 언어 사용의 차이를 자료로 살펴보고 학습자에게 문맥과 표현을 설명하는 방법을 비교합니다.",
+      "매체 의사소통": "매체별 정보 구성·표현을 읽고 학습자가 출처와 의도를 구분할 수 있는 질문을 만듭니다.",
+      "문학": "작품의 장면과 표현을 근거로 해석하고 다른 해석을 비교하는 수업 질문을 만들어 봅니다."
+    },
+    "education_english": {
+      "교육의 이해": "영어 수업의 목표와 학습자의 이해를 확인하는 활동이 어떻게 대응하는지 비교합니다.",
+      "영미 문학 읽기": "작품의 표현·문화 맥락을 읽고 학습자에게 필요한 배경 설명과 읽기 질문을 만듭니다.",
+      "세계 문화와 영어": "영어로 다룬 문화 자료를 비교하며 언어 표현과 문화적 맥락을 함께 설명하는 연습을 합니다."
+    },
+    "education_social": {
+      "사회와 문화": "사회 현상을 개념과 자료로 설명하고 학습자가 다른 해석을 비교하도록 질문을 만듭니다.",
+      "교육의 이해": "사회 수업의 목표·학습 내용·평가 활동이 어떻게 이어지는지 살펴봅니다.",
+      "사회문제 탐구": "사회 쟁점의 근거와 조사 방법을 비교하며 토론 수업의 질문과 자료를 골라 봅니다.",
+      "확률과 통계": "사회 수업에 쓰는 표본·비율·그래프에서 학생이 오해할 수 있는 부분을 찾습니다."
+    },
+    "education_history": {
+      "세계사": "시대·지역의 변화를 사료로 읽고 사건의 전후 관계를 설명하는 질문을 만듭니다.",
+      "동아시아 역사 기행": "장소와 사료를 활용해 사건의 맥락을 설명하고 자료의 관점을 비교합니다.",
+      "역사로 탐구하는 현대 세계": "현대 쟁점을 역사 자료와 연결하되 과거와 현재의 조건 차이를 설명합니다.",
+      "교육의 이해": "역사 수업에서 사료 읽기와 학습자의 이해를 확인할 활동을 비교합니다.",
+      "주제 탐구 독서": "상반된 역사 해석의 자료와 논거를 대조해 읽기·토론 질문을 작성합니다.",
+      "사회문제 탐구": "현대 사회 문제의 배경을 조사하며 역사적 설명과 현재 정책 판단을 구분합니다."
+    },
+    "education_geography": {
+      "한국지리 탐구": "지역 자료를 지도·통계로 읽고 공간 차이를 학습자에게 설명하는 방법을 연습합니다.",
+      "세계시민과 지리": "세계의 지역 차이와 상호작용을 비교하고 지도 자료에서 읽을 질문을 만듭니다.",
+      "기후변화와 지속가능한 세계": "지역별 기후 대응 사례를 비교하며 사실 설명과 가치 판단을 나누는 수업 질문을 만듭니다.",
+      "교육의 이해": "지리 수업의 목표와 지도·현장 자료를 이용한 학습 활동을 비교합니다.",
+      "사회문제 탐구": "지역의 생활 문제를 공간 자료로 조사하고 학생이 확인할 수 있는 범위로 질문을 좁힙니다.",
+      "확률과 통계": "지리 자료의 비율·분포·집계 단위를 읽고 지도에서 빠지는 정보가 무엇인지 확인합니다."
+    },
+    "education_ethics": {
+      "사회와 문화": "현실의 규범·집단·제도를 이해하고 윤리 판단의 전제와 사실 자료를 구분합니다.",
+      "교육의 이해": "윤리 수업에서 학생이 자신의 판단 근거를 설명할 수 있는 질문과 활동을 비교합니다.",
+      "인간과 철학": "주장의 전제·반론을 검토하며 가치 갈등을 토론할 때 필요한 판단 기준을 정리합니다."
+    },
+    "education_math": {
+      "미적분Ⅱ": "미분·적분의 개념을 문제에 적용하고 풀이에서 쓴 가정과 이유를 학생에게 설명하는 연습을 합니다.",
+      "기하": "도형·벡터의 성질을 표현하고 증명이나 풀이의 각 단계가 왜 필요한지 설명합니다.",
+      "교육의 이해": "수학 수업의 목표와 학습자가 풀이를 이해했는지 확인하는 활동을 비교합니다.",
+      "확률과 통계": "확률과 표본·분포를 구분해 설명하고 학생이 비율이나 그래프를 오해하는 사례를 찾아봅니다.",
+      "미적분Ⅰ": "함수의 극한과 변화율을 배우며 계산 결과뿐 아니라 개념을 설명하는 방법을 비교합니다."
+    },
+    "education_science": {
+      "미적분Ⅱ": "과학 자료의 변화율과 누적량을 해석하고 수학 표현이 어떤 물리·생물량을 뜻하는지 설명합니다.",
+      "기하": "과학 현상의 위치·방향을 공간도형과 벡터로 표현해 모형 설명에 참고합니다.",
+      "교육의 이해": "과학 수업의 목표·실험·평가가 같은 개념을 확인하는지 비교합니다.",
+      "생명과학": "생명 현상을 개념과 관찰 자료로 설명하고 수업에서 확인할 질문을 만듭니다.",
+      "세포와 물질대사": "세포 과정과 대사 모형을 읽고 모형이 설명하는 부분과 생략한 부분을 구분합니다.",
+      "지구과학": "지구·우주 관측 자료에서 확인한 사실과 모형의 설명을 구분하는 연습을 합니다.",
+      "지구시스템과학": "여러 지구 계통의 상호작용을 도식화하고 학습자가 혼동할 연결을 설명합니다.",
+      "행성우주과학": "관측 자료와 천문 모형을 비교하며 수업에서 다룰 수 있는 증거와 추론을 구분합니다.",
+      "확률과 통계": "실험·관측 자료의 반복 편차를 읽고 학생에게 측정값과 결론의 범위를 설명합니다."
+    },
+    "education_physics": {
+      "미적분Ⅱ": "운동이나 전류 자료를 함수의 변화율로 읽고 물리량과 수학 표현의 관계를 설명합니다.",
+      "기하": "힘·운동의 방향을 벡터로 표현하고 도식의 각 요소가 뜻하는 값을 설명합니다.",
+      "교육의 이해": "물리 수업에서 개념을 확인할 실험과 설명 질문을 목표에 맞춰 비교합니다."
+    },
+    "education_chemistry": {
+      "미적분Ⅱ": "반응 자료의 시간에 따른 변화율을 읽고 계산한 값과 관찰한 값을 구분합니다.",
+      "교육의 이해": "화학 수업에서 물질 모형·실험·학습자의 설명을 어떻게 연결할지 비교합니다."
+    },
+    "education_biology": {
+      "생명과학": "생명 현상의 원리를 관찰·모형으로 설명하고 학습자의 이해를 확인할 질문을 만듭니다.",
+      "세포와 물질대사": "세포 활동과 대사 과정을 단계별로 설명하며 모형의 조건과 한계를 표시합니다.",
+      "교육의 이해": "생물 수업의 관찰·실험 활동이 어떤 개념을 확인하는지 목표와 대조합니다.",
+      "확률과 통계": "생물 관찰·실험의 표본과 개인차를 읽고 작은 표본의 결과를 어디까지 설명할지 판단합니다."
+    },
+    "education_earth_science": {
+      "지구과학": "지질·기상·천문 자료의 시간·공간 범위를 확인하고 학생이 자료에서 읽을 질문을 만듭니다.",
+      "지구시스템과학": "지구 계통의 상호작용을 설명하고 복잡한 관계를 수업용 모형으로 표현해 봅니다.",
+      "행성우주과학": "행성·우주 관측을 모형과 비교하고 자료로 직접 확인할 수 없는 추론을 표시합니다.",
+      "교육의 이해": "지구과학 수업의 관측·모형 활동과 학습자의 설명을 평가하는 방법을 비교합니다.",
+      "확률과 통계": "기상·관측 자료의 분포·변동을 읽고 집계 기간에 따라 그래프가 달라지는지 설명합니다."
+    },
+    "music_performance": {
+      "음악 감상과 비평": "작품의 구성·음색·맥락을 듣고 감상의 근거가 되는 소리 특징을 설명합니다.",
+      "음악 연주와 창작": "리듬·선율·표현 방식을 선택하고 연주나 창작에서 수정한 이유를 기록합니다.",
+      "문학과 영상": "이야기를 공연이나 영상으로 옮길 때 장면·대사·시점이 어떻게 달라지는지 비교합니다.",
+      "매체 의사소통": "공연·음악 콘텐츠가 매체에서 어떻게 구성되고 소개되는지 읽어 전달 방식을 비교합니다.",
+      "음악": "리듬·선율·음색의 기초를 익히고 감상·연주·창작에서 사용하는 표현을 설명합니다."
     }
   },
-  interests: [
+  "interests": [
     {
-      id: "engineering_general",
-      group: "공학·자연",
-      label: "공학 일반·융합",
-      summary: "수학·물리·화학의 기초를 여러 공학 문제 해결에 연결합니다.",
-      recordIds: ["engineering_general_2028"]
+      "id": "engineering_general",
+      "group": "공학·자연",
+      "label": "공학 일반·융합",
+      "summary": "수학·물리·화학의 기초를 여러 공학 문제 해결에 연결합니다.",
+      "recordIds": [
+        "engineering_general_2028"
+      ]
     },
     {
-      id: "mechanical_electronic",
-      group: "공학·자연",
-      label: "기계·전기전자·반도체",
-      summary: "수학과 물리의 흐름을 공학 문제 해결로 연결합니다.",
-      recordIds: ["physics_mechanical_electronic_2028"]
+      "id": "mechanical_electronic",
+      "group": "공학·자연",
+      "label": "기계·전기전자·반도체",
+      "summary": "수학과 물리의 흐름을 공학 문제 해결로 연결합니다.",
+      "recordIds": [
+        "physics_mechanical_electronic_2028"
+      ]
     },
     {
-      id: "computer_ai",
-      group: "공학·자연",
-      label: "소프트웨어·AI·데이터",
-      summary: "수학, 정보, 데이터 해석을 알고리즘과 연결합니다.",
-      recordIds: ["computer_ai_data_2028"]
+      "id": "computer_ai",
+      "group": "공학·자연",
+      "label": "소프트웨어·AI·데이터",
+      "summary": "수학, 정보, 데이터 해석을 알고리즘과 연결합니다.",
+      "recordIds": [
+        "computer_ai_data_2028"
+      ]
     },
     {
-      id: "computer_engineering",
-      group: "공학·자연",
-      label: "컴퓨터공학·정보통신·임베디드",
-      summary: "수학·정보와 물리학을 컴퓨터 구조, 회로, 신호·통신 시스템과 연결합니다.",
-      recordIds: ["computer_engineering_information_2028"]
+      "id": "computer_engineering",
+      "group": "공학·자연",
+      "label": "컴퓨터공학·정보통신·임베디드",
+      "summary": "수학·정보와 물리학을 컴퓨터 구조, 회로, 신호·통신 시스템과 연결합니다.",
+      "recordIds": [
+        "computer_engineering_information_2028"
+      ]
     },
     {
-      id: "chem_material",
-      group: "공학·자연",
-      label: "화학·화공·신소재·에너지",
-      summary: "화학 반응과 물질의 성질을 소재·에너지 문제로 확장합니다.",
-      recordIds: ["chem_material_energy_2028"]
+      "id": "chem_material",
+      "group": "공학·자연",
+      "label": "화학·화공·신소재·에너지",
+      "summary": "화학 반응과 물질의 성질을 소재·에너지 문제로 확장합니다.",
+      "recordIds": [
+        "chem_material_energy_2028"
+      ]
     },
     {
-      id: "life_environment",
-      group: "공학·자연",
-      label: "생명과학·생명공학",
-      summary: "생명 현상을 세포·물질대사·유전 정보의 수준에서 탐구합니다.",
-      recordIds: ["life_science_biotech_2028"]
+      "id": "life_environment",
+      "group": "공학·자연",
+      "label": "생명과학·생명공학",
+      "summary": "생명 현상을 세포·물질대사·유전 정보의 수준에서 탐구합니다.",
+      "recordIds": [
+        "life_science_biotech_2028"
+      ]
     },
     {
-      id: "food_agri_life",
-      group: "공학·자연",
-      label: "식품·농생명·동물자원",
-      summary: "생명과학과 화학을 식품, 생물자원, 생산 과정과 연결합니다.",
-      recordIds: ["food_agri_life_2028"]
+      "id": "food_agri_life",
+      "group": "공학·자연",
+      "label": "식품·농생명·동물자원",
+      "summary": "생명과학과 화학을 식품, 생물자원, 생산 과정과 연결합니다.",
+      "recordIds": [
+        "food_agri_life_2028"
+      ]
     },
     {
-      id: "environment_ecology",
-      group: "공학·자연",
-      label: "환경·생태·산림",
-      summary: "생태계, 오염 물질, 기후·지구 시스템의 변화를 자료로 분석합니다.",
-      recordIds: ["environment_ecology_2028"]
+      "id": "environment_ecology",
+      "group": "공학·자연",
+      "label": "환경·생태·산림",
+      "summary": "생태계, 오염 물질, 기후·지구 시스템의 변화를 자료로 분석합니다.",
+      "recordIds": [
+        "environment_ecology_2028"
+      ]
     },
     {
-      id: "earth_space",
-      group: "공학·자연",
-      label: "지구·우주·대기·해양",
-      summary: "지구 시스템과 우주 현상을 수학·과학 자료로 탐구합니다.",
-      recordIds: ["earth_space_ocean_2028"]
+      "id": "earth_space",
+      "group": "공학·자연",
+      "label": "지구·우주·대기·해양",
+      "summary": "지구 시스템과 우주 현상을 수학·과학 자료로 탐구합니다.",
+      "recordIds": [
+        "earth_space_ocean_2028"
+      ]
     },
     {
-      id: "medicine_pharmacy",
-      group: "의학·보건",
-      label: "의학·치의학·약학·수의학",
-      summary: "생명과학과 화학을 인체·질병·의약 문제로 심화합니다.",
-      recordIds: ["medicine_pharmacy_2028"]
+      "id": "medicine_pharmacy",
+      "group": "의학·보건",
+      "label": "의학·치의학·약학·수의학",
+      "summary": "생명과학과 화학을 인체·질병·의약 문제로 심화합니다.",
+      "recordIds": [
+        "medicine_pharmacy_2028"
+      ]
     },
     {
-      id: "nursing_health",
-      group: "의학·보건",
-      label: "간호학",
-      summary: "생명과학과 화학을 건강, 돌봄, 간호 문제와 연결합니다.",
-      recordIds: ["nursing_2028"]
+      "id": "nursing_health",
+      "group": "의학·보건",
+      "label": "간호학",
+      "summary": "생명과학과 화학을 건강, 돌봄, 간호 문제와 연결합니다.",
+      "recordIds": [
+        "nursing_2028"
+      ]
     },
     {
-      id: "health_rehabilitation",
-      group: "의학·보건",
-      label: "보건·재활·치료",
-      summary: "생명과학을 바탕으로 건강, 재활, 치료와 사회를 함께 봅니다.",
-      recordIds: ["health_rehabilitation_2028"]
+      "id": "health_rehabilitation",
+      "group": "의학·보건",
+      "label": "보건·재활·치료",
+      "summary": "생명과학을 바탕으로 건강, 재활, 치료와 사회를 함께 봅니다.",
+      "recordIds": [
+        "health_rehabilitation_2028"
+      ]
     },
     {
-      id: "business_economics",
-      group: "인문·사회",
-      label: "경영·경제·상경",
-      summary: "경제 현상과 의사결정을 수학·사회 자료로 분석합니다.",
-      recordIds: ["business_economics_2028"]
+      "id": "business_economics",
+      "group": "인문·사회",
+      "label": "경영·경제·상경",
+      "summary": "경제 현상과 의사결정을 수학·사회 자료로 분석합니다.",
+      "recordIds": [
+        "business_economics_2028"
+      ]
     },
     {
-      id: "law_public",
-      group: "인문·사회",
-      label: "법·행정·정치외교",
-      summary: "법과 제도, 정책, 사회 현상을 근거 중심으로 탐구합니다.",
-      recordIds: ["law_admin_politics_2028"]
+      "id": "law_public",
+      "group": "인문·사회",
+      "label": "법·행정·정치외교",
+      "summary": "법과 제도, 정책, 사회 현상을 근거 중심으로 탐구합니다.",
+      "recordIds": [
+        "law_admin_politics_2028"
+      ]
     },
     {
-      id: "society_media",
-      group: "인문·사회",
-      label: "사회·복지·심리",
-      summary: "사람과 사회 현상을 조사하고 통계·제도·행동의 관점에서 분석합니다.",
-      recordIds: ["society_welfare_psychology_2028"]
+      "id": "society_media",
+      "group": "인문·사회",
+      "label": "사회·복지·심리",
+      "summary": "사람과 사회 현상을 조사하고 통계·제도·행동의 관점에서 분석합니다.",
+      "recordIds": [
+        "society_welfare_psychology_2028"
+      ]
     },
     {
-      id: "media_communication",
-      group: "인문·사회",
-      label: "미디어·언론·광고홍보",
-      summary: "매체의 메시지와 이용자·여론 자료를 함께 분석합니다.",
-      recordIds: ["media_communication_2028"]
+      "id": "media_communication",
+      "group": "인문·사회",
+      "label": "미디어·언론·광고홍보",
+      "summary": "매체의 메시지와 이용자·여론 자료를 함께 분석합니다.",
+      "recordIds": [
+        "media_communication_2028"
+      ]
     },
     {
-      id: "geography_urban",
-      group: "인문·사회",
-      label: "지리·도시·환경사회",
-      summary: "공간과 지역, 도시·환경 문제를 지도와 사회 자료로 분석합니다.",
-      recordIds: ["geography_environment_social_2028"]
+      "id": "geography_urban",
+      "group": "인문·사회",
+      "label": "지리·도시·환경사회",
+      "summary": "공간과 지역, 도시·환경 문제를 지도와 사회 자료로 분석합니다.",
+      "recordIds": [
+        "geography_environment_social_2028"
+      ]
     },
     {
-      id: "humanities_language",
-      group: "인문·사회",
-      label: "어문·문학·문화콘텐츠",
-      summary: "언어와 작품을 읽고 해석하며 표현과 콘텐츠로 확장합니다.",
-      recordIds: ["humanities_language_2028"]
+      "id": "humanities_language",
+      "group": "인문·사회",
+      "label": "어문·문학·문화콘텐츠",
+      "summary": "언어와 작품을 읽고 해석하며 표현과 콘텐츠로 확장합니다.",
+      "recordIds": [
+        "humanities_language_2028"
+      ]
     },
     {
-      id: "humanities_history",
-      group: "인문·사회",
-      label: "역사·사학",
-      summary: "사료와 맥락을 바탕으로 시대와 지역의 변화를 해석합니다.",
-      recordIds: ["history_humanities_2028"]
+      "id": "humanities_history",
+      "group": "인문·사회",
+      "label": "역사·사학",
+      "summary": "사료와 맥락을 바탕으로 시대와 지역의 변화를 해석합니다.",
+      "recordIds": [
+        "history_humanities_2028"
+      ]
     },
     {
-      id: "humanities_philosophy",
-      group: "인문·사회",
-      label: "철학·윤리",
-      summary: "개념과 논증을 비교하며 가치 판단의 근거를 탐구합니다.",
-      recordIds: ["philosophy_humanities_2028"]
+      "id": "humanities_philosophy",
+      "group": "인문·사회",
+      "label": "철학·윤리",
+      "summary": "개념과 논증을 비교하며 가치 판단의 근거를 탐구합니다.",
+      "recordIds": [
+        "philosophy_humanities_2028"
+      ]
     },
     {
-      id: "education",
-      group: "교육",
-      label: "교육학·초등·유아교육",
-      summary: "학습자와 교육 현상을 이해하고 가르침의 방법을 탐구합니다.",
-      recordIds: ["education_general_2028"]
+      "id": "education",
+      "group": "교육",
+      "label": "교육학·초등·유아교육",
+      "summary": "학습자와 교육 현상을 이해하고 가르침의 방법을 탐구합니다.",
+      "recordIds": [
+        "education_general_2028"
+      ]
     },
     {
-      id: "education_language",
-      group: "교육",
-      label: "국어교육",
-      summary: "문학·독서·언어·매체를 이해하고 가르치는 방법을 탐구합니다.",
-      recordIds: ["korean_education_2028"]
+      "id": "education_language",
+      "group": "교육",
+      "label": "국어교육",
+      "summary": "문학·독서·언어·매체를 이해하고 가르치는 방법을 탐구합니다.",
+      "recordIds": [
+        "korean_education_2028"
+      ]
     },
     {
-      id: "education_english",
-      group: "교육",
-      label: "영어교육",
-      summary: "영어 의사소통과 문화·문학을 이해하고 가르치는 방법을 탐구합니다.",
-      recordIds: ["english_education_2028"]
+      "id": "education_english",
+      "group": "교육",
+      "label": "영어교육",
+      "summary": "영어 의사소통과 문화·문학을 이해하고 가르치는 방법을 탐구합니다.",
+      "recordIds": [
+        "english_education_2028"
+      ]
     },
     {
-      id: "education_social",
-      group: "교육",
-      label: "일반사회교육",
-      summary: "정치·법·경제·사회문화 현상을 설명하고 가르치는 방법을 탐구합니다.",
-      recordIds: ["social_education_2028"]
+      "id": "education_social",
+      "group": "교육",
+      "label": "일반사회교육",
+      "summary": "정치·법·경제·사회문화 현상을 설명하고 가르치는 방법을 탐구합니다.",
+      "recordIds": [
+        "social_education_2028"
+      ]
     },
     {
-      id: "education_history",
-      group: "교육",
-      label: "역사교육",
-      summary: "시대의 흐름과 사료를 해석하고 역사적 관점을 설명하는 방법을 탐구합니다.",
-      recordIds: ["history_education_2028"]
+      "id": "education_history",
+      "group": "교육",
+      "label": "역사교육",
+      "summary": "시대의 흐름과 사료를 해석하고 역사적 관점을 설명하는 방법을 탐구합니다.",
+      "recordIds": [
+        "history_education_2028"
+      ]
     },
     {
-      id: "education_geography",
-      group: "교육",
-      label: "지리교육",
-      summary: "공간·지역·환경 자료를 지도와 통계로 읽고 가르치는 방법을 탐구합니다.",
-      recordIds: ["geography_education_2028"]
+      "id": "education_geography",
+      "group": "교육",
+      "label": "지리교육",
+      "summary": "공간·지역·환경 자료를 지도와 통계로 읽고 가르치는 방법을 탐구합니다.",
+      "recordIds": [
+        "geography_education_2028"
+      ]
     },
     {
-      id: "education_ethics",
-      group: "교육",
-      label: "윤리교육",
-      summary: "윤리 이론과 가치 갈등을 근거로 판단하고 토론하는 수업을 탐구합니다.",
-      recordIds: ["ethics_education_2028"]
+      "id": "education_ethics",
+      "group": "교육",
+      "label": "윤리교육",
+      "summary": "윤리 이론과 가치 갈등을 근거로 판단하고 토론하는 수업을 탐구합니다.",
+      "recordIds": [
+        "ethics_education_2028"
+      ]
     },
     {
-      id: "education_math",
-      group: "교육",
-      label: "수학교육",
-      summary: "수학 개념과 문제 해결 과정을 배우고 설명하는 방법을 탐구합니다.",
-      recordIds: ["math_education_2028"]
+      "id": "education_math",
+      "group": "교육",
+      "label": "수학교육",
+      "summary": "수학 개념과 문제 해결 과정을 배우고 설명하는 방법을 탐구합니다.",
+      "recordIds": [
+        "math_education_2028"
+      ]
     },
     {
-      id: "education_science",
-      group: "교육",
-      label: "과학교육(교과 비교)",
-      summary: "물리·화학·생물·지구과학교육의 차이를 비교할 때 선택합니다.",
-      recordIds: ["physics_education_2028", "chemistry_education_2028", "biology_education_2028", "earth_science_education_2028"]
+      "id": "education_science",
+      "group": "교육",
+      "label": "과학교육(교과 비교)",
+      "summary": "물리·화학·생물·지구과학교육의 차이를 비교할 때 선택합니다.",
+      "recordIds": [
+        "physics_education_2028",
+        "chemistry_education_2028",
+        "biology_education_2028",
+        "earth_science_education_2028"
+      ]
     },
     {
-      id: "education_physics",
-      group: "교육",
-      label: "물리교육",
-      summary: "물리 개념과 실험을 수학적으로 설명하고 가르치는 방법을 탐구합니다.",
-      recordIds: ["physics_education_2028"]
+      "id": "education_physics",
+      "group": "교육",
+      "label": "물리교육",
+      "summary": "물리 개념과 실험을 수학적으로 설명하고 가르치는 방법을 탐구합니다.",
+      "recordIds": [
+        "physics_education_2028"
+      ]
     },
     {
-      id: "education_chemistry",
-      group: "교육",
-      label: "화학교육",
-      summary: "물질과 화학 반응을 실험·모형으로 설명하고 가르치는 방법을 탐구합니다.",
-      recordIds: ["chemistry_education_2028"]
+      "id": "education_chemistry",
+      "group": "교육",
+      "label": "화학교육",
+      "summary": "물질과 화학 반응을 실험·모형으로 설명하고 가르치는 방법을 탐구합니다.",
+      "recordIds": [
+        "chemistry_education_2028"
+      ]
     },
     {
-      id: "education_biology",
-      group: "교육",
-      label: "생물교육",
-      summary: "생명 현상과 관찰·실험 자료를 설명하고 가르치는 방법을 탐구합니다.",
-      recordIds: ["biology_education_2028"]
+      "id": "education_biology",
+      "group": "교육",
+      "label": "생물교육",
+      "summary": "생명 현상과 관찰·실험 자료를 설명하고 가르치는 방법을 탐구합니다.",
+      "recordIds": [
+        "biology_education_2028"
+      ]
     },
     {
-      id: "education_earth_science",
-      group: "교육",
-      label: "지구과학교육",
-      summary: "지구 시스템과 천문·기상·지질 자료를 가르치는 방법을 탐구합니다.",
-      recordIds: ["earth_science_education_2028"]
+      "id": "education_earth_science",
+      "group": "교육",
+      "label": "지구과학교육",
+      "summary": "지구 시스템과 천문·기상·지질 자료를 가르치는 방법을 탐구합니다.",
+      "recordIds": [
+        "earth_science_education_2028"
+      ]
     },
     {
-      id: "arts_sports",
-      group: "예체능",
-      label: "스포츠·체육",
-      summary: "운동 수행, 훈련, 회복과 건강의 관계를 탐구합니다.",
-      recordIds: ["sports_physical_education_2028"]
+      "id": "arts_sports",
+      "group": "예체능",
+      "label": "스포츠·체육",
+      "summary": "운동 수행, 훈련, 회복과 건강의 관계를 탐구합니다.",
+      "recordIds": [
+        "sports_physical_education_2028"
+      ]
     },
     {
-      id: "arts_design",
-      group: "예체능",
-      label: "미술·디자인·영상",
-      summary: "관찰과 조형 원리, 시각 표현과 매체의 관계를 탐구합니다.",
-      recordIds: ["arts_design_2028"]
+      "id": "arts_design",
+      "group": "예체능",
+      "label": "미술·디자인·영상",
+      "summary": "관찰과 조형 원리, 시각 표현과 매체의 관계를 탐구합니다.",
+      "recordIds": [
+        "arts_design_2028"
+      ]
     },
     {
-      id: "music_performance",
-      group: "예체능",
-      label: "음악·공연예술",
-      summary: "연주·창작·감상과 작품 해석의 과정을 탐구합니다.",
-      recordIds: ["music_performance_2028"]
+      "id": "music_performance",
+      "group": "예체능",
+      "label": "음악·공연예술",
+      "summary": "연주·창작·감상과 작품 해석의 과정을 탐구합니다.",
+      "recordIds": [
+        "music_performance_2028"
+      ]
     }
   ],
-  explorationTags: [
+  "explorationTags": [
     {
-      id: "data_analysis",
-      label: "숫자와 자료를 분석할 때",
-      description: "표·그래프·통계를 비교하고 규칙을 찾는 활동이 흥미롭습니다.",
-      interestIds: ["computer_ai", "computer_engineering", "business_economics", "geography_urban", "education_math", "engineering_general"]
+      "id": "data_analysis",
+      "label": "숫자와 자료를 분석할 때",
+      "description": "표·그래프·통계를 비교하고 규칙을 찾는 활동이 흥미롭습니다.",
+      "interestIds": [
+        "computer_ai",
+        "computer_engineering",
+        "business_economics",
+        "geography_urban",
+        "education_math",
+        "engineering_general"
+      ]
     },
     {
-      id: "experiment_nature",
-      label: "실험으로 원인을 확인할 때",
-      description: "자연 현상을 관찰하고 변인을 바꾸어 결과를 확인하는 활동이 흥미롭습니다.",
-      interestIds: ["mechanical_electronic", "computer_engineering", "chem_material", "life_environment", "food_agri_life", "environment_ecology", "earth_space", "education_science", "medicine_pharmacy"]
+      "id": "experiment_nature",
+      "label": "실험으로 원인을 확인할 때",
+      "description": "자연 현상을 관찰하고 변인을 바꾸어 결과를 확인하는 활동이 흥미롭습니다.",
+      "interestIds": [
+        "mechanical_electronic",
+        "computer_engineering",
+        "chem_material",
+        "life_environment",
+        "food_agri_life",
+        "environment_ecology",
+        "earth_space",
+        "education_science",
+        "medicine_pharmacy"
+      ]
     },
     {
-      id: "people_health",
-      label: "사람의 건강과 삶을 도울 때",
-      description: "건강, 돌봄, 재활, 사람의 행동과 생활을 이해하는 일이 궁금합니다.",
-      interestIds: ["medicine_pharmacy", "nursing_health", "health_rehabilitation", "society_media"]
+      "id": "people_health",
+      "label": "사람의 건강과 삶을 도울 때",
+      "description": "건강, 돌봄, 재활, 사람의 행동과 생활을 이해하는 일이 궁금합니다.",
+      "interestIds": [
+        "medicine_pharmacy",
+        "nursing_health",
+        "health_rehabilitation",
+        "society_media"
+      ]
     },
     {
-      id: "social_issues",
-      label: "사회 문제의 해결책을 찾을 때",
-      description: "법·정책·경제·지역 문제를 여러 관점과 근거로 살펴보는 일이 흥미롭습니다.",
-      interestIds: ["law_public", "society_media", "media_communication", "geography_urban", "business_economics", "environment_ecology", "education_social"]
+      "id": "social_issues",
+      "label": "사회 문제의 해결책을 찾을 때",
+      "description": "법·정책·경제·지역 문제를 여러 관점과 근거로 살펴보는 일이 흥미롭습니다.",
+      "interestIds": [
+        "law_public",
+        "society_media",
+        "media_communication",
+        "geography_urban",
+        "business_economics",
+        "environment_ecology",
+        "education_social"
+      ]
     },
     {
-      id: "reading_expression",
-      label: "읽고 해석해 표현할 때",
-      description: "글과 언어, 문화, 미디어를 해석하고 내 생각을 말하거나 쓰는 일이 좋습니다.",
-      interestIds: ["humanities_language", "humanities_history", "humanities_philosophy", "education_language", "education_english", "law_public", "media_communication"]
+      "id": "reading_expression",
+      "label": "읽고 해석해 표현할 때",
+      "description": "글과 언어, 문화, 미디어를 해석하고 내 생각을 말하거나 쓰는 일이 좋습니다.",
+      "interestIds": [
+        "humanities_language",
+        "humanities_history",
+        "humanities_philosophy",
+        "education_language",
+        "education_english",
+        "law_public",
+        "media_communication"
+      ]
     },
     {
-      id: "technology_making",
-      label: "기술로 만들고 개선할 때",
-      description: "도구·기계·프로그램을 만들거나 더 나은 방식으로 고치는 활동이 흥미롭습니다.",
-      interestIds: ["engineering_general", "mechanical_electronic", "computer_ai", "computer_engineering", "chem_material"]
+      "id": "technology_making",
+      "label": "기술로 만들고 개선할 때",
+      "description": "도구·기계·프로그램을 만들거나 더 나은 방식으로 고치는 활동이 흥미롭습니다.",
+      "interestIds": [
+        "engineering_general",
+        "mechanical_electronic",
+        "computer_ai",
+        "computer_engineering",
+        "chem_material"
+      ]
     },
     {
-      id: "art_body",
-      label: "창작하거나 몸으로 표현할 때",
-      description: "예술적 표현, 디자인, 운동 수행과 훈련 과정을 탐구하는 일이 좋습니다.",
-      interestIds: ["arts_sports", "arts_design", "music_performance", "health_rehabilitation", "education"]
+      "id": "art_body",
+      "label": "창작하거나 몸으로 표현할 때",
+      "description": "예술적 표현, 디자인, 운동 수행과 훈련 과정을 탐구하는 일이 좋습니다.",
+      "interestIds": [
+        "arts_sports",
+        "arts_design",
+        "music_performance",
+        "health_rehabilitation",
+        "education"
+      ]
     },
     {
-      id: "teaching_help",
-      label: "설명하고 성장을 도울 때",
-      description: "배운 것을 설명하고 다른 사람의 이해와 성장을 돕는 활동이 의미 있습니다.",
-      interestIds: ["education", "education_language", "education_english", "education_social", "education_history", "education_geography", "education_ethics", "education_math", "education_science", "education_physics", "education_chemistry", "education_biology", "education_earth_science", "nursing_health", "society_media"]
+      "id": "teaching_help",
+      "label": "설명하고 성장을 도울 때",
+      "description": "배운 것을 설명하고 다른 사람의 이해와 성장을 돕는 활동이 의미 있습니다.",
+      "interestIds": [
+        "education",
+        "education_language",
+        "education_english",
+        "education_social",
+        "education_history",
+        "education_geography",
+        "education_ethics",
+        "education_math",
+        "education_science",
+        "education_physics",
+        "education_chemistry",
+        "education_biology",
+        "education_earth_science",
+        "nursing_health",
+        "society_media"
+      ]
     }
   ],
-  optionProfiles: [
+  "optionProfiles": [
     {
-      id: "deep",
-      code: "집중",
-      label: "전공 집중형",
-      description: "희망 분야와 직접 연결되는 과목을 먼저 모아 봅니다.",
-      caution: "희망 분야가 비교적 분명할 때 살펴보세요. 다른 안보다 더 좋은 선택이라는 뜻은 아니며, 실제 선택 묶음과 학습 부담도 함께 확인해야 합니다."
+      "id": "deep",
+      "code": "집중",
+      "label": "전공 집중형",
+      "description": "희망 분야와 직접 연결되는 과목을 먼저 모아 봅니다.",
+      "caution": "희망 분야가 비교적 분명할 때 살펴보세요. 다른 안보다 더 좋은 선택이라는 뜻은 아니며, 실제 선택 묶음과 학습 부담도 함께 확인해야 합니다."
     },
     {
-      id: "balanced",
-      code: "균형",
-      label: "복수 관심 균형형",
-      description: "고른 관심 분야에 두루 연결되는 과목을 함께 살펴봅니다.",
-      caution: "두세 분야를 함께 고민하고 있다면 공통으로 연결되는 과목과 각 분야의 과목을 비교해 보세요."
+      "id": "balanced",
+      "code": "균형",
+      "label": "복수 관심 균형형",
+      "description": "고른 관심 분야에 두루 연결되는 과목을 함께 살펴봅니다.",
+      "caution": "두세 분야를 함께 고민하고 있다면 공통으로 연결되는 과목과 각 분야의 과목을 비교해 보세요."
     },
     {
-      id: "explore",
-      code: "탐색",
-      label: "진로 탐색형",
-      description: "여러 교과의 과목을 비교하면서 내가 더 궁금한 분야를 찾아봅니다.",
-      caution: "진로가 아직 열려 있다면 과목의 이름과 내용을 폭넓게 살펴보세요. 대학 자료에 근거한 과목과 관심 분야 탐색 과목은 구분해서 보여줍니다."
+      "id": "explore",
+      "code": "탐색",
+      "label": "진로 탐색형",
+      "description": "여러 교과의 과목을 비교하면서 내가 더 궁금한 분야를 찾아봅니다.",
+      "caution": "진로가 아직 열려 있다면 과목의 이름과 내용을 폭넓게 살펴보세요. 대학 자료에 근거한 과목과 관심 분야 탐색 과목은 구분해서 보여줍니다."
     }
   ]
 };

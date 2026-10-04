@@ -1,564 +1,345 @@
 window.ANJWA_ADMISSION_PAGES = {
-  groups: {
-    subject: [
-      { key: "subject", label: "첫 이해", href: "./subject.html" },
-      { key: "subject-flow", label: "이해 순서", href: "./subject-flow.html" },
-      { key: "subject-score", label: "성적 계산", href: "./subject-score.html" },
-      { key: "subject-calculation", label: "대학 사례", href: "./subject-calculation.html" },
-      { key: "subject-minimum", label: "수능최저", href: "./subject-minimum.html" },
-      { key: "subject-document", label: "서류·출결", href: "./subject-document.html" },
-      { key: "subject-misunderstanding", label: "오해 정리", href: "./subject-misunderstanding.html" }
+  "groups": {
+    "subject": [
+      {
+        "key": "subject",
+        "label": "첫 이해",
+        "href": "./subject.html"
+      },
+      {
+        "key": "subject-flow",
+        "label": "이해 순서",
+        "href": "./subject-flow.html"
+      },
+      {
+        "key": "subject-score",
+        "label": "성적 계산",
+        "href": "./subject-score.html"
+      },
+      {
+        "key": "subject-calculation",
+        "label": "대학 사례",
+        "href": "./subject-calculation.html"
+      },
+      {
+        "key": "subject-minimum",
+        "label": "수능최저",
+        "href": "./subject-minimum.html"
+      },
+      {
+        "key": "subject-document",
+        "label": "서류·출결",
+        "href": "./subject-document.html"
+      },
+      {
+        "key": "subject-misunderstanding",
+        "label": "오해 정리",
+        "href": "./subject-misunderstanding.html"
+      }
     ],
-    holistic: [
-      { key: "holistic", label: "첫 이해", href: "./holistic.html" },
-      { key: "holistic-flow", label: "이해 순서", href: "./holistic-flow.html" },
-      { key: "holistic-record", label: "학생부 항목", href: "./holistic-record.html" },
-      { key: "holistic-competency", label: "평가역량", href: "./holistic-competency.html" },
-      { key: "holistic-subjects", label: "추천 과목", href: "./holistic-subjects.html" },
-      { key: "holistic-sechuk", label: "세특 흐름", href: "./holistic-sechuk.html" },
-      { key: "holistic-ai", label: "AI 활용", href: "./holistic-ai.html" },
-      { key: "holistic-interview", label: "면접", href: "./holistic-interview.html" }
+    "holistic": [
+      {
+        "key": "holistic",
+        "label": "첫 이해",
+        "href": "./holistic.html"
+      },
+      {
+        "key": "holistic-flow",
+        "label": "이해 순서",
+        "href": "./holistic-flow.html"
+      },
+      {
+        "key": "holistic-record",
+        "label": "학생부 항목",
+        "href": "./holistic-record.html"
+      },
+      {
+        "key": "holistic-competency",
+        "label": "평가역량",
+        "href": "./holistic-competency.html"
+      },
+      {
+        "key": "holistic-subjects",
+        "label": "추천 과목",
+        "href": "./holistic-subjects.html"
+      },
+      {
+        "key": "holistic-sechuk",
+        "label": "세특 흐름",
+        "href": "./holistic-sechuk.html"
+      },
+      {
+        "key": "holistic-ai",
+        "label": "AI 활용",
+        "href": "./holistic-ai.html"
+      },
+      {
+        "key": "holistic-interview",
+        "label": "면접",
+        "href": "./holistic-interview.html"
+      }
     ]
   },
-  pages: {
-    subject: {
-      group: "subject",
-      tone: "subject",
-      title: "수시 학생부 교과전형",
-      summary: "교과 성적이 중심이지만, 평균등급 하나로 끝나지 않는 전형입니다.",
-      heroLabel: "학생용 첫 이해",
-      heroTitle: "교과전형은 내 평균등급이 아니라 대학 방식으로 다시 계산한 내 성적을 보는 전형입니다.",
-      heroText: "처음에는 내신 전형으로 이해해도 됩니다. 다만 실제 지원에서는 과목별 학점수, 대학별 산출 방식, 반영 교과, 수능최저, 학교장추천, 서류와 출결 반영 여부를 함께 확인해야 합니다.",
-      body: `
-        <div class="learner-summary">
-          <span class="label">핵심만 먼저 보기</span>
-          <h3>교과전형을 볼 때는 성적, 계산법, 조건, 기록을 나누어 봅니다.</h3>
-          <div class="learner-points">
-            <article><b>1. 성적이 출발점입니다</b><span>교과전형의 기본은 수업과 평가에서 받은 교과 성적입니다.</span></article>
-            <article><b>2. 학점수가 영향을 줍니다</b><span>같은 등급이어도 학점수가 큰 과목은 평균과 환산점수에 더 크게 들어갈 수 있습니다.</span></article>
-            <article><b>3. 대학마다 계산법이 다릅니다</b><span>전 과목, 특정 교과, 상위 과목, 진로선택 반영 방식이 대학마다 다릅니다.</span></article>
-            <article><b>4. 조건을 마지막에 확인합니다</b><span>수능최저, 추천 가능 여부, 서류·출결 반영 여부를 놓치면 지원 판단이 흔들립니다.</span></article>
-          </div>
-        </div>
-        <div class="subject-page-grid">
-          <article class="explainer-card">
-            <span class="label">학생 질문</span>
-            <h3>내신이 좋으면 끝인가요?</h3>
-            <p>아닙니다. 평균등급은 출발점입니다. 대학이 어떤 과목을 얼마나 반영하는지에 따라 같은 평균등급도 다른 결과로 계산될 수 있습니다.</p>
-          </article>
-          <article class="explainer-card">
-            <span class="label">상담 질문</span>
-            <h3>지원 전 무엇을 확인하나요?</h3>
-            <p>희망 대학의 모집요강에서 반영 교과, 반영 과목 수, 학년별 반영 여부, 수능최저, 학교장추천, 서류·출결 반영 여부를 확인합니다.</p>
-          </article>
-          <article class="explainer-card">
-            <span class="label">과목 선택</span>
-            <h3>교과전형도 과목 선택이 중요합니다</h3>
-            <p>서류나 교과정성평가가 있는 교과전형에서는 지원 학과와 과목 이수 흐름이 맞는지도 확인합니다.</p>
-          </article>
-        </div>
-        <div class="external-resource-card">
-          <div>
-            <span class="label">수시 입결 확인</span>
-            <h3>대학별 수시 입시 결과를 살펴보세요.</h3>
-            <p>수시 입결 조회 사이트로 이동합니다. 지원 전에는 반드시 해당 대학 입학처의 최신 모집요강과 함께 확인하세요.</p>
-          </div>
-          <a class="primary-button page-link-button" href="https://doctor-noh.vercel.app/" target="_blank" rel="noopener noreferrer">수시 입결 조회</a>
-        </div>
-      `
+  "pages": {
+    "subject": {
+      "group": "subject",
+      "tone": "subject",
+      "title": "학생부교과전형 이해하기",
+      "summary": "교과 성적을 중심으로 평가하는 전형입니다. 대학마다 성적 계산 방법과 지원 조건이 다릅니다.",
+      "heroLabel": "학생용 첫 이해",
+      "heroTitle": "교과전형은 성적 계산과 지원 조건이 중요합니다.",
+      "heroText": "학생부교과전형은 교과 성적을 중심으로 평가하는 전형입니다. 대학이 정한 방식으로 성적을 계산하며, 반영 교과와 과목 수, 학점수, 성적 산출 방법은 대학과 전형에 따라 다릅니다.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>일부 전형은 서류평가·면접·출결 등도 함께 반영합니다. 수능최저나 학교장추천이 필요한 전형도 있으므로 성적과 지원 조건을 함께 확인해야 합니다.</p></article><article class=\"explainer-card\"><p>학생부종합전형은 성적과 과목 이수, 학습 경험 등을 대학의 기준에 따라 종합적으로 살펴봅니다. 교과와 종합 모두 해당 대학의 실제 평가 방법을 확인해야 합니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>본인의 지원 학년도와 관심 대학의 전형명을 확인하세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "교과전형의 중심 평가 자료는 무엇인가요?",
+          "평균등급이 같으면 모든 대학에서 같은 점수를 받나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
     "subject-flow": {
-      group: "subject",
-      tone: "subject",
-      title: "교과전형 이해 순서",
-      summary: "성적표를 보는 눈에서 시작해 대학별 조건 확인으로 이어집니다.",
-      heroLabel: "읽는 순서",
-      heroTitle: "교과전형은 성적표를 대학의 계산 방식으로 다시 읽는 과정입니다.",
-      heroText: "학생은 평균등급만 외우기보다 내 성적이 어떤 대학에서 유리하게 계산되는지 확인해야 합니다.",
-      body: `
-        <div class="content-block">
-          <h3>4단계로 이해하기</h3>
-          <div class="process-cards">
-            <article><span>01</span><b>내 성적 읽기</b><p>평균등급, 과목별 등급, 학점수, 학기별 추이를 함께 봅니다.</p></article>
-            <article><span>02</span><b>대학 반영 방식 확인</b><p>전 과목인지, 특정 교과인지, 상위 과목인지, 진로선택을 어떻게 보는지 확인합니다.</p></article>
-            <article><span>03</span><b>환산점수로 다시 보기</b><p>대학 산출식에 넣으면 평균등급과 다른 결과가 나올 수 있습니다.</p></article>
-            <article><span>04</span><b>최종 조건 확인</b><p>수능최저, 추천 가능 여부, 서류·면접·출결 반영 여부를 마지막에 확인합니다.</p></article>
-          </div>
-        </div>
-        <div class="content-block">
-          <h3>학년별 준비 흐름</h3>
-          <div class="timeline-cards">
-            <div><b>고1</b><span>공통과목 성취를 안정적으로 만들고, 희망 계열을 넓게 탐색합니다.</span></div>
-            <div><b>고2</b><span>희망 계열과 이어지는 선택과목을 듣기 시작하고, 주요 대학의 반영 교과와 수능최저를 확인합니다.</span></div>
-            <div><b>고3</b><span>대학별 환산점수, 수능최저, 추천 가능 여부, 서류·출결 반영 여부를 최종 확인합니다.</span></div>
-          </div>
-        </div>
-        <div class="check-panel">
-          <div><h3>학생 점검</h3><p>교과전형을 준비하는 학생은 아래 질문에 답할 수 있어야 합니다.</p></div>
-          <div class="checklist">
-            <label><input type="checkbox" /> 내 평균등급과 학점수 반영 평균의 차이를 설명할 수 있다.</label>
-            <label><input type="checkbox" /> 희망 대학이 보는 반영 교과를 확인했다.</label>
-            <label><input type="checkbox" /> 수능최저가 있는 전형인지 확인했다.</label>
-            <label><input type="checkbox" /> 학교장추천 전형이면 추천 가능성을 확인했다.</label>
-          </div>
-        </div>
-      `
+      "group": "subject",
+      "tone": "subject",
+      "title": "교과전형 확인 순서",
+      "summary": "지원 조건을 확인한 뒤 성적 반영 방법을 비교합니다.",
+      "heroLabel": "읽는 순서",
+      "heroTitle": "지원할 수 있는 전형인지 먼저 확인해요.",
+      "heroText": "먼저 지원 학년도·전형명·모집단위를 확인하세요. 지원자격, 추천 여부, 수능최저 적용 여부를 함께 살펴봅니다.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>다음으로 반영 교과와 과목 수, 어느 학년·학기의 성적을 반영하는지, 진로선택과목 등을 어떻게 반영하는지 확인하세요. 대학이 학점수를 반영하는지도 살펴보세요.</p></article><article class=\"explainer-card\"><p>대학의 산출식으로 점수를 계산한 뒤 상담에서 비교하세요. 전년도 입시 결과는 당시 지원자들의 결과입니다. 올해도 같은 성적으로 합격한다는 뜻은 아닙니다.</p></article><article class=\"explainer-card\"><p>고1은 수업에서 배운 내용과 관심을 탐색하고, 고2는 선택과목의 내용과 준비할 기초를 살펴봅니다. 고3은 지원 학년도의 모집요강과 실제 이수·성적을 대조합니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>지원자격·추천 여부·수능최저 중 확인한 것과 아직 모르는 것을 나누어 적으세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "추천이 필요한 전형인데 추천을 받을 수 없다면 먼저 무엇을 확인하나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
     "subject-score": {
-      group: "subject",
-      tone: "subject",
-      title: "교과 성적 계산",
-      summary: "평균등급, 학점수, 대학별 환산점수를 구분해서 봅니다.",
-      heroLabel: "성적 해석",
-      heroTitle: "성적은 하나의 숫자가 아니라 과목, 학점수, 대학 산출식이 결합된 결과입니다.",
-      heroText: "학생 상담에서는 단순 평균에서 멈추지 않고, 학점수가 큰 과목의 영향과 대학별 환산 방식을 함께 봅니다.",
-      body: `
-        <div class="comparison-table">
-          <h3>평균등급과 학점수 반영 평균</h3>
-          <p>2학점 과목 1등급과 4학점 과목 3등급을 똑같이 한 과목으로 보면 평균은 2.00처럼 보입니다. 그러나 학점수를 반영하면 (1×2 + 3×4) ÷ 6 = 2.33입니다.</p>
-          <div class="credit-example">
-            <div><b>단순 평균</b><span>과목 수만 보고 계산하므로 빠르게 위치를 볼 수 있습니다.</span></div>
-            <div><b>학점수 반영</b><span>운영학점이 큰 과목의 등급이 더 크게 반영됩니다.</span></div>
-            <div><b>대학 환산점수</b><span>대학이 정한 반영 교과와 산출식으로 다시 계산합니다.</span></div>
-          </div>
-        </div>
-        <div class="content-block">
-          <h3>학생에게 필요한 해석</h3>
-          <div class="insight-grid">
-            <article><b>몇 등급이 몇 개인가</b><span>성적 분포를 빠르게 볼 때 필요합니다.</span></article>
-            <article><b>그 과목이 몇 학점인가</b><span>학점수가 큰 과목은 성적 추이에 더 큰 영향을 줍니다.</span></article>
-            <article><b>반영 교과에 들어가는가</b><span>희망 대학이 보지 않는 교과는 계산에서 빠질 수 있습니다.</span></article>
-            <article><b>대학 방식으로 유리한가</b><span>상위 과목 반영, 특정 교과 반영이면 유불리가 달라질 수 있습니다.</span></article>
-          </div>
-        </div>
-        <div class="external-resource-card">
-          <div>
-            <span class="label">실제 입결 비교</span>
-            <h3>계산 방식을 이해했다면 대학별 입시 결과도 함께 비교해 보세요.</h3>
-            <p>입결은 전형·모집단위·학년도에 따라 달라지므로 동일한 조건인지 확인하며 보세요.</p>
-          </div>
-          <a class="primary-button page-link-button" href="https://doctor-noh.vercel.app/" target="_blank" rel="noopener noreferrer">수시 입결 조회</a>
-        </div>
-      `
+      "group": "subject",
+      "tone": "subject",
+      "title": "성적표와 환산점수",
+      "summary": "성적표에 나온 성취도·석차등급·학점수와 대학이 계산한 환산점수의 차이를 알아봅니다.",
+      "heroLabel": "성적 해석",
+      "heroTitle": "같은 성적도 대학마다 계산 결과가 달라요.",
+      "heroText": "성취도는 과목의 성취 수준을, 석차등급은 상대적인 성적 위치를 나타내는 지표입니다. 과목과 적용 교육과정에 따라 성적 표기 방식이 다를 수 있습니다. 본인의 입학년도와 성적표를 먼저 확인하세요.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>단순 평균은 모든 과목의 등급을 같은 비중으로 계산합니다. 학점수 반영 평균은 학점수가 큰 과목에 더 큰 비중을 둡니다. 환산점수는 대학이 정한 별도의 산출식으로 성적을 계산한 점수입니다.</p></article><article class=\"explainer-card\"><p>2학점 과목이 1등급, 4학점 과목이 3등급이면 단순 평균은 2.00입니다. 학점수 가중평균은 (1×2+3×4)÷6=약 2.33입니다. 이 계산은 가상 예시이며 모든 대학의 산출식을 뜻하지 않습니다.</p></article><article class=\"explainer-card\"><p>다른 내신 체계의 등급이나 다른 대학의 환산점수는 숫자만으로 직접 비교하지 않습니다. 어떤 과목과 지표를 반영했는지 함께 확인하세요.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>성적표에서 교과·학점수·성취도·석차등급을 찾아보세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "예시에서 계산한 2.33을 모든 대학의 환산점수로 사용할 수 있나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
     "subject-calculation": {
-      group: "subject",
-      tone: "subject",
-      title: "대학별 산출 방식 사례",
-      summary: "대학마다 교과 성적을 다르게 계산한다는 점을 확인합니다.",
-      basis: "2026학년도 공개 전형 자료를 중심으로 정리한 이해용 사례입니다. 실제 지원 시에는 지원 학년도의 모집요강에서 반영 교과와 산출식을 다시 확인하세요.",
-      heroLabel: "대학 사례",
-      heroTitle: "같은 성적도 대학별 산출 방식에 따라 유불리가 달라집니다.",
-      heroText: "사례의 목적은 숫자를 외우는 것이 아니라, 지원 전 반드시 모집요강의 계산 방식을 확인해야 한다는 점을 이해하는 것입니다.",
-      body: `
-        <div class="comparison-table compact-table">
-          <h3>산출 방식 비교</h3>
-          <table>
-            <thead><tr><th>대학</th><th>전형 또는 사례</th><th>산출 방식의 특징</th><th>학생이 볼 점</th></tr></thead>
-            <tbody>
-              <tr><td>용인대</td><td>일반학생 등</td><td>국·수·영·사·과 중 학년별 과목 구조를 활용합니다.</td><td>전체 평균보다 학년별 강점 과목 확보가 중요합니다.</td></tr>
-              <tr><td>가천대</td><td>학생부우수자</td><td>반영교과 전체와 우수 과목 방식 중 유리한 방식을 적용하는 사례가 있습니다.</td><td>전 과목 평균만으로 판단하지 않습니다.</td></tr>
-              <tr><td>동국대 서울</td><td>학교장추천인재</td><td>교과와 서류를 함께 반영하는 구조입니다.</td><td>강점 과목과 학생부 흐름을 함께 봅니다.</td></tr>
-              <tr><td>서울시립대</td><td>고교추천</td><td>교과정성평가가 들어갑니다.</td><td>과목 이수의 충실성과 전공 관련 흐름이 의미를 가집니다.</td></tr>
-              <tr><td>부산대</td><td>학생부 교과</td><td>교과 성적과 학업역량평가를 함께 보는 구조가 있습니다.</td><td>모집단위별 수능최저와 평가 방식을 따로 확인합니다.</td></tr>
-              <tr><td>충남대</td><td>학생부교과 일반</td><td>교과 중심으로 넓게 반영합니다.</td><td>전체 교과 안정성과 수능최저를 함께 봅니다.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="content-block">
-          <h3>상담에서 바꿔야 할 질문</h3>
-          <div class="type-grid">
-            <div><b>나의 평균은?</b><span>출발 질문입니다.</span></div>
-            <div><b>대학은 무엇을 보나?</b><span>반영 교과와 과목 수를 확인합니다.</span></div>
-            <div><b>어떤 방식이 유리한가?</b><span>전 과목, 상위 과목, 특정 교과 방식의 차이를 봅니다.</span></div>
-            <div><b>최저와 서류가 있나?</b><span>성적 외 조건을 확인합니다.</span></div>
-          </div>
-        </div>
-      `
+      "group": "subject",
+      "tone": "subject",
+      "title": "대학별 반영 방식 비교",
+      "summary": "같은 성적이라도 대학의 반영 방식에 따라 점수가 달라집니다.",
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다.",
+      "heroLabel": "대학 사례",
+      "heroTitle": "반영비율·과목 수·계산 방법을 함께 비교하세요.",
+      "heroText": "대학은 전 교과를 반영하기도 하고 일부 교과만 반영하기도 합니다. 일정 수의 과목을 선택해 반영할 수도 있습니다. 진로선택과목은 어떻게 반영하는지 함께 확인하세요.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>교과 성적 외에 서류나 교과정성평가 등을 반영하는 전형은 각 평가의 비율과 대상을 확인하세요. 과목 이수와 학습 내용을 어떻게 평가하는지도 대학별 안내에서 살펴보세요.</p></article><article class=\"explainer-card\"><p>아래 표는 2027학년도 대입 사례입니다. 고교 입학년도와 대입 지원 학년도를 구분하고, 실제 지원 조건은 본인의 지원 학년도 최종 모집요강에서 확인하세요.</p></article><article class=\"explainer-card\"><p>2027학년도 용인대 일반학생전형의 인문사회·자연과학계열은 교과 100%를 반영하며, 학년별 서로 다른 교과에서 4과목씩 총 12과목을 고릅니다. 동국대 서울 학교장추천인재전형은 교과 70%와 서류종합평가 30%를 반영하고, 지정 교과의 석차등급 상위 10과목으로 교과 점수를 계산합니다. 이수단위는 적용하지 않습니다.</p></article><article class=\"explainer-card\"><p>같은 성적표라도 어떤 과목이 반영되는지와 등급별 점수표가 달라 계산 결과가 달라집니다. 용인대의 사범·예체능이나 동국대의 다른 캠퍼스에는 이 사례를 그대로 적용하지 않습니다. 2027학년도 대입 사례이므로 본인이 실제 지원할 학년도의 최종 모집요강과 변경 공지를 확인하세요.</p></article></div><section class=\"content-block admission-comparison\"><h3>2027학년도 대입: 같은 성적표, 다른 계산</h3><p>용인대 일반학생 인문사회·자연과학계열과 동국대 서울 학교장추천인재전형을 비교합니다. 다른 전형·사범·예체능·다른 캠퍼스의 조건으로 확대하지 않습니다.</p><div class=\"review-table-scroll\" tabindex=\"0\" aria-label=\"대학 반영 방식 비교\"><table><thead><tr><th scope=\"col\">비교 항목</th><th scope=\"col\">용인대</th><th scope=\"col\">동국대 서울</th></tr></thead><tbody><tr><th scope=\"row\">전형명</th><td>용인대 일반학생전형</td><td>동국대 서울 학교장추천인재전형</td></tr><tr><th scope=\"row\">명목 반영 비율</th><td>교과 100%</td><td>교과 70% + 서류종합평가 30%</td></tr><tr><th scope=\"row\">반영 과목</th><td>국어·영어·수학·사회(역사/도덕)·과학 중 학년별 서로 다른 교과 4과목씩, 총 12과목</td><td>인문: 국어·수학·사회·영어·한국사 / 자연: 국어·수학·과학·영어·한국사, 지정 교과의 석차등급 상위 10과목</td></tr><tr><th scope=\"row\">산출 방법</th><td>선정 과목을 등급별 반영점수로 바꾼 뒤 평균. 학년 공통 100% 반영.</td><td>10과목을 등급점수로 바꿔 평균한 뒤 700점 만점으로 환산. 교과/학년별 비율과 이수단위 미적용.</td></tr></tbody></table></div><p>서류평가에 창의적체험활동 제외. 표의 70/30은 명목비율이며 기본점수를 고려한 실질반영비율은85.4/14.6. 추천과 지원자격 별도 확인.</p><h4>계산 연습을 위한 가상 학생</h4><p>자연계열 학생이 반영 가능한 교과에서 학년별 서로 다른 교과 4과목씩만 이수했다고 가정합니다. 1학년 4과목은 모두 5등급, 2·3학년 8과목은 모두 1등급이며 다른 반영 과목은 없습니다. 실제 성적표에서는 반영 학기와 과목 인정 범위를 추가로 확인해야 합니다.</p><p>용인대: (400×4+500×8)÷12=약466.67점/500점</p><p>동국대: [(10×8+9×2)÷10]÷10×700=686점/700점(교과 부분만)</p><p>두 점수는 만점과 산출 방법이 다릅니다. 숫자 자체로 대학 간 유불리를 비교하거나 합격 가능성을 판단하지 않습니다. 동국대는 서류평가도 따로 반영합니다.</p><p>2027학년도 대입 사례다. 2027학년도 고교 신입생의 지원 기준이 아니다. 실제 지원 학년도 최종 모집요강과 변경 공지를 확인한다.</p><p>공식 자료: <a href=\"https://ipsi.yongin.ac.kr/ipsi/guide/susi/mo_susi_20260623_1020.pdf\" target=\"_blank\" rel=\"noopener noreferrer\">용인대 2027 수시 모집요강(10·43·44쪽)</a> · <a href=\"https://ipsi.dongguk.edu/upload/file/20260715140521FRWQXB.PDF\" target=\"_blank\" rel=\"noopener noreferrer\">동국대 2027 수시 모집요강(57·58·97·98쪽)</a></p></section><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>반영 교과·산출식·추가 평가·수능최저·출처를 한 표로 비교하세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "두 대학의 점수를 비교하기 전에 어떤 과목을 반영하고 어떻게 계산했는지 확인해야 하는 이유는 무엇인가요?"
+        ]
+      },
+      "checkedAt": "2026-10-04"
     },
     "subject-minimum": {
-      group: "subject",
-      tone: "subject",
-      title: "수능최저 확인",
-      summary: "수능최저는 교과전형의 중요한 문턱입니다.",
-      basis: "대학별 예시는 2026학년도 공개 자료를 중심으로 정리했습니다. 수능최저는 전형·모집단위·학년도에 따라 달라지므로 최신 모집요강을 다시 확인하세요.",
-      heroLabel: "최저 기준",
-      heroTitle: "내신이 좋아도 수능최저를 맞추지 못하면 합격할 수 없습니다.",
-      heroText: "특히 지방거점 국립대와 주요 대학 교과전형은 모집단위별 수능최저가 다르게 적용될 수 있습니다.",
-      body: `
-        <div class="content-block">
-          <h3>수능최저를 볼 때 확인할 것</h3>
-          <div class="type-grid">
-            <div><b>적용 여부</b><span>전형과 모집단위별로 수능최저가 있는지 확인합니다.</span></div>
-            <div><b>영역 조합</b><span>2합, 3합, 탐구 반영 과목 수를 확인합니다.</span></div>
-            <div><b>필수 영역</b><span>수학 또는 과탐 필수 조건이 있는지 확인합니다.</span></div>
-            <div><b>변화 여부</b><span>전년도보다 강화되었는지 완화되었는지 봅니다.</span></div>
-          </div>
-        </div>
-        <div class="comparison-table compact-table">
-          <h3>지방거점 국립대 확인 예시</h3>
-          <table>
-            <thead><tr><th>대학</th><th>확인 포인트</th><th>학생 상담에서 볼 점</th></tr></thead>
-            <tbody>
-              <tr><td>부산대</td><td>학과군별 기준 차이</td><td>경영, 공학, 자연계열 기준을 따로 확인합니다.</td></tr>
-              <tr><td>경북대</td><td>교과우수자 기준</td><td>공학계열은 수학 조건을 함께 확인합니다.</td></tr>
-              <tr><td>강원대</td><td>일반교과 기준</td><td>모집단위별 3합 기준과 필수 과목 조건을 봅니다.</td></tr>
-              <tr><td>경상국립대</td><td>일반 전형 기준</td><td>모집단위에 따라 수능최저가 없거나 다를 수 있습니다.</td></tr>
-              <tr><td>전남대·전북대·충남대·충북대</td><td>계열별 기준 차이</td><td>경영, 국문, 전기, 기계, 물리 등 모집단위별로 확인합니다.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="table-caption">수능최저는 지원 가능성을 가르는 문턱이고, 전년도 입결은 지난해 결과입니다. 두 값을 같은 의미로 해석하면 안 됩니다.</p>
-      `
+      "group": "subject",
+      "tone": "subject",
+      "title": "수능최저 이해하기",
+      "summary": "전형이 요구하는 수능 성적 조건입니다. 적용 여부와 등급 계산 방법을 확인합니다.",
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다.",
+      "heroLabel": "최저 기준",
+      "heroTitle": "수능최저가 있는 전형은 기준을 충족해야 해요.",
+      "heroText": "수능최저학력기준은 해당 전형이 요구하는 수능 성적 조건입니다. 적용하지 않는 전형도 있고, 같은 대학에서도 전형·모집단위에 따라 다를 수 있습니다.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>예를 들어 가상의 조건이 두 영역 등급 합 5 이하라면 해당 영역이 2등급과 3등급일 때 합은 5입니다. 이 예시는 등급 합의 뜻을 설명하기 위한 것이며 특정 대학의 실제 기준이 아닙니다.</p></article><article class=\"explainer-card\"><p>실제 기준을 읽을 때는 반영 영역과 필수 영역, 탐구 과목 수와 계산법, 한국사 등 별도 조건을 확인하세요. 수능 개편 이후에 지원한다면 과거 수능의 조건을 그대로 적용하지 않습니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>모집요강에서 적용 여부와 실제 기준을 찾아 상담에서 확인하세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "수능최저를 적용하지 않는 전형에도 등급 합 기준을 맞춰야 하나요?"
+        ]
+      }
     },
     "subject-document": {
-      group: "subject",
-      tone: "subject",
-      title: "서류·출결 반영",
-      summary: "일부 교과전형은 성적 외 요소도 함께 봅니다.",
-      basis: "서류·출결 반영 사례는 2026학년도 공개 자료를 중심으로 확인했습니다. 반영 요소와 비율은 지원 학년도의 모집요강을 기준으로 판단하세요.",
-      heroLabel: "서류 영향",
-      heroTitle: "교과전형에서도 서류평가의 영향력이 작지 않은 경우가 있습니다.",
-      heroText: "교과 성적이 중심이어도 서류, 교과정성, 학업역량평가, 출결이 들어가면 과목 선택과 학생부 흐름을 함께 봐야 합니다.",
-      body: `
-        <div class="content-block">
-          <h3>서류가 들어가면 무엇을 보나요?</h3>
-          <div class="type-grid">
-            <div><b>과목 이수</b><span>지원 학과와 이어지는 과목을 들었는지 봅니다.</span></div>
-            <div><b>세특 흐름</b><span>수업 속 질문, 탐구 과정, 성취가 보이는지 확인합니다.</span></div>
-            <div><b>학업 태도</b><span>성적뿐 아니라 수업 참여와 학습 태도를 봅니다.</span></div>
-            <div><b>출결</b><span>미인정 결석, 지각, 조퇴 등이 감점 요소가 될 수 있습니다.</span></div>
-          </div>
-        </div>
-        <div class="document-impact">
-          <div>
-            <span class="label">사례로 이해하기</span>
-            <h3>성적이 좋아도 학생부 방향이 맞지 않으면 흔들릴 수 있습니다</h3>
-            <p>학과와 맞지 않는 과목 이수 흐름, 전공 관련 핵심 과목 미이수, 학생부에 반복되는 다른 진로 관심은 교과형 서류평가에서 약점이 될 수 있습니다.</p>
-          </div>
-          <div class="impact-list">
-            <article><b>전공 관련 과목 흐름</b><ul><li>공학 지원인데 물리 흐름이 약한 경우</li><li>생명·식품 계열인데 화학 이수가 부족한 경우</li><li>수학교육 지원인데 교육 관심과 수학 성취 설명이 약한 경우</li></ul></article>
-            <article><b>학생부 방향성</b><ul><li>지원 학과와 다른 관심사가 학생부 전반에 강하게 남은 경우</li><li>전공 관련 질문보다 활동명만 반복된 경우</li><li>수업과 탐구의 연결이 보이지 않는 경우</li></ul></article>
-          </div>
-        </div>
-      `
+      "group": "subject",
+      "tone": "subject",
+      "title": "서류·출결은 어떻게 반영하나요?",
+      "summary": "성적 외 요소를 반영하는 전형의 기준을 확인합니다.",
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다.",
+      "heroLabel": "서류 영향",
+      "heroTitle": "추가 평가의 대상과 방법을 확인해요.",
+      "heroText": "일부 교과전형은 서류나 교과정성평가도 함께 실시합니다. 이수 과목, 학습 내용, 태도 등을 어디까지 평가하는지는 대학마다 다릅니다.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>진로가 바뀌었거나 다른 관심을 탐색했다는 사실만으로 불리하다고 단정하지 않습니다. 과목을 선택한 이유와 이후 배운 내용을 정리하고 해당 전형의 평가 기준을 확인하세요.</p></article><article class=\"explainer-card\"><p>학교에 과목이 개설되지 않았다고 해서 모든 대학이 감점한다고 설명할 수는 없습니다. 대학이 학교 여건을 어떻게 고려하는지 확인하세요. 정식으로 이수할 수 있는 다른 과정은 선생님과 상담하세요.</p></article><article class=\"explainer-card\"><p>출결은 반영 대상과 계산 방법을 대학별로 확인합니다. 미인정 결석·지각·조퇴 등이 어떻게 활용되는지 해당 연도 모집요강을 살펴보세요.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>관심 전형의 서류 평가 대상과 출결 반영 방법을 확인하세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "다른 진로에 관심이 있었으면 반드시 감점되나요?"
+        ]
+      }
     },
     "subject-misunderstanding": {
-      group: "subject",
-      tone: "subject",
-      title: "교과전형 자주 하는 오해",
-      summary: "학생들이 자주 착각하는 부분을 질문 형태로 정리합니다.",
-      heroLabel: "오해 정리",
-      heroTitle: "교과전형은 단순히 내신 평균만 보는 전형이 아닙니다.",
-      heroText: "아래 질문을 하나씩 열어 보면 교과전형을 더 정확하게 이해할 수 있습니다.",
-      body: `
-        <div class="content-block">
-          <h3>자주 하는 질문</h3>
-          <div class="accordion-list">
-            <details open><summary>교과전형은 내신 평균등급만 좋으면 되나요?</summary><p>아닙니다. 평균등급은 출발점입니다. 과목별 학점수, 반영 교과, 대학별 산출 방식, 수능최저, 서류·출결 반영 여부를 함께 봐야 합니다.</p></details>
-            <details><summary>어떤 교과목을 듣는지는 신경 쓰지 않아도 되나요?</summary><p>신경 써야 합니다. 대학이 반영하는 교과에 들어가는지, 희망 학과와 이어지는 과목인지, 서류평가에서 설명 가능한 흐름인지 확인해야 합니다.</p></details>
-            <details><summary>교과전형이면 수능 준비는 덜 해도 되나요?</summary><p>수능최저가 있는 전형에서는 위험한 생각입니다. 내신이 좋아도 수능최저를 맞추지 못하면 합격할 수 없습니다.</p></details>
-            <details><summary>학교장추천은 성적만 맞으면 되나요?</summary><p>아닙니다. 추천 인원 제한, 재학생 지원 조건, 학교 내부 추천 기준을 함께 확인해야 합니다.</p></details>
-            <details><summary>출결은 종합전형에서만 중요한가요?</summary><p>아닙니다. 일부 교과전형도 출결을 감점 요소로 반영합니다. 성실성의 기본 자료로 볼 수 있습니다.</p></details>
-          </div>
-        </div>
-      `
+      "group": "subject",
+      "tone": "subject",
+      "title": "교과전형 오해 점검",
+      "summary": "앞에서 배운 내용을 간단한 질문으로 확인합니다.",
+      "heroLabel": "오해 정리",
+      "heroTitle": "성적과 지원 조건을 함께 살펴봐요.",
+      "heroText": "내신 평균만 좋으면 될까요? 대학의 성적 산출 방식과 지원 조건에 따라 판단해야 합니다.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>과목 선택은 신경 쓰지 않아도 될까요? 반영 교과와 과목 이수 평가 여부를 확인하고, 앞으로 배울 내용과 자신의 학습 계획도 살펴봅니다.</p></article><article class=\"explainer-card\"><p>수능 준비를 줄여도 될까요? 수능최저 적용 여부와 자신의 지원 계획을 확인한 뒤 결정해야 합니다.</p></article><article class=\"explainer-card\"><p>학교장추천은 성적만 맞으면 될까요? 지원자격과 추천 기준, 학교의 내부 절차를 확인해야 합니다.</p></article><article class=\"explainer-card\"><p>교과와 종합 중 하나를 지금 확정해야 할까요? 현재 상태만으로 단정하기보다 학습을 이어가며 지원 가능한 전형을 비교할 수 있습니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>잘못 알고 있었던 점 하나와 더 확인할 조건 하나를 적어보세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "평균등급은 같지만 반영 교과가 다른 두 전형은 어떻게 비교하나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
-    holistic: {
-      group: "holistic",
-      tone: "holistic",
-      title: "수시 학생부 종합전형",
-      summary: "과목 선택, 수업 참여, 세특, 탐구활동을 하나의 성장 흐름으로 봅니다.",
-      heroLabel: "학생용 첫 이해",
-      heroTitle: "종합전형은 활동량이 아니라 수업 속 성장의 연결을 읽는 전형입니다.",
-      heroText: "대학은 학생부를 통해 학업역량, 진로역량, 공동체역량을 함께 봅니다. 중요한 것은 무엇을 많이 했는가가 아니라 수업, 과목 선택, 세특, 탐구, 창체, 면접이 하나의 흐름으로 설명되는가입니다.",
-      body: `
-        <div class="learner-summary">
-          <span class="label">핵심만 먼저 보기</span>
-          <h3>종합전형은 내가 선택한 과목에서 어떤 질문을 만들고, 어떻게 배우고, 다음 활동으로 이어 갔는가를 보여주는 전형입니다.</h3>
-          <div class="learner-points">
-            <article><b>1. 수업이 출발점입니다</b><span>세특과 탐구는 수업 개념에서 출발할 때 가장 자연스럽습니다.</span></article>
-            <article><b>2. 과목 선택이 증거입니다</b><span>희망 학과와 관련된 과목을 왜 선택했는지 설명할 수 있어야 합니다.</span></article>
-            <article><b>3. 활동보다 연결이 중요합니다</b><span>창체, 동아리, 진로활동은 수업 속 질문과 이어질 때 힘이 생깁니다.</span></article>
-            <article><b>4. 면접은 확인 과정입니다</b><span>학생부에 적힌 내용을 자기 언어로 설명할 수 있어야 합니다.</span></article>
-          </div>
-        </div>
-        <div class="subject-page-grid">
-          <article class="explainer-card"><span class="label">수업</span><h3>교과 개념에서 질문을 만듭니다</h3><p>수업 시간에 배운 개념을 그냥 외우는 데서 끝내지 않고, 왜 그런지, 어디에 쓰이는지, 다른 자료와 맞는지 질문합니다.</p></article>
-          <article class="explainer-card"><span class="label">과목 선택</span><h3>진로역량의 증거가 됩니다</h3><p>핵심·권장·추천 과목은 희망 학과와 고교 과목을 연결하는 기준으로 사용합니다.</p></article>
-          <article class="explainer-card"><span class="label">세특</span><h3>학업역량을 보여주는 중심입니다</h3><p>세특은 활동명보다 질문, 과정, 결과, 한계, 후속 탐구가 보일 때 설득력이 생깁니다.</p></article>
-        </div>
-      `
+    "holistic": {
+      "group": "holistic",
+      "tone": "holistic",
+      "title": "학생부종합전형 이해하기",
+      "summary": "학교에서의 성취와 학습 경험을 대학의 기준으로 살펴보는 전형입니다.",
+      "heroLabel": "학생용 첫 이해",
+      "heroTitle": "종합전형은 성취와 실제 학습 경험을 함께 봅니다.",
+      "heroText": "학생부종합전형은 학생부에 나타난 성취, 과목 이수와 학습 경험 등을 대학의 기준에 따라 종합적으로 평가합니다. 성적도 중요한 자료이며 활동의 개수만으로 평가하지 않습니다.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>모든 과목과 활동을 하나의 진로에 맞출 필요는 없습니다. 여러 수업에서 배운 내용과 맡은 역할, 그 과정에서 달라진 점도 의미 있는 학습 경험입니다.</p></article><article class=\"explainer-card\"><p>학업·진로·공동체역량은 여러 대학이 사용하는 대표적인 평가 기준입니다. 실제 평가항목과 반영 방식은 대학마다 다르므로 지원하려는 전형의 안내를 확인하세요.</p></article><article class=\"explainer-card\"><p>면접이 없는 전형도 있습니다. 면접이 있다면 서류 기반인지 제시문·교과 구술 등 다른 형식인지부터 확인합니다.</p></article><article class=\"explainer-card\"><p>예를 들어 수업에서 글 두 편의 주장을 비교했다면, 실제로 어떤 근거를 확인했고 해석을 어떻게 수정했는지 돌아보세요. 보고서를 몇 개 썼는지만으로 학습 과정을 설명하기는 어렵습니다. 이 사례는 가상 학습 예시이며 특정 활동의 합격 효과를 뜻하지 않습니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>관심 전형의 평가 기준과 면접 유무를 확인하세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "종합전형은 성적을 보지 않는 전형인가요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
     "holistic-flow": {
-      group: "holistic",
-      tone: "holistic",
-      title: "종합전형 이해 순서",
-      summary: "전형 방식에서 시작해 과목, 세특, 면접으로 이어집니다.",
-      heroLabel: "읽는 순서",
-      heroTitle: "종합전형은 스펙을 쌓는 전형이 아니라 배움의 흐름을 만드는 전형입니다.",
-      heroText: "전형 방식, 학생부 항목, 평가역량, 과목 선택, 세특 흐름, 면접을 차례대로 이해하면 준비 방향이 분명해집니다.",
-      body: `
-        <div class="content-block">
-          <h3>6단계 이해 흐름</h3>
-          <div class="process-cards">
-            <article><span>01</span><b>전형 방식 확인</b><p>서류형, 면접형, 수능최저 적용 여부를 먼저 봅니다.</p></article>
-            <article><span>02</span><b>학생부 항목 확인</b><p>출결, 창체, 교과학습발달상황, 행동특성을 봅니다.</p></article>
-            <article><span>03</span><b>평가역량 이해</b><p>학업역량, 진로역량, 공동체역량의 의미를 잡습니다.</p></article>
-            <article><span>04</span><b>과목 선택 점검</b><p>희망 학과의 핵심·권장·추천 과목과 학교 교육과정을 연결합니다.</p></article>
-            <article><span>05</span><b>세특·탐구 연결</b><p>동기, 질문, 개념, 과정, 결과, 후속 활동을 남깁니다.</p></article>
-            <article><span>06</span><b>면접 대비</b><p>기록의 이유와 배운 점을 학생 자신의 말로 설명합니다.</p></article>
-          </div>
-        </div>
-        <div class="content-block">
-          <h3>자료에서 반복되는 준비 포인트</h3>
-          <div class="insight-grid">
-            <article><b>권장과목은 장식이 아닙니다</b><span>대학 전공 수업을 따라가기 위한 기초 과목으로 제시되는 경우가 많습니다. 가능한 범위에서 이수 여부를 먼저 점검합니다.</span></article>
-            <article><b>전공을 억지로 붙이지 않습니다</b><span>좋은 기록은 진로명 반복보다 수업 개념, 호기심, 탐구 과정, 깨달음, 후속 확장이 보입니다.</span></article>
-            <article><b>학과 이름이 같아도 관점이 다릅니다</b><span>교육학과와 교과교육과, 간호학과와 의예과처럼 같은 계열 안에서도 필요한 과목과 탐구 방향이 다를 수 있습니다.</span></article>
-            <article><b>면접까지 이어져야 합니다</b><span>학생부에 적힌 탐구는 나중에 학생이 직접 설명할 수 있어야 합니다. 모르는 표현은 오히려 부담이 됩니다.</span></article>
-          </div>
-        </div>
-      `
+      "group": "holistic",
+      "tone": "holistic",
+      "title": "종합전형 확인 순서",
+      "summary": "전형의 기준과 자신의 실제 학교 경험을 비교합니다.",
+      "heroLabel": "읽는 순서",
+      "heroTitle": "전형을 확인하고 학습 경험을 돌아봐요.",
+      "heroText": "지원 학년도·전형명·모집단위를 확인하고 지원자격, 평가 방식, 수능최저와 면접 유무를 살펴봅니다.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>대학의 평가 기준을 읽고 자신의 과목 이수와 성취, 수업과 학교활동 경험을 돌아보세요. 기준에 맞추려고 하지 않은 활동을 만들어 넣지는 않습니다.</p></article><article class=\"explainer-card\"><p>같은 계열이라도 학과마다 배우는 내용은 다릅니다. 교육학과와 교과교육과처럼 비슷해 보이는 학과도 대학에서 무엇을 배우는지 비교해 보세요.</p></article><article class=\"explainer-card\"><p>관심이 바뀌었다면 바뀐 이유와 이후 더 알아본 내용을 정리하세요. 면접이 있는 경우에는 실제 경험을 자신의 말로 설명하는 연습을 합니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>비교할 학과의 공부 내용과 대학별 평가 기준을 나누어 적으세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "학과명이 비슷하면 대학에서 배우는 내용도 모두 같나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
     "holistic-record": {
-      group: "holistic",
-      tone: "holistic",
-      title: "대입에서 읽히는 학생부 항목",
-      summary: "학생부 항목은 따로 존재하지만, 대학은 그 연결을 함께 읽습니다.",
-      heroLabel: "학생부 항목",
-      heroTitle: "학생부는 활동 목록이 아니라 수업과 학교생활의 흐름을 보여주는 자료입니다.",
-      heroText: "출결, 창체, 교과학습발달상황, 행동특성은 서로 분리되어 보이지만, 실제 평가는 학생의 태도와 성장 흐름을 함께 확인합니다.",
-      body: `
-        <div class="content-block">
-          <h3>주요 항목</h3>
-          <div class="type-grid">
-            <div><b>출결상황</b><span>성실성과 학교생활 기본 태도를 확인합니다.</span></div>
-            <div><b>창의적체험활동</b><span>자율, 동아리, 진로활동의 역할과 연결을 봅니다.</span></div>
-            <div><b>교과학습발달상황</b><span>성적, 과목 이수, 세특을 통해 학업 흐름을 봅니다.</span></div>
-            <div><b>행동특성 및 종합의견</b><span>학교생활 전반의 태도와 공동체성을 봅니다.</span></div>
-          </div>
-        </div>
-        <div class="content-block">
-          <h3>독서와 탐구의 관계</h3>
-          <p>독서활동상황 자체는 대입 반영에서 제외되지만, 독서가 수업 토론, 세특, 창체, 탐구 질문으로 이어지면 학생의 사고 확장으로 남을 수 있습니다. 독서는 탐구 동기가 될 수 있고, 탐구 과정에서 자료 해석의 기준이 될 수도 있습니다.</p>
-        </div>
-        <div class="content-block">
-          <h3>좋은 학생부 흐름</h3>
-          <div class="type-grid">
-            <div><b>수업</b><span>교과 개념을 이해하고, 그 안에서 질문을 만듭니다.</span></div>
-            <div><b>세특</b><span>질문, 과정, 결과, 한계, 후속 탐구가 드러납니다.</span></div>
-            <div><b>창체</b><span>수업에서 생긴 관심을 동아리, 진로활동, 자율활동으로 확장합니다.</span></div>
-            <div><b>면접</b><span>왜 그 활동을 했고 무엇을 배웠는지 자신의 말로 설명합니다.</span></div>
-          </div>
-        </div>
-      `
+      "group": "holistic",
+      "tone": "holistic",
+      "title": "학생부에서 무엇을 살펴보나요?",
+      "summary": "성적·이수 과목·학습 기록과 학교생활을 함께 살펴봅니다.",
+      "heroLabel": "학생부 항목",
+      "heroTitle": "각 항목에 담긴 실제 경험을 읽어봐요.",
+      "heroText": "교과학습발달상황에는 이수한 과목과 성적, 세부능력 및 특기사항 등이 담깁니다. 창의적 체험활동과 행동특성 및 종합의견 등에서는 학교에서 어떻게 참여하고 어떤 역할을 맡았는지 돌아볼 수 있습니다. 실제로 대학에 제공되고 평가에 활용되는 범위는 지원 학년도 기준으로 확인하세요.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>읽은 책을 목록처럼 늘리는 것보다 수업이나 학교활동에서 실제로 무엇을 이해하고 토론했는지 정리하세요. 대입에 직접 반영되지 않는 항목을 다른 곳에 옮겨 적으라는 뜻은 아닙니다.</p></article><article class=\"explainer-card\"><p>학생의 자기평가는 실제 경험을 정리하는 참고 자료입니다. 교사가 관찰하고 기록하는 일을 대신하지는 않습니다. 학교에서 하지 않은 활동을 학교활동처럼 쓰지 않습니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>직접 한 활동, 맡은 역할, 배운 점을 구분해 돌아보세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "학생부 항목을 모두 같은 진로에 맞춰야 하나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
     "holistic-competency": {
-      group: "holistic",
-      tone: "holistic",
-      title: "평가역량 3대 축",
-      summary: "학업역량, 진로역량, 공동체역량을 수업 안에서 보여줍니다.",
-      heroLabel: "평가역량",
-      heroTitle: "가장 중심은 학업역량이고, 진로역량과 공동체역량이 함께 연결됩니다.",
-      heroText: "모든 과목은 학업역량을 보여줄 기회입니다. 희망 진로와 직접 연결되지 않는 과목도 질문 만들기, 자료 해석, 토론, 협력, 피드백 반영을 통해 의미 있는 기록이 될 수 있습니다.",
-      feature: "competencies",
-      body: `
-        <div class="content-block">
-          <h3>평가역량 3대 축</h3>
-          <div class="competency-grid" id="competencyCards"></div>
-        </div>
-        <div class="subject-page-grid">
-          <article class="explainer-card"><span class="label">학업역량</span><h3>수업을 이해하고 질문으로 확장합니다</h3><p>개념 이해, 자료 분석, 문제 해결, 탐구 과정이 가장 중요한 근거가 됩니다.</p></article>
-          <article class="explainer-card"><span class="label">진로역량</span><h3>과목 선택과 탐구 방향이 이어집니다</h3><p>희망 학과와 관련 과목을 선택하고, 수업 속 질문을 전공 관심으로 확장합니다.</p></article>
-          <article class="explainer-card"><span class="label">공동체역량</span><h3>수업 속 협력과 책임을 보여줍니다</h3><p>토론, 발표, 피드백, 공동 탐구에서 자신의 역할과 변화가 드러나야 합니다.</p></article>
-        </div>
-        <div class="content-block">
-          <h3>과목별로 다르게 드러나는 역량</h3>
-          <div class="insight-grid">
-            <article><b>수학·과학</b><span>개념을 적용해 문제를 해결하고, 자료나 실험 결과를 해석하는 과정이 학업역량의 근거가 됩니다.</span></article>
-            <article><b>사회·역사·윤리·지리</b><span>자료를 읽고 쟁점을 비교하며, 가치 판단이나 정책 대안을 논리적으로 설명하는 힘이 중요합니다.</span></article>
-            <article><b>국어·영어·어문</b><span>텍스트를 해석하고, 근거를 들어 주장하며, 읽은 내용을 탐구 질문으로 바꾸는 힘을 보여줄 수 있습니다.</span></article>
-            <article><b>예체능·교양</b><span>진로와 직접 연결되지 않아도 표현, 협업, 성찰, 공동체 기여를 보여줄 좋은 기회가 됩니다.</span></article>
-          </div>
-        </div>
-      `
+      "group": "holistic",
+      "tone": "holistic",
+      "title": "평가역량 이해하기",
+      "summary": "대표적인 평가 기준을 실제 학습 장면으로 이해합니다.",
+      "heroLabel": "평가역량",
+      "heroTitle": "역량이라는 말을 구체적인 경험으로 바꿔봐요.",
+      "heroText": "학업역량을 평가할 때는 배운 내용을 이해하고 적용하는 모습, 성취와 학습 과정 등을 살펴봅니다. 문제 풀이의 오류를 찾아 설명을 수정한 경험도 돌아볼 수 있습니다.",
+      "feature": "competencies",
+      "body": "<div class=\"content-block\">\n          <h3>평가역량을 이해하는 예시</h3>\n          <div class=\"competency-grid\" id=\"competencyCards\"></div>\n        </div><div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>진로역량을 평가할 때는 관심 분야를 알아보고 관련 과목과 학습을 탐색한 경험을 살펴봅니다. 진로를 일찍 하나로 정하거나 모든 과목을 같은 전공에 맞췄다는 뜻은 아닙니다.</p></article><article class=\"explainer-card\"><p>공동체역량을 평가할 때는 다른 사람과 소통하고 책임 있게 참여하는 모습 등을 살펴봅니다. 공동 과제에서 맡은 일을 수행하거나 다른 의견을 조정한 실제 경험을 정리해 보세요.</p></article><article class=\"explainer-card\"><p>이 세 가지는 대표적인 평가 기준을 설명한 것입니다. 대학마다 평가항목의 이름과 비중, 평가 방법이 다릅니다. 어느 항목이 항상 더 중요하다고 단정할 수는 없습니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>관심 대학의 실제 평가항목과 자신의 경험을 비교하세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "협업을 보여주려면 반드시 큰 행사의 대표를 맡아야 하나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
     "holistic-subjects": {
-      group: "holistic",
-      tone: "holistic",
-      title: "학과별 추천 과목 찾기",
-      summary: "학과를 고르면 과목을, 과목을 고르면 관련 학과를 확인합니다.",
-      heroLabel: "과목 선택",
-      heroTitle: "희망 학과와 연결되는 선택과목을 찾아봅니다.",
-      heroText: "학과나 과목으로 먼저 찾아보고, 우리학교에서 들을 수 있는 과목인지 확인합니다. 학교에 없는 과목은 담임·교과 선생님과 다른 이수 방법을 함께 상의하면 됩니다.",
-      feature: "recommendations",
-      body: `
-        <div class="content-block">
-          <h3>추천 과목 조회</h3>
-          <p>희망 학과가 정해졌다면 학과명으로, 아직 넓게 고민 중이라면 계열명으로 찾아보세요. 관심 과목을 먼저 고르면 그 과목과 연결해 생각해 볼 수 있는 학과 예시도 확인할 수 있습니다.</p>
-          <div class="recommendation-view-panel">
-            <div class="recommendation-view-tabs" aria-label="추천 과목 보기 방식">
-              <button class="active" type="button" data-recommendation-mode="major">학과·계열로 찾기</button>
-              <button type="button" data-recommendation-mode="subject">과목으로 찾기</button>
-              <button type="button" data-recommendation-mode="university">대학별로 찾기</button>
-              <a class="recommendation-deep-link" href="./advanced-recommendations.html">심화자료</a>
-            </div>
-            <p id="recommendationModeHelp">희망 학과나 계열을 고르면 연결 과목과 우리학교 개설 여부를 함께 볼 수 있습니다.</p>
-          </div>
-          <div class="recommendation-tool">
-            <div class="recommendation-controls">
-              <label class="recommendation-major-control">학과·계열 고르기<select id="majorRecommendationSelect"></select></label>
-              <label class="recommendation-major-control">학과·계열 검색<input id="majorRecommendationSearch" type="search" placeholder="예: 간호학과, 의학 보건계열, 지리교육과, 경영" /></label>
-              <label class="recommendation-subject-control">과목으로 찾기<select id="subjectRecommendationSelect"></select></label>
-              <label class="recommendation-university-control">대학명 검색<input id="universityRecommendationSearch" type="search" placeholder="예: 서울대, 부산대, 국민대" /></label>
-              <label class="recommendation-university-control">학과명 검색<input id="universityMajorSearch" type="search" placeholder="예: 간호, 경영, 기계, 교육" /></label>
-              <label class="recommendation-plan-control">교육과정 기준<select id="recommendationPlanFilter"><option value="all">전체 학년</option><option value="incoming2027">2027 신입생(예정)</option><option value="incoming2026">1학년(2026 신입)</option><option value="incoming2025">2학년(2025 신입)</option><option value="incoming2024">3학년(2024 신입)</option></select></label>
-            </div>
-            <div class="quick-major-row" id="quickMajorButtons"></div>
-            <div class="recommendation-results" id="majorRecommendationResults"></div>
-            <div class="recommendation-results" id="subjectRecommendationResults"></div>
-          </div>
-<details class="compact-guide"><summary>핵심·권장·추천 과목의 차이</summary>          <div class="recommendation-use-grid">
-            <article>
-              <b>핵심과목</b>
-              <span>학과 공부를 시작할 때 특히 먼저 확인하면 좋은 과목입니다. 자료에 없으면 비워 둡니다.</span>
-            </article>
-            <article>
-              <b>권장과목</b>
-              <span>들어두면 전공 공부를 이해하는 데 도움이 되는 과목입니다. 모두 들어야 한다는 뜻은 아닙니다.</span>
-            </article>
-            <article>
-              <b>추천과목</b>
-              <span>공식 요구 과목이 아니라, 과목 선택을 넓게 생각해 보기 위한 참고 과목입니다.</span>
-            </article>
-          </div>
-</details>
-          <div class="recommendation-legend" aria-label="추천 과목 배지 범례">
-            <span><b class="legend-chip grade-1"></b> 1학년 교육과정</span>
-            <span><b class="legend-chip grade-2"></b> 2학년 교육과정</span>
-            <span><b class="legend-chip grade-3"></b> 3학년 교육과정</span>
-            <span><b class="legend-chip missing-core"></b> 핵심 과목 미개설</span>
-            <span><b class="legend-chip missing-recommended"></b> 권장 과목 미개설</span>
-          </div>
-        </div>
-        <div class="content-block">
-          <h3>조회 결과를 해석하는 법</h3>
-          <div class="insight-grid">
-            <article><b>공통과목은 빼고 봅니다</b><span>공통국어, 공통수학, 공통영어, 통합사회, 통합과학, 한국사는 대부분 학생이 듣기 때문에 선택과목 판단에서는 크게 차이가 나지 않습니다.</span></article>
-            <article><b>비어 있어도 이상한 것은 아닙니다</b><span>모든 학과가 핵심·권장과목을 자세히 제시하는 것은 아닙니다. 결과가 비어 있으면 다른 대학 자료나 추천과목을 함께 비교해 봅니다.</span></article>
-            <article><b>미개설은 함께 방법을 찾습니다</b><span>학교에 없는 과목은 공동교육과정, 온라인 수업, 독서·탐구 확장처럼 다른 방법을 상담할 수 있습니다.</span></article>
-            <article><b>진로와 무관한 과목도 중요합니다</b><span>모든 과목은 학업역량을 보여줄 기회입니다. 질문 만들기, 자료 해석, 토론, 피드백 반영이 기록의 힘이 됩니다.</span></article>
-          </div>
-        </div>
-      `
+      "group": "holistic",
+      "tone": "holistic",
+      "title": "학과와 과목을 함께 살펴보기",
+      "summary": "학과 공부에 도움이 되는 과목과 대학이 공식적으로 안내한 이수 조건을 구분합니다.",
+      "heroLabel": "과목 선택",
+      "heroTitle": "추천 이유와 실제 이수 조건을 따로 확인해요.",
+      "heroText": "먼저 관심 학과에서 무엇을 배우는지 살펴보고, 고교 과목의 어떤 개념이 그 공부와 연결되는지 확인하세요.",
+      "feature": "recommendations",
+      "body": "<div class=\"content-block\">\n          <h3>추천 과목 조회</h3>\n          <p>희망 학과가 정해졌다면 학과명으로, 아직 넓게 고민 중이라면 계열명으로 찾아보세요. 관심 과목을 먼저 고르면 그 과목과 연결해 생각해 볼 수 있는 학과 예시도 확인할 수 있습니다.</p>\n          <div class=\"recommendation-view-panel\">\n            <div class=\"recommendation-view-tabs\" aria-label=\"추천 과목 보기 방식\">\n              <button class=\"active\" type=\"button\" data-recommendation-mode=\"major\">학과·계열로 찾기</button>\n              <button type=\"button\" data-recommendation-mode=\"subject\">과목으로 찾기</button>\n              <button type=\"button\" data-recommendation-mode=\"university\">대학별로 찾기</button>\n              <a class=\"recommendation-deep-link\" href=\"./advanced-recommendations.html\">심화자료</a>\n            </div>\n            <p id=\"recommendationModeHelp\">희망 학과나 계열을 고르면 연결 과목과 우리학교 개설 여부를 함께 볼 수 있습니다.</p>\n          </div>\n          <div class=\"recommendation-tool\">\n            <div class=\"recommendation-controls\">\n              <label class=\"recommendation-major-control\">학과·계열 고르기<select id=\"majorRecommendationSelect\"></select></label>\n              <label class=\"recommendation-major-control\">학과·계열 검색<input id=\"majorRecommendationSearch\" type=\"search\" placeholder=\"예: 간호학과, 의학 보건계열, 지리교육과, 경영\" /></label>\n              <label class=\"recommendation-subject-control\">과목으로 찾기<select id=\"subjectRecommendationSelect\"></select></label>\n              <label class=\"recommendation-university-control\">대학명 검색<input id=\"universityRecommendationSearch\" type=\"search\" placeholder=\"예: 서울대, 부산대, 국민대\" /></label>\n              <label class=\"recommendation-university-control\">학과명 검색<input id=\"universityMajorSearch\" type=\"search\" placeholder=\"예: 간호, 경영, 기계, 교육\" /></label>\n              <label class=\"recommendation-plan-control\">교육과정 기준<select id=\"recommendationPlanFilter\"><option value=\"all\">전체 학년</option><option value=\"incoming2027\">2027 신입생(예정)</option><option value=\"incoming2026\">1학년(2026 신입)</option><option value=\"incoming2025\">2학년(2025 신입)</option><option value=\"incoming2024\">3학년(2024 신입)</option></select></label>\n            </div>\n            <div class=\"quick-major-row\" id=\"quickMajorButtons\"></div>\n            <div class=\"recommendation-results\" id=\"majorRecommendationResults\"></div>\n            <div class=\"recommendation-results\" id=\"subjectRecommendationResults\"></div>\n          </div>\n<details class=\"compact-guide\"><summary>추천 분류와 공식 조건의 차이</summary>          <div class=\"recommendation-use-grid\">\n            <article>\n              <b>핵심과목</b>\n              <span>계열 탐색에서 먼저 살펴볼 과목입니다. 대학별 자료의 분류는 공식 원문과 적용 학년도를 확인하세요.</span>\n            </article>\n            <article>\n              <b>권장과목</b>\n              <span>함께 살펴볼 과목입니다. 대학의 권장과목인지, 앱의 탐색 제안인지 근거를 확인하세요.</span>\n            </article>\n            <article>\n              <b>추천과목</b>\n              <span>공식 요구 과목이 아니라, 과목 선택을 넓게 생각해 보기 위한 참고 과목입니다.</span>\n            </article>\n          </div>\n</details>\n          <div class=\"recommendation-legend\" aria-label=\"추천 과목 배지 범례\">\n            <span><b class=\"legend-chip grade-1\"></b> 1학년 교육과정</span>\n            <span><b class=\"legend-chip grade-2\"></b> 2학년 교육과정</span>\n            <span><b class=\"legend-chip grade-3\"></b> 3학년 교육과정</span>\n            <span><b class=\"legend-chip missing-core\"></b> 핵심 과목 미개설</span>\n            <span><b class=\"legend-chip missing-recommended\"></b> 권장 과목 미개설</span>\n          </div>\n        </div><div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>대표 계열 추천은 분야를 탐색할 때 참고하는 자료입니다. 대학별 과목 안내는 해당 대학·모집단위·학년도 원문의 조건을 기준으로 읽으세요. 같은 핵심·권장이라는 말도 대학마다 뜻이 다를 수 있습니다.</p></article><article class=\"explainer-card\"><p>과목명만 보지 말고, 그중 몇 과목을 이수해야 하는지, 일부를 고르면 되는지 모두 이수해야 하는지 확인하세요. 자료가 등록되지 않았다고 해서 대학이 요구하는 조건이 없다고 단정하지 않습니다.</p></article><article class=\"explainer-card\"><p>우리학교에서 어느 학기에 개설하는지, 어떤 과목 중에서 선택해야 하는지, 필요한 기초와 학습 부담은 어떤지 함께 확인하세요. 학교에 없는 과목은 정식으로 이수할 수 있는 다른 과정을 상담할 수 있습니다. 독서·탐구나 유사 과목을 공부하는 것과 공식적으로 이수를 인정받는 것은 구분해야 합니다.</p></article><article class=\"explainer-card\"><p>이 화면은 선택과목 중심입니다. 공통과목도 대학의 성적·서류 평가에 활용될 수 있습니다. 표시 개수와 순서가 대학의 평가 우선순위나 합격 가능성을 뜻하지 않습니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>왜 배우려는 과목인지, 대학의 공식 이수 조건은 무엇인지, 학교에 개설되는지 나누어 확인하세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "‘아래 세 과목 중 하나’라는 조건이면 세 과목을 모두 이수해야 하나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
     "holistic-sechuk": {
-      group: "holistic",
-      tone: "holistic",
-      title: "세특 작성의 좋은 흐름",
-      summary: "세특은 수업 개념에서 시작해 탐구 과정과 후속 활동으로 이어집니다.",
-      heroLabel: "세특 흐름",
-      heroTitle: "좋은 세특은 진로를 끼워 넣는 글이 아니라 수업 속 질문이 커지는 과정입니다.",
-      heroText: "탐구 동기, 질문, 수업 개념, 과정, 결과, 한계, 후속 활동이 이어질 때 학생의 학업역량이 잘 드러납니다.",
-      feature: "sechuk",
-      body: `
-        <div class="content-block">
-          <h3>세특 흐름을 눌러 예시 보기</h3>
-          <div class="timeline-band sechuk-flow">
-            <div class="sechuk-flow-grid" id="sechukFlowGrid">
-              <button class="sechuk-step active" type="button" data-sechuk-step="motivation"><span>01</span><b>탐구 동기</b><small>수업에서 생긴 호기심</small></button>
-              <button class="sechuk-step" type="button" data-sechuk-step="question"><span>02</span><b>탐구 질문</b><small>해결하고 싶은 물음</small></button>
-              <button class="sechuk-step" type="button" data-sechuk-step="concept"><span>03</span><b>수업 개념 연결</b><small>교과 개념과 연결</small></button>
-              <button class="sechuk-step" type="button" data-sechuk-step="process"><span>04</span><b>탐구 과정</b><small>조사·분석·토론</small></button>
-              <button class="sechuk-step" type="button" data-sechuk-step="result"><span>05</span><b>결과</b><small>알게 된 점 정리</small></button>
-              <button class="sechuk-step" type="button" data-sechuk-step="limit"><span>06</span><b>한계</b><small>부족한 점과 반성</small></button>
-              <button class="sechuk-step" type="button" data-sechuk-step="follow"><span>07</span><b>후속 활동</b><small>다음 수업·창체로 확장</small></button>
-            </div>
-            <div class="sechuk-example-panel" id="sechukExamplePanel" aria-live="polite">
-              <span class="label">예시</span>
-              <h4 id="sechukExampleTitle">탐구 동기</h4>
-              <p id="sechukExampleText">수업 중 다룬 개념에서 이상하거나 더 알고 싶은 지점을 발견합니다.</p>
-            </div>
-          </div>
-        </div>
-        <div class="insight-grid">
-          <article><b>좋은 방향</b><span>수업 개념 → 호기심 → 질문 → 자료 분석·실험·토론 → 깨달음 → 다음 탐구로 이어집니다.</span></article>
-          <article><b>피할 방향</b><span>진로명만 반복하거나, 활동명만 많고 질문과 과정이 없는 기록은 설득력이 약합니다.</span></article>
-          <article><b>수업 시간이 부족할 때</b><span>수업과 수행평가를 바탕으로 하되, 교과 선생님과 이야기해 개별 탐구 질문을 정리할 수 있습니다.</span></article>
-        </div>
-        <div class="content-block">
-          <h3>학생이 자기평가서에 남기면 좋은 문장 재료</h3>
-          <div class="type-grid">
-            <div><b>동기</b><span>수업에서 어떤 개념이나 자료가 궁금했는지 씁니다.</span></div>
-            <div><b>과정</b><span>조사, 분석, 실험, 토론, 비교 중 무엇을 했는지 구체화합니다.</span></div>
-            <div><b>결과</b><span>처음 생각과 달라진 점, 새로 알게 된 점을 남깁니다.</span></div>
-            <div><b>후속</b><span>다음 수업, 독서, 창체, 진로활동으로 어떻게 이어갈지 씁니다.</span></div>
-          </div>
-        </div>
-      `
+      "group": "holistic",
+      "tone": "holistic",
+      "title": "수업 활동을 자기평가로 정리하기",
+      "summary": "실제로 한 일과 배운 점을 자신의 말로 설명합니다.",
+      "heroLabel": "세특 흐름",
+      "heroTitle": "실제 경험에 해당하는 내용만 적어도 괜찮아요.",
+      "heroText": "수업에서 궁금했던 점, 직접 한 일과 맡은 역할, 사용한 자료와 배운 점을 정리해 보세요. 모든 활동이 보고서나 후속 탐구로 이어져야 하는 것은 아닙니다.",
+      "feature": "sechuk",
+      "body": "<div class=\"content-block\">\n          <h3>자기평가 정리 항목과 가상 예시</h3>\n          <div class=\"timeline-band sechuk-flow\">\n            <div class=\"sechuk-flow-grid\" id=\"sechukFlowGrid\">\n              <button class=\"sechuk-step active\" type=\"button\" data-sechuk-step=\"motivation\"><span>01</span><b>탐구 동기</b><small>수업에서 생긴 호기심</small></button>\n              <button class=\"sechuk-step\" type=\"button\" data-sechuk-step=\"question\"><span>02</span><b>탐구 질문</b><small>해결하고 싶은 물음</small></button>\n              <button class=\"sechuk-step\" type=\"button\" data-sechuk-step=\"concept\"><span>03</span><b>수업 개념 연결</b><small>교과 개념과 연결</small></button>\n              <button class=\"sechuk-step\" type=\"button\" data-sechuk-step=\"process\"><span>04</span><b>탐구 과정</b><small>조사·분석·토론</small></button>\n              <button class=\"sechuk-step\" type=\"button\" data-sechuk-step=\"result\"><span>05</span><b>결과</b><small>알게 된 점 정리</small></button>\n              <button class=\"sechuk-step\" type=\"button\" data-sechuk-step=\"limit\"><span>06</span><b>한계</b><small>확인하지 못한 점</small></button>\n              <button class=\"sechuk-step\" type=\"button\" data-sechuk-step=\"follow\"><span>07</span><b>후속 활동</b><small>더 궁금하면 선택</small></button>\n            </div>\n            <div class=\"sechuk-example-panel\" id=\"sechukExamplePanel\" aria-live=\"polite\">\n              <span class=\"label\">예시</span>\n              <h4 id=\"sechukExampleTitle\">탐구 동기</h4>\n              <p id=\"sechukExampleText\">수업 중 다룬 개념에서 이상하거나 더 알고 싶은 지점을 발견합니다.</p>\n            </div>\n          </div>\n        </div><div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>동기·질문·개념·과정·결과·한계·후속 활동은 탐구를 정리할 때 참고할 수 있는 순서입니다. 실제 활동에 해당하는 항목만 활용하세요.</p></article><article class=\"explainer-card\"><p>확인한 결과와 아직 모르는 점을 구분하세요. 조사하지 않은 변수가 결과에 영향을 주었다고 단정하거나, 하지 않은 후속 활동을 했다고 적지 않습니다.</p></article><article class=\"explainer-card\"><p>세특은 교사가 실제 수업과 평가에서 관찰한 내용을 기록합니다. 학생의 자기평가서는 상담과 자기 점검을 위한 자료이며 교사의 기록을 대신하지 않습니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>직접 한 일 한 가지와 새로 배운 점 한 가지부터 적어보세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "활동이 짧았다면 하지 않은 후속 탐구를 추가해서 써야 하나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
     "holistic-ai": {
-      group: "holistic",
-      tone: "holistic",
-      title: "AI 활용",
-      summary: "AI는 학생부 문장 작성보다 탐구 질문 확장에 사용합니다.",
-      heroLabel: "AI 활용 기준",
-      heroTitle: "AI는 세특을 대신 써주는 도구가 아니라 질문을 넓히는 도구입니다.",
-      heroText: "생성형 AI로 학생부 문장을 대신 만들면 진정성과 면접 설명력이 약해질 수 있습니다. 대신 주제 후보, 반론, 한계, 추가 자료를 찾는 데 사용합니다.",
-      body: `
-        <div class="content-block">
-          <h3>AI를 써도 되는 장면</h3>
-          <div class="type-grid">
-            <div><b>질문 확장</b><span>수업 개념에서 더 물어볼 수 있는 질문을 찾습니다.</span></div>
-            <div><b>자료 관점 찾기</b><span>같은 주제를 사회, 과학, 윤리, 경제 관점으로 나눠 봅니다.</span></div>
-            <div><b>반론 찾기</b><span>내 주장과 반대되는 근거를 찾아 탐구의 균형을 잡습니다.</span></div>
-            <div><b>한계 정리</b><span>내 탐구에서 부족한 자료, 방법, 변수 통제를 확인합니다.</span></div>
-          </div>
-        </div>
-        <div class="content-block">
-          <h3>AI를 조심해야 하는 장면</h3>
-          <p>세특 문장 자체를 AI가 대신 쓰게 하면 학생이 면접에서 설명하기 어렵고, 실제 수업 경험과 맞지 않는 표현이 생길 수 있습니다. 최종 자기평가서와 상담 자료는 학생 자신의 말로 정리해야 합니다.</p>
-        </div>
-        <div class="content-block">
-          <h3>AI 질문 예시</h3>
-          <div class="type-grid">
-            <div><b>질문 만들기</b><span>이 개념에서 고등학생이 탐구할 수 있는 질문을 세 가지로 좁혀 달라고 요청합니다.</span></div>
-            <div><b>관점 나누기</b><span>같은 주제를 과학, 사회, 윤리, 경제 관점으로 비교해 달라고 요청합니다.</span></div>
-            <div><b>한계 찾기</b><span>내 탐구 방법에서 부족한 자료나 변수를 찾아 달라고 요청합니다.</span></div>
-            <div><b>면접 대비</b><span>내 탐구를 설명할 때 받을 수 있는 질문을 예상해 달라고 요청합니다.</span></div>
-          </div>
-        </div>
-      `
+      "group": "holistic",
+      "tone": "holistic",
+      "title": "탐구에 AI를 활용하는 방법",
+      "summary": "사용 기준을 지키고 근거를 직접 확인합니다.",
+      "heroLabel": "AI 활용 기준",
+      "heroTitle": "AI의 답을 그대로 쓰기 전에 확인해요.",
+      "heroText": "먼저 학교와 선생님이 안내한 과제별 AI 사용 범위를 확인하세요. 허용된 경우 질문 후보, 다른 관점이나 예상 반론을 비교하는 데 활용할 수 있습니다.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>AI가 제시한 책·논문·통계·인용이 실제 자료인지 원문을 찾아 확인하세요. 질문 후보와 검증된 사실을 구분하고, 탐구 방법을 수업에서 실제로 실행할 수 있는지도 살펴보세요.</p></article><article class=\"explainer-card\"><p>자기평가에는 실제로 한 활동과 이해한 내용을 자신의 말로 적으세요. 하지 않은 실험이나 확인하지 않은 결과를 AI로 만들어 쓰지 않습니다. 사용 내역을 밝혀야 하는 과제라면 안내된 방식에 따르세요.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>AI 답에서 확인이 필요한 주장 하나를 골라 원문을 찾아보세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "AI가 제시한 논문 제목만으로 근거가 확인됐다고 볼 수 있나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     },
     "holistic-interview": {
-      group: "holistic",
-      tone: "holistic",
-      title: "면접 대비",
-      summary: "면접은 학생부를 외우는 시간이 아니라 사고 과정을 설명하는 시간입니다.",
-      heroLabel: "면접",
-      heroTitle: "학생부에 적힌 탐구를 학생 자신의 말로 설명할 수 있어야 합니다.",
-      heroText: "서류 기반 면접은 활동의 진정성과 이해도를 확인합니다. 활동 동기, 사용한 개념, 과정, 결과, 한계, 후속 활동을 말할 수 있어야 합니다.",
-      body: `
-        <div class="content-block">
-          <h3>면접 질문으로 바꿔 보기</h3>
-          <div class="type-grid">
-            <div><b>왜 시작했나요?</b><span>탐구 동기와 수업 개념을 설명합니다.</span></div>
-            <div><b>무엇을 사용했나요?</b><span>자료, 실험, 조사, 토론 방법을 설명합니다.</span></div>
-            <div><b>무엇을 알게 되었나요?</b><span>결과와 깨달음을 구체적으로 말합니다.</span></div>
-            <div><b>다음에는 무엇을 할 건가요?</b><span>한계와 후속 탐구를 연결합니다.</span></div>
-          </div>
-        </div>
-        <div class="check-panel">
-          <div><h3>면접 전 점검</h3><p>학생부에 적힌 내용이 내 말로 설명 가능한지 확인합니다.</p></div>
-          <div class="checklist">
-            <label><input type="checkbox" /> 세특에 적힌 핵심 개념을 설명할 수 있다.</label>
-            <label><input type="checkbox" /> 탐구 과정에서 내가 맡은 역할을 말할 수 있다.</label>
-            <label><input type="checkbox" /> 결과뿐 아니라 한계도 말할 수 있다.</label>
-            <label><input type="checkbox" /> 다음 탐구나 진로 관심으로 어떻게 이어졌는지 말할 수 있다.</label>
-          </div>
-        </div>
-      `
+      "group": "holistic",
+      "tone": "holistic",
+      "title": "면접 형식과 준비 방법",
+      "summary": "면접 유무와 형식부터 확인합니다.",
+      "heroLabel": "면접",
+      "heroTitle": "지원 전형의 면접에 맞춰 준비해요.",
+      "heroText": "종합전형이라고 모두 면접을 실시하는 것은 아닙니다. 면접이 있다면 서류 기반인지, 제시문·교과 구술 등인지 모집요강과 공식 안내에서 확인하세요.",
+      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>서류 기반 면접에서는 자신의 기록에 나온 활동과 학습 내용을 설명할 준비가 필요합니다. 왜 했는지, 어떤 개념과 자료를 사용했는지, 맡은 역할과 배운 점을 자신의 말로 정리해 보세요.</p></article><article class=\"explainer-card\"><p>확인하지 못한 내용은 모르는 내용으로 구분하세요. 한계나 다음 계획은 실제로 해당하는 경우에 설명하세요. 모든 경험을 한 전공 이야기로 맞출 필요는 없습니다.</p></article><article class=\"explainer-card\"><p>제시문·교과 구술 면접은 대학의 공식 안내와 기출문제 등으로 따로 준비해야 합니다. 어떤 형식인지, 어떤 사고와 설명을 요구하는지 확인하세요.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>지원 전형의 면접 형식과 공식 준비 자료를 찾아보세요.</span></aside>",
+      "guide": {
+        "title": "이해 점검",
+        "items": [
+          "서류 기반 면접 준비만으로 모든 면접 형식에 대비할 수 있나요?"
+        ]
+      },
+      "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다."
     }
   }
 };

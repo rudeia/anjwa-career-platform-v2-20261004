@@ -77,7 +77,8 @@ assert.match(currentGradeMapping[1], /incoming2026:\s*1/);
 assert.match(currentGradeMapping[1], /incoming2025:\s*2/);
 assert.match(currentGradeMapping[1], /incoming2024:\s*3/);
 
-assert.match(admissionSource, /option value="incoming2027">2027 신입생\(예정\)<\/option>/);
+require("../admission-pages.js");
+assert.match(window.ANJWA_ADMISSION_PAGES.pages["holistic-subjects"].body, /option value="incoming2027">2027 신입생\(예정\)<\/option>/);
 assert.match(advancedSource, /option value="incoming2027">2027 신입생\(예정\)<\/option>/);
 
 console.log("2027 curriculum integration tests passed");
