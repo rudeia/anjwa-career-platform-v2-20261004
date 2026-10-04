@@ -71,3 +71,12 @@ test('department searches preserve discipline names and math guidance separates 
  assert.doesNotMatch(run('getSubjectGuideInfo({name:"대수",area:"수학"},{title:"대수·수학Ⅰ·수학Ⅱ"}).learning'),/미분/);
  assert.equal(run('getSubjectGuideInfo({name:"대수",area:"수학"},{title:"대수·수학Ⅰ·수학Ⅱ"}).curriculum'),'2022 개정');
 });
+
+test('verified course conditions distinguish eligibility from evaluation recommendations', () => {
+ const cases=context.window.ANJWA_ADMISSION_PAGES.verifiedCourseConditionCases;
+ const tech=cases.find(c=>c.id==='seoultech-2028'),snu=cases.find(c=>c.id==='snu-2028');
+ assert.equal(tech.admissionYear,2028);assert.equal(tech.documentStatus,'시행계획');assert.equal(tech.minimumCredits,80);assert.equal(tech.lastIncludedSemester,'3-1');assert.equal(tech.minimumDomesticGradeSemesters,3);
+ assert.equal(snu.admissionEligibilityRequirement,false);assert.equal(snu.minimumCourseCount,1);assert.equal(snu.scope,'유형 ① 모집단위');assert.equal(snu.evaluationUses.length,2);
+ const body=context.window.ANJWA_ADMISSION_PAGES.pages['holistic-subjects'].body;
+ assert.match(body,/79학점이라면 학점 조건을 충족하지 못합니다/);assert.match(body,/3학년 2학기 과목을 앞선 합계에 더하지 마세요/);assert.match(body,/시행계획은 최종 모집요강에서 변경될 수/);assert.match(body,/2030 대입/);assert.match(body,/수능 제2외국어\/한문 응시 기준과는 구분/);
+});

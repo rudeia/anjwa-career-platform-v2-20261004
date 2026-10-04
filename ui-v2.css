@@ -279,3 +279,9 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
 .reviewed-copy .explainer-card p {margin:0;line-height:1.8}
 .topic-details ol {padding-left:24px;line-height:1.8}
 .topic-details .topic-source p {font-size:14px}
+#admission-course-conditions .subject-page-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#admission-course-conditions details { margin: 14px 0; }
+#admission-course-conditions summary { cursor: pointer; font-weight: 700; }
+@media (max-width: 700px) {
+  #admission-course-conditions .subject-page-grid { grid-template-columns: minmax(0, 1fr); }
+}
