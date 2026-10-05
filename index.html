@@ -12,48 +12,59 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=2.01.01" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.01.02" />
+    <link rel="stylesheet" href="./home-design.css?v=2.01.02" />
   </head>
-  <body>
+  <body class="home-design-app">
     <div class="app-shell">
       <main class="main-content">
         <section class="view active" id="home" aria-labelledby="home-title">
-          <div class="home-intro">
-            <div>
-              <p class="eyebrow">안좌고 학생 안내용</p>
-              <h1 id="home-title">진로진학 플랫폼</h1>
-              <p>필요한 메뉴를 선택하세요.</p>
-            </div>
-          </div>
-
+          <header class="home-brand-row">
+            <button class="home-brand" type="button" data-view="home">안좌 진로진학</button>
+            <form class="home-search" role="search" aria-label="학교 과목 검색">
+              <span aria-hidden="true">⌕</span><input id="homeSubjectSearch" type="search" aria-label="과목 검색" placeholder="과목 검색" /><button type="submit" aria-label="과목 검색하기">검색</button>
+            </form>
+          </header>
+          <div class="home-intro"><div><h1 id="home-title">안좌고 교육과정 도우미</h1><p>학교 교육과정을 확인하고, 관심 분야에 맞는 선택과목을 비교해보세요.</p></div></div>
+          <aside class="home-motto" aria-label="탐색 안내"><p>오늘의<br />관심이<br />내일의 가능성이<br />됩니다.</p><small>조금 더 깊이,<br />조금 더 넓게<br />나를 알아가는 시간.</small></aside>
           <div class="home-area-grid">
-            <section class="home-area-card">
-              <div class="home-area-heading"><span class="launch-icon curriculum-icon" aria-hidden="true"></span><h2>교육과정</h2></div>
-              <p>우리학교에서 배우는 과목을 확인해요.</p>
-              <button class="home-shortcut" data-view="curriculum">학교 교육과정 보기 <span aria-hidden="true">→</span></button>
+            <section class="home-area-card home-curriculum-card">
+              <span class="home-card-photo" aria-hidden="true"></span><span class="home-card-number" aria-hidden="true">01</span>
+              <div class="home-area-heading"><h2>학교 교육과정 <span aria-hidden="true">→</span></h2></div>
+              <p class="home-course-meta">과목 · 교과군 · 학점 · 개설 방식</p>
+              <p>우리 학교의 교육과정을 한눈에 확인하고<br class="home-desktop-break" /> 나에게 맞는 과목을 찾아보세요.</p>
+              <button class="home-shortcut" type="button" data-view="curriculum">교육과정 보기 <span aria-hidden="true">→</span></button>
             </section>
             <section class="home-area-card home-career-card">
-              <div class="home-area-heading"><span class="launch-icon designer-icon" aria-hidden="true"></span><h2>진로·진학</h2></div>
-              <p>관심 분야와 대학 전형을 함께 살펴봐요.</p>
-              <div class="home-shortcut-grid">
-                <button class="home-shortcut" data-view="courseDesigner">관심 분야 탐색</button>
-                <a class="home-shortcut" href="./subject.html">교과전형 안내</a>
-                <a class="home-shortcut" href="./holistic.html">종합전형 안내</a>
-                <button class="home-shortcut" data-view="topicExplorer">탐구 주제 예시</button>
+              <span class="home-card-number" aria-hidden="true">02</span>
+              <div class="home-area-heading"><h2><button class="home-title-link" type="button" data-view="careerHub">진로 탐색 <span aria-hidden="true">→</span></button></h2></div>
+              <p>관심 분야와 관련 과목을 찾아보고,<br /> 교과·종합전형의 평가 기준을 확인하세요.</p>
+              <div class="home-interest-chips home-career-actions" aria-label="진로 탐색과 대학 전형 안내">
+                <button type="button" data-view="courseDesigner">관심 분야 탐색</button>
+                <a href="./subject.html">교과전형</a>
+                <a href="./holistic.html">종합전형</a>
               </div>
             </section>
-            <section class="home-area-card">
-              <div class="home-area-heading"><span class="launch-icon planner-icon" aria-hidden="true"></span><h2>과목 설계</h2></div>
-              <p>내가 들을 선택과목을 구성하고 저장해요.</p>
-              <button class="home-shortcut" data-view="planner">나의 선택과목 구성 <span aria-hidden="true">→</span></button>
+            <section class="home-area-card home-plan-card">
+              <span class="home-card-number" aria-hidden="true">03</span><span class="home-plan-art" aria-hidden="true"></span>
+              <div class="home-area-heading"><h2>과목 설계 <span aria-hidden="true">→</span></h2></div>
+              <p>나의 진로에 맞는 선택과목을 설계하고<br class="home-desktop-break" /> 나만의 학습 계획을 만들어보세요.</p>
+              <button class="home-shortcut" type="button" data-view="planner">과목 담기 <span aria-hidden="true">→</span></button>
             </section>
-            <section class="home-area-card">
-              <div class="home-area-heading"><span class="launch-icon self-eval-icon" aria-hidden="true"></span><h2>자기평가</h2></div>
-              <p>수업과 활동에서 배운 점을 정리해요.</p>
-              <button class="home-shortcut" data-view="selfEvaluation">과목별·창체 자기평가 <span aria-hidden="true">→</span></button>
+            <section class="home-area-card home-evaluation-card">
+              <span class="home-card-number" aria-hidden="true">04</span><span class="home-evaluation-art" aria-hidden="true"></span>
+              <div class="home-area-heading"><h2>자기평가 <span aria-hidden="true">→</span></h2></div>
+              <p>지금까지의 활동을 돌아보고,<br /> 나의 배움과 변화를 기록해보세요.</p>
+              <button class="home-shortcut" type="button" data-view="selfEvaluation">활동 정리 <span aria-hidden="true">→</span></button>
             </section>
           </div>
-
+          <div class="student-start-grid" aria-label="내 상황에서 시작하기">
+            <button class="student-start-card" type="button" data-view="courseDesigner" data-student-start="activity"><span class="home-start-icon" aria-hidden="true">◇</span><span><b>진로가 아직 없어요</b><small>어떤 진로가 있을지 궁금해요.</small></span><span aria-hidden="true">›</span></button>
+            <button class="student-start-card" type="button" data-view="courseDesigner" data-student-start="interest"><span class="home-start-icon" aria-hidden="true">♧</span><span><b>관심 분야가 있어요</b><small>내 관심과 잘 맞는 과목을 찾아봐요.</small></span><span aria-hidden="true">›</span></button>
+            <button class="student-start-card" type="button" data-view="planner" data-student-start="choices"><span class="home-start-icon" aria-hidden="true">▤</span><span><b>과목을 고를래요</b><small>어떤 과목을 선택하면 좋을까요?</small></span><span aria-hidden="true">›</span></button>
+          </div>
+          <div class="home-reference-links" aria-label="대학 전형과 탐구 안내"><a href="./subject.html">교과전형 안내 ↗</a><a href="./holistic.html">종합전형 안내 ↗</a><button type="button" data-view="topicExplorer">탐구 주제 예시 ↗</button></div>
+          <details class="home-install-details"><summary>홈 화면에 앱 설치</summary>
           <section class="pwa-install-panel" data-pwa-install aria-labelledby="pwaInstallTitle">
             <span class="pwa-install-mark" aria-hidden="true">↓</span>
             <div class="pwa-install-copy">
@@ -65,6 +76,7 @@
               <p class="pwa-install-status" data-pwa-install-status aria-live="polite">설치 가능 여부를 확인하고 있습니다.</p>
             </div>
           </section>
+          </details>
 
           <section class="grade3-hub" aria-labelledby="grade3-hub-title" hidden>
             <div class="grade3-hub-head">
@@ -579,6 +591,7 @@
                 <div id="plannerSavedSummary"></div>
               </section>
 
+              <div id="plannerNextTarget" class="student-next-target" role="status"></div>
               <div class="year-tabs" id="yearTabs">
                 <button class="year-tab active" data-grade="1">1학년 과정</button>
                 <button class="year-tab" data-grade="2">2학년 과정</button>
@@ -618,7 +631,14 @@
                 학번
                 <input id="selfEvalStudentNumber" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="12" autocomplete="off" placeholder="예: 10101" />
               </label>
-              <button class="ghost-button reset-button" id="clearSelfEvalStudentNumberButton" type="button">학번 지우기</button>
+              <button class="ghost-button reset-button" id="clearSelfEvalStudentNumberButton" type="button">작성 마치기 · 학생 전환</button>
+            </div>
+            <div class="student-draft-controls">
+              <label for="selfEvalDeviceMode">저장할 곳</label><select id="selfEvalDeviceMode"><option value="shared">공용 기기 · 이 탭에만 저장</option><option value="personal">내 기기 · 이 브라우저에 저장</option></select>
+              <button id="confirmSelfEvalOwner" type="button" class="primary-button">내 학번으로 작성 시작</button>
+              <button id="importLegacySelfEval" type="button" class="ghost-button">기존 작성 내용 확인해 가져오기</button>
+              <p id="selfEvalSessionNote" role="status">학번을 확인하고 작성을 시작하세요.</p>
+              <details class="student-save-help"><summary>저장·불러오기·PDF 사용법</summary><p>학번은 작성 내용을 구분하는 표식이며 로그인이나 본인 인증이 아닙니다. 공용 기기는 작성 후 PDF를 저장하고 ‘작성 마치기’를 누르세요. 자동 저장은 입력할 때, 저장 버튼은 현재 내용을 즉시 저장합니다. 불러오기는 이 탭 또는 브라우저에 저장된 내 작성 내용을 다시 읽습니다. 학교로 전송되지 않습니다. PDF 버튼은 인쇄 창을 엽니다. 대상에서 ‘PDF로 저장’을 고르세요.</p></details>
             </div>
             <div class="control-row self-eval-control-row" id="selfEvalSubjectControls">
               <label>
@@ -655,7 +675,7 @@
           <div class="self-eval-layout" id="selfEvalSubjectWorkspace">
 
 
-            <form class="self-eval-form" id="selfEvalForm">
+            <form class="self-eval-form" id="selfEvalForm" aria-labelledby="self-eval-title selfEvalCurrentSubject">
               <div class="workspace-current-subject">
               <span class="label">현재 작성 과목</span>
               <h3 id="selfEvalCurrentSubject">과목을 선택하세요</h3>
@@ -725,7 +745,7 @@
             </div>
             <div class="self-eval-layout creative-eval-layout">
 
-              <form class="self-eval-form creative-eval-form" id="creativeEvalForm">
+              <form class="self-eval-form creative-eval-form" id="creativeEvalForm" aria-labelledby="self-eval-title creativeEvalCurrentType">
                 <div class="workspace-current-subject">
                 <span class="label" id="creativeEvalCurrentGrade">1학년 창체</span>
                 <h3 id="creativeEvalCurrentType">자율활동</h3>
@@ -795,14 +815,15 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="./curriculum-data.js?v=20261002a"></script>
+    <script src="./student-data-model.js"></script>
     <script src="./subject-guide-data.js?v=2.01.00"></script>
     <script src="./recommendation-data.js?v=2.01.00"></script>
     <script src="./university-recommendation-data.js?v=2.01.00"></script>
     <script src="./course-designer-data.js?v=2.01.00"></script>
-    <script src="./topic-data.js?v=2.01.00"></script>
-    <script src="./app.js?v=2.01.00"></script>
+    <script src="./topic-data.js?v=2.01.02"></script>
+    <script src="./app.js?v=2.01.02"></script>
     <script src="./pwa-install.js?v=2.00.01" defer></script>
-    <script src="./site-meta.js?v=2.01.01" defer></script>
+    <script src="./site-meta.js?v=2.01.02" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

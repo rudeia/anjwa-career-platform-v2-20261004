@@ -285,3 +285,18 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
 @media (max-width: 700px) {
   #admission-course-conditions .subject-page-grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Student starts retain the desktop width and compact mobile flow. */
+.student-start-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}
+.student-start-card{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:12px;padding:22px;border:1.5px solid #a8b9d3;border-radius:18px;background:#fff;color:#15233e;min-height:160px;cursor:pointer}
+.student-start-card b{font-size:1.1rem;color:#164ec5}.student-start-card small{color:#43516a;line-height:1.6}.student-start-card:hover{background:#edf3ff;border-color:#2857b9}.student-start-card:focus-visible{outline:3px solid #265dd6;outline-offset:3px}
+.student-reference-title{font-size:1.1rem;margin:24px 0 12px}.student-next-target,.student-draft-controls{padding:16px;background:#edf3ff;border:1px solid #afbdd6;border-radius:12px;margin:14px 0;line-height:1.65}.student-draft-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.student-draft-controls p{flex-basis:100%;margin:0;font-size:.88rem}.student-draft-controls select{max-width:100%}
+.student-course-explanation{margin:14px 0}.student-course-explanation div{margin:10px 0}.student-course-explanation dt{font-weight:750;font-size:.85rem;color:#234a87}.student-course-explanation dd{margin:4px 0;line-height:1.65;color:#38475e;font-size:.9rem}.student-option-difference{grid-column:1/-1;font-size:.9rem;line-height:1.7}.course-designer-interest-group summary{cursor:pointer;font-weight:750;padding:14px;min-height:44px}.self-eval-field label{font-weight:700}.self-eval-field small{display:block;color:#48566a;line-height:1.5;margin:6px 0}.admission-answer-check{padding:12px;border:1px solid #b3c2db;border-radius:12px;margin:12px 0}.admission-answer-check summary{cursor:pointer;min-height:44px;font-weight:700}
+@media(max-width:650px){.student-start-grid{grid-template-columns:1fr;gap:10px}.student-start-card{min-height:0;padding:17px;gap:8px}.student-draft-controls>button{width:100%;min-height:44px}.student-course-explanation dd{overflow-wrap:anywhere}}
+
+.student-operating-badge{font-size:.72rem;font-weight:650;padding:3px 6px;color:#234a87;background:#edf3ff;border:1px solid #bdcbea;border-radius:5px;white-space:normal}.course-title-with-info{flex-wrap:wrap}
+
+.student-save-help{flex-basis:100%;font-size:.86rem}.student-save-help summary{cursor:pointer;padding:8px 0;min-height:44px}.student-save-help p{padding:8px 0}
+@media(max-width:650px){.subject-info-button,.self-help-button{min-width:44px;min-height:44px}.quick-action-pair button,.course-designer-decision-switch button,.course-designer-option-tab{min-height:44px}}
+
+.student-mobile-mode{display:block;font-size:.7rem;font-weight:600;color:#30517b;margin-top:4px}.student-plan-budget{font-size:.8rem;color:#495973;line-height:1.6}.mine-semester-head{flex-wrap:wrap}

@@ -26,6 +26,7 @@ const context = {
 };
 
 vm.runInNewContext(fs.readFileSync(path.join(root, "curriculum-data.js"), "utf8"), context);
+vm.runInNewContext(fs.readFileSync(path.join(root, "student-data-model.js"), "utf8"), context);
 vm.runInNewContext(fs.readFileSync(path.join(root, "app.js"), "utf8"), context);
 
 for (const [plan, grade] of Object.entries({
@@ -94,7 +95,8 @@ assert.match(element("#curriculumTableBody").innerHTML, /스포츠 문화/);
 vm.runInNewContext(
   'renderCurriculumSummary(curriculumData.plans.current2026, ["1-1"], [])', context
 );
-assert.match(summaryElement.innerHTML, /29<\/b>교과 이수학점/);
+assert.match(summaryElement.innerHTML, /31<\/b>교과 이수학점/);
+assert.match(summaryElement.innerHTML, /총 34학점/);
 
 // Independent semester toggles retain one selection and update mobile rows immediately.
 vm.runInNewContext('state.activeCurriculumPlan="incoming2027"; state.activeCurriculumScope="semester"; state.curriculumGrade="1"; state.curriculumSemesters=["1"]; toggleCurriculumSemester("2");', context);

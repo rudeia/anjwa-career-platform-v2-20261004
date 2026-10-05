@@ -10,7 +10,7 @@ function copy(dir, target) {
   if (entry.name.startsWith('.') || entry.name.startsWith('검증-') || ['dist','tests','scripts','node_modules','검토'].includes(entry.name)) continue;
   const source = path.join(dir, entry.name), dest = path.join(target, entry.name);
   if (entry.isDirectory()) { fs.mkdirSync(dest, { recursive: true }); copy(source, dest); }
-  else if (allowed.has(path.extname(entry.name)) && !['package.json','vercel.json'].includes(entry.name)) fs.copyFileSync(source, dest);
+  else if ((allowed.has(path.extname(entry.name)) || entry.name === 'NotoSerifKR-OFL.txt') && !['package.json','vercel.json'].includes(entry.name)) fs.copyFileSync(source, dest);
  }
 }
 copy(root, out);

@@ -6,7 +6,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const root = path.join(__dirname, '..');
 const context = {window:{}, URL, document:{addEventListener(){},querySelector(){return null},querySelectorAll(){return []}}, console};
-for (const file of ['curriculum-data.js','admission-pages.js','recommendation-data.js','university-recommendation-data.js','course-designer-data.js','topic-data.js','subject-guide-data.js','app.js']) vm.runInNewContext(fs.readFileSync(path.join(root,file),'utf8'),context);
+for (const file of ['curriculum-data.js','student-data-model.js','admission-pages.js','recommendation-data.js','university-recommendation-data.js','course-designer-data.js','topic-data.js','subject-guide-data.js','app.js']) vm.runInNewContext(fs.readFileSync(path.join(root,file),'utf8'),context);
 const run = source => vm.runInNewContext(source,context);
 const topics = context.window.ANJWA_TOPIC_DATA.topics;
 

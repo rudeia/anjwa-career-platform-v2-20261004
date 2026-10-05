@@ -3,13 +3,14 @@ const SELF_EVAL_STORAGE_KEY = "anjwa-career-platform-self-eval-v1";
 const CREATIVE_EVAL_STORAGE_KEY = "anjwa-career-platform-creative-eval-v1";
 const SELF_EVAL_IDENTITY_STORAGE_KEY = "anjwa-career-platform-self-eval-identity-v1";
 const COURSE_DESIGNER_STORAGE_KEY = "anjwa-career-platform-course-designer-v1";
-const curriculumData = window.ANJWA_CURRICULUM_DATA || { plans: {} };
+const curriculumData = window.ANJWA_STUDENT_MODEL?.curriculum || window.ANJWA_CURRICULUM_DATA || { plans: {} };
 const recommendationData = window.ANJWA_RECOMMENDATION_DATA || { records: [] };
 const universityRecommendationData = window.ANJWA_UNIVERSITY_RECOMMENDATION_DATA || { records: [] };
 const topicData = window.ANJWA_TOPIC_DATA || { topics: [] };
 const subjectGuideData = window.ANJWA_SUBJECT_GUIDE || { areaProfiles: {}, groupProfiles: {} };
 const courseDesignerData = window.ANJWA_COURSE_DESIGNER || { interests: [], optionProfiles: [] };
 const curriculumPlanOrder = ["current2026", "incoming2027", "incoming2026", "incoming2025", "incoming2024"];
+const schoolReferenceYear = Number(Object.keys(curriculumData.plans).find(key => /^current\d{4}$/.test(key))?.slice(7)) || new Date().getFullYear();
 const plannerPlanOrder = ["incoming2027", "incoming2026", "incoming2025", "incoming2024"];
 const curriculumPlanLabels = {
   current2026: "전체 학년(2026학년도 현재)",
@@ -2666,10 +2667,11 @@ function getCourse(id) {
 
 function init() {
   loadState();
+  restoreStudentScreenState();
   loadCourseDesignerState();
+  loadSelfEvaluationIdentity();
   loadSelfEvaluationState();
   loadCreativeEvaluationState();
-  loadSelfEvaluationIdentity();
   bindNavigation();
   bindControls();
   bindCourseDesignerControls();
@@ -2696,24 +2698,40 @@ function init() {
   renderCreativeEvaluation();
   renderSelfEvaluationMode();
   updateFormValues();
-  setView(getInitialViewFromHash() || "home");
+  setView(getInitialViewFromHash() || "home", false);
 }
 
 function bindNavigation() {
-  window.addEventListener("hashchange", () => {
-    const view = getInitialViewFromHash();
-    if (view) setView(view);
-  });
-  $all("[data-view]").forEach((button) => {
-    button.addEventListener("click", () => setView(button.dataset.view));
+  const restore = () => setView(getInitialViewFromHash() || 'home', false);
+  window.addEventListener('hashchange', restore);
+  window.addEventListener('popstate', restore);
+  $all('[data-view]').forEach(button => button.addEventListener('click', () => {
+    if (button.dataset.homeExploration) {
+      startStudentJourney('activity');
+      if (!state.courseDesignerExplorationTags.includes(button.dataset.homeExploration)) toggleCourseDesignerExplorationTag(button.dataset.homeExploration);
+    }
+    else if (button.dataset.studentStart) startStudentJourney(button.dataset.studentStart);
+    else if (button.dataset.view === "planner") { selectNextPlannerTarget(); setView("planner"); renderCoursePool(); }
+    else setView(button.dataset.view);
+  }));
+  $('.home-search')?.addEventListener('submit', event => {
+    event.preventDefault();
+    setView('curriculum');
+    $('#curriculumSearchPanel').hidden = false;
+    $('#curriculumSearchToggle').setAttribute('aria-expanded', 'true');
+    $('#curriculumSearch').value = $('#homeSubjectSearch').value.trim();
+    renderCurriculum();
+    $('#curriculumSearch').focus();
   });
 }
 
-function setView(viewId) {
+function setView(viewId, updateUrl = true) {
   if (!$(`#${viewId}`)?.classList.contains("view")) viewId = "home";
   state.activeView = viewId;
+  document.body?.classList.toggle('home-screen', viewId === 'home');
+  saveStudentScreenState();
+  if (updateUrl && location.hash !== `#${viewId}`) history.pushState({view: viewId}, "", `#${viewId}`);
   if (viewId === "planner") {
-    state.plannerMode = "fixed";
     renderPlannerModeState();
   }
   if (viewId === "courseDesigner") renderCourseDesigner();
@@ -2729,10 +2747,9 @@ function setView(viewId) {
 }
 
 function getInitialViewFromHash() {
-  const hash = decodeURIComponent(window.location.hash || "").replace(/^#/, "");
-  if (!hash) return "";
-  if ($(`#${hash}`)?.classList.contains("view")) return hash;
-  return "";
+  let hash;
+  try { hash = decodeURIComponent(location.hash.slice(1)); } catch { return ''; }
+  return $all('.view').some(view => view.id === hash) ? hash : '';
 }
 
 function bindCurriculumControls() {
@@ -2822,6 +2839,8 @@ function bindControls() {
   $all(".year-tab").forEach((button) => {
     button.addEventListener("click", () => {
       state.activeGrade = button.dataset.grade;
+      state.plannerTargetSemester = "";
+      saveStudentScreenState();
       $all(".year-tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.grade === state.activeGrade));
       renderCoursePool();
       renderPlanner();
@@ -2842,10 +2861,20 @@ function bindSelfEvaluationControls() {
   $("#selfEvalStudentNumber")?.addEventListener("input", (event) => {
     const normalized = normalizeStudentNumber(event.target.value);
     event.target.value = normalized;
+    if (state.selfEvalOwnerConfirmed) {
+      updateSelfEvaluationEntryFromForm(); updateCreativeEvaluationEntryFromForm();
+      saveSelfEvaluationState(false); saveCreativeEvaluationState(false);
+    }
+    state.selfEvalOwnerConfirmed = false;
+    state.selfEvalEntries = {}; state.creativeEvalEntries = {};
     state.selfEvalStudentNumber = normalized;
     saveSelfEvaluationIdentity();
+    renderSelfEvaluation(); renderCreativeEvaluation(); renderSelfEvaluationIdentity();
   });
 
+  $('#confirmSelfEvalOwner')?.addEventListener('click', beginStudentDraftSession);
+  $('#importLegacySelfEval')?.addEventListener('click', importLegacyStudentDrafts);
+  $('#selfEvalDeviceMode')?.addEventListener('change', () => clearSelfEvaluationStudentNumber());
   $("#clearSelfEvalStudentNumberButton")?.addEventListener("click", clearSelfEvaluationStudentNumber);
 
   $("#selfEvalPlanSelect")?.addEventListener("change", (event) => {
@@ -2882,12 +2911,12 @@ function bindSelfEvaluationControls() {
   });
 
   $("#loadSelfEvalButton")?.addEventListener("click", () => {
-    loadSelfEvaluationState();
+    const loaded = loadSelfEvaluationState();
     renderSelfEvaluationPlanOptions();
     renderSelfEvaluationSemesterOptions();
     renderSelfEvaluationSubjectOptions();
     renderSelfEvaluation();
-    showToast("저장된 자기평가서를 불러왔습니다.");
+    showToast(loaded ? "저장된 내 자기평가서를 불러왔습니다." : "학번과 저장 위치를 확인하세요. 저장된 내 내용이 없거나 읽을 수 없습니다.");
   });
 
   $("#resetSelfEvalButton")?.addEventListener("click", resetCurrentSelfEvaluationEntry);
@@ -2961,10 +2990,10 @@ function bindSelfEvaluationControls() {
   });
 
   $("#loadCreativeEvalButton")?.addEventListener("click", () => {
-    loadCreativeEvaluationState();
+    const loaded = loadCreativeEvaluationState();
     renderCreativeEvaluationPlanOptions();
     renderCreativeEvaluation();
-    showToast("저장된 창의적 체험활동을 불러왔습니다.");
+    showToast(loaded ? "저장된 내 창의적 체험활동을 불러왔습니다." : "학번과 저장 위치를 확인하세요. 저장된 내 내용이 없거나 읽을 수 없습니다.");
   });
 
   $("#resetCreativeEvalButton")?.addEventListener("click", resetCurrentCreativeEvaluationEntry);
@@ -3603,7 +3632,8 @@ function renderCourseDesigner() {
         ? "좋아하는 활동을 고른 뒤 연결되는 후보 분야를 선택하세요."
         : `관심 분야를 ${config.min}개 이상 골라 주세요.`;
   }
-  const ready = state.courseDesignerGenerated && selected.length && !state.courseDesignerNeedsReview;
+  if (selected.length > config.max && summary) summary.textContent = `이전에 고른 ${selected.length}개 분야는 유지했습니다. 이 방식에서는 ${config.max}개 이하로 골라 비교합니다. 관심 순서에서 비교할 분야를 정리하세요.`;
+  const ready = state.courseDesignerGenerated && selected.length && selected.length <= config.max && !state.courseDesignerNeedsReview;
   if (!ready && state.courseDesignerStep !== "setup") state.courseDesignerStep = "setup";
   if (!["setup", "courses", "review"].includes(state.courseDesignerStep)) state.courseDesignerStep = "setup";
   if (setup) setup.hidden = state.courseDesignerStep !== "setup";
@@ -3717,12 +3747,13 @@ function renderCourseDesignerInterestGroups() {
   const suggested = getCourseDesignerSuggestedInterestIds();
   const groups = new Map();
   (courseDesignerData.interests || []).forEach((interest) => {
+    if (state.courseDesignerStatus === "exploring" && !suggested.has(interest.id) && !selected.has(interest.id)) return;
     if (!groups.has(interest.group)) groups.set(interest.group, []);
     groups.get(interest.group).push(interest);
   });
   target.innerHTML = [...groups.entries()].map(([group, interests]) => `
-    <section class="course-designer-interest-group">
-      <h4>${escapeHtml(group)}</h4>
+    <details class="course-designer-interest-group" ${state.courseDesignerStatus === "exploring" || interests.some(i => selected.has(i.id)) ? "open" : ""}>
+      <summary>${escapeHtml(group)} · ${interests.length}개 분야</summary>
       <div>
         ${interests.sort((a, b) => Number(suggested.has(b.id)) - Number(suggested.has(a.id))).map((interest) => {
           const active = selected.has(interest.id);
@@ -3737,7 +3768,7 @@ function renderCourseDesignerInterestGroups() {
           `;
         }).join("")}
       </div>
-    </section>
+    </details>
   `).join("");
 }
 
@@ -3864,6 +3895,7 @@ function generateCourseDesignerOptions() {
     showToast("먼저 좋아하는 수업 장면이나 활동을 한 개 이상 골라 주세요.");
     return;
   }
+  if (selected.length > config.max) { showToast(`이 방식에서는 ${config.max}개 이하로 분야를 정리해 주세요. 기존 과목 판단 기록은 유지합니다.`); return; }
   if (selected.length < config.min) {
     showToast(`이 방식에서는 관심 분야를 ${config.min}개 이상 골라야 합니다.`);
     return;
@@ -4162,15 +4194,9 @@ function mergeCourseDesignerCourseCandidate(targetMap, course, subjectCandidate,
 }
 
 function getCourseDesignerCourseMatches(subject, planKey) {
-  const plan = curriculumData.plans?.[planKey];
-  if (!plan) return [];
-  const names = new Set(getCourseDesignerCompareNames(subject, planKey).map((name) => normalizeText(name)));
-  const seen = new Set();
-  return (plan.courses || []).filter((course) => {
-    if (!names.has(normalizeText(course.name)) || seen.has(course.id)) return false;
-    seen.add(course.id);
-    return true;
-  });
+  const model = window.ANJWA_STUDENT_MODEL;
+  const ids = new Set(getCourseDesignerCompareNames(subject, planKey).map(name => model.subjectId(name, planKey)));
+  return (curriculumData.plans[planKey]?.courses || []).filter(course => ids.has(course.subjectId));
 }
 
 function getCourseDesignerCompareNames(subject, planKey) {
@@ -4408,7 +4434,7 @@ function renderCourseDesignerResults() {
   const resultTitle = $("#courseDesignerResultTitle");
   if (basis) {
     const entranceYear = Number(state.courseDesignerPlan.replace("incoming", ""));
-    basis.textContent = `${getCurriculumPlanLabel(state.courseDesignerPlan)} · ${planMeta?.standard || ""} 개정 · 일반적인 3년 이수 기준 ${entranceYear + 3}학년도 대입 · 교육과정 ${formatDateLabel(curriculumData.updated)}`;
+    basis.textContent = `${getCurriculumPlanLabel(state.courseDesignerPlan)} · ${planMeta?.standard || ""} 개정 · 일반적인 3년 이수 기준 ${entranceYear + 3}학년도 대입 · 교육과정 ${formatDateLabel(curriculumData.updated)}${getCurriculumDataWarning(state.courseDesignerPlan)}`;
   }
   if (resultTitle) {
     resultTitle.textContent = state.courseDesignerStatus === "clear"
@@ -4594,20 +4620,37 @@ function buildCourseDesignerPrintDocument(studentNumber, exportTime, fileTitle) 
 function renderCourseDesignerOptionTabs(context) {
   const target = $("#courseDesignerOptionTabs");
   if (!target) return;
-  target.innerHTML = (courseDesignerData.optionProfiles || []).map((profile) => {
+  const profiles = courseDesignerData.optionProfiles || [];
+  const sets = profiles.map(profile => ({ profile, ids: [...new Set(Object.entries(getCourseDesignerOptionSelections(context, profile.id)).flatMap(([grade,candidates]) => candidates.map(c => `${grade}|${c.course.id}`)))].sort() }));
+  const unique = [];
+  sets.forEach(item => { const same = unique.find(previous => JSON.stringify(previous.ids) === JSON.stringify(item.ids)); if (same) same.aliases.push(item.profile.label); else unique.push({...item, aliases:[item.profile.label]}); });
+  const describe = ids => ids.map(id => {
+    const separator = id.indexOf('|');
+    const course = curriculumData.plans[state.courseDesignerPlan].courses.find(c => c.id === id.slice(separator+1));
+    return course ? `${id.slice(0,separator)}학년 ${course.name}` : '';
+  }).filter(Boolean).join(' · ');
+  const explanations = unique.map(item => {
+    const comparison = unique.filter(other => other !== item).map(other => {
+      const added = describe(item.ids.filter(id => !other.ids.includes(id)));
+      const omitted = describe(other.ids.filter(id => !item.ids.includes(id)));
+      return `${other.aliases.join('·')}과 비교: ${added ? '이 안에 포함 ' + added : '추가 과목 없음'}${omitted ? '; 이 안에서 빠짐 ' + omitted : ''}.`;
+    }).join(' ');
+    return `${item.aliases.join('·')}: ${item.aliases.length > 1 ? '과목 구성이 같아 함께 표시합니다. ' : ''}${comparison || '비교할 안의 과목 구성이 모두 같습니다.'} 선택 이유: ${item.profile.description}`;
+  }).join(' ');
+  target.innerHTML = unique.map(({profile, aliases}) => {
     const selections = getCourseDesignerOptionSelections(context, profile.id);
     const selectedCourses = Object.values(selections).flat();
     const preview = selectedCourses.slice(0, 3).map((candidate) => candidate.course.name).join(" · ");
-    const active = profile.id === state.courseDesignerOption;
+    const active = profile.id === state.courseDesignerOption || aliases.includes(profiles.find(p => p.id === state.courseDesignerOption)?.label);
     return `
       <button class="course-designer-option-tab${active ? " active" : ""}" type="button" role="tab"
         aria-selected="${active}" data-course-designer-option="${escapeAttribute(profile.id)}">
         <span>${escapeHtml(profile.code)}</span>
-        <b>${escapeHtml(profile.label)}</b>
+        <b>${escapeHtml(aliases.join(" · "))}</b>
         <small>${selectedCourses.length ? `살펴볼 과목 ${selectedCourses.length}개 · ${escapeHtml(preview)}` : "학교 선택과목 찾아보기"}</small>
       </button>
     `;
-  }).join("");
+  }).join("") + `<p class="student-option-difference">${escapeHtml(explanations)} 추천안은 입시 유불리 순위가 아닙니다.</p>`;
 }
 
 function renderCourseDesignerOptionIntro(profile, context, selections, interests) {
@@ -4863,6 +4906,9 @@ function renderCourseDesignerCourseCard(candidate, grade) {
   const primarySource = getCourseDesignerPrimarySource(candidate);
   const choiceLabel = getCourseDesignerChoiceLabel(candidate, grade);
   const linkedSubject = isCourseDesignerLinkedSubject(candidate);
+  const guide = getSubjectGuideInfo(course, getSubjectRelationInfo(course));
+  const gradeTerms = course.semesters.filter(term => term.startsWith(grade + '-'));
+  const creditLabels = [...new Set(gradeTerms.map(term => { const [g,sem]=term.split('-'); return getPlannerCourseCredits(course,g,sem); }))];
   return `
     <article class="course-designer-course-card source-${primarySource}">
       <div class="course-designer-course-head">
@@ -4873,9 +4919,16 @@ function renderCourseDesignerCourseCard(candidate, grade) {
         <span>${escapeHtml(course.area || "교과군 확인")}</span>
         <span>${escapeHtml(formatSubjectCategory(course.category || ""))}</span>
         <span>${escapeHtml(choiceLabel)}</span>
+        <span>${gradeTerms.length > 1 ? "학기당 " : ""}${creditLabels.join("·")}학점</span>
         ${linkedSubject ? `<span class="course-designer-link-candidate">과목명 연결 확인</span>` : ""}
       </div>
-      <p class="course-designer-course-reason"><b>왜 살펴보나요?</b> ${escapeHtml(getCourseDesignerCourseReason(candidate))}</p>
+      <dl class="student-course-explanation">
+        <div><dt>무엇을 배우나요</dt><dd>${escapeHtml(guide.learning)}</dd></div>
+        <div><dt>수업 활동 예시</dt><dd>${escapeHtml(guide.activities[0])} (실제 수업은 학교 안내 확인)</dd></div>
+        <div><dt>관심 분야와 연결</dt><dd>${escapeHtml(getCourseDesignerCardConnection(candidate))}</dd></div>
+        <div><dt>준비할 부분</dt><dd>${escapeHtml(guide.competencies.join(' · '))} 활동을 미리 살펴보세요. 선수과목 조건은 학교에 확인합니다.</dd></div>
+        <div><dt>편성 시기·방식</dt><dd>${escapeHtml(course.semesters.map(getSemesterLabel).join(' · '))} · ${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}. ${escapeHtml(state.courseDesignerPlan.replace("incoming", ""))} 입학생 편성 기준 · 신청·인원·시간표는 학교 확인.</dd></div>
+      </dl>
       <p class="course-designer-source-note">${escapeHtml(getCourseDesignerCourseSourceNote(candidate))}</p>
       ${renderCourseDesignerOfficialEvidence(candidate)}
       ${renderCourseDesignerDecision(course, grade)}
@@ -5077,9 +5130,10 @@ function getCourseDesignerCourseSourceNote(candidate) {
 }
 
 function isCourseDesignerLinkedSubject(candidate) {
-  const courseName = normalizeText(candidate.course?.name || "");
+  const model = window.ANJWA_STUDENT_MODEL;
+  const courseName = model?.subjectId(candidate.course?.name, state.courseDesignerPlan) || normalizeText(candidate.course?.name || "");
   const sourceSubjects = [...(candidate.subjects || [])];
-  return Boolean(sourceSubjects.length && !sourceSubjects.some((subject) => normalizeText(subject) === courseName));
+  return Boolean(sourceSubjects.length && !sourceSubjects.some((subject) => (model?.subjectId(subject, state.courseDesignerPlan) || normalizeText(subject)) === courseName));
 }
 
 function getCourseDesignerPrimarySource(candidate) {
@@ -5188,6 +5242,8 @@ function renderCurriculum() {
   const visibleCourses = sortCurriculumCourses(semesterCourses, semesterKeys, courseGroupMap);
 
   renderCurriculumSummary(plan, semesterKeys, semesterCourses);
+  const unresolved = getCurriculumSummaryForScope(plan, semesterKeys).unresolvedTerms || [];
+  if (unresolved.length) $('#curriculumPlanDescription').textContent += ' · 이 편성의 일부 과목 행과 선택 묶음은 원본 학기 합계와 일치하지 않아 추가 확인이 필요합니다. 합계는 원본 편성표의 학기 합계를 표시하며, 후보 과목 학점을 모두 더한 값이 아닙니다.';
   updateCurriculumSortHeaders();
   $("#curriculumTableBody").innerHTML = semesterCourses.length
     ? visibleCourses.map((course) => renderCurriculumRow(course, semesterKeys, courseGroupMap.get(course.id) || [])).join("")
@@ -5227,7 +5283,7 @@ function renderCurriculumMobileList(plan, semesterKeys, courses) {
       const groupId = choice?.id || section;
       const heading = groupId !== previousGroup ? `<div class="mobile-choice-heading"><b>${escapeHtml(section)}</b><span>${choice ? escapeHtml(`${choice.shortLabel} · ${choice.choiceText}${choice.creditText ? " · " + choice.creditText : ""}`) : ""}</span></div>` : "";
       previousGroup = groupId;
-      return `${heading}<details class="mobile-course-detail"><summary class="mobile-course-row"><span class="mobile-course-name">${escapeHtml(course.name)}</span><span class="mobile-course-area">${escapeHtml(course.area)}</span><b class="mobile-course-credits">${course.credits || "-"}</b></summary><div class="mobile-course-extra"><span>${escapeHtml(course.category)} · ${escapeHtml(getSemesterLabel(key))}</span>${choice ? `<span>${escapeHtml(`${choice.shortLabel} · ${choice.choiceText}`)}</span>` : ""}${renderCourseNameWithInfo(course)}</div></details>`;
+      return `${heading}<details class="mobile-course-detail"><summary class="mobile-course-row"><span class="mobile-course-name">${escapeHtml(course.name)}<small class="student-mobile-mode">${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}</small></span><span class="mobile-course-area">${escapeHtml(course.area)}</span><b class="mobile-course-credits">${getCurriculumCourseCreditsForScope(course,[key]) || "-"}</b></summary><div class="mobile-course-extra"><span>${escapeHtml(course.category)} · ${escapeHtml(getSemesterLabel(key))}</span>${choice ? `<span>${escapeHtml(`${choice.shortLabel} · ${choice.choiceText}`)}</span>` : ""}${renderCourseNameWithInfo(course)}</div></details>`;
     }).join("");
     return `<section class="mobile-semester-section" aria-label="${escapeHtml(getSemesterLabel(key))}">${orderedKeys.length > 1 ? `<h4>${escapeHtml(getSemesterLabel(key))}</h4>` : ""}<div class="mobile-table-head"><span>과목명</span><span>교과군</span><span>학점</span></div>${content}</section>`;
   }).join("") || '<p class="empty-note">해당 조건에 맞는 과목이 없습니다.</p>';
@@ -5256,7 +5312,7 @@ function renderCurriculumRow(course, semesterKeys, groupInfos) {
       <td>${escapeHtml(course.area)}</td>
       <td>${escapeHtml(course.category)}</td>
       <td>${renderCourseNameWithInfo(course)}</td>
-      <td>${course.credits || "-"}</td>
+      <td>${getCurriculumCourseCreditsForScope(course,semesterKeys) || "-"}</td>
     </tr>
   `;
 }
@@ -5271,7 +5327,7 @@ function getPlanKeyForCourseList(allCourses) {
 }
 
 function isChoiceGroupStartOverride(allCourses, semesterKey, course) {
-  const planKey = getPlanKeyForCourseList(allCourses);
+  const planKey = course.cohortPlanKey || getPlanKeyForCourseList(allCourses);
   const startRows = choiceGroupStartOverrides[planKey]?.[semesterKey] || [];
   return startRows.includes(course.row);
 }
@@ -5480,7 +5536,7 @@ function renderCurriculumChoiceGroups(choiceGroups, visibleCourses, hasQuery) {
                 ${group.creditText ? `<small>${escapeHtml(`${group.creditText} 편성`)}</small>` : ""}
               </div>
               <div class="tag-list">
-                ${group.courses.map((course) => `<span class="tag ${visibleIds.has(course.id) ? "selected" : ""}">${escapeHtml(course.name)} · ${course.credits}학점</span>`).join("")}
+                ${group.courses.map((course) => `<span class="tag ${visibleIds.has(course.id) ? "selected" : ""}">${escapeHtml(course.name)} · ${getCurriculumCourseCreditsForScope(course,[group.semesterKey])}학점</span>`).join("")}
               </div>
             </article>
           `
@@ -5509,18 +5565,25 @@ function updateCurriculumScopeControls(scope) {
 }
 
 function getCurriculumSummaryForScope(plan, semesterKeys) {
-  if (!plan.summary) return {};
-  if (semesterKeys.length === 1) return plan.summary[semesterKeys[0]] || {};
-  return semesterKeys.reduce(
-    (total, semesterKey) => {
-      const summary = plan.summary[semesterKey] || {};
-      total.courseCredits += Number(summary.courseCredits || 0);
-      total.creativeCredits += Number(summary.creativeCredits || 0);
-      total.totalCredits += Number(summary.totalCredits || 0);
-      return total;
-    },
-    { courseCredits: 0, creativeCredits: 0, totalCredits: 0 }
-  );
+  if (!plan.summary && !plan.courses?.length) return {};
+  return semesterKeys.reduce((total, key) => {
+    const groups = buildCurriculumChoiceGroupsForSemester(plan.courses, key);
+    const grouped = new Set(groups.flatMap(group => group.courses.map(course => course.id)));
+    const fixed = plan.courses.filter(course => course.semesters.includes(key) && !grouped.has(course.id) && !/추가|공동교육/.test(course.section));
+    const fixedCredits = fixed.reduce((sum, course) => sum + Number(course.markers[key] || course.credits || 0), 0);
+    const choiceCredits = groups.reduce((sum, group) => sum + Number(group.creditText.replace(/[^0-9]/g, '') || 0), 0);
+    const sourceSummary = plan.summary?.[key];
+    const creative = Number(sourceSummary?.creativeCredits || 0);
+    const calculated = fixedCredits + choiceCredits;
+    // Imported semester budgets are authoritative where historical rows are incomplete.
+    // Never infer missing credits by adjusting a total or summing all choice candidates.
+    const credits = sourceSummary && Number.isFinite(Number(sourceSummary.courseCredits)) ? Number(sourceSummary.courseCredits) : calculated;
+    if (credits !== calculated) (total.unresolvedTerms ||= []).push(key);
+    total.courseCredits += credits;
+    total.creativeCredits += creative;
+    total.totalCredits += credits + creative;
+    return total;
+  }, { courseCredits: 0, creativeCredits: 0, totalCredits: 0 });
 }
 
 function renderSemesterChoiceBadges(course, semesterKeys, groupInfos) {
@@ -6178,6 +6241,7 @@ function renderCourseNameWithInfo(course) {
   return `
     <span class="course-title-with-info">
       <strong>${escapeHtml(course.name)}</strong>
+      ${course.subjectId ? `<small class="student-operating-badge">${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}</small>` : ""}
       <button class="subject-info-button" type="button"
         aria-label="${escapeHtml(`${course.name} 과목 안내 보기`)}"
         title="과목 안내 보기"
@@ -6261,11 +6325,12 @@ function openSubjectInfoPopup(course) {
 }
 
 function getSubjectGuideInfo(course, relation) {
-  const subjectProfile = subjectGuideData.subjectProfiles?.[course.name] || {};
+  const profileName = window.ANJWA_STUDENT_MODEL?.catalogue.get(course.subjectId)?.name || course.name.replace(/\(온\)|\(고시외\)/g, "").trim();
+  const subjectProfile = subjectGuideData.subjectProfiles?.[profileName] || {};
   const areaProfile = subjectGuideData.areaProfiles?.[course.area] || {};
   const groupProfile = subjectGuideData.groupProfiles?.[relation.title] || {};
   return {
-    learning: subjectProfile.learning || groupProfile.learning || areaProfile.learning || relation.description || getSubjectConnectionPoint(course),
+    learning: subjectProfile.learning || courseDesignerData.subjectConcepts?.[profileName] || groupProfile.learning || areaProfile.learning || relation.description || getSubjectConnectionPoint(course),
     curriculum: subjectProfile.curriculum || "",
     activities: groupProfile.activities || areaProfile.activities || ["수업 개념에서 질문 만들기", "자료를 찾아 근거 비교하기", "결과와 한계를 자신의 말로 정리하기"],
     competencies: groupProfile.competencies || areaProfile.competencies || ["질문 만들기", "자료 해석", "성찰"],
@@ -6286,6 +6351,7 @@ function getSubjectGuideOfferings(subject) {
   return recommendationCurriculumPlans.flatMap((plan) => {
     return getSubjectCurriculumMatches(subject, plan.key).map((match) => ({
       ...plan,
+      ...match,
       name: match.name,
       semesters: match.semesters || []
     }));
@@ -6302,7 +6368,7 @@ function renderSubjectGuideOfferings(offerings, subject) {
       ${offerings.map((offering) => {
         const semesterLabel = offering.semesters.map((semesterKey) => getSemesterLabel(semesterKey)).join(" · ") || "학년·학기 확인";
         const actualName = normalizeText(offering.name) === normalizeText(subject) ? "" : ` · ${offering.name}`;
-        return `<span class="subject-guide-offering ${offering.className}"><b>${escapeHtml(offering.shortLabel)}</b> · ${escapeHtml(semesterLabel)}${escapeHtml(actualName)}</span>`;
+        return `<span class="subject-guide-offering ${offering.className}"><b>${escapeHtml(offering.shortLabel)}</b> · ${escapeHtml(semesterLabel)}${escapeHtml(actualName)} · ${escapeHtml(offering.modeLabel)}${offering.relatedMatch ? " · 유사 과목(공식 동등 아님)" : ""}</span>`;
       }).join("")}
     </div>
   `;
@@ -6711,7 +6777,8 @@ function groupSubjectAvailabilityByMatchedName(subject, availability) {
       }
       groups.get(key).plans.push({
         ...plan,
-        courseGradeLabel: getCourseGradeLabelFromSemesters(match.semesters)
+        courseGradeLabel: match.semesters.map(getSemesterLabel).join(" · "),
+        modeLabel: match.modeLabel, relatedMatch: match.relatedMatch
       });
     });
   });
@@ -6768,18 +6835,14 @@ function renderMatchedSubjectAvailabilityLabel(plans) {
 }
 
 function renderPlanCourseLabel(plan) {
-  return escapeHtml(`${plan.shortLabel} · ${plan.courseGradeLabel || "학년 확인"}`);
+  return escapeHtml(`${plan.shortLabel} · ${plan.courseGradeLabel || "학년 확인"} · ${plan.modeLabel || "편성 확인"}${plan.relatedMatch ? " · 유사 과목(공식 동등 아님)" : ""}`);
 }
 
 function getSubjectCurriculumMatches(subject, planKey) {
-  const schoolSubjects = getSchoolSubjectMap(planKey);
-  const matched = getSubjectCompareNames(subject, planKey)
-    .flatMap((name) => schoolSubjects.get(normalizeText(name)) || [])
-    .map((course) => ({
-      name: course.name,
-      semesters: course.semesters || []
-    }));
-  return dedupeSubjectMatches(matched);
+  const model = window.ANJWA_STUDENT_MODEL;
+  const exact = model ? model.match(subject, planKey) : [];
+  const related = exact.length ? [] : getSubjectCompareNames(subject, planKey).flatMap(name => model?.match(name, planKey) || []);
+  return dedupeSubjectMatches([...exact, ...related].map(course => ({ ...course, relatedMatch: !exact.length, modeLabel: model.label(course) })));
 }
 
 function dedupeSubjectMatches(matches) {
@@ -6918,12 +6981,17 @@ function getPlannerCourse(courseId) {
 }
 
 function getPlannerCourseCredits(course, grade, semester) {
-  const semesterKey = `${grade}-${semester}`;
-  const markerCredit = Number(course.markers?.[semesterKey]);
-  if (Number.isFinite(markerCredit) && markerCredit > 0) return markerCredit;
-
-  const semesterCount = Math.max(1, course.semesters?.length || 1);
-  return Math.max(1, Math.round(Number(course.credits || 1) / semesterCount));
+  const marker = String(course.markers?.[`${grade}-${semester}`] || '');
+  const numeric = Number(marker);
+  if (Number.isFinite(numeric) && numeric > 0) return numeric;
+  const choice = marker.match(/택\s*(\d+)\s*\]?\s*\/\s*(\d+)/);
+  if (choice && Number(choice[1]) > 0) return Number(choice[2]) / Number(choice[1]);
+  return Number(course.credits || 0);
+}
+function getCurriculumCourseCreditsForScope(course, semesterKeys) {
+  return semesterKeys.filter(key => course.semesters.includes(key)).reduce((sum,key) => {
+    const [grade,semester] = key.split('-'); return sum + getPlannerCourseCredits(course,grade,semester);
+  },0);
 }
 
 function getPlannerSectionLabel(section = "") {
@@ -7047,7 +7115,11 @@ function getPlannerCourseActionState(course, grade, semester) {
 }
 
 function setPlannerMode(mode) {
+  if (mode === 'choice' && state.plannerMode === 'fixed' && !getPlannerSelectableCourses().some(course => course.semesters.some(term => term.startsWith(state.activeGrade + '-')))) {
+    selectNextPlannerTarget(); renderCoursePool();
+  }
   state.plannerMode = ["choice", "mine"].includes(mode) ? mode : "fixed";
+  saveStudentScreenState();
   renderPlannerModeState();
   saveState(false);
   const target = $("#planner");
@@ -7148,14 +7220,17 @@ function renderMineSemesterBlock(fixedCourses, grade, semester) {
   const fixedCredits = fixedSemesterCourses.reduce((sum, course) => sum + getPlannerCourseCredits(course, grade, semester), 0);
   const selectedCredits = sumCredits(selectedItems);
   const totalCourses = fixedSemesterCourses.length + selectedItems.length;
-  const totalCredits = fixedCredits + selectedCredits;
+  const courseCredits = fixedCredits + selectedCredits;
+  const creativeCredits = Number(getPlannerCurriculumPlan().summary?.[semesterKey]?.creativeCredits || 0);
+  const totalCredits = courseCredits + creativeCredits;
 
   return `
     <div class="mine-semester-card">
       <div class="mine-semester-head">
         <b>${grade}학년 ${semester}학기</b>
-        <span>기본·선택 ${totalCourses}과목 · ${totalCredits}학점${additionalItems.length ? ` · 추가 ${additionalItems.length}과목` : ""}</span>
+        <span>내 계획 ${totalCourses}과목 · 교과 ${courseCredits} + 창체 ${creativeCredits} = 총 ${totalCredits}학점${additionalItems.length ? ` · 추가 ${additionalItems.length}과목` : ""}</span>
       </div>
+      <p class="student-plan-budget">학교 편성 총 ${getCurriculumSummaryForScope(getPlannerCurriculumPlan(),[semesterKey]).totalCredits}학점 기준. 내 계획 합계는 선택한 과목만 포함하며, 공동·추가 과정의 이수 인정은 학교 확인이 필요합니다.</p>
       <div class="mine-course-section">
         <span class="label">학교지정</span>
         ${
@@ -7316,6 +7391,7 @@ function buildMineCurriculumPrintDocument(studentNumber, exportTime, fileTitle) 
       return `
         <section class="semester">
           <h3>${grade}학년 ${semester}학기</h3>
+          <p>내 계획: 교과 ${getPlannerSemesterCreditSummary(grade,semester).courseCredits} + 창체 ${getPlannerSemesterCreditSummary(grade,semester).creativeCredits} = 총 ${getPlannerSemesterCreditSummary(grade,semester).totalCredits}학점</p>
           ${list("학교지정", fixed, (course) => `<li>${escapeHtml(course.name)} <small>${escapeHtml(course.area)} · ${getPlannerCourseCredits(course, grade, semester)}학점</small></li>`)}
           ${list("내 선택과목", selected, ({ item, course }) => `<li>${escapeHtml(course.name)} <small>${escapeHtml(course.area)} · ${escapeHtml(getPlannerSectionLabel(course.section || "선택과목"))} · ${item.credits || getPlannerCourseCredits(course, grade, semester)}학점</small></li>`)}
           ${list("추가 교육과정", additional, (item) => `<li>${escapeHtml(item.name)} <small>${escapeHtml(item.area || "기타")} · ${escapeHtml(item.category || "선택과목")}</small>${item.reason ? `<em>${escapeHtml(item.reason)}</em>` : ""}</li>`)}
@@ -7374,6 +7450,7 @@ function setSelfEvaluationMode(mode) {
   if (state.selfEvalMode === "subject") updateSelfEvaluationEntryFromForm();
   if (state.selfEvalMode === "creative") updateCreativeEvaluationEntryFromForm();
   state.selfEvalMode = mode;
+  saveStudentScreenState();
   renderSelfEvaluationMode();
 }
 
@@ -7406,45 +7483,47 @@ function normalizeStudentNumber(value) {
 }
 
 function loadSelfEvaluationIdentity() {
-  state.selfEvalStudentNumber = normalizeStudentNumber(localStorage.getItem(SELF_EVAL_IDENTITY_STORAGE_KEY));
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('anjwa-draft-session-v2'));
+    state.selfEvalStudentNumber = normalizeStudentNumber(saved?.studentNumber);
+    state.selfEvalOwnerConfirmed = Boolean(saved?.confirmed && state.selfEvalStudentNumber);
+    state.selfEvalDeviceMode = saved?.mode === 'personal' ? 'personal' : 'shared';
+  } catch { state.selfEvalStudentNumber = ''; state.selfEvalOwnerConfirmed = false; state.selfEvalDeviceMode = 'shared'; }
 }
 
 function saveSelfEvaluationIdentity() {
-  if (state.selfEvalStudentNumber) {
-    localStorage.setItem(SELF_EVAL_IDENTITY_STORAGE_KEY, state.selfEvalStudentNumber);
-  } else {
-    localStorage.removeItem(SELF_EVAL_IDENTITY_STORAGE_KEY);
-  }
+  try { sessionStorage.setItem('anjwa-draft-session-v2', JSON.stringify({studentNumber:state.selfEvalStudentNumber, confirmed:state.selfEvalOwnerConfirmed, mode:state.selfEvalDeviceMode || 'shared'})); }
+  catch { showToast('이 브라우저에서 저장할 수 없습니다. 작성 내용을 PDF로 내보내세요.'); }
 }
 
 function renderSelfEvaluationIdentity() {
-  const input = $("#selfEvalStudentNumber");
+  const input = $('#selfEvalStudentNumber');
   if (input) input.value = state.selfEvalStudentNumber;
+  const mode = $('#selfEvalDeviceMode'); if (mode) mode.value = state.selfEvalDeviceMode || 'shared';
+  const note = $('#selfEvalSessionNote');
+  if (note) note.textContent = state.selfEvalOwnerConfirmed
+    ? `${state.selfEvalStudentNumber} 작성 중 · ${state.selfEvalDeviceMode === 'personal' ? '이 브라우저' : '이 탭'}에만 저장합니다. 다른 학생이면 작성 마치기를 누르세요.`
+    : '학번과 저장할 곳을 확인하고 작성 시작을 누르세요. 이전 학생의 내용은 자동으로 불러오지 않습니다.';
+  $all('#selfEvalForm textarea, #creativeEvalForm textarea, [data-self-eval-competency], [data-creative-eval-competency]').forEach(input => input.disabled = !state.selfEvalOwnerConfirmed);
 }
 
 function clearSelfEvaluationStudentNumber() {
-  if (!state.selfEvalStudentNumber) {
-    showToast("지울 학번이 없습니다.");
-    return;
+  if (state.selfEvalOwnerConfirmed) {
+    updateSelfEvaluationEntryFromForm(); updateCreativeEvaluationEntryFromForm();
+    saveSelfEvaluationState(false); saveCreativeEvaluationState(false);
   }
-  if (!window.confirm("학번만 지웁니다. 작성한 자기평가서 내용은 유지됩니다.")) return;
-  state.selfEvalStudentNumber = "";
-  saveSelfEvaluationIdentity();
-  renderSelfEvaluationIdentity();
-  $("#selfEvalStudentNumber")?.focus();
-  showToast("학번을 지웠습니다.");
+  state.selfEvalStudentNumber = ''; state.selfEvalOwnerConfirmed = false;
+  state.selfEvalEntries = {}; state.creativeEvalEntries = {};
+  state.selfEvalDeviceMode = $('#selfEvalDeviceMode')?.value || 'shared';
+  saveSelfEvaluationIdentity(); renderSelfEvaluation(); renderCreativeEvaluation(); renderSelfEvaluationIdentity();
+  $('#selfEvalStudentNumber')?.focus();
+  showToast('작성을 마쳤습니다. 저장된 자료는 삭제하지 않았습니다. 공용 기기는 PDF를 저장한 뒤 탭을 닫으세요.');
 }
 
 function requireSelfEvaluationStudentNumber() {
-  const input = $("#selfEvalStudentNumber");
-  const studentNumber = normalizeStudentNumber(input?.value || state.selfEvalStudentNumber);
-  state.selfEvalStudentNumber = studentNumber;
-  saveSelfEvaluationIdentity();
-  renderSelfEvaluationIdentity();
-  if (studentNumber) return studentNumber;
-  showToast("PDF를 내보내려면 학번을 먼저 입력해 주세요.");
-  input?.focus();
-  return "";
+  if (state.selfEvalOwnerConfirmed && state.selfEvalStudentNumber) return state.selfEvalStudentNumber;
+  showToast('학번을 확인하고 작성 시작을 눌러 주세요.');
+  $('#selfEvalStudentNumber')?.focus(); return '';
 }
 
 function createLocalExportTime(date = new Date()) {
@@ -7553,21 +7632,15 @@ function renderCreativeEvaluation() {
   renderCreativeEvaluationCompetencies(entry);
   renderCreativeEvaluationStatus();
   $all("#creativeEvalForm textarea").forEach((textarea) => resizeSelfEvaluationTextarea(textarea));
+  renderSelfEvaluationIdentity();
 }
 
 function renderCreativeEvaluationField(field, value) {
-  return `
-    <label class="self-eval-field creative-eval-field">
-      <span>
-        <b>${escapeHtml(field.label)}</b>
-        <button class="subject-info-button self-help-button" type="button"
-          aria-label="${escapeHtml(`${field.label} 도움말`)}"
-          title="작성 도움말"
-          data-creative-help="${escapeHtml(field.key)}">?</button>
-      </span>
-      <textarea data-creative-eval-field="${escapeHtml(field.key)}" rows="${field.rows || 4}" placeholder="${escapeAttribute(field.placeholder)}">${escapeTextareaValue(value)}</textarea>
-    </label>
-  `;
+  const id = `creative-eval-${field.key}`;
+  return `<div class="self-eval-field creative-eval-field"><span><label for="${escapeAttribute(id)}">${escapeHtml(field.label)}</label>
+  <button class="subject-info-button self-help-button" type="button" aria-label="${escapeAttribute(field.label + ' 도움말')}" data-creative-help="${escapeAttribute(field.key)}">?</button></span>
+  <small id="${escapeAttribute(id)}-help">선택 입력 · 실제로 한 내용만 적습니다. 예시: ${escapeHtml(field.placeholder)}</small>
+  <textarea id="${escapeAttribute(id)}" aria-describedby="${escapeAttribute(id)}-help" data-creative-eval-field="${escapeAttribute(field.key)}" rows="${field.rows || 4}" placeholder="${escapeAttribute(field.placeholder)}">${escapeTextareaValue(value)}</textarea></div>`;
 }
 
 function renderCreativeEvaluationCompetencies(entry) {
@@ -7590,6 +7663,7 @@ function renderCreativeEvaluationStatus() {
 }
 
 function updateCreativeEvaluationEntryFromForm() {
+  if (!state.selfEvalOwnerConfirmed) return;
   const form = $("#creativeEvalForm");
   if (!form) return;
   const config = getCreativeEvaluationTypeConfig();
@@ -7605,6 +7679,7 @@ function updateCreativeEvaluationEntryFromForm() {
 }
 
 function saveCreativeEvaluationState(showMessage) {
+  if (!state.selfEvalOwnerConfirmed) { if (showMessage) requireSelfEvaluationStudentNumber(); return; }
   const data = {
     creativeEvalPlan: state.creativeEvalPlan,
     creativeEvalGrade: state.creativeEvalGrade,
@@ -7613,7 +7688,7 @@ function saveCreativeEvaluationState(showMessage) {
     creativeEvalSeries: state.creativeEvalSeries,
     creativeEvalEntries: state.creativeEvalEntries
   };
-  localStorage.setItem(CREATIVE_EVAL_STORAGE_KEY, JSON.stringify(data));
+  if (!writeStudentDraft(CREATIVE_EVAL_STORAGE_KEY, data)) return;
   if (showMessage) showToast("창의적 체험활동을 저장했습니다.");
 }
 
@@ -7635,8 +7710,9 @@ function resetCurrentCreativeEvaluationEntry() {
 }
 
 function loadCreativeEvaluationState() {
+  if (!state.selfEvalOwnerConfirmed) return;
   try {
-    const saved = JSON.parse(localStorage.getItem(CREATIVE_EVAL_STORAGE_KEY));
+    const saved = readStudentDraft(CREATIVE_EVAL_STORAGE_KEY);
     if (!saved) return;
     state.creativeEvalPlan = saved.creativeEvalPlan || state.creativeEvalPlan;
     state.creativeEvalGrade = ["1", "2", "3"].includes(saved.creativeEvalGrade) ? saved.creativeEvalGrade : "1";
@@ -7647,9 +7723,9 @@ function loadCreativeEvaluationState() {
       ? savedSeries
       : "representative";
     state.creativeEvalEntries = saved.creativeEvalEntries || {};
+    return true;
   } catch {
-    localStorage.removeItem(CREATIVE_EVAL_STORAGE_KEY);
-    state.creativeEvalEntries = {};
+    showToast("저장 자료를 읽지 못했습니다. 원본과 현재 작성 내용은 보존했습니다.");
   }
 }
 
@@ -7962,22 +8038,17 @@ function renderSelfEvaluation() {
   renderSelfEvaluationCompetencies(entry);
   renderSelfEvaluationStatus();
   resizeSelfEvaluationTextareas();
+  renderSelfEvaluationIdentity();
 }
 
 function renderSelfEvaluationField(field, value) {
-  const rows = field.rows || 4;
-  return `
-    <label class="self-eval-field">
-      <span>
-        <b>${escapeHtml(field.label)}</b>
-        <button class="subject-info-button self-help-button" type="button"
-          aria-label="${escapeHtml(`${field.label} 도움말`)}"
-          title="작성 도움말"
-          data-self-help="${escapeHtml(field.key)}">?</button>
-      </span>
-      <textarea data-self-eval-field="${escapeHtml(field.key)}" rows="${rows}" placeholder="${escapeAttribute(field.placeholder)}">${escapeTextareaValue(value)}</textarea>
-    </label>
-  `;
+  const id = `self-eval-${field.key}`;
+  return `<div class="self-eval-field">
+    <span><label for="${escapeAttribute(id)}">${escapeHtml(field.label)}</label>
+      <button class="subject-info-button self-help-button" type="button" aria-label="${escapeAttribute(field.label + ' 도움말')}" data-self-help="${escapeAttribute(field.key)}">?</button></span>
+    <small id="${escapeAttribute(id)}-help">선택 입력 · 실제로 한 내용만 적습니다. 예시: ${escapeHtml(field.placeholder)}</small>
+    <textarea id="${escapeAttribute(id)}" aria-describedby="${escapeAttribute(id)}-help" data-self-eval-field="${escapeAttribute(field.key)}" rows="${field.rows || 4}" placeholder="${escapeAttribute(field.placeholder)}">${escapeTextareaValue(value)}</textarea>
+  </div>`;
 }
 
 function renderSelfEvaluationCompetencies(entry) {
@@ -8000,6 +8071,7 @@ function renderSelfEvaluationStatus() {
 }
 
 function updateSelfEvaluationEntryFromForm() {
+  if (!state.selfEvalOwnerConfirmed) return;
   const form = $("#selfEvalForm");
   if (!form || !state.selfEvalSubject) return;
   const entry = getSelfEvaluationEntry();
@@ -8014,13 +8086,14 @@ function updateSelfEvaluationEntryFromForm() {
 }
 
 function saveSelfEvaluationState(showMessage) {
+  if (!state.selfEvalOwnerConfirmed) { if (showMessage) requireSelfEvaluationStudentNumber(); return; }
   const data = {
     selfEvalPlan: state.selfEvalPlan,
     selfEvalSemester: state.selfEvalSemester,
     selfEvalSubject: state.selfEvalSubject,
     selfEvalEntries: state.selfEvalEntries
   };
-  localStorage.setItem(SELF_EVAL_STORAGE_KEY, JSON.stringify(data));
+  if (!writeStudentDraft(SELF_EVAL_STORAGE_KEY, data)) return;
   if (showMessage) showToast("자기평가서를 저장했습니다.");
 }
 
@@ -8045,8 +8118,9 @@ function resetCurrentSelfEvaluationEntry() {
 }
 
 function loadSelfEvaluationState() {
+  if (!state.selfEvalOwnerConfirmed) return;
   try {
-    const saved = JSON.parse(localStorage.getItem(SELF_EVAL_STORAGE_KEY));
+    const saved = readStudentDraft(SELF_EVAL_STORAGE_KEY);
     if (!saved) {
       ensureSelfEvaluationSubject();
       return;
@@ -8056,9 +8130,9 @@ function loadSelfEvaluationState() {
     state.selfEvalSubject = saved.selfEvalSubject || "";
     state.selfEvalEntries = saved.selfEvalEntries || {};
     ensureSelfEvaluationSubject();
+    return true;
   } catch {
-    localStorage.removeItem(SELF_EVAL_STORAGE_KEY);
-    state.selfEvalEntries = {};
+    showToast("저장 자료를 읽지 못했습니다. 원본과 현재 작성 내용은 보존했습니다.");
     ensureSelfEvaluationSubject();
   }
 }
@@ -8390,9 +8464,10 @@ function renderCoursePool() {
   const guide = $("#recommendBox");
   if (!pool) return;
 
+  renderNextPlannerTarget();
   const query = normalizeText($("#courseSearch")?.value || "");
   const selectableCourses = getPlannerSelectableCourses()
-    .filter((course) => course.semesters.some((semesterKey) => semesterKey.startsWith(`${state.activeGrade}-`)))
+    .filter((course) => course.semesters.some((semesterKey) => state.plannerTargetSemester ? semesterKey === state.plannerTargetSemester : semesterKey.startsWith(`${state.activeGrade}-`)))
     .filter((course) => {
       if (!query) return true;
       return normalizeText(`${course.name} ${course.area} ${course.category} ${course.section}`).includes(query);
@@ -8401,13 +8476,14 @@ function renderCoursePool() {
   if (guide) {
     guide.innerHTML = `
       <strong>${escapeHtml(getCurriculumPlanLabel(state.plannerPlan))}</strong>
-      <p>${state.activeGrade}학년 과정에서 고를 수 있는 선택과목을 보여줍니다. 과목을 누르거나 학기 버튼을 눌러 수강 희망 목록에 넣습니다.</p>
+      <p>${state.plannerTargetSemester ? getSemesterLabel(state.plannerTargetSemester) : state.activeGrade + "학년 전체"} 편성에서 선택 후보를 보여줍니다. 과목을 누르거나 학기 버튼을 눌러 수강 희망 목록에 넣습니다.</p>
     `;
   }
 
   pool.innerHTML = selectableCourses.length ? selectableCourses
     .map((course) => {
       const semesterButtons = getCourseSemestersForGrade(course, state.activeGrade)
+        .filter(semester => !state.plannerTargetSemester || `${state.activeGrade}-${semester}` === state.plannerTargetSemester)
         .map((semester) => renderCourseActionPair(course, state.activeGrade, semester))
         .join("");
       const disabledForAllSemesters = getCourseSemestersForGrade(course, state.activeGrade)
@@ -8418,7 +8494,7 @@ function renderCoursePool() {
           data-course-id="${escapeHtml(course.id)}"
           data-course-zone="${course.section.includes("공동교육") ? "joint" : "regular"}">
           ${renderCourseNameWithInfo(course)}
-          <small>${escapeHtml(course.area)} · ${escapeHtml(course.category)} · ${escapeHtml(getPlannerSectionLabel(course.section))}${renderCourseChoiceStatus(course)}</small>
+          <small>${escapeHtml(course.area)} · ${escapeHtml(course.category)} · ${escapeHtml(getPlannerSectionLabel(course.section))} · ${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))} · 편성 기준(신청 조건 확인)${renderCourseChoiceStatus(course)}</small>
           <div class="quick-add-row">
             ${semesterButtons}
           </div>
@@ -8824,7 +8900,7 @@ function loadState() {
     state.creative = { ...state.creative, ...(saved.creative || {}) };
     state.inquiry = { ...state.inquiry, ...(saved.inquiry || {}) };
   } catch {
-    localStorage.removeItem(STORAGE_KEY);
+    console.warn("선택과목 저장 자료를 읽지 못했습니다. 원본은 보존합니다.");
   }
 }
 
@@ -8841,9 +8917,13 @@ function normalizePlannerPlan(plan) {
   ["1", "2", "3"].forEach((grade) => {
     ["1", "2"].forEach((semester) => {
       const semesterPlan = plan?.[grade]?.[semester] || {};
+      const reconcile = items => items.map(item => {
+        const course = Object.values(curriculumData.plans).flatMap(plan => plan.courses).find(course => course.id === item.id);
+        return course && course.semesters.includes(`${grade}-${semester}`) ? {...item, credits:getPlannerCourseCredits(course,grade,semester)} : {...item};
+      });
       normalized[grade][semester] = {
-        regular: Array.isArray(semesterPlan.regular) ? semesterPlan.regular : [],
-        joint: Array.isArray(semesterPlan.joint) ? semesterPlan.joint : [],
+        regular: Array.isArray(semesterPlan.regular) ? reconcile(semesterPlan.regular) : [],
+        joint: Array.isArray(semesterPlan.joint) ? reconcile(semesterPlan.joint) : [],
         additional: Array.isArray(semesterPlan.additional)
           ? semesterPlan.additional.map(normalizeAdditionalCourseItem).filter(Boolean)
           : []
@@ -8868,6 +8948,7 @@ function switchPlannerPlan(planKey) {
   if (!curriculumData.plans?.[planKey]) return;
   rememberActivePlannerPlan();
   state.plannerPlan = planKey;
+  selectNextPlannerTarget();
   state.plan = clonePlannerPlan(state.plannerPlans[planKey] || createEmptyPlan());
   saveState(false);
   renderCoursePool();
@@ -9003,6 +9084,7 @@ function renderAdmissionDetailGuide(pageKey, page) {
     <ul>
       ${guide.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
     </ul>
+    ${(page.understandingChecks || []).map((check,index) => `<details class="admission-answer-check"><summary>답 확인과 해설 ${index+1} · ${escapeHtml(check.question)}</summary><p><b>답</b> ${escapeHtml(check.answer)}</p><p><b>왜 그런가요?</b> ${escapeHtml(check.explanation)}</p><p><b>다음 행동</b> ${escapeHtml(check.nextAction)}</p></details>`).join('')}
   `;
 }
 
@@ -9056,3 +9138,109 @@ document.addEventListener("DOMContentLoaded", () => {
     initRecommendationOnly("major");
   }
 });
+
+// Student entry routes and the first future choice term are derived from offerings.
+function getNextChoiceTarget(planKey) {
+  const entranceYear = Number(planKey.replace('incoming', ''));
+  const currentGrade = schoolReferenceYear - entranceYear + 1;
+  const plan = curriculumData.plans[planKey];
+  const terms = [...new Set((plan?.courses || []).filter(isPlannerChoiceCourse).flatMap(c => c.semesters))].sort();
+  return terms.find(term => Number(term.split('-')[0]) > Math.max(0, currentGrade)) || '';
+}
+function selectNextPlannerTarget() {
+  state.plannerTargetSemester = getNextChoiceTarget(state.plannerPlan);
+  state.activeGrade = state.plannerTargetSemester ? state.plannerTargetSemester.split('-')[0] : String(Math.min(3, Math.max(1, schoolReferenceYear - Number(state.plannerPlan.replace('incoming','')) + 1)));
+  state.plannerMode = 'choice';
+  saveStudentScreenState();
+}
+function renderNextPlannerTarget() {
+  const target = $('#plannerNextTarget');
+  if (!target) return;
+  const term = getNextChoiceTarget(state.plannerPlan);
+  target.textContent = term
+    ? `다음 선택 대상: ${getSemesterLabel(term)} (${schoolReferenceYear}학년도 현재 학년 기준). 입학생별 편성표에서 선택 묶음이 있는 첫 다음 학년 학기입니다. 학년 탭을 누르면 해당 학년 전체를 비교합니다. 온라인·공동교육과정은 신청 대상, 인원, 시간표를 학교에 확인한 뒤 수강을 확정하세요.`
+    : '이 입학생 편성표에는 다음 학년의 선택과목이 없습니다. 졸업 대상인지 확인하고, 이전 학년 탭으로 이수 계획을 검토하거나 학교에 최신 편성을 문의하세요.';
+  target.textContent += getCurriculumDataWarning(state.plannerPlan);
+  $all('.year-tab').forEach(tab => { const active = tab.dataset.grade === state.activeGrade; tab.classList.toggle('active', active); tab.setAttribute('aria-pressed', String(active)); });
+}
+function startStudentJourney(kind) {
+  if (kind === 'choices') { selectNextPlannerTarget(); renderCoursePool(); renderPlanner(); setView('planner'); return; }
+  state.courseDesignerStatus = kind === 'activity' ? 'exploring' : 'clear';
+  state.courseDesignerStep = 'setup';
+  state.courseDesignerGenerated = false;
+  state.courseDesignerNeedsReview = false;
+  saveCourseDesignerState(false);
+  renderCourseDesigner();
+  setView('courseDesigner');
+}
+function saveStudentScreenState() {
+  try { sessionStorage.setItem('anjwa-student-screen-v1', JSON.stringify({activeGrade:state.activeGrade, plannerMode:state.plannerMode, plannerTargetSemester:state.plannerTargetSemester || '', plannerPlan:state.plannerPlan, selfEvalMode:state.selfEvalMode})); } catch { /* UI remains usable without storage. */ }
+}
+function restoreStudentScreenState() {
+  try { const value = JSON.parse(sessionStorage.getItem('anjwa-student-screen-v1')); if (!value) return;
+    if (['subject','creative'].includes(value.selfEvalMode)) state.selfEvalMode = value.selfEvalMode;
+    if (['1','2','3'].includes(value.activeGrade)) state.activeGrade = value.activeGrade;
+    if (['fixed','choice','mine'].includes(value.plannerMode)) state.plannerMode = value.plannerMode;
+    if (curriculumData.plans[value.plannerPlan]) state.plannerPlan = value.plannerPlan;
+    state.plannerTargetSemester = /^[123]-[12]$/.test(value.plannerTargetSemester) ? value.plannerTargetSemester : '';
+  } catch { /* Keep defaults. */ }
+}
+
+function studentDraftStorage() { return state.selfEvalDeviceMode === 'personal' ? localStorage : sessionStorage; }
+function studentDraftKey(base) { return `${base}:student-v2:${state.selfEvalStudentNumber}`; }
+function readStudentDraft(base) { return JSON.parse(studentDraftStorage().getItem(studentDraftKey(base))); }
+function writeStudentDraft(base, data) {
+  try { studentDraftStorage().setItem(studentDraftKey(base), JSON.stringify(data)); return true; }
+  catch { showToast('저장할 공간이 없거나 저장이 차단됐습니다. PDF로 작성 내용을 보관하세요.'); return false; }
+}
+function beginStudentDraftSession() {
+  const studentNumber = normalizeStudentNumber($('#selfEvalStudentNumber')?.value);
+  if (!studentNumber) { showToast('학번을 먼저 입력하세요.'); $('#selfEvalStudentNumber')?.focus(); return; }
+  state.selfEvalStudentNumber = studentNumber;
+  state.selfEvalDeviceMode = $('#selfEvalDeviceMode')?.value || 'shared';
+  state.selfEvalOwnerConfirmed = true;
+  state.selfEvalEntries = {}; state.creativeEvalEntries = {};
+  saveSelfEvaluationIdentity(); loadSelfEvaluationState(); loadCreativeEvaluationState();
+  renderSelfEvaluationPlanOptions(); renderSelfEvaluationSemesterOptions(); renderSelfEvaluationSubjectOptions();
+  renderSelfEvaluation(); renderCreativeEvaluation(); renderSelfEvaluationIdentity();
+}
+function importLegacyStudentDrafts() {
+  if (!requireSelfEvaluationStudentNumber()) return;
+  if (!window.confirm('이전 버전의 공용 저장 내용은 작성자를 구분할 수 없습니다. 본인이 작성한 자료임을 확인했나요? 가져오기는 현재 빈 항목에만 적용되며 기존 원본과 현재 작성 내용을 덮어쓰지 않습니다.')) return;
+  try {
+    const previousSubject = JSON.parse(localStorage.getItem(SELF_EVAL_STORAGE_KEY));
+    const previousCreative = JSON.parse(localStorage.getItem(CREATIVE_EVAL_STORAGE_KEY));
+    const mergeMissing = (current, previous) => { for (const [key,value] of Object.entries(previous || {})) { if (!Object.prototype.hasOwnProperty.call(current,key) || current[key] === '' || (Array.isArray(current[key]) && !current[key].length)) current[key] = value; else if (value && typeof value === 'object' && !Array.isArray(value)) mergeMissing(current[key],value); } };
+    mergeMissing(state.selfEvalEntries, previousSubject?.selfEvalEntries);
+    mergeMissing(state.creativeEvalEntries, previousCreative?.creativeEvalEntries);
+    saveSelfEvaluationState(false); saveCreativeEvaluationState(false);
+    renderSelfEvaluation(); renderCreativeEvaluation(); showToast('본인 확인한 기존 작성 자료를 가져왔습니다. 이전 원본은 보존했습니다.');
+  } catch { showToast('기존 저장 자료를 읽지 못했습니다. 원본은 보존했습니다.'); }
+}
+
+function getPlannerSemesterCreditSummary(grade,semester) {
+  const key = `${grade}-${semester}`;
+  const fixed = getPlannerFixedCourses().filter(c=>c.semesters.includes(key)).reduce((sum,c)=>sum+getPlannerCourseCredits(c,grade,semester),0);
+  const selection = state.plan[grade]?.[semester] || {regular:[],joint:[]};
+  const courseCredits = fixed + sumCredits(selection.regular) + sumCredits(selection.joint);
+  const creativeCredits = Number(getPlannerCurriculumPlan().summary?.[key]?.creativeCredits || 0);
+  return {courseCredits,creativeCredits,totalCredits:courseCredits+creativeCredits};
+}
+
+function getCourseDesignerCardConnection(candidate) {
+  const name = window.ANJWA_STUDENT_MODEL.catalogue.get(candidate.course.subjectId)?.name || candidate.course.name;
+  const selected = getSelectedCourseDesignerInterests();
+  const linked = selected.filter(interest=>candidate.interests.has(interest.label));
+  const reason = linked.map(interest=>{
+    const reasons=courseDesignerData.interestSubjectReasons?.[interest.id] || {};
+    return reasons[name] || [...candidate.subjects].map(subject=>reasons[subject]).find(Boolean);
+  }).filter(Boolean);
+  return [...new Set(reason)].join(' ') || `${[...candidate.interests].join('·')} 분야의 학과 수업과 비교해 볼 후보입니다. 구체적인 연결은 과목 안내와 학과 교육과정에서 확인하세요.`;
+}
+
+function getCurriculumDataWarning(planKey) {
+  const plan=curriculumData.plans[planKey];
+  if (!plan) return '';
+  const summary=getCurriculumSummaryForScope(plan,Object.keys(plan.summary || {}));
+  return summary.unresolvedTerms?.length ? ' · 원본 자료 확인 필요: 일부 과목 행·선택 묶음이 학기 합계와 일치하지 않습니다. 편성 합계는 원본 기준으로 유지했으며, 선택 확정 전 학교 원자료를 확인하세요.' : '';
+}
