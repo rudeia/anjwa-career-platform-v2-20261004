@@ -1,6 +1,8 @@
 (function(root){
   'use strict';const D=root.AnjwaDemand;
   const columns=['responseId','format','schema','surveyId','round','planKey','grade','version','studentNumber','name','status','exportedAt'];
+  const contextFields=['surveyId','round','planKey','grade','version'];
+  const curriculumColumns=['groupId','term','section','count','credits','courseId','과목명','subjectId','교과군','유형','운영방식','개설상태','과목학점'];
   const dataColumns=['responseId','groupId','decision','courseId','role','condition','과목명','학점','운영방식'];
   const displayDate=value=>new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(value));
   const text=value=>({t:typeof value==='number'?'n':'s',v:value??''});
@@ -12,10 +14,11 @@
       const bySem=s=>ctx.groups.filter(g=>g.term.endsWith('-'+s));const show=g=>{if(!g)return['',''];const a=r.answers.find(a=>a.groupId===g.id),names=a.primary.map(id=>g.courses.find(c=>c.id===id).name+(a.conditions?.[id]==='conditional'?' [조건 확인]':a.conditions?.[id]==='unavailable'?' [참여 어려움]':''));return[g.section+' / '+g.count+'과목 · '+g.credits+'학점',a.decision==='unknown'?'미정':names.join('\n')+(a.decision==='help'?'\n설명 필요':a.decision==='considering'?'\n고민 중':'')+(a.alternative.length?'\n대체: '+a.alternative.map(id=>g.courses.find(c=>c.id===id).name).join(', '):'')];};
       const left=bySem('1'),right=bySem('2');for(let i=0;i<Math.max(left.length,right.length);i++)printRows.push([...show(left[i]),...show(right[i])]);printRows.push(['응답 상태',r.status==='withdrawn'?'철회':'신청 희망','',''],['편성 확인번호',r.version.slice(0,12),'',''],['작성 일시',displayDate(r.exportedAt),'','']);const ws=sheet(printRows);ws['!cols']=[{wch:27},{wch:43},{wch:27},{wch:43}];ws['!rows']=printRows.map((_,i)=>({hpt:i>=6&&i<6+Math.max(left.length,right.length)?85:24}));ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:3}},{s:{r:4,c:1},e:{r:4,c:3}},{s:{r:printRows.length-2,c:1},e:{r:printRows.length-2,c:3}}];ws['!margins']={left:0.3,right:0.3,top:0.3,bottom:0.3,header:0,footer:0};X.utils.book_append_sheet(wb,ws,'신청서');
     }else{const a=D.aggregate(records,ctx);const stats=sheet([['학기','선택군','과목','일반 희망','조건 확인 후 희망','참여 어려움','대체 희망'],...a.stats.map(s=>[s.term,s.groupId,s.name,s.primary,s.conditional,s.unavailable,s.alternative])]);stats['!cols']=[{wch:10},{wch:22},{wch:30},...Array(4).fill({wch:20})];X.utils.book_append_sheet(wb,stats,'과목별 통계');}
+    if(records.some(r=>r.schema===2)){if(records.some(r=>r.schema!==2))throw Error('서로 다른 파일 형식을 한 파일에 저장할 수 없습니다.');const snapshot=D.snapshot(ctx),errors=D.validateContext(snapshot);if(errors.length)throw Error(errors.join(' / '));X.utils.book_append_sheet(wb,sheet([['항목','값'],...contextFields.map(k=>[k,snapshot[k]])]),'편성정보');const curriculumRows=[curriculumColumns,...snapshot.groups.flatMap(g=>g.courses.map(c=>[g.id,g.term,g.section,g.count,g.credits,c.id,c.name,c.subjectId,c.area,c.category,c.deliveryMode,c.offeringStatus,c.credits]))];X.utils.book_append_sheet(wb,sheet(curriculumRows),'교육과정');}
     X.utils.book_append_sheet(wb,sheet(info),'응답목록');X.utils.book_append_sheet(wb,sheet(rows),'수합데이터');return wb;
   }
-  function read(bytes,ctx){
-    const X=root.XLSX,wb=X.read(bytes,{type:'array',cellFormula:true});
+  function readWorkbook(wb,ctx){
+    const X=root.XLSX;
     for(const name of ['응답목록','수합데이터']){if(!wb.Sheets[name])throw Error('표준 신청 엑셀만 불러올 수 있습니다.');const ws=wb.Sheets[name],range=X.utils.decode_range(ws['!ref']||'A1');if(range.e.r>20000||range.e.c>30)throw Error('파일의 행/열 범위가 너무 큽니다.');if(Object.values(ws).some(c=>c&&typeof c==='object'&&c.f))throw Error('수식이 들어간 응답은 불러올 수 없습니다.');}
     const toRows=(name,headers)=>{const rows=X.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:'',raw:true});if(JSON.stringify(rows[0])!==JSON.stringify(headers))throw Error('엑셀 열 구조가 변경되었습니다.');return rows.slice(1).filter(r=>r.some(x=>x!==''));};
     const info=toRows('응답목록',columns),data=toRows('수합데이터',dataColumns);if(info.length>1000)throw Error('학생 파일 수가 너무 많습니다.');const seen=new Set();
@@ -24,6 +27,23 @@
       const errors=D.validate(r,ctx);if(errors.length)throw Error(`${r.studentNumber}: ${errors.join(' / ')}`);return r;
     });if(data.some(line=>!seen.has(String(line[0]))))throw Error('응답목록에 없는 과목 행이 있습니다.');if(wb.Sheets['신청서']){if(result.length!==1)throw Error('학생 신청서는 한 명만 포함해야 합니다.');const expected=workbook(result,ctx).Sheets['신청서'];const cells=ws=>X.utils.sheet_to_json(ws,{header:1,defval:'',raw:true});if(JSON.stringify(cells(expected))!==JSON.stringify(cells(wb.Sheets['신청서'])))throw Error('보이는 신청서와 수합데이터가 다릅니다. 앱에서 수정한 뒤 새 파일을 내려받으세요.');}return result;
   }
+  function embeddedContext(wb){
+    const X=root.XLSX;
+    for(const name of ['편성정보','교육과정']){const ws=wb.Sheets[name];if(!ws)throw Error('편성 정보 시트가 누락되었습니다.');const range=X.utils.decode_range(ws['!ref']||'A1');if(range.e.r>2000||range.e.c>20)throw Error('편성 정보의 행/열 범위가 너무 큽니다.');if(Object.values(ws).some(c=>c&&typeof c==='object'&&c.f))throw Error('편성 정보에 수식을 넣을 수 없습니다.');}
+    const rows=name=>X.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:'',raw:true}),meta=rows('편성정보');
+    if(JSON.stringify(meta[0])!==JSON.stringify(['항목','값'])||meta.length!==contextFields.length+1||JSON.stringify(meta.slice(1).map(r=>r[0]))!==JSON.stringify(contextFields)||meta.slice(1).some(r=>r.length!==2))throw Error('편성 정보의 열/항목 구조가 변경되었습니다.');
+    const ctx=Object.fromEntries(meta.slice(1).map(([k,v])=>[k,String(v)]));ctx.groups=[];const data=rows('교육과정');if(JSON.stringify(data[0])!==JSON.stringify(curriculumColumns))throw Error('교육과정 열 구조가 변경되었습니다.');
+    for(const row of data.slice(1)){if(row.length!==curriculumColumns.length)throw Error('교육과정 행 구조를 확인하세요.');const [id,term,section,count,credits,courseId,name,subjectId,area,category,mode,status,courseCredits]=row;let g=ctx.groups.find(g=>g.id===String(id));if(!g){g={id:String(id),term:String(term),section:String(section),count:Number(count),credits:Number(credits),courses:[]};ctx.groups.push(g);}if(g.term!==String(term)||g.section!==String(section)||g.count!==Number(count)||g.credits!==Number(credits))throw Error('같은 선택 묶음의 조건이 서로 다릅니다.');g.courses.push({id:String(courseId),name:String(name),subjectId:String(subjectId),area:String(area),category:String(category),deliveryMode:String(mode),offeringStatus:String(status),credits:Number(courseCredits)});}
+    const errors=D.validateContext(ctx);if(errors.length)throw Error(errors.join(' / '));return ctx;
+  }
+  function readBundle(bytes,legacyCtx){
+    const X=root.XLSX,wb=X.read(bytes,{type:'array',cellFormula:true}),has=!!(wb.Sheets['편성정보']||wb.Sheets['교육과정']);
+    if(!wb.Sheets['응답목록'])throw Error('표준 신청 엑셀만 불러올 수 있습니다.');const meta=X.utils.sheet_to_json(wb.Sheets['응답목록'],{header:1,defval:'',raw:true});if(meta.length<2)throw Error('학생 응답이 없습니다.');const schemas=meta.slice(1).filter(r=>r.some(v=>v!=='')).map(r=>Number(r[2]));
+    if(schemas.some(v=>v!==(has?2:1)))throw Error('파일 형식과 편성 시트가 일치하지 않습니다.');
+    if(!has&&!legacyCtx)throw Error('구형 파일에는 편성 정보가 없습니다. 구형 파일의 기준 편성을 선택하세요.');
+    const context=has?embeddedContext(wb):legacyCtx,records=readWorkbook(wb,context);return {context,records,source:has?'embedded':'legacy'};
+  }
+  function read(bytes,ctx){const bundle=readBundle(bytes,ctx);if(bundle.source==='embedded'&&D.contextKey(bundle.context)!==D.contextKey(ctx))throw Error('현재 신청 화면과 파일의 편성 버전/선택 조건이 다릅니다.');return bundle.records;}
   function bytes(wb){
     // SheetJS CE does not write fit-to-page settings; add standard Open XML settings.
     const X=root.XLSX,C=X.CFB,zip=C.read(new Uint8Array(X.write(wb,{type:'array',bookType:'xlsx'})),{type:'buffer'});
@@ -31,5 +51,5 @@
     return C.write(zip,{type:'buffer',fileType:'zip'});
   }
   function download(wb,name){const blob=new Blob([bytes(wb)],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  root.AnjwaDemandFiles={workbook,read,bytes,download,displayDate};
+  root.AnjwaDemandFiles={workbook,read,readBundle,bytes,download,displayDate};
 })(typeof globalThis!=='undefined'?globalThis:this);

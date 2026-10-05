@@ -148,3 +148,8 @@
   .teacher-file-actions .file-button input { position:absolute; width:1px; height:1px; min-height:1px; padding:0; margin:0; border:0; clip-path:inset(50%); overflow:hidden; }
   .teacher-file-actions .file-button:focus-within { outline:3px solid #244ce5; outline-offset:3px; }
 }
+
+.teacher-legacy-settings > summary { cursor:pointer; min-height:44px; display:flex; align-items:center; font-size:13px; color:#52627c; }
+.teacher-legacy-settings > summary::before { content:'＋'; margin-right:8px; }
+.teacher-legacy-settings[open] > summary::before { content:'−'; }
+.teacher-batch-panel select { width:100%; }

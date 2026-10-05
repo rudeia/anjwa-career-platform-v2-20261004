@@ -1,4 +1,4 @@
-const CACHE_NAME = "anjwa-career-shell-v2.01.05";
+const CACHE_NAME = "anjwa-career-shell-v2.01.06";
 const DATA_CACHE_NAME = "anjwa-career-data-v1";
 const OFFLINE_URL = "./index.html";
 const APP_SHELL = [
@@ -121,7 +121,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (["/ui-v2.css", "/styles.css", "/app.js", "/curriculum-data.js", "/site-meta.js", "/subject-guide-data.js", "/admission-pages.js", "/recommendation-data.js", "/university-recommendation-data.js", "/course-designer-data.js", "/topic-data.js"].some((path) => url.pathname.endsWith(path))) {
+  if (["/demand-core.js", "/demand-files.js", "/demand-ui.js", "/demand.css", "/ui-v2.css", "/styles.css", "/app.js", "/curriculum-data.js", "/site-meta.js", "/subject-guide-data.js", "/admission-pages.js", "/recommendation-data.js", "/university-recommendation-data.js", "/course-designer-data.js", "/topic-data.js"].some((path) => url.pathname.endsWith(path))) {
     event.respondWith(networkFirst(request, CACHE_NAME));
     return;
   }
