@@ -12,8 +12,8 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=2.01.04" />
-    <link rel="stylesheet" href="./home-design.css?v=2.01.04" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.01.05" />
+    <link rel="stylesheet" href="./home-design.css?v=2.01.05" />
   </head>
   <body class="home-design-app">
     <div class="app-shell">
@@ -779,8 +779,10 @@
     <div class="subject-info-modal" id="subjectInfoModal" hidden>
       <div class="subject-info-backdrop" data-close-subject-info></div>
       <section class="subject-info-dialog" role="dialog" aria-modal="true" aria-labelledby="subjectInfoTitle">
-        <button class="subject-info-close" type="button" aria-label="닫기" data-close-subject-info>×</button>
-        <span class="label" id="subjectInfoLabel">과목 선택 안내</span>
+        <div class="subject-info-toolbar">
+          <span class="label" id="subjectInfoLabel">과목 선택 안내</span>
+          <button class="subject-info-close" type="button" aria-label="닫기" data-close-subject-info>×</button>
+        </div>
         <h3 id="subjectInfoTitle">과목명</h3>
         <div id="subjectInfoContent"></div>
       </section>
@@ -793,10 +795,10 @@
     <script src="./recommendation-data.js?v=2.01.00"></script>
     <script src="./university-recommendation-data.js?v=2.01.00"></script>
     <script src="./course-designer-data.js?v=2.01.00"></script>
-    <script src="./topic-data.js?v=2.01.04"></script>
-    <script src="./app.js?v=2.01.04"></script>
+    <script src="./topic-data.js?v=2.01.05"></script>
+    <script src="./app.js?v=2.01.05"></script>
     <script src="./pwa-install.js?v=2.00.01" defer></script>
-    <script src="./site-meta.js?v=2.01.04" defer></script>
+    <script src="./site-meta.js?v=2.01.05" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

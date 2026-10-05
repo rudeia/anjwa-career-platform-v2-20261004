@@ -352,3 +352,11 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
 #planner #coursePool .course-title-with-info { min-height:26px; padding-right:50px; }
 #planner #coursePool .subject-info-button { position:absolute; top:10px; right:12px; }
 #planner #coursePool .course-pool-meta { padding-right:50px; }
+
+/* Keep the dialog close action in its own row, above scrolling content. */
+.subject-info-toolbar { position:sticky; top:-22px; z-index:2; display:flex; align-items:center; justify-content:space-between; gap:12px; margin:-22px -22px 14px; padding:12px 18px; border-bottom:1px solid var(--line); background:#fff; }
+.subject-info-toolbar .label { min-width:0; overflow-wrap:anywhere; }
+.subject-info-toolbar .subject-info-close { position:relative; inset:auto; flex:0 0 44px; width:44px; height:44px; min-height:44px; margin:0; border-radius:8px; font-size:24px; }
+.subject-info-dialog > h3 { margin-right:0; }
+@media(max-width:760px) { .subject-info-toolbar { top:-18px; margin:-18px -18px 12px; padding:10px 14px; } }
+.subject-info-modal { z-index:120; }
