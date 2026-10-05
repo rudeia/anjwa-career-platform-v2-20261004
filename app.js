@@ -8476,7 +8476,7 @@ function renderCoursePool() {
   if (guide) {
     guide.innerHTML = `
       <strong>${escapeHtml(getCurriculumPlanLabel(state.plannerPlan))}</strong>
-      <p>${state.plannerTargetSemester ? getSemesterLabel(state.plannerTargetSemester) : state.activeGrade + "학년 전체"} 편성에서 선택 후보를 보여줍니다. 과목을 누르거나 학기 버튼을 눌러 수강 희망 목록에 넣습니다.</p>
+      <p>${state.plannerTargetSemester ? getSemesterLabel(state.plannerTargetSemester) : state.activeGrade + "학년 전체"} 선택 후보입니다. ‘학기 추가’로 희망 과목을 담으세요. 온라인·공동교육과정은 신청 조건을 학교에 확인해야 합니다.</p>
     `;
   }
 
@@ -8494,7 +8494,8 @@ function renderCoursePool() {
           data-course-id="${escapeHtml(course.id)}"
           data-course-zone="${course.section.includes("공동교육") ? "joint" : "regular"}">
           ${renderCourseNameWithInfo(course)}
-          <small>${escapeHtml(course.area)} · ${escapeHtml(course.category)} · ${escapeHtml(getPlannerSectionLabel(course.section))} · ${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))} · 편성 기준(신청 조건 확인)${renderCourseChoiceStatus(course)}</small>
+          <small class="course-pool-meta">${escapeHtml(course.area)} · ${escapeHtml(course.category)} · ${getCourseSemestersForGrade(course, state.activeGrade).filter(semester => !state.plannerTargetSemester || `${state.activeGrade}-${semester}` === state.plannerTargetSemester).map(semester => `${semester}학기 ${getPlannerCourseCredits(course, state.activeGrade, semester)}학점`).join(" / ")}</small>
+          <small class="course-pool-status">${renderCourseChoiceStatus(course)}</small>
           <div class="quick-add-row">
             ${semesterButtons}
           </div>
@@ -8548,13 +8549,14 @@ function renderCourseActionPair(course, grade, semester) {
 
 function renderCourseChoiceStatus(course) {
   const statuses = getCourseSemestersForGrade(course, state.activeGrade)
+    .filter(semester => !state.plannerTargetSemester || `${state.activeGrade}-${semester}` === state.plannerTargetSemester)
     .map((semester) => {
       const actionState = getPlannerCourseActionState(course, state.activeGrade, semester);
       if (!actionState.group || !Number.isFinite(actionState.limit)) return "";
-      return ` · ${semester}학기 ${actionState.selectedCount}/${actionState.limit}`;
+      return `${semester}학기 묶음 선택 ${actionState.selectedCount}/${actionState.limit}`;
     })
     .filter(Boolean);
-  return statuses.join("");
+  return statuses.join(" · ");
 }
 
 function renderPlanner() {
@@ -8831,6 +8833,12 @@ function sumCredits(list) {
 }
 
 function renderPlannerDocumentStatus() {
+  const demandLink = $(".planner-demand-link");
+  if (demandLink) {
+    const next = getNextChoiceTarget(state.plannerPlan);
+    const grade = next && Number(next.split("-")[0]) >= 2 ? next.split("-")[0] : state.activeGrade === "3" ? "3" : "2";
+    demandLink.href = `./course-demand.html?plan=${encodeURIComponent(state.plannerPlan)}&grade=${grade}`;
+  }
   const status = $("#plannerSaveStatus");
   if (!status) return;
   status.textContent = state.plannerSavedAt

@@ -1,7 +1,7 @@
 (() => {
   const RELEASE = Object.freeze({
-    version: "2.01.02",
-    releasedAt: "2026-10-05T15:17:47+09:00"
+    version: "2.01.03",
+    releasedAt: "2026-10-05T16:42:24+09:00"
   });
 
   function seoulDateParts(value) {
@@ -28,7 +28,7 @@
       <span>버전</span>
       <strong>${RELEASE.version}</strong>
       <time datetime="${RELEASE.releasedAt}">(${displayDate})</time>
-      <a class="teacher-dashboard-link" href="./teacher-dashboard.html">교사 상담용</a>
+      <a class="teacher-dashboard-link" href="./teacher-dashboard.html">교사용 과목 수합</a>
     `;
     document.body.append(footer);
   }

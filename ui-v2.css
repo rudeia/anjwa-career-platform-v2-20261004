@@ -300,3 +300,55 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
 @media(max-width:650px){.subject-info-button,.self-help-button{min-width:44px;min-height:44px}.quick-action-pair button,.course-designer-decision-switch button,.course-designer-option-tab{min-height:44px}}
 
 .student-mobile-mode{display:block;font-size:.7rem;font-weight:600;color:#30517b;margin-top:4px}.student-plan-budget{font-size:.8rem;color:#495973;line-height:1.6}.mine-semester-head{flex-wrap:wrap}
+
+/* Compact subject candidates; retain 44px action targets and full subject names. */
+#planner #coursePool .course-card { padding: 10px 12px; }
+#planner #coursePool .course-title-with-info { display:flex; gap:6px; width:100%; }
+#planner #coursePool .course-title-with-info strong { font-size:15px; line-height:1.4; overflow-wrap:anywhere; }
+#planner #coursePool .student-operating-badge { font-size:11px; line-height:1.4; padding:3px 5px; }
+#planner #coursePool .subject-info-button { margin-left:auto; width:44px; height:44px; min-width:44px; min-height:44px; padding:0; font-size:14px; border-radius:8px; }
+#planner #coursePool .course-pool-meta, #planner #coursePool .course-pool-status { display:block; font-size:12px; line-height:1.5; overflow-wrap:anywhere; }
+#planner #coursePool .course-pool-status:empty { display:none; }
+#planner #coursePool .quick-add-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+#planner #coursePool .quick-action-pair { grid-template-columns:repeat(2,minmax(70px,84px)); width:auto; }
+#planner #coursePool .quick-action-pair button { min-height:44px; padding:4px 6px; font-size:12px; white-space:normal; }
+#planner .semester-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+#planner .semester-board { min-width:0; }
+#planner .semester-head { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; gap:8px; padding:12px; }
+#planner .semester-head > div { display:contents; }
+#planner .semester-head h3 { grid-column:1; grid-row:1; font-size:17px; line-height:1.4; margin:0; word-break:keep-all; }
+#planner .semester-head p { grid-column:1/-1; grid-row:2; font-size:12px; line-height:1.5; margin:0; overflow-wrap:anywhere; }
+#planner .semester-head .credit-badge { grid-column:2; grid-row:1; min-width:0; min-height:28px; padding:4px 8px; font-size:12px; white-space:nowrap; }
+#planner .summary-chip { min-width:0; overflow-wrap:anywhere; }
+#planner .planner-mode-buttons button { white-space:normal; overflow-wrap:anywhere; min-height:44px; line-height:1.4; padding:6px; }
+.view .section-head > div { min-width:0; }
+.view .section-head h2 { overflow-wrap:anywhere; word-break:keep-all; }
+.toolbar-more > div { max-width:calc(100vw - 32px); }
+.toolbar-more button { white-space:normal; overflow-wrap:anywhere; }
+@media (max-width:1100px) {
+  #planner .semester-grid { grid-template-columns:minmax(0,1fr); }
+  #planner .planner-mode-panel { grid-template-columns:minmax(0,1fr); }
+  #planner .planner-mode-buttons { justify-self:stretch; width:100%; }
+}
+@media (max-width:650px) {
+  #home .pwa-install-panel { grid-template-columns:minmax(0,1fr); }
+  #home .pwa-install-copy, #home .pwa-install-actions { min-width:0; }
+}
+.section-title-row h2 { min-width:0; }
+.section-title-row h2 > span { min-width:0; overflow-wrap:anywhere; }
+.section-title-row h2 > svg { flex-shrink:0; }
+/* Filled summaries must not increase the grid's intrinsic width. */
+#planner .planning-workspace { grid-template-columns:minmax(0,1fr); }
+#planner .planning-workspace > * { min-width:0; }
+#planner .planner-summary-table { min-width:0; width:100%; table-layout:fixed; }
+#planner .planner-summary-table th { width:100px; white-space:normal; }
+#planner .planner-summary-table td { overflow-wrap:anywhere; }
+#course-designer-title, #course-designer-title > span { white-space:normal; }
+.course-designer-option-tab small { white-space:normal; overflow:visible; text-overflow:clip; overflow-wrap:anywhere; }
+.recommendation-view-tabs { min-width:0; }
+.recommendation-view-tabs button { min-width:0; white-space:normal; overflow-wrap:anywhere; }
+@media(max-width:650px) { .recommendation-view-tabs { display:grid; grid-template-columns:minmax(0,1fr); } }
+#planner #coursePool .course-card { position:relative; }
+#planner #coursePool .course-title-with-info { min-height:26px; padding-right:50px; }
+#planner #coursePool .subject-info-button { position:absolute; top:10px; right:12px; }
+#planner #coursePool .course-pool-meta { padding-right:50px; }

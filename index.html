@@ -12,8 +12,8 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=2.01.02" />
-    <link rel="stylesheet" href="./home-design.css?v=2.01.02" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.01.03" />
+    <link rel="stylesheet" href="./home-design.css?v=2.01.03" />
   </head>
   <body class="home-design-app">
     <div class="app-shell">
@@ -48,8 +48,8 @@
             <section class="home-area-card home-plan-card">
               <span class="home-card-number" aria-hidden="true">03</span><span class="home-plan-art" aria-hidden="true"></span>
               <div class="home-area-heading"><h2>과목 설계 <span aria-hidden="true">→</span></h2></div>
-              <p>나의 진로에 맞는 선택과목을 설계하고<br class="home-desktop-break" /> 나만의 학습 계획을 만들어보세요.</p>
-              <button class="home-shortcut" type="button" data-view="planner">과목 담기 <span aria-hidden="true">→</span></button>
+              <p>선택과목을 비교하고,<br class="home-desktop-break" /> 다음 학년 신청서를 작성하세요.</p>
+              <button class="home-shortcut" type="button" data-view="planner">과목 선택·신청 <span aria-hidden="true">→</span></button>
             </section>
             <section class="home-area-card home-evaluation-card">
               <span class="home-card-number" aria-hidden="true">04</span><span class="home-evaluation-art" aria-hidden="true"></span>
@@ -63,7 +63,6 @@
             <button class="student-start-card" type="button" data-view="courseDesigner" data-student-start="interest"><span class="home-start-icon" aria-hidden="true">♧</span><span><b>관심 분야가 있어요</b><small>내 관심과 잘 맞는 과목을 찾아봐요.</small></span><span aria-hidden="true">›</span></button>
             <button class="student-start-card" type="button" data-view="planner" data-student-start="choices"><span class="home-start-icon" aria-hidden="true">▤</span><span><b>과목을 고를래요</b><small>어떤 과목을 선택하면 좋을까요?</small></span><span aria-hidden="true">›</span></button>
           </div>
-          <div class="home-reference-links" aria-label="대학 전형과 탐구 안내"><a href="./subject.html">교과전형 안내 ↗</a><a href="./holistic.html">종합전형 안내 ↗</a><button type="button" data-view="topicExplorer">탐구 주제 예시 ↗</button></div>
           <details class="home-install-details"><summary>홈 화면에 앱 설치</summary>
           <section class="pwa-install-panel" data-pwa-install aria-labelledby="pwaInstallTitle">
             <span class="pwa-install-mark" aria-hidden="true">↓</span>
@@ -78,34 +77,7 @@
           </section>
           </details>
 
-          <section class="grade3-hub" aria-labelledby="grade3-hub-title" hidden>
-            <div class="grade3-hub-head">
-              <div>
-                <p class="eyebrow">고3 전용</p>
-                <h2 id="grade3-hub-title">수시 지원 상담</h2>
-              </div>
-              <p>희망 대학·전형·학과를 정리하고 담임교사와의 상담을 준비합니다.</p>
-            </div>
-            <div class="grade3-launch-grid">
-              <a class="grade3-launch-card" href="./admission-search.html">
-                <span class="launch-icon admission-search-icon" aria-hidden="true"></span>
-                <span class="grade3-launch-copy">
-                  <strong>수시 전형·입결 검색</strong>
-                  <span>2027학년도 모집인원·전형방법·수능최저와 2024~2026학년도 입결을 함께 확인합니다.</span>
-                </span>
-                <span class="grade3-launch-action">전형·입결 검색</span>
-              </a>
-              <a class="grade3-launch-card" href="./grade3-consultation-card.html">
-                <span class="launch-icon consultation-icon" aria-hidden="true"></span>
-                <span class="grade3-launch-copy">
-                  <strong>수시 지원 상담카드</strong>
-                  <span>수시 6회 지원안과 상담용 예비후보 3개를 구성하고, 지원 횟수 제한 외 대학은 별도로 정리합니다.</span>
-                </span>
-                <span class="grade3-launch-action">상담카드 작성</span>
-              </a>
-            </div>
-            <p class="grade3-privacy-note">작성 내용은 현재 기기의 브라우저에만 자동 저장됩니다. 공용 기기에서는 파일로 내보낸 뒤 전체 초기화를 눌러 내용을 지워주세요.</p>
-          </section>
+
 
         </section>
 
@@ -541,6 +513,7 @@
               </label>
               <button class="primary-button" id="savePlanButton">저장</button>
               <button class="ghost-button" id="loadPlanButton">저장 내용 불러오기</button>
+              <a class="primary-button planner-demand-link" href="./course-demand.html">선택과목 신청서</a>
               <button class="primary-button" id="plannerExportButton" type="button">PDF 내보내기</button>
               <details class="toolbar-more"><summary>더 보기</summary><div><button class="ghost-button reset-button" id="resetPlanButton" type="button">현재 학년도 초기화</button></div></details>
               <span class="planner-save-status" id="plannerSaveStatus">입력 내용은 이 기기의 브라우저에 저장됩니다.</span>
@@ -820,10 +793,10 @@
     <script src="./recommendation-data.js?v=2.01.00"></script>
     <script src="./university-recommendation-data.js?v=2.01.00"></script>
     <script src="./course-designer-data.js?v=2.01.00"></script>
-    <script src="./topic-data.js?v=2.01.02"></script>
-    <script src="./app.js?v=2.01.02"></script>
+    <script src="./topic-data.js?v=2.01.03"></script>
+    <script src="./app.js?v=2.01.03"></script>
     <script src="./pwa-install.js?v=2.00.01" defer></script>
-    <script src="./site-meta.js?v=2.01.02" defer></script>
+    <script src="./site-meta.js?v=2.01.03" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

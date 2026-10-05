@@ -266,7 +266,7 @@
 
   async function initialize() {
     if (sessionStorage.getItem(SESSION_KEY) !== "1") {
-      location.replace("./teacher-dashboard.html");
+      location.replace("./teacher-admission-dashboard.html");
       return;
     }
     if (!classId || !studentId) throw new Error("선택한 반 또는 학생 정보가 없습니다.");
