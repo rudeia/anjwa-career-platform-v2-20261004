@@ -12,15 +12,31 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=2.01.06" />
-    <link rel="stylesheet" href="./home-design.css?v=2.01.06" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.02.00" />
+    <link rel="stylesheet" href="./home-design.css?v=2.02.00" />
+    <link rel="stylesheet" href="./department.css?v=2.02.00" />
   </head>
-  <body class="home-design-app">
+  <body class="home-design-app department-screen">
     <div class="app-shell">
       <main class="main-content">
-        <section class="view active" id="home" aria-labelledby="home-title">
+        <section class="view active department-page" id="departments" aria-labelledby="department-title">
+          <header class="department-brand">안좌고등학교 <span>교육과정 도우미</span></header>
+          <div class="department-intro"><p class="department-kicker">교육과정 · 진로 · 과목 선택</p><h1 id="department-title">안좌고 교육과정 도우미</h1><p>소속 학과를 선택하면 해당 교육과정으로 연결됩니다.</p></div>
+          <div class="department-choices">
+            <button class="department-choice" type="button" data-view="home"><span class="department-status">이용 가능</span><strong>보통과</strong><span class="department-description">학교 교육과정을 확인하고<br>진로와 선택과목을 탐색합니다.</span><span class="department-action">보통과로 입장 <span aria-hidden="true">→</span></span></button>
+            <button class="department-choice department-military" type="button" data-view="military"><span class="department-status">준비 중</span><strong>부사관과</strong><span class="department-description">부사관과 교육과정과 과목 안내는<br>추후 제공됩니다.</span><span class="department-action">준비 상태 보기 <span aria-hidden="true">→</span></span></button>
+          </div>
+          <footer class="department-footer">안좌고등학교 <span>학과 선택</span></footer>
+        </section>
+        <section class="view department-page" id="military" aria-labelledby="military-title">
+          <header class="department-brand">안좌고등학교 <span>부사관과</span></header>
+          <button class="department-back" type="button" data-view="departments">← 학과 선택으로</button>
+          <div class="department-intro"><p class="department-kicker">부사관과</p><h1 id="military-title">교육과정 안내 준비 중</h1><p>부사관과 자료가 등록되면 이곳에서 확인할 수 있습니다.</p></div>
+          <div class="department-empty"><h2>아직 등록된 자료가 없습니다.</h2><p>교육과정과 과목 정보는 확인 후 제공됩니다.</p></div>
+        </section>
+        <section class="view" id="home" aria-labelledby="home-title">
           <header class="home-brand-row">
-            <button class="home-brand" type="button" data-view="home">안좌 진로진학</button>
+            <button class="home-brand" type="button" data-view="departments" aria-label="학과 선택으로 돌아가기">안좌고 · 보통과 <span class="department-switch">학과 변경 ↗</span></button>
             <form class="home-search" role="search" aria-label="학교 과목 검색">
               <span aria-hidden="true">⌕</span><input id="homeSubjectSearch" type="search" aria-label="과목 검색" placeholder="과목 검색" /><button type="submit" aria-label="과목 검색하기">검색</button>
             </form>
@@ -795,10 +811,10 @@
     <script src="./recommendation-data.js?v=2.01.00"></script>
     <script src="./university-recommendation-data.js?v=2.01.00"></script>
     <script src="./course-designer-data.js?v=2.01.00"></script>
-    <script src="./topic-data.js?v=2.01.06"></script>
-    <script src="./app.js?v=2.01.06"></script>
+    <script src="./topic-data.js?v=2.02.00"></script>
+    <script src="./app.js?v=2.02.00"></script>
     <script src="./pwa-install.js?v=2.00.01" defer></script>
-    <script src="./site-meta.js?v=2.01.06" defer></script>
+    <script src="./site-meta.js?v=2.02.00" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

@@ -2698,11 +2698,11 @@ function init() {
   renderCreativeEvaluation();
   renderSelfEvaluationMode();
   updateFormValues();
-  setView(getInitialViewFromHash() || "home", false);
+  setView(getInitialViewFromHash() || "departments", false);
 }
 
 function bindNavigation() {
-  const restore = () => setView(getInitialViewFromHash() || 'home', false);
+  const restore = () => setView(getInitialViewFromHash() || 'departments', false);
   window.addEventListener('hashchange', restore);
   window.addEventListener('popstate', restore);
   $all('[data-view]').forEach(button => button.addEventListener('click', () => {
@@ -2729,6 +2729,9 @@ function setView(viewId, updateUrl = true) {
   if (!$(`#${viewId}`)?.classList.contains("view")) viewId = "home";
   state.activeView = viewId;
   document.body?.classList.toggle('home-screen', viewId === 'home');
+  document.body?.classList.toggle('department-screen', ['departments', 'military'].includes(viewId));
+  const bottomNav = $('.app-bottom-nav');
+  if (bottomNav) bottomNav.hidden = ['departments', 'military'].includes(viewId);
   saveStudentScreenState();
   if (updateUrl && location.hash !== `#${viewId}`) history.pushState({view: viewId}, "", `#${viewId}`);
   if (viewId === "planner") {
