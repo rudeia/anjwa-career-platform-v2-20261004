@@ -81,3 +81,15 @@ body.home-screen{background:#fafaf6 url('./assets/home-design/home-glass-backgro
 @media(max-width:580px){#home .home-brand-row{margin-bottom:22px}#home .home-intro h1{font-size:26px;line-height:1.35;letter-spacing:-.8px;margin-bottom:10px}#home .home-intro h1>span{display:block}#home .home-intro{margin-bottom:18px}#home .home-intro p{font-size:14px;line-height:1.65;max-width:34em}}
 
 #home .home-intro>div{width:100%;min-width:0}
+
+/* Library app entry above the student starting points. */
+#home .home-library-block{margin:18px 0 14px}
+#home .home-library-link{display:flex;align-items:center;gap:18px;width:100%;min-height:88px;padding:20px 26px;background:#fffffff5;border:1px solid #d5deea;border-radius:12px;color:var(--home-ink);text-decoration:none;transition:border-color .2s,transform .2s}
+#home .home-library-icon{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:12px;background:#eaf0ff;color:var(--home-blue);font-size:30px;line-height:1}
+#home .home-library-copy{display:flex;flex-direction:column;gap:6px;min-width:0}
+#home .home-library-copy strong{font-size:17px;line-height:1.4}
+#home .home-library-copy>span{font-size:13px;color:var(--home-muted);line-height:1.6;word-break:keep-all}
+#home .home-library-state{margin-left:auto;flex:none;color:var(--home-muted);font-size:12px;white-space:nowrap}
+@media(hover:hover){#home .home-library-link[href]:hover{border-color:#8aa2dc;transform:translateY(-2px)}}
+@media(max-width:580px){#home .home-library-link{padding:17px 16px;gap:12px;flex-wrap:wrap}#home .home-library-icon{width:36px;height:36px;font-size:26px}#home .home-library-copy{flex:1;min-width:160px}#home .home-library-copy strong{font-size:15px}#home .home-library-copy>span{font-size:12px}#home .home-library-state{margin-left:48px}}
+@media(prefers-reduced-motion:reduce){#home .home-library-link{transition:none;transform:none!important}}
