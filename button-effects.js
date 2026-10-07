@@ -6,6 +6,7 @@
     if (reducedMotion.matches || (!centered && event.button !== 0)) return;
     const button = event.target.closest(selector);
     if (!button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
+    if (button.matches('#home [data-view], #departments [data-view]')) return;
     button.classList.add('button-feedback');
     button.classList.remove('button-feedback-playing');
     void button.offsetWidth;

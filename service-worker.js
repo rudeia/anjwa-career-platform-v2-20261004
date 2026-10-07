@@ -1,4 +1,4 @@
-const CACHE_NAME = "anjwa-career-shell-v2.02.01";
+const CACHE_NAME = "anjwa-career-shell-v2.02.02";
 const DATA_CACHE_NAME = "anjwa-career-data-v1";
 const OFFLINE_URL = "./index.html";
 const APP_SHELL = [
@@ -8,6 +8,8 @@ const APP_SHELL = [
   "./ui-v2.css",
   "./home-design.css",
   "./department.css",
+  "./motion.css",
+  "./motion.js",
   "./assets/home-design/home-glass-background.webp",
   "./assets/home-design/home-reference-details.webp",
   "./assets/home-design/home-heading-serif.woff2",
@@ -122,7 +124,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (["/demand-core.js", "/demand-files.js", "/demand-ui.js", "/demand.css", "/ui-v2.css", "/styles.css", "/app.js", "/curriculum-data.js", "/site-meta.js", "/subject-guide-data.js", "/admission-pages.js", "/recommendation-data.js", "/university-recommendation-data.js", "/course-designer-data.js", "/topic-data.js"].some((path) => url.pathname.endsWith(path))) {
+  if (["/department.css", "/home-design.css", "/motion.css", "/motion.js", "/demand-core.js", "/demand-files.js", "/demand-ui.js", "/demand.css", "/ui-v2.css", "/styles.css", "/app.js", "/curriculum-data.js", "/site-meta.js", "/subject-guide-data.js", "/admission-pages.js", "/recommendation-data.js", "/university-recommendation-data.js", "/course-designer-data.js", "/topic-data.js"].some((path) => url.pathname.endsWith(path))) {
     event.respondWith(networkFirst(request, CACHE_NAME));
     return;
   }

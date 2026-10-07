@@ -12,9 +12,10 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=2.02.01" />
-    <link rel="stylesheet" href="./home-design.css?v=2.02.01" />
-    <link rel="stylesheet" href="./department.css?v=2.02.01" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.02.02" />
+    <link rel="stylesheet" href="./home-design.css?v=2.02.02" />
+    <link rel="stylesheet" href="./department.css?v=2.02.02" />
+    <link rel="stylesheet" href="./motion.css?v=2.02.02" />
   </head>
   <body class="home-design-app department-screen">
     <div class="app-shell">
@@ -44,30 +45,25 @@
           <div class="home-intro"><div><h1 id="home-title">안좌고 교육과정 도우미</h1><p>학교 교육과정을 확인하고, 관심 분야에 맞는 선택과목을 비교해보세요.</p></div></div>
           <aside class="home-motto" aria-label="탐색 안내"><p>오늘의<br />관심이<br />내일의 가능성이<br />됩니다.</p><small>조금 더 깊이,<br />조금 더 넓게<br />나를 알아가는 시간.</small></aside>
           <div class="home-area-grid">
-            <section class="home-area-card home-curriculum-card">
-              <span class="home-card-photo" aria-hidden="true"></span><span class="home-card-number" aria-hidden="true">01</span>
+            <section class="home-area-card home-curriculum-card" data-home-view="curriculum">
+              <span class="home-card-number" aria-hidden="true">01</span>
               <div class="home-area-heading"><h2>학교 교육과정 <span aria-hidden="true">→</span></h2></div>
-              <p class="home-course-meta">과목 · 교과군 · 학점 · 개설 방식</p>
-              <p>우리 학교의 교육과정을 한눈에 확인하고<br class="home-desktop-break" /> 나에게 맞는 과목을 찾아보세요.</p>
+              <p>학년·학기별 과목과 학점을 확인하고,<br class="home-desktop-break" /> 교과군과 개설 방식을 살펴보세요.</p>
               <button class="home-shortcut" type="button" data-view="curriculum">교육과정 보기 <span aria-hidden="true">→</span></button>
             </section>
-            <section class="home-area-card home-career-card">
+            <section class="home-area-card home-career-card" data-home-view="careerHub">
               <span class="home-card-number" aria-hidden="true">02</span>
-              <div class="home-area-heading"><h2><button class="home-title-link" type="button" data-view="careerHub">진로 탐색 <span aria-hidden="true">→</span></button></h2></div>
+              <div class="home-area-heading"><h2>진로 탐색 <span aria-hidden="true">→</span></h2></div>
               <p>관심 분야와 관련 과목을 찾아보고,<br /> 교과·종합전형의 평가 기준을 확인하세요.</p>
-              <div class="home-interest-chips home-career-actions" aria-label="진로 탐색과 대학 전형 안내">
-                <button type="button" data-view="courseDesigner">관심 분야 탐색</button>
-                <a href="./subject.html">교과전형</a>
-                <a href="./holistic.html">종합전형</a>
-              </div>
+              <button class="home-shortcut" type="button" data-view="careerHub">진로·전형 살펴보기 <span aria-hidden="true">→</span></button>
             </section>
-            <section class="home-area-card home-plan-card">
+            <section class="home-area-card home-plan-card" data-home-view="planner">
               <span class="home-card-number" aria-hidden="true">03</span><span class="home-plan-art" aria-hidden="true"></span>
               <div class="home-area-heading"><h2>과목 설계 <span aria-hidden="true">→</span></h2></div>
               <p>선택과목을 비교하고,<br class="home-desktop-break" /> 다음 학년 신청서를 작성하세요.</p>
               <button class="home-shortcut" type="button" data-view="planner">과목 선택·신청 <span aria-hidden="true">→</span></button>
             </section>
-            <section class="home-area-card home-evaluation-card">
+            <section class="home-area-card home-evaluation-card" data-home-view="selfEvaluation">
               <span class="home-card-number" aria-hidden="true">04</span><span class="home-evaluation-art" aria-hidden="true"></span>
               <div class="home-area-heading"><h2>자기평가 <span aria-hidden="true">→</span></h2></div>
               <p>지금까지의 활동을 돌아보고,<br /> 나의 배움과 변화를 기록해보세요.</p>
@@ -76,9 +72,9 @@
           </div>
           <section class="home-library-block" aria-label="우리학교 진로책방">
             <a class="home-library-link" id="librarySearchLink" href="https://script.google.com/macros/s/AKfycbyNapqntayrAWFub8NQHwnuU4cPkwQqvMyFtRK36Urv4NpjY13hg8Bd-Vsws1hvwHwICA/exec" target="_blank" rel="noopener noreferrer" aria-label="우리학교 진로책방 책 찾아보기 (새 탭)">
-              <span class="home-library-icon" aria-hidden="true">⌕</span>
-              <span class="home-library-copy"><strong>우리학교 진로책방</strong><span>관심 있는 계열·학과와 관련된 우리 도서관 책을 찾아보세요.</span></span>
-              <span class="home-library-state">책 찾아보기 <span aria-hidden="true">↗</span></span>
+              <span class="home-library-icon" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 8.5C11 6.5 7.5 6 3.5 7v15c4-1 7.5-.5 10.5 1.5 3-2 6.5-2.5 10.5-1.5V7c-4-1-7.5-.5-10.5 1.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 9v14" stroke="currentColor" stroke-width="1.6"/><path d="M19 4h4v9l-2-1.7-2 1.7V4Z" fill="#d8b969"/></svg></span>
+              <span class="home-library-copy"><strong>우리학교 진로책방</strong><span>관심 분야와 관련된 우리 도서관 책을 찾아보세요.</span></span>
+              <span class="home-library-state"><span class="home-library-state-text">책 찾아보기</span> <span aria-hidden="true">↗</span></span>
             </a>
           </section>
           <div class="student-start-grid" aria-label="내 상황에서 시작하기">
@@ -818,10 +814,11 @@
     <script src="./recommendation-data.js?v=2.01.00"></script>
     <script src="./university-recommendation-data.js?v=2.01.00"></script>
     <script src="./course-designer-data.js?v=2.01.00"></script>
-    <script src="./topic-data.js?v=2.02.01"></script>
-    <script src="./app.js?v=2.02.01"></script>
+    <script src="./topic-data.js?v=2.02.02"></script>
+    <script src="./motion.js?v=2.02.02"></script>
+    <script src="./app.js?v=2.02.02"></script>
     <script src="./pwa-install.js?v=2.00.01" defer></script>
-    <script src="./site-meta.js?v=2.02.01" defer></script>
+    <script src="./site-meta.js?v=2.02.02" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

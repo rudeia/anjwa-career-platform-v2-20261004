@@ -1,0 +1,17 @@
+/* Scoped, short navigation transitions. No input, save, or course-selection delay. */
+.app-motion-layer{position:fixed;inset:0;z-index:70;background:#fafaf6 url('./assets/home-design/home-glass-background.webp') top center/100% auto no-repeat;overflow:hidden;pointer-events:auto}
+.app-motion-canvas{position:absolute;inset:0;pointer-events:none}
+.app-motion-indicator{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#456481;font:13px/1.6 system-ui,sans-serif;opacity:0;pointer-events:none}
+.app-motion-layer.is-playing .app-motion-indicator{animation:app-motion-indicator-in 100ms 180ms ease-out forwards}
+.app-motion-dots{display:flex;gap:7px;align-items:center;height:24px}
+.app-motion-dots>span{width:7px;height:7px;border-radius:50%;background:#5a7eb4;animation:app-motion-dot 400ms ease-in-out infinite alternate}
+.app-motion-dots>span:nth-child(2){background:#7b9f9a;animation-delay:70ms}
+.app-motion-dots>span:nth-child(3){background:#c9b479;animation-delay:140ms}
+@keyframes app-motion-indicator-in{to{opacity:1}}
+@keyframes app-motion-dot{from{opacity:.45;transform:translateY(2px)}to{opacity:1;transform:translateY(-2px)}}
+@media(max-width:850px){.app-motion-layer{background-size:auto 650px;background-position:60% top}}
+@media(prefers-reduced-motion:reduce){.app-motion-layer{display:none}.app-motion-dots>span,.app-motion-indicator{animation:none!important}}
+
+#home .home-area-card[data-home-view]{cursor:pointer;transition:transform 180ms ease,border-color 180ms ease}
+@media(hover:hover){#home .home-area-card[data-home-view]:hover{transform:translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){#home .home-area-card[data-home-view]{transition:none;transform:none!important}}

@@ -22,8 +22,11 @@ body.department-screen{background:#fafbf8 url('./assets/home-design/home-glass-b
 .department-page .department-back{min-height:44px;margin-top:30px;padding:10px 16px;background:#fff;border:1px solid #c9d4e0;border-radius:10px;color:#112a50;font-size:14px}
 .department-empty{background:#fff;border:1px solid #d5deea;border-radius:16px;padding:28px;max-width:760px}
 .department-empty h2{margin:0 0 12px;font-size:22px;color:#112a50;word-break:keep-all}.department-empty p{margin:0;font-size:15px;line-height:1.8;color:#526a83}
-#home .department-switch{display:block;margin-top:6px;font:12px/1.5 system-ui,sans-serif;color:#54728e}
+#home .home-brand{display:inline-flex;align-items:center;gap:12px}
+#home .department-switch{display:inline-block;margin-top:0;font:12px/1.5 system-ui,sans-serif;color:#54728e}
 @media(hover:hover){.department-page .department-choice:hover{transform:translateY(-5px);border-color:#6486dc;box-shadow:0 18px 32px #183b6420}.department-choice:hover .department-action>span{transform:translateX(5px)}}
 .department-page .department-choice:active{transform:scale(.985)}
 @media(max-width:600px){body.department-screen{background-image:linear-gradient(90deg,#fafbf8dd,#fafbf880),url('./assets/home-design/home-glass-background.webp');background-position:60% top;background-size:auto 700px}.department-screen .main-content{width:100%;padding:22px 20px 32px!important}.department-brand>span{display:none}.department-intro{margin:36px 0 24px}.department-intro>p:last-child{font-size:14px}.department-choices{grid-template-columns:1fr;gap:14px}.department-page .department-choice{padding:24px;min-height:215px}.department-choice strong{font-size:29px;margin-top:14px}.department-choice .department-description{font-size:14px}.department-choice .department-action{margin-top:20px;font-size:14px}.department-page h1{font-size:30px;letter-spacing:-1px}.department-empty{padding:22px}.department-empty h2{font-size:20px}}
 @media(prefers-reduced-motion:reduce){.department-page .department-choice,.department-action>span{transition:none!important;transform:none!important}}
+
+@media(max-width:580px){#home .home-brand{gap:8px}#home .department-switch{font-size:11px}}

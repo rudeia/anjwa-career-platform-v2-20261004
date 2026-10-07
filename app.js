@@ -2714,6 +2714,10 @@ function bindNavigation() {
     else if (button.dataset.view === "planner") { selectNextPlannerTarget(); setView("planner"); renderCoursePool(); }
     else setView(button.dataset.view);
   }));
+  $all('.home-area-card[data-home-view]').forEach(card => card.addEventListener('click', event => {
+    if (event.target.closest('button, a, input, select, textarea') || window.getSelection()?.toString()) return;
+    card.querySelector(`button[data-view="${card.dataset.homeView}"]`)?.click();
+  }));
   $('.home-search')?.addEventListener('submit', event => {
     event.preventDefault();
     setView('curriculum');
@@ -2727,6 +2731,7 @@ function bindNavigation() {
 
 function setView(viewId, updateUrl = true) {
   if (!$(`#${viewId}`)?.classList.contains("view")) viewId = "home";
+  const finishMotion = window.AnjwaMotion?.begin(state.activeView, viewId, updateUrl);
   state.activeView = viewId;
   document.body?.classList.toggle('home-screen', viewId === 'home');
   document.body?.classList.toggle('department-screen', ['departments', 'military'].includes(viewId));
@@ -2746,7 +2751,8 @@ function setView(viewId, updateUrl = true) {
     if (active) button.setAttribute("aria-current", "page");
     else button.removeAttribute("aria-current");
   });
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? "instant" : "smooth" });
+  finishMotion?.();
 }
 
 function getInitialViewFromHash() {
