@@ -41,14 +41,14 @@ const courseDesignerStatusConfigs = {
     min: 1,
     max: 2,
     title: "가장 관심 있는 분야를 먼저 골라 보세요",
-    note: "첫 번째 분야는 주 관심 분야가 됩니다. 함께 비교할 연계 분야는 한 개까지 더 고를 수 있습니다.",
-    guide: "희망 분야에 필요한 과목을 먼저 확인하고, 우리학교에서 언제 선택할 수 있는지 살펴봅니다."
+    note: "처음 고른 분야를 주 관심 분야로 사용합니다. 함께 비교할 분야는 한 개까지 더 고를 수 있습니다.",
+    guide: "관심 분야와 관련된 과목을 보고, 우리학교에서 언제 선택할 수 있는지 확인합니다."
   },
   considering: {
     min: 2,
     max: 3,
     title: "비교할 분야를 2~3개 골라 보세요",
-    note: "고른 순서가 관심 우선순위가 됩니다. 결과에서 여러 분야에 공통인 과목과 분야별 차이를 나누어 보여줍니다.",
+    note: "고른 순서를 관심 우선순위로 사용합니다. 결과에서는 공통으로 관련된 과목과 분야별로 다른 과목을 보여줍니다.",
     guide: "여러 분야에 공통으로 도움이 되는 과목과 분야마다 달라지는 과목을 비교합니다."
   },
   exploring: {
@@ -56,7 +56,7 @@ const courseDesignerStatusConfigs = {
     max: 3,
     title: "활동에서 찾은 후보 분야를 골라 보세요",
     note: "먼저 좋아하는 활동을 고르면 연결될 수 있는 분야를 표시합니다. 후보는 최대 3개까지 비교할 수 있습니다.",
-    guide: "좋아하는 수업 장면이나 활동에서 출발해 후보 분야를 찾고, 탐색해 볼 과목으로 이어 봅니다.",
+    guide: "좋아하는 수업 활동을 고르고, 관련된 분야와 과목을 찾아봅니다.",
     requiresExploration: true
   }
 };
@@ -3730,7 +3730,7 @@ function renderCourseDesignerExploration() {
       <div>
         <span class="label">좋아하는 수업 장면</span>
         <h3>내가 더 해 보고 싶은 활동을 먼저 골라 보세요</h3>
-        <p>정답은 없습니다. 최대 3개를 고르면 아래 분야 중 연결해 볼 후보를 표시합니다.</p>
+        <p>더 해 보고 싶은 활동을 최대 3개 골라 보세요. 아래에서 관련된 분야를 표시합니다.</p>
       </div>
       <strong>${selected.size} / 3</strong>
     </div>
@@ -4447,10 +4447,10 @@ function renderCourseDesignerResults() {
   }
   if (resultTitle) {
     resultTitle.textContent = state.courseDesignerStatus === "clear"
-      ? "주 관심 분야에 필요한 과목을 학교 교육과정과 연결했습니다"
+      ? "관심 분야와 관련된 우리학교 과목을 찾았습니다"
       : state.courseDesignerStatus === "exploring"
-        ? "좋아하는 활동에서 후보 분야와 탐색 과목을 찾았습니다"
-        : "여러 분야의 공통점과 차이점을 과목으로 비교했습니다";
+        ? "좋아하는 활동과 관련된 분야와 과목을 찾았습니다"
+        : "고른 분야에 공통으로 관련된 과목과 분야별 과목을 비교하세요";
   }
   renderCourseDesignerOptionTabs(context);
   renderCourseDesignerOptionIntro(profile, context, selections, selectedInterests);
@@ -4716,7 +4716,7 @@ function renderCourseDesignerComparison(context, selections, interests) {
     target.innerHTML = `
       <div class="course-designer-comparison-head">
         <span class="label">활동에서 분야 찾기</span>
-        <h3>좋아하는 활동을 다음 탐색 질문으로 이어 보세요</h3>
+        <h3>좋아하는 활동에서 더 알아보고 싶은 점을 찾아보세요</h3>
       </div>
       <div class="course-designer-explore-flow">
         <article><span>1</span><b>좋아하는 활동</b><p>${escapeHtml(tagLabels.join(" · ") || "선택한 활동")}</p></article>
@@ -4933,10 +4933,10 @@ function renderCourseDesignerCourseCard(candidate, grade) {
       </div>
       <dl class="student-course-explanation">
         <div><dt>무엇을 배우나요</dt><dd>${escapeHtml(guide.learning)}</dd></div>
-        <div><dt>수업 활동 예시</dt><dd>${escapeHtml(guide.activities[0])} (실제 수업은 학교 안내 확인)</dd></div>
-        <div><dt>관심 분야와 연결</dt><dd>${escapeHtml(getCourseDesignerCardConnection(candidate))}</dd></div>
-        <div><dt>준비할 부분</dt><dd>${escapeHtml(guide.competencies.join(' · '))} 활동을 미리 살펴보세요. 선수과목 조건은 학교에 확인합니다.</dd></div>
-        <div><dt>편성 시기·방식</dt><dd>${escapeHtml(course.semesters.map(getSemesterLabel).join(' · '))} · ${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}. ${escapeHtml(state.courseDesignerPlan.replace("incoming", ""))} 입학생 편성 기준 · 신청·인원·시간표는 학교 확인.</dd></div>
+        <div><dt>수업 활동 예시</dt><dd>${escapeHtml(guide.activities[0])} (실제 수업 내용은 학교에 확인하세요)</dd></div>
+        <div><dt>관심 분야와의 관계</dt><dd>${escapeHtml(getCourseDesignerCardConnection(candidate))}</dd></div>
+        <div><dt>미리 살펴볼 내용</dt><dd>${escapeHtml(guide.competencies.join(' · '))} 등 수업에서 필요한 내용을 살펴보세요. 먼저 이수해야 하는 과목이 있는지는 학교에 확인하세요.</dd></div>
+        <div><dt>편성 시기·방식</dt><dd>${escapeHtml(course.semesters.map(getSemesterLabel).join(' · '))} · ${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}. ${escapeHtml(state.courseDesignerPlan.replace("incoming", ""))} 입학생 편성 기준입니다. 신청 조건과 수강 인원, 시간표는 학교에 확인하세요.</dd></div>
       </dl>
       <p class="course-designer-source-note">${escapeHtml(getCourseDesignerCourseSourceNote(candidate))}</p>
       ${renderCourseDesignerOfficialEvidence(candidate)}
@@ -4961,7 +4961,7 @@ function renderCourseDesignerDecision(course, grade) {
     <div class="course-designer-decision">
       <div class="course-designer-decision-head">
         <b>내 선택 판단</b>
-        <span>지금 생각을 표시해 두면 상담할 때 비교하기 쉽습니다.</span>
+        <span>현재 생각을 표시하고, 이유는 필요할 때 적어 두세요. 상담할 때 다시 확인할 수 있습니다.</span>
       </div>
       <div class="course-designer-decision-switch" role="group" aria-label="${escapeAttribute(course.name)} 선택 판단">
         ${Object.entries(courseDesignerDecisionLabels).map(([status, label]) => `
@@ -5114,7 +5114,7 @@ function getCourseDesignerCourseReason(candidate) {
     || sourceSubjects.map((subject) => interestReasonMap[subject]).find(Boolean)
     || "";
   const connectionText = specificReason
-    || "이 과목의 학습 내용을 관심 학과의 교육과정과 비교해 보세요. 구체적인 연결은 과목 안내와 학과 수업 소개에서 확인합니다.";
+    || "이 과목에서 배우는 내용과 관심 학과의 수업 내용을 비교해 보세요. 어떤 내용이 관련되는지는 과목 안내와 학과 수업 소개에서 확인해야 합니다.";
   const sharedText = linkedInterests.length > 1
     ? ` 다른 관심 분야인 ${linkedInterests.slice(1).map((interest) => interest.label).join("·")}에서도 이 과목을 비교 후보로 골랐습니다.`
     : "";
@@ -9252,7 +9252,7 @@ function getCourseDesignerCardConnection(candidate) {
     const reasons=courseDesignerData.interestSubjectReasons?.[interest.id] || {};
     return reasons[name] || [...candidate.subjects].map(subject=>reasons[subject]).find(Boolean);
   }).filter(Boolean);
-  return [...new Set(reason)].join(' ') || `${[...candidate.interests].join('·')} 분야의 학과 수업과 비교해 볼 후보입니다. 구체적인 연결은 과목 안내와 학과 교육과정에서 확인하세요.`;
+  return [...new Set(reason)].join(' ') || `${[...candidate.interests].join('·')} 분야의 학과 수업과 비교해 볼 과목입니다. 구체적으로 어떤 내용이 관련되는지는 과목 안내와 학과 교육과정에서 확인하세요.`;
 }
 
 function getCurriculumDataWarning(planKey) {

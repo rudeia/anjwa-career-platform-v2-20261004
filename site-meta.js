@@ -1,7 +1,7 @@
 (() => {
   const RELEASE = Object.freeze({
-    version: "2.02.02",
-    releasedAt: "2026-10-07T14:45:30+09:00"
+    version: "2.02.03",
+    releasedAt: "2026-10-08T15:15:11+09:00"
   });
 
   function seoulDateParts(value) {

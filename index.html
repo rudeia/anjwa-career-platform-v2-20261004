@@ -12,10 +12,10 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=2.02.02" />
-    <link rel="stylesheet" href="./home-design.css?v=2.02.02" />
-    <link rel="stylesheet" href="./department.css?v=2.02.02" />
-    <link rel="stylesheet" href="./motion.css?v=2.02.02" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.02.03" />
+    <link rel="stylesheet" href="./home-design.css?v=2.02.03" />
+    <link rel="stylesheet" href="./department.css?v=2.02.03" />
+    <link rel="stylesheet" href="./motion.css?v=2.02.03" />
   </head>
   <body class="home-design-app department-screen">
     <div class="app-shell">
@@ -265,7 +265,7 @@
                 </h2>
                 <button class="ghost-button back-home-button" data-view="home">첫 화면으로</button>
               </div>
-              <p>지금 필요한 진로 도움을 고르고, 관심 분야와 우리학교 과목을 차근차근 연결해 봅니다.</p>
+              <p>관심 분야를 찾아보고, 우리학교에서 어떤 과목을 배울 수 있는지 확인합니다.</p>
             </div>
           </div>
 
@@ -304,9 +304,9 @@
               <fieldset class="course-designer-status-fieldset">
                 <legend>지금 어떤 도움이 필요한가요?</legend>
                 <div class="course-designer-status-switch" id="courseDesignerStatusSwitch">
-                  <button type="button" data-course-designer-status="clear">한 분야를 깊게 확인</button>
-                  <button class="active" type="button" data-course-designer-status="considering">2~3개 분야를 비교</button>
-                  <button type="button" data-course-designer-status="exploring">좋아하는 활동에서 탐색</button>
+                  <button type="button" data-course-designer-status="clear">관심 분야가 있어요</button>
+                  <button class="active" type="button" data-course-designer-status="considering">2~3개 분야를 비교할래요</button>
+                  <button type="button" data-course-designer-status="exploring">아직 진로를 모르겠어요</button>
                 </div>
               </fieldset>
             </div>
@@ -331,7 +331,7 @@
               <p id="courseDesignerSelectionSummary">관심 분야를 한 개 이상 선택하세요.</p>
               <div>
                 <button class="ghost-button" id="courseDesignerResetButton" type="button">선택 초기화</button>
-                <button class="primary-button" id="courseDesignerGenerateButton" type="button">과목 선택안 살펴보기</button>
+                <button class="primary-button" id="courseDesignerGenerateButton" type="button">관련 과목 살펴보기</button>
               </div>
             </div>
 </aside></div>
@@ -343,10 +343,10 @@
             data-course-designer-panel="courses" aria-live="polite" hidden>
             <div class="course-designer-result-head">
               <div>
-                <span class="label">나의 진로·과목 연결 결과</span>
-                <h3 id="courseDesignerResultTitle">관심 분야와 과목의 연결을 확인해 봅시다</h3>
-                <p class="course-designer-no-rank">어느 선택안이 더 좋은 것은 아닙니다. 내 관심과 학습 계획에 맞는 안을 비교해 보세요.</p>
-                <p class="course-designer-scope-note">선택한 입학년도의 1·2·3학년 교육과정을 함께 보여줍니다. 이미 배운 과목은 내 학습 경험을 돌아보고, 앞으로 배울 과목은 개설 학기와 선택 묶음을 확인하는 데 활용하세요. 관련성이 확인된 과목을 학년별 최대 5개까지 보여주며, 비슷한 후보는 일반선택·진로선택·융합선택 순으로 살펴봅니다.</p>
+                <span class="label">관심 분야와 관련 과목</span>
+                <h3 id="courseDesignerResultTitle">관심 분야와 관련된 과목을 살펴보세요</h3>
+                <p class="course-designer-no-rank">추천안은 입시 유불리를 뜻하지 않습니다. 배우고 싶은 내용과 학습 계획을 기준으로 비교하세요.</p>
+                <p class="course-designer-scope-note">선택한 입학년도의 1·2·3학년 과목을 함께 보여줍니다. 이미 배운 과목은 배운 내용을 돌아보고, 앞으로 배울 과목은 개설 학기와 선택 묶음을 확인하세요. 관련성이 확인된 과목은 학년별 최대 5개까지 표시합니다. 비슷한 후보는 일반선택·진로선택·융합선택 순으로 보여줍니다.</p>
               </div>
               <div class="course-designer-result-tools">
                 <span id="courseDesignerResultBasis"></span>
@@ -363,7 +363,7 @@
             <div class="course-designer-alternatives" id="courseDesignerAlternatives"></div>
             <div class="course-designer-caution">
               <b>선택 전에 확인하세요</b>
-              <p>이 화면은 과목 선택을 생각해 보는 참고 자료이며, 합격 조건이나 반드시 들어야 하는 과목 목록이 아닙니다. 같은 선택 묶음에서는 정해진 수만큼만 고를 수 있으니, 최종 결정 전에는 우리학교 교육과정과 희망 대학의 최신 안내를 선생님과 함께 확인하세요.</p>
+              <p>이 추천은 과목을 비교하기 위한 참고 자료입니다. 합격 조건이나 필수 이수 과목 목록은 아닙니다. 같은 선택 묶음에서는 정해진 수만큼만 고를 수 있습니다. 결정하기 전에 학교 편성표와 지원할 대학의 최신 안내를 선생님과 확인하세요.</p>
             </div>
           </section>
 
@@ -371,9 +371,9 @@
             data-course-designer-panel="review" aria-live="polite" hidden>
             <div class="course-designer-review-head">
               <div>
-                <span class="label">상담 전 최종 점검</span>
-                <h3>관심 분야와 과목별 선택 판단을 한곳에서 확인합니다</h3>
-                <p>아직 판단하지 않은 과목도 함께 보면서 선생님과 확인할 질문을 정리해 보세요.</p>
+                <span class="label">상담 전에 확인할 내용</span>
+                <h3>관심 분야와 과목별로 고른 이유를 확인하세요</h3>
+                <p>아직 결정하지 못한 과목도 괜찮습니다. 무엇이 궁금한지 정리해 선생님께 질문하세요.</p>
               </div>
               <button class="ghost-button" id="courseDesignerBackToCoursesButton" type="button">관련 과목 다시 보기</button>
             </div>
@@ -407,8 +407,8 @@
                 <button class="ghost-button back-home-button" data-view="home">첫 화면으로</button>
               </div>
               <p>
-                과목을 고르면 수업 개념에서 출발하는 탐구 질문, 진행 방법, 결과물 예시를 확인합니다.
-                아래 내용은 그대로 제출하는 답안이 아니라, 내 수업과 수준에 맞게 좁혀 가는 출발점입니다.
+                과목을 고르면 수업에서 배운 개념으로 탐구할 질문과 방법, 결과물 예시를 볼 수 있습니다.
+                예시를 그대로 제출하지 말고, 수업에서 배운 내용과 내가 다룰 수 있는 범위에 맞게 바꾸세요.
               </p>
             </div>
           </div>
@@ -417,25 +417,25 @@
             <article>
               <span class="label">사용 방법</span>
               <h3>과목을 먼저 고르고 질문을 좁힙니다</h3>
-              <p>관심 과목을 선택한 뒤, 내가 수업에서 배운 개념과 실제로 확인 가능한 자료를 연결합니다.</p>
+              <p>관심 과목을 고른 뒤 수업에서 배운 개념을 확인하세요. 그 개념을 살펴볼 자료를 구할 수 있는지도 확인합니다.</p>
             </article>
             <article>
               <span class="label">좋은 주제</span>
               <h3>동기 → 질문 → 방법 → 결과물</h3>
-              <p>좋은 탐구는 활동 이름보다 질문과 과정이 선명합니다. 수행평가나 수업 내용에서 출발하면 가장 자연스럽습니다.</p>
+              <p>무엇이 궁금한지, 어떤 방법으로 알아볼지 적어 보세요. 수업이나 수행평가에서 생긴 질문으로 시작해도 좋습니다.</p>
             </article>
             <article>
               <span class="label">주의</span>
-              <h3>복사보다 변형이 중요합니다</h3>
-              <p>아래 주제는 예시입니다. 내 자료, 내 과목, 내 수준에 맞게 범위를 줄이고 근거를 남겨야 합니다.</p>
+              <h3>내가 다룰 수 있는 범위로 바꾸세요</h3>
+              <p>아래 주제는 예시입니다. 수업 내용과 구할 수 있는 자료에 맞춰 범위를 줄이고, 판단의 근거를 남기세요.</p>
             </article>
           </div>
 
           <div class="topic-ai-panel">
             <div>
               <span class="label">AI로 질문 확장하기</span>
-              <h3>답을 대신 쓰게 하지 말고, 질문을 더 좋게 만드는 데 씁니다</h3>
-              <p>선생님이 안내한 사용 범위 안에서 질문 후보를 비교하세요. AI가 제시한 자료의 실재 여부와 근거를 원문으로 확인하고, 하지 않은 활동이나 결과를 만들게 하지 마세요.</p>
+              <h3>AI는 탐구 질문을 다듬는 데 활용하세요</h3>
+              <p>선생님이 허용한 범위에서 AI가 제안한 질문을 비교하세요. 제시한 자료가 실제로 있는지, 설명이 원문과 맞는지 확인해야 합니다. 하지 않은 활동이나 결과를 만들어 쓰지 마세요.</p>
             </div>
             <ol>
               <li>나는 <b>[과목]</b>에서 <b>[수업 개념]</b>을 배웠어. 이 개념에서 출발할 수 있는 고등학생 수준의 탐구 질문 5개를 제안해줘.</li>
@@ -477,7 +477,7 @@
             <button class="ghost-button" id="topicResetButton" type="button">초기화</button>
           </div>
 
-          <p class="content-status-note">표시 과목은 관련 교과 예시입니다. 입학년도별 학교 개설 과목과 대조하세요. 활동 예시의 학년은 학교의 과목 개설 학년과 다를 수 있습니다. 학년 미지정 주제는 모든 학년 검색에 포함됩니다. 선수 개념·자료·수행 범위를 선생님과 확인하세요.</p>
+          <p class="content-status-note">표시된 과목은 활동과 관련된 교과의 예시입니다. 내 입학년도 편성표에 실제로 개설되어 있는지 확인하세요. 활동 예시의 학년과 과목 개설 학년은 다를 수 있습니다. 학년을 지정하지 않은 주제는 모든 학년 검색에 포함됩니다. 활동 전에 알아야 할 개념과 필요한 자료, 다룰 범위를 선생님과 확인하세요.</p>
           <div class="topic-result-head">
             <div>
               <span class="label">주제 예시</span>
@@ -814,11 +814,11 @@
     <script src="./recommendation-data.js?v=2.01.00"></script>
     <script src="./university-recommendation-data.js?v=2.01.00"></script>
     <script src="./course-designer-data.js?v=2.01.00"></script>
-    <script src="./topic-data.js?v=2.02.02"></script>
-    <script src="./motion.js?v=2.02.02"></script>
-    <script src="./app.js?v=2.02.02"></script>
+    <script src="./topic-data.js?v=2.02.03"></script>
+    <script src="./motion.js?v=2.02.03"></script>
+    <script src="./app.js?v=2.02.03"></script>
     <script src="./pwa-install.js?v=2.00.01" defer></script>
-    <script src="./site-meta.js?v=2.02.02" defer></script>
+    <script src="./site-meta.js?v=2.02.03" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>
