@@ -3762,7 +3762,11 @@ function renderCourseDesignerInterestGroups() {
   });
   target.innerHTML = [...groups.entries()].map(([group, interests]) => `
     <details class="course-designer-interest-group" ${state.courseDesignerStatus === "exploring" || interests.some(i => selected.has(i.id)) ? "open" : ""}>
-      <summary>${escapeHtml(group)} · ${interests.length}개 분야</summary>
+      <summary>
+        <span class="course-designer-group-name">${escapeHtml(group)}</span>
+        <span class="course-designer-group-count">${interests.length}개 분야</span>
+        <span class="course-designer-group-chevron" aria-hidden="true">›</span>
+      </summary>
       <div>
         ${interests.sort((a, b) => Number(suggested.has(b.id)) - Number(suggested.has(a.id))).map((interest) => {
           const active = selected.has(interest.id);
@@ -4619,7 +4623,7 @@ function buildCourseDesignerPrintDocument(studentNumber, exportTime, fileTitle) 
   </div>
   ${sections}
   <footer>
-    <p>과목 연결은 학습 내용에 따른 비교 후보입니다. 원문과 적용 학년도가 확인되지 않은 대학 자료는 공식 이수 조건으로 사용하지 않았습니다. 최종 선택 전 학교 교육과정과 지원 학년도의 대학 안내를 확인하세요.</p>
+    <p>관심 분야와 과목의 학습 내용을 연결한 추천입니다. 대학의 필수·권장과목을 뜻하지 않습니다. 대학의 공식 조건은 원문과 적용 학년도가 확인된 안내에서 별도로 확인하세요. 최종 선택 전 학교 교육과정과 지원 학년도의 대학 안내를 확인하세요.</p>
     <p class="export-time">저장 시각: ${escapeHtml(exportTime.display)}</p>
   </footer>
 </body>
@@ -4633,6 +4637,10 @@ function renderCourseDesignerOptionTabs(context) {
   const sets = profiles.map(profile => ({ profile, ids: [...new Set(Object.entries(getCourseDesignerOptionSelections(context, profile.id)).flatMap(([grade,candidates]) => candidates.map(c => `${grade}|${c.course.id}`)))].sort() }));
   const unique = [];
   sets.forEach(item => { const same = unique.find(previous => JSON.stringify(previous.ids) === JSON.stringify(item.ids)); if (same) same.aliases.push(item.profile.label); else unique.push({...item, aliases:[item.profile.label]}); });
+  if (unique.length === 1) {
+    target.innerHTML = '<p class="student-option-difference">선택안의 과목 구성이 같아 하나로 보여줍니다.</p>';
+    return;
+  }
   const describe = ids => ids.map(id => {
     const separator = id.indexOf('|');
     const course = curriculumData.plans[state.courseDesignerPlan].courses.find(c => c.id === id.slice(separator+1));
@@ -4666,7 +4674,7 @@ function renderCourseDesignerOptionIntro(profile, context, selections, interests
   const target = $("#courseDesignerOptionIntro");
   if (!target) return;
   const selectedCount = Object.values(selections).flat().length;
-  const fixedCount = context.fixedCourses.length;
+  const fixedCount = new Set(["1", "2", "3"].flatMap(grade => getCourseDesignerFoundationCourses(context, grade)).map(course => course.id)).size;
   target.innerHTML = `
     <div>
       <span class="course-designer-option-code">${escapeHtml(profile.code)}</span>
@@ -4785,7 +4793,7 @@ function renderCourseDesignerConnectionBlock(step, title, candidates, descriptio
     <article class="course-designer-connect-step">
       <span>${escapeHtml(step)}</span>
       <div><h4>${escapeHtml(title)}</h4><p>${escapeHtml(description)}</p></div>
-      ${renderCourseDesignerCourseTags(candidates, step === "3" ? "연계 분야를 고르면 비교 과목이 표시됩니다." : "확인된 과목이 없습니다.")}
+      ${renderCourseDesignerCourseTags(candidates, step === "3" ? "연계 분야를 고르면 비교 과목이 표시됩니다." : step === "1" ? "현재 목록에는 공식 핵심·권장과목 사례가 없습니다. 희망 대학의 해당 학년도 안내를 확인하세요." : "현재 목록에는 이 관심 분야와 연결한 우리학교 과목이 없습니다. 전체 교육과정을 확인하세요.")}
     </article>
   `;
 }
@@ -4813,19 +4821,33 @@ function getCourseDesignerChoiceConflicts(context, selectedLabels) {
     .slice(0, 5);
 }
 
+function getCourseDesignerNextChoiceTerm(context) {
+  const currentGrade = { incoming2026: 1, incoming2025: 2, incoming2024: 3 }[state.courseDesignerPlan] || 0;
+  return buildCurriculumChoiceGroups(context.plan.courses || [], curriculumSemesterOrder)
+    .map(group => group.semesterKey)
+    .filter(term => Number(term.split("-")[0]) > currentGrade)
+    .sort((a, b) => getSemesterSortIndex(a) - getSemesterSortIndex(b))[0] || "";
+}
+
 function renderCourseDesignerThreeYearMap(context, selections) {
   const target = $("#courseDesignerMap");
   if (!target) return;
+  const nextTerm = getCourseDesignerNextChoiceTerm(context);
+  const nextGrade = nextTerm.split("-")[0];
+  const grades = ["1", "2", "3"];
+  if (nextGrade) {
+    grades.splice(grades.indexOf(nextGrade), 1);
+    grades.unshift(nextGrade);
+  }
   target.innerHTML = `
     <div class="course-designer-map-head">
-      <div>
-        <span class="label">학년별로 살펴보기</span>
-        <h3>1학년부터 3학년까지 어떤 과목을 배우고 선택하는지 살펴봅시다</h3>
-      </div>
-      <span>이미 배운 과목은 관심 분야와 어떻게 이어지는지 돌아보고, 앞으로 선택할 과목은 개설 학기와 선택 묶음을 함께 확인해 보세요.</span>
+      <div><span class="label">선택과목 살펴보기</span><h3>${nextTerm ? escapeHtml(getSemesterLabel(nextTerm)) + "부터 살펴보세요" : "다음 학년 선택과목이 없습니다"}</h3></div>
+      <span>${nextTerm ? "개설 학기와 선택 묶음을 확인하세요." : "현재 편성표에는 다음 학년 선택 묶음이 없습니다. 현재 학년 과목이나 다른 이수 방법은 선생님과 상담하세요."}</span>
     </div>
     <div class="course-designer-grade-grid">
-      ${["1", "2", "3"].map((grade) => renderCourseDesignerGradeCard(context, selections[grade] || [], grade)).join("")}
+      ${grades.map(grade => grade === nextGrade
+        ? renderCourseDesignerGradeCard(context, selections[grade] || [], grade)
+        : `<details class="course-designer-other-grade"><summary>${grade}학년 과목 보기</summary>${renderCourseDesignerGradeCard(context, selections[grade] || [], grade)}</details>`).join("")}
     </div>
   `;
 }
@@ -4843,23 +4865,32 @@ function renderCourseDesignerGradeCard(context, selectedCourses, grade) {
           <small><b>${escapeHtml(stage.label)}</b> · ${escapeHtml(stage.description)}</small>
         </div>
       </header>
-      <div class="course-designer-foundation">
+      <details class="course-designer-foundation"><summary>학교 지정 과목 보기 · 따로 고르지 않음</summary>
         <b>학교에서 기본으로 배우는 과목 <small>따로 고르지 않음</small></b>
         <div>
           ${foundations.length
             ? foundations.map((course) => `<span>${escapeHtml(course.name)}</span>`).join("")
-            : `<span class="empty">선택한 분야와 바로 연결해 보여줄 기본 과목은 없지만, 다른 기본 과목도 학업 역량을 쌓는 데 중요합니다.</span>`}
+            : `<span class="empty">현재 이 분야와 연결해 안내하는 기본 과목은 없습니다. 학교 지정 과목은 교육과정에서 확인하세요.</span>`}
         </div>
-      </div>
+      </details>
       <div class="course-designer-grade-courses">
         <b>먼저 살펴볼 선택과목 <small>비교 후보 최대 5개 · 입시 우선순위 아님</small></b>
         ${selectedCourses.length
-          ? selectedCourses.map((candidate) => renderCourseDesignerCourseCard(candidate, grade)).join("")
+          ? renderCourseDesignerSemesterCards(selectedCourses, grade)
           : `<p class="course-designer-grade-empty">이 화면에서 먼저 보여줄 선택과목이 없습니다. 다음 학년 과목을 살펴보거나, 기본 과목에서 관심 분야와 이어지는 질문을 찾아보세요.</p>`}
         ${renderCourseDesignerAdditionalCourses(additionalCourses, grade)}
       </div>
     </article>
   `;
+}
+
+function renderCourseDesignerSemesterCards(candidates, grade) {
+  const terms = [...new Set(candidates.flatMap(candidate => candidate.course.semesters.filter(term => term.startsWith(grade + "-"))))].sort((a, b) => getSemesterSortIndex(a) - getSemesterSortIndex(b));
+  const firstTerm = terms[0];
+  const first = candidates.filter(candidate => candidate.course.semesters.includes(firstTerm));
+  const later = candidates.filter(candidate => !first.includes(candidate));
+  return first.map(candidate => renderCourseDesignerCourseCard(candidate, grade)).join("")
+    + (later.length ? `<details class="course-designer-later-term"><summary>${grade}학년 2학기 관련 과목 보기 (${later.length}개)</summary>${later.map(candidate => renderCourseDesignerCourseCard(candidate, grade)).join("")}</details>` : "");
 }
 
 function getCourseDesignerAdditionalCourses(context, selectedCourses, grade) {
@@ -4931,15 +4962,18 @@ function renderCourseDesignerCourseCard(candidate, grade) {
         <span>${gradeTerms.length > 1 ? "학기당 " : ""}${creditLabels.join("·")}학점</span>
         ${linkedSubject ? `<span class="course-designer-link-candidate">과목명 연결 확인</span>` : ""}
       </div>
-      <dl class="student-course-explanation">
-        <div><dt>무엇을 배우나요</dt><dd>${escapeHtml(guide.learning)}</dd></div>
-        <div><dt>수업 활동 예시</dt><dd>${escapeHtml(guide.activities[0])} (실제 수업 내용은 학교에 확인하세요)</dd></div>
-        <div><dt>관심 분야와의 관계</dt><dd>${escapeHtml(getCourseDesignerCardConnection(candidate))}</dd></div>
-        <div><dt>미리 살펴볼 내용</dt><dd>${escapeHtml(guide.competencies.join(' · '))} 등 수업에서 필요한 내용을 살펴보세요. 먼저 이수해야 하는 과목이 있는지는 학교에 확인하세요.</dd></div>
-        <div><dt>편성 시기·방식</dt><dd>${escapeHtml(course.semesters.map(getSemesterLabel).join(' · '))} · ${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}. ${escapeHtml(state.courseDesignerPlan.replace("incoming", ""))} 입학생 편성 기준입니다. 신청 조건과 수강 인원, 시간표는 학교에 확인하세요.</dd></div>
-      </dl>
-      <p class="course-designer-source-note">${escapeHtml(getCourseDesignerCourseSourceNote(candidate))}</p>
-      ${renderCourseDesignerOfficialEvidence(candidate)}
+      <p class="course-designer-short-reason"><b>추천 이유</b>${escapeHtml(getCourseDesignerCardConnection(candidate))}</p>
+      <details class="course-designer-card-detail">
+        <summary>자세히 보기 · 활동·준비·출처</summary>
+        <dl class="student-course-explanation">
+          <div><dt>무엇을 배우나요</dt><dd>${escapeHtml(guide.learning)}</dd></div>
+          <div><dt>수업 활동 예시</dt><dd>${escapeHtml(guide.activities[0])}</dd></div>
+          <div><dt>미리 살펴볼 내용</dt><dd>${escapeHtml(guide.competencies.join(' · '))}. 선수 과목 여부는 학교에 확인하세요.</dd></div>
+          <div><dt>개설 정보</dt><dd>${escapeHtml(course.semesters.map(getSemesterLabel).join(' · '))} · ${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}. ${escapeHtml(state.courseDesignerPlan.replace("incoming", ""))} 입학생 편성 기준입니다.</dd></div>
+        </dl>
+        ${primarySource.startsWith("official-") ? `<p class="course-designer-source-note">${escapeHtml(getCourseDesignerCourseSourceNote(candidate))}</p>` : ""}
+        ${renderCourseDesignerOfficialEvidence(candidate)}
+      </details>
       ${renderCourseDesignerDecision(course, grade)}
       ${renderCourseDesignerPlannerActions(course, grade)}
     </article>
@@ -4961,7 +4995,7 @@ function renderCourseDesignerDecision(course, grade) {
     <div class="course-designer-decision">
       <div class="course-designer-decision-head">
         <b>내 선택 판단</b>
-        <span>현재 생각을 표시하고, 이유는 필요할 때 적어 두세요. 상담할 때 다시 확인할 수 있습니다.</span>
+
       </div>
       <div class="course-designer-decision-switch" role="group" aria-label="${escapeAttribute(course.name)} 선택 판단">
         ${Object.entries(courseDesignerDecisionLabels).map(([status, label]) => `
@@ -4971,10 +5005,13 @@ function renderCourseDesignerDecision(course, grade) {
             aria-pressed="${decision.status === status}">${escapeHtml(label)}</button>
         `).join("")}
       </div>
+      <details class="course-designer-reason-detail" ${decision.reason ? "open" : ""}>
+      <summary>선택 이유 적기 · 선택사항</summary>
       <input type="text" maxlength="120" value="${escapeAttribute(decision.reason || "")}"
         data-course-designer-reason data-course-id="${escapeAttribute(course.id)}" data-grade="${escapeAttribute(grade)}"
         aria-label="${escapeAttribute(course.name)} 선택 판단 이유"
-        placeholder="선택·보류한 이유를 한 줄로 적어 보세요. (선택)" />
+        placeholder="선택하거나 고민하는 이유" />
+      </details>
     </div>
   `;
 }
@@ -5133,9 +5170,9 @@ function getCourseDesignerCourseSourceNote(candidate) {
     return "2028학년도 공식 대학 자료에서 일부 모집단위가 권장과목으로 제시한 사례가 있습니다. 희망 대학의 최신 안내를 다시 확인하세요.";
   }
   if (primarySource === "field-guide") {
-    return "관련 학과의 과목 흐름을 바탕으로 비교할 과목입니다. 화면에 연결된 공식 대학 사례가 없으면 핵심·권장과목으로 단정하지 않습니다.";
+    return "관심 분야와 과목의 학습 내용을 연결한 추천입니다. 대학의 필수·권장과목을 뜻하지 않습니다.";
   }
-  return "진로 탐색을 넓히기 위한 참고 과목입니다. 대학이 공식 핵심·권장과목으로 제시했다는 뜻은 아닙니다.";
+  return "관심 분야를 넓혀 살펴볼 때 참고할 과목입니다. 대학의 필수·권장과목을 뜻하지 않습니다.";
 }
 
 function isCourseDesignerLinkedSubject(candidate) {
@@ -5906,7 +5943,7 @@ function renderRecommendationExplorer() {
         <h4>${escapeHtml(selectedSubject)} 과목과 연결되는 학과·계열</h4>
         <span>${subjectMatches.length}개</span>
       </div>
-      ${subjectMatches.length ? subjectMatches.map((record) => renderSubjectMatchCard(record, selectedSubject)).join("") : renderEmptyRecommendation("이 과목과 직접 연결된 학과·계열 데이터가 아직 없습니다.")}
+      ${subjectMatches.length ? subjectMatches.map((record) => renderSubjectMatchCard(record, selectedSubject)).join("") : renderEmptyRecommendation("이 과목으로 찾아볼 학과·계열 정보는 아직 준비되지 않았습니다.")}
     `
     : `
       <div class="empty-note">과목을 선택하면 그 과목을 핵심·권장·추천으로 연결한 학과·계열이 나타납니다.</div>
@@ -5937,7 +5974,7 @@ function renderRecommendationModeState() {
     return;
   }
   if (mode === "university") {
-    help.textContent = `대학명과 학과명을 입력하면 등록된 과목 자료와 확인 상태를 보여줍니다. 적용 학년도와 원문 확인 전에는 필수 이수 조건으로 해석하지 마세요. ${yearNote}`;
+    help.textContent = `대학명과 학과명을 입력하면 대학별 과목 안내를 찾아볼 수 있습니다. 자료마다 적용 학년도와 공식 원문 확인 여부가 다릅니다. 지원 조건은 해당 학년도의 대학 공식 안내에서 확인하세요. ${yearNote}`;
     return;
   }
   if (mode === "advanced") {
@@ -6172,16 +6209,16 @@ function renderUniversityRecommendationCard(record) {
         </div>
       </div>
       <div class="subject-badge-section">
-        <b>등록 자료의 핵심 분류</b>
-        ${renderSubjectBadgeRow(coreSubjects, "core", "등록 자료에 별도 핵심과목 정보가 없습니다. 대학의 미제시인지 자료 누락인지는 공식 안내를 확인하세요.")}
+        <b>${record.verificationStatus === "verified" ? "대학 자료의 핵심과목" : "참고 자료의 핵심과목"}</b>
+        ${renderSubjectBadgeRow(coreSubjects, "core", "현재 자료에서는 핵심과목을 확인할 수 없습니다. 대학이 핵심과목을 지정하지 않았다는 뜻은 아닙니다. 해당 학년도 대학 안내를 확인하세요.")}
       </div>
       <div class="subject-badge-section">
-        <b>등록 자료의 권장 분류</b>
-        ${renderSubjectBadgeRow(recommendedSubjects, "recommended", "등록 자료에 별도 권장과목 정보가 없습니다. 공식 안내를 확인하세요.")}
+        <b>${record.verificationStatus === "verified" ? "대학 자료의 권장과목" : "참고 자료의 권장과목"}</b>
+        ${renderSubjectBadgeRow(recommendedSubjects, "recommended", "현재 자료에서는 권장과목을 확인할 수 없습니다. 대학이 권장과목을 지정하지 않았다는 뜻은 아닙니다. 해당 학년도 대학 안내를 확인하세요.")}
       </div>
-      <p class="content-status-note">${record.verificationStatus === "incomplete-note" ? "이 안내는 대상이나 단위 확인이 필요합니다. 아래 등록 원문 일부를 확정된 이수 조건으로 해석하지 마세요." : record.verificationStatus === "verified" ? "공식 원문의 적용 학년도와 조건을 함께 확인하세요." : "적용 학년도와 공식 원문 조건을 확인한 뒤 과목 선택에 참고하세요."}</p>
+      <p class="content-status-note">${record.verificationStatus === "incomplete-note" ? "조건 확인 필요: 이 자료는 적용 대상이나 학점·단위를 확인해야 합니다. 아래 내용을 확정된 지원 조건으로 사용하지 마세요." : record.verificationStatus === "verified" ? "공식 원문의 적용 학년도와 조건을 함께 확인하세요." : "적용 학년도와 공식 원문 조건을 확인한 뒤 과목 선택에 참고하세요."}</p>
       <small>적용 대입학년도: ${record.admissionYear ? escapeHtml(record.admissionYear) : "확인 필요"}</small>
-      ${note ? `<div class="university-recommendation-note"><b>${record.verificationStatus === "incomplete-note" ? "등록 원문 일부" : "등록 안내"}</b><p>${escapeHtml(note)}</p></div>` : ""}
+      ${note ? `<div class="university-recommendation-note"><b>${record.verificationStatus === "incomplete-note" ? "확인이 필요한 과목 안내" : "과목 안내"}</b><p>${escapeHtml(note)}</p></div>` : ""}
       ${record.sourceUrl ? `<p>${renderContentSourceLink(record.sourceUrl, record.sourceTitle || "공식 원문")}</p>` : ""}
       ${record.nameSource ? `<p>${renderContentSourceLink(record.nameSource.url, record.nameSource.title)}<small>${escapeHtml(record.nameSource.scope)}</small></p>` : ""}
     </article>
@@ -6668,18 +6705,18 @@ function renderRecommendationCard(record) {
       </div>
       <div class="subject-badge-section">
         <b>먼저 살펴볼 과목</b>
-        ${renderSubjectBadgeRow(getRecordCoreSubjects(record), "core", "앱의 탐색 제안에 먼저 살펴볼 과목이 없습니다. 대학의 미제시 여부를 뜻하지 않습니다.")}
+        ${renderSubjectBadgeRow(getRecordCoreSubjects(record), "core", "현재 이 분야에서 먼저 살펴볼 추천 과목이 없습니다. 대학의 과목 안내는 별도로 확인하세요.")}
       </div>
       <div class="subject-badge-section">
         <b>함께 살펴볼 과목</b>
-        ${renderSubjectBadgeRow(getRecordRecommendedSubjects(record), "recommended", "앱의 탐색 제안에 함께 살펴볼 과목이 없습니다. 대학 안내는 따로 확인하세요.")}
+        ${renderSubjectBadgeRow(getRecordRecommendedSubjects(record), "recommended", "현재 이 분야에서 함께 살펴볼 추천 과목이 없습니다. 대학의 과목 안내는 별도로 확인하세요.")}
       </div>
       <div class="subject-badge-section suggested">
         <b>추천과목 <span>참고 과목</span></b>
         ${renderSubjectBadgeRow(getRecordSuggestedSubjects(record), "suggested", "추가 추천과목은 상담 과정에서 보완합니다.")}
       </div>
       ${renderRecommendationDepartmentExamples(record)}
-      <p>${escapeHtml(record.note)}</p><small>앱의 계열 탐색 제안입니다. 대학의 공통 필수과목이나 공식 이수 조건을 뜻하지 않습니다.</small>
+      <p>${escapeHtml(record.note)}</p><small>관심 분야와 과목의 학습 내용을 연결한 추천입니다. 대학의 필수·권장과목을 뜻하지 않습니다.</small>
     </article>
   `;
 }
@@ -9252,7 +9289,7 @@ function getCourseDesignerCardConnection(candidate) {
     const reasons=courseDesignerData.interestSubjectReasons?.[interest.id] || {};
     return reasons[name] || [...candidate.subjects].map(subject=>reasons[subject]).find(Boolean);
   }).filter(Boolean);
-  return [...new Set(reason)].join(' ') || `${[...candidate.interests].join('·')} 분야의 학과 수업과 비교해 볼 과목입니다. 구체적으로 어떤 내용이 관련되는지는 과목 안내와 학과 교육과정에서 확인하세요.`;
+  return [...new Set(reason)].join(' ') || `${[...candidate.interests].join('·')} 분야와 이 과목의 학습 내용을 비교해 보세요.`;
 }
 
 function getCurriculumDataWarning(planKey) {

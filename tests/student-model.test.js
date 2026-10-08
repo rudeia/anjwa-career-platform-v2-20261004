@@ -71,7 +71,7 @@ test('identical reordered options are grouped; subset options name omitted subje
  var testCourses=curriculumData.plans.incoming2026.courses.slice(0,2);
  getCourseDesignerOptionSelections=(_,id)=>({'1':(id==='deep'?testCourses:[...testCourses].reverse()).map(course=>({course}))});
  renderCourseDesignerOptionTabs({});`);
- assert.equal((target.innerHTML.match(/role="tab"/g)||[]).length,1);
+ assert.equal((target.innerHTML.match(/role="tab"/g)||[]).length,0);
  assert.match(target.innerHTML,/과목 구성이 같아/);
  run(`getCourseDesignerOptionSelections=(_,id)=>({'1':(id==='deep'?testCourses.slice(0,1):testCourses).map(course=>({course}))});renderCourseDesignerOptionTabs({});`);
  assert.equal((target.innerHTML.match(/role="tab"/g)||[]).length,2);

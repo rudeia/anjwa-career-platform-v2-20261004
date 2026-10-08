@@ -12,10 +12,10 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=2.02.03" />
-    <link rel="stylesheet" href="./home-design.css?v=2.02.03" />
-    <link rel="stylesheet" href="./department.css?v=2.02.03" />
-    <link rel="stylesheet" href="./motion.css?v=2.02.03" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.03.00" />
+    <link rel="stylesheet" href="./home-design.css?v=2.03.00" />
+    <link rel="stylesheet" href="./department.css?v=2.03.00" />
+    <link rel="stylesheet" href="./motion.css?v=2.03.00" />
   </head>
   <body class="home-design-app department-screen">
     <div class="app-shell">
@@ -345,8 +345,7 @@
               <div>
                 <span class="label">관심 분야와 관련 과목</span>
                 <h3 id="courseDesignerResultTitle">관심 분야와 관련된 과목을 살펴보세요</h3>
-                <p class="course-designer-no-rank">추천안은 입시 유불리를 뜻하지 않습니다. 배우고 싶은 내용과 학습 계획을 기준으로 비교하세요.</p>
-                <p class="course-designer-scope-note">선택한 입학년도의 1·2·3학년 과목을 함께 보여줍니다. 이미 배운 과목은 배운 내용을 돌아보고, 앞으로 배울 과목은 개설 학기와 선택 묶음을 확인하세요. 관련성이 확인된 과목은 학년별 최대 5개까지 표시합니다. 비슷한 후보는 일반선택·진로선택·융합선택 순으로 보여줍니다.</p>
+                <p class="course-designer-scope-note">관심 분야와 관련된 과목을 학기별로 비교하세요.</p>
               </div>
               <div class="course-designer-result-tools">
                 <span id="courseDesignerResultBasis"></span>
@@ -357,13 +356,14 @@
               </div>
             </div>
             <div class="course-designer-option-tabs" id="courseDesignerOptionTabs" role="tablist" aria-label="과목 선택안 비교"></div>
+            <details class="course-designer-result-detail"><summary>추천안과 비교 방법 보기</summary>
             <div class="course-designer-option-intro" id="courseDesignerOptionIntro"></div>
-            <div class="course-designer-comparison" id="courseDesignerComparison"></div>
+            <div class="course-designer-comparison" id="courseDesignerComparison"></div></details>
             <div class="course-designer-map" id="courseDesignerMap"></div>
-            <div class="course-designer-alternatives" id="courseDesignerAlternatives"></div>
+            <details class="course-designer-result-detail"><summary>학교에 없는 관련 과목 보기</summary><div class="course-designer-alternatives" id="courseDesignerAlternatives"></div></details>
             <div class="course-designer-caution">
               <b>선택 전에 확인하세요</b>
-              <p>이 추천은 과목을 비교하기 위한 참고 자료입니다. 합격 조건이나 필수 이수 과목 목록은 아닙니다. 같은 선택 묶음에서는 정해진 수만큼만 고를 수 있습니다. 결정하기 전에 학교 편성표와 지원할 대학의 최신 안내를 선생님과 확인하세요.</p>
+              <p>관심 분야를 바탕으로 추천한 과목입니다. 대학의 필수·권장과목은 공식 안내에서 별도로 확인하세요. 같은 선택 묶음에서는 정해진 수만큼 고릅니다. 실제 수업 내용과 온라인 신청 조건·인원·시간표는 학교 안내를 확인하세요.</p>
             </div>
           </section>
 
@@ -813,12 +813,12 @@
     <script src="./subject-guide-data.js?v=2.01.00"></script>
     <script src="./recommendation-data.js?v=2.01.00"></script>
     <script src="./university-recommendation-data.js?v=2.01.00"></script>
-    <script src="./course-designer-data.js?v=2.01.00"></script>
-    <script src="./topic-data.js?v=2.02.03"></script>
-    <script src="./motion.js?v=2.02.03"></script>
-    <script src="./app.js?v=2.02.03"></script>
+    <script src="./course-designer-data.js?v=2.03.00"></script>
+    <script src="./topic-data.js?v=2.03.00"></script>
+    <script src="./motion.js?v=2.03.00"></script>
+    <script src="./app.js?v=2.03.00"></script>
     <script src="./pwa-install.js?v=2.00.01" defer></script>
-    <script src="./site-meta.js?v=2.02.03" defer></script>
+    <script src="./site-meta.js?v=2.03.00" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

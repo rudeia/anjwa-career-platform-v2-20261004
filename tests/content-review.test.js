@@ -25,7 +25,7 @@ test('all university notes survive the course-name filter and are escaped', () =
  for(const r of records){context.record=r;assert.equal(run('getUniversityRecommendationNote(record)'),String(r.note||'').trim());}
  assert.equal(records.filter(r=>r.verificationStatus==='incomplete-note').length,11);
  context.record={university:'예시',department:'학과',coreSubjects:[],recommendedSubjects:[],verificationStatus:'incomplete-note',note:'<img src=x onerror=alert(1)> 진로와 적성: 2'};
- const card=run('renderUniversityRecommendationCard(record)');assert.match(card,/등록 원문 일부/);assert.match(card,/&lt;img/);assert.doesNotMatch(card,/<img src=x/);
+ const card=run('renderUniversityRecommendationCard(record)');assert.match(card,/확인이 필요한 과목 안내/);assert.match(card,/&lt;img/);assert.doesNotMatch(card,/<img src=x/);
  assert.equal(run('renderContentSourceLink("javascript:alert(1)","출처")'),'');
  assert.equal(run('renderContentSourceLink("https://example.com/", "<script>")').includes('&lt;script&gt;'),true);
 });
@@ -79,4 +79,17 @@ test('verified course conditions distinguish eligibility from evaluation recomme
  assert.equal(snu.admissionEligibilityRequirement,false);assert.equal(snu.minimumCourseCount,1);assert.equal(snu.scope,'유형 ① 모집단위');assert.equal(snu.evaluationUses.length,2);
  const body=context.window.ANJWA_ADMISSION_PAGES.pages['holistic-subjects'].body;
  assert.match(body,/79학점이라면 학점 조건을 충족하지 못합니다/);assert.match(body,/3학년 2학기 과목을 앞선 합계에 더하지 마세요/);assert.match(body,/시행계획은 최종 모집요강에서 변경될 수/);assert.match(body,/2030 대입/);assert.match(body,/수능 제2외국어\/한문 응시 기준과는 구분/);
+});
+
+test('recommendation opening term follows real future choice groups and has no fixed grade default', () => {
+ const previous=run('state.courseDesignerPlan');
+ try {
+  for(const [plan,term] of [['incoming2027','2-1'],['incoming2026','2-1'],['incoming2025','3-1'],['incoming2024','']]) {
+   context.planKey=plan;
+   assert.equal(run('state.courseDesignerPlan=planKey;getCourseDesignerNextChoiceTerm({plan:curriculumData.plans[planKey]})'),term);
+  }
+  run('state.courseDesignerPlan="incoming2026"');
+  assert.equal(run('getCourseDesignerNextChoiceTerm({plan:{courses:[]}})'), '');
+  assert.equal(run('getCourseDesignerNextChoiceTerm({plan:{courses:curriculumData.plans.incoming2026.courses.filter(course=>course.semesters.includes("2-2") && !course.semesters.includes("2-1"))}})'), '2-2');
+ } finally {context.previousPlan=previous;run('state.courseDesignerPlan=previousPlan');}
 });
