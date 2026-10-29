@@ -9,11 +9,12 @@ const universityRecommendationData = window.ANJWA_UNIVERSITY_RECOMMENDATION_DATA
 const topicData = window.ANJWA_TOPIC_DATA || { topics: [] };
 const subjectGuideData = window.ANJWA_SUBJECT_GUIDE || { areaProfiles: {}, groupProfiles: {} };
 const courseDesignerData = window.ANJWA_COURSE_DESIGNER || { interests: [], optionProfiles: [] };
-const curriculumPlanOrder = ["current2026", "incoming2027", "incoming2026", "incoming2025", "incoming2024"];
-const schoolReferenceYear = Number(Object.keys(curriculumData.plans).find(key => /^current\d{4}$/.test(key))?.slice(7)) || new Date().getFullYear();
+const curriculumPlanOrder = ["current2027", "current2026", "incoming2027", "incoming2026", "incoming2025", "incoming2024"];
+const schoolReferenceYear = Number(curriculumData.referenceYear || Object.keys(curriculumData.plans).find(key => /^current\d{4}$/.test(key))?.slice(7)) || new Date().getFullYear();
 const plannerPlanOrder = ["incoming2027", "incoming2026", "incoming2025", "incoming2024"];
 const curriculumPlanLabels = {
-  current2026: "전체 학년(2026학년도 현재)",
+  current2027: "전체 학년(2027학년도)",
+  current2026: "전체 학년(2026학년도)",
   incoming2027: "2027학년도 신입생(예정)",
   incoming2026: "1학년(2026학년도 신입생)",
   incoming2025: "2학년(2025학년도 신입생)",
@@ -2582,7 +2583,9 @@ const subjectRelationGroups = [
 const state = {
   activeView: "home",
   activeGrade: "1",
-  activeCurriculumPlan: "current2026",
+  activeCurriculumPlan: "current2027",
+  curriculumDepartment: "general",
+  curriculumOffering: "all",
   activeCurriculumScope: "semester",
   curriculumGrade: "1",
   curriculumSemester: "1",
@@ -2706,7 +2709,12 @@ function bindNavigation() {
   window.addEventListener('hashchange', restore);
   window.addEventListener('popstate', restore);
   $all('[data-view]').forEach(button => button.addEventListener('click', () => {
-    if (button.dataset.homeExploration) {
+    if (button.dataset.curriculumDepartment) {
+      state.curriculumDepartment = button.dataset.curriculumDepartment;
+      state.activeCurriculumPlan = 'current2027';
+      renderCurriculumPlanOptions(); renderCurriculum(); setView('curriculum');
+    }
+    else if (button.dataset.homeExploration) {
       startStudentJourney('activity');
       if (!state.courseDesignerExplorationTags.includes(button.dataset.homeExploration)) toggleCourseDesignerExplorationTag(button.dataset.homeExploration);
     }
@@ -2763,6 +2771,8 @@ function getInitialViewFromHash() {
 
 function bindCurriculumControls() {
   const fields = {
+    curriculumDepartment: "curriculumDepartment",
+    curriculumOffering: "curriculumOffering",
     curriculumPlan: "activeCurriculumPlan",
     curriculumScope: "activeCurriculumScope",
     curriculumGrade: "curriculumGrade",
@@ -2775,6 +2785,7 @@ function bindCurriculumControls() {
       state[key] = value;
       if (id === "curriculumSemester") state.curriculumSemesters = [value];
       if (id === "curriculumScope" && ["grade", "plan"].includes(value)) state.curriculumSemesters = ["1", "2"];
+      if (id === "curriculumDepartment") renderCurriculumPlanOptions();
       if (id === "curriculumPlan") {
         state.curriculumGrade = currentCurriculumGradeByPlan[value] || state.curriculumGrade;
       }
@@ -3463,17 +3474,31 @@ function renderCompetencies() {
     .join("");
 }
 
+function getCurriculumViewPlans() {
+  return state.curriculumDepartment === 'military' ? (curriculumData.militaryPlans || {}) : curriculumData.plans;
+}
+
+function getCourseOpeningStatus(course, semesterKeys) {
+  const statuses = semesterKeys.filter(key => course.semesters.includes(key)).map(key => course.openingStatusBySemester?.[key] || 'unconfirmed');
+  return statuses.includes('open') ? 'open' : statuses.includes('not-open') ? 'not-open' : 'unconfirmed';
+}
+
+function curriculumCourseIsVisible(course, semesterKeys, offering = state.curriculumOffering) {
+  return offering !== 'open' || getCourseOpeningStatus(course, semesterKeys) === 'open';
+}
+
+function renderCurriculumOpeningBadge(course, semesterKeys) {
+  const status = getCourseOpeningStatus(course, semesterKeys);
+  const label = {open: '2027 개설', 'not-open': '2027 미개설', unconfirmed: '개설 여부 미확정'}[status];
+  return `<small class="curriculum-opening-badge opening-${status}">${label}${course.enrollmentNote ? ' · ' + escapeHtml(course.enrollmentNote) : ''}</small>`;
+}
+
 function renderCurriculumPlanOptions() {
-  const select = $("#curriculumPlan");
+  const select = $('#curriculumPlan');
   if (!select) return;
-  const options = curriculumPlanOrder
-    .filter((key) => curriculumData.plans[key])
-    .map((key) => `<option value="${key}">${getCurriculumPlanLabel(key)}</option>`)
-    .join("");
-  select.innerHTML = options;
-  if (!curriculumData.plans[state.activeCurriculumPlan]) {
-    state.activeCurriculumPlan = curriculumPlanOrder.find((key) => curriculumData.plans[key]) || "";
-  }
+  const plans = getCurriculumViewPlans();
+  select.innerHTML = curriculumPlanOrder.filter(key => plans[key]).map(key => `<option value="${key}">${escapeHtml(plans[key].label || getCurriculumPlanLabel(key))}</option>`).join('');
+  if (!plans[state.activeCurriculumPlan]) state.activeCurriculumPlan = curriculumPlanOrder.find(key => plans[key]) || '';
   select.value = state.activeCurriculumPlan;
 }
 
@@ -5252,10 +5277,12 @@ function renderCourseDesignerAlternativeList(alternatives, planMeta) {
 }
 
 function renderCurriculum() {
-  const plan = curriculumData.plans[state.activeCurriculumPlan];
+  const plan = getCurriculumViewPlans()[state.activeCurriculumPlan];
   if (!plan) return;
 
   $("#curriculumPlan").value = state.activeCurriculumPlan;
+  $("#curriculumDepartment").value = state.curriculumDepartment;
+  $("#curriculumOffering").value = state.curriculumOffering;
   $("#curriculumScope").value = state.activeCurriculumScope;
   $("#curriculumGrade").value = state.curriculumGrade;
   $("#curriculumSemester").value = state.curriculumSemester;
@@ -5279,15 +5306,23 @@ function renderCurriculum() {
     .filter((course) => course.semesters.some((semesterKey) => semesterKeys.includes(semesterKey)))
     .sort((a, b) => a.row - b.row);
   const semesterCourses = allScopeCourses
+    .filter(course => curriculumCourseIsVisible(course, semesterKeys))
+    .map(course => state.curriculumOffering === "open" ? {...course, semesters: course.semesters.filter(key => course.openingStatusBySemester?.[key] === "open")} : course)
     .filter((course) => {
       if (!query) return true;
       return normalizeText(`${course.name} ${course.area} ${course.category} ${course.section}`).includes(query);
     });
-  const choiceGroups = buildCurriculumChoiceGroups(plan.courses, semesterKeys);
+  const choiceGroups = buildCurriculumChoiceGroups(plan.courses, semesterKeys).map(group => ({...group, courses: group.courses.filter(course => curriculumCourseIsVisible(course, [group.semesterKey]))})).filter(group => group.courses.length);
   const courseGroupMap = buildCourseChoiceGroupMap(choiceGroups);
   const visibleCourses = sortCurriculumCourses(semesterCourses, semesterKeys, courseGroupMap);
 
   renderCurriculumSummary(plan, semesterKeys, semesterCourses);
+  const unconfirmed = allScopeCourses.some(course => getCourseOpeningStatus(course, semesterKeys) === 'unconfirmed');
+  $('#curriculumAvailabilityNote').textContent = (state.curriculumOffering === 'open'
+    ? '2027학년도 통합표에서 개설이 확인된 과목을 보여줍니다. 편성 학점은 목록을 좁혀도 바뀌지 않습니다.'
+    : '전체 선택과목에는 미개설 과목도 포함됩니다. 실제 수강할 과목은 개설 표시와 선택 묶음을 함께 확인하세요.')
+    + (unconfirmed ? ' 이 조회 범위에는 개설 여부가 아직 확인되지 않은 학기도 있습니다.' : '')
+    + (state.curriculumDepartment === 'military' ? ' 부사관과는 교육과정 조회를 제공합니다. 과목 설계·진로 안내는 보통과 기준입니다.' : '');
   const unresolved = getCurriculumSummaryForScope(plan, semesterKeys).unresolvedTerms || [];
   if (unresolved.length) $('#curriculumPlanDescription').textContent += ' · 이 편성의 일부 과목 행과 선택 묶음은 원본 학기 합계와 일치하지 않아 추가 확인이 필요합니다. 합계는 원본 편성표의 학기 합계를 표시하며, 후보 과목 학점을 모두 더한 값이 아닙니다.';
   updateCurriculumSortHeaders();
@@ -5329,7 +5364,7 @@ function renderCurriculumMobileList(plan, semesterKeys, courses) {
       const groupId = choice?.id || section;
       const heading = groupId !== previousGroup ? `<div class="mobile-choice-heading"><b>${escapeHtml(section)}</b><span>${choice ? escapeHtml(`${choice.shortLabel} · ${choice.choiceText}${choice.creditText ? " · " + choice.creditText : ""}`) : ""}</span></div>` : "";
       previousGroup = groupId;
-      return `${heading}<details class="mobile-course-detail"><summary class="mobile-course-row"><span class="mobile-course-name">${escapeHtml(course.name)}<small class="student-mobile-mode">${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}</small></span><span class="mobile-course-area">${escapeHtml(course.area)}</span><b class="mobile-course-credits">${getCurriculumCourseCreditsForScope(course,[key]) || "-"}</b></summary><div class="mobile-course-extra"><span>${escapeHtml(course.category)} · ${escapeHtml(getSemesterLabel(key))}</span>${choice ? `<span>${escapeHtml(`${choice.shortLabel} · ${choice.choiceText}`)}</span>` : ""}${renderCourseNameWithInfo(course)}</div></details>`;
+      return `${heading}<details class="mobile-course-detail"><summary class="mobile-course-row"><span class="mobile-course-name">${escapeHtml(course.name)}<small class="student-mobile-mode">${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}</small></span><span class="mobile-course-area">${escapeHtml(course.area)}</span><b class="mobile-course-credits">${getCurriculumCourseCreditsForScope(course,[key]) || "-"}</b></summary><div class="mobile-course-extra"><span>${escapeHtml(course.category)} · ${escapeHtml(getSemesterLabel(key))}</span>${choice ? `<span>${escapeHtml(`${choice.shortLabel} · ${choice.choiceText}`)}</span>` : ""}${renderCurriculumOpeningBadge(course,[key])}${renderCourseNameWithInfo(course)}</div></details>`;
     }).join("");
     return `<section class="mobile-semester-section" aria-label="${escapeHtml(getSemesterLabel(key))}">${orderedKeys.length > 1 ? `<h4>${escapeHtml(getSemesterLabel(key))}</h4>` : ""}<div class="mobile-table-head"><span>과목명</span><span>교과군</span><span>학점</span></div>${content}</section>`;
   }).join("") || '<p class="empty-note">해당 조건에 맞는 과목이 없습니다.</p>';
@@ -5340,7 +5375,7 @@ function renderCurriculumSummary(plan, semesterKeys, semesterCourses) {
   $("#curriculumSummary").innerHTML = grades.map((grade) => {
     const keys = semesterKeys.filter((key) => key.startsWith(grade + "-"));
     const summary = getCurriculumSummaryForScope(plan, keys);
-    return `<div class="v2-credit-line">${grades.length > 1 ? `<small>${grade}학년</small>` : ""}<span class="credit-components"><b>${summary.courseCredits ?? "-"}</b>교과 이수학점 <i>+</i> <b>${summary.creativeCredits ?? "-"}</b>창체</span><strong>${keys.length > 1 ? "연간 " : "총 "}${summary.totalCredits ?? "-"}학점</strong></div>`;
+    return `<div class="curriculum-credit-summary"><div class="v2-credit-line">${grades.length > 1 ? `<small>${grade}학년</small>` : ""}<span class="credit-components"><b>${summary.courseCredits ?? "-"}</b>교과 이수학점 <i>+</i> <b>${summary.creativeCredits ?? "-"}</b>창체</span><strong>${keys.length > 1 ? "연간 " : "총 "}${summary.totalCredits ?? "-"}학점</strong></div>${summary.separateCredits ? `<p class="curriculum-separate-note">온라인학교 정보 ${summary.separateCredits}학점 별도 이수 · 위 정규 편성 합계에서 제외</p>` : ""}</div>`;
   }).join("");
 }
 
@@ -5357,7 +5392,7 @@ function renderCurriculumRow(course, semesterKeys, groupInfos) {
       <td>${renderSemesterChoiceBadges(course, semesterKeys, groupInfos)}</td>
       <td>${escapeHtml(course.area)}</td>
       <td>${escapeHtml(course.category)}</td>
-      <td>${renderCourseNameWithInfo(course)}</td>
+      <td>${renderCourseNameWithInfo(course)}${renderCurriculumOpeningBadge(course,semesterKeys)}</td>
       <td>${getCurriculumCourseCreditsForScope(course,semesterKeys) || "-"}</td>
     </tr>
   `;
@@ -5615,7 +5650,7 @@ function getCurriculumSummaryForScope(plan, semesterKeys) {
   return semesterKeys.reduce((total, key) => {
     const groups = buildCurriculumChoiceGroupsForSemester(plan.courses, key);
     const grouped = new Set(groups.flatMap(group => group.courses.map(course => course.id)));
-    const fixed = plan.courses.filter(course => course.semesters.includes(key) && !grouped.has(course.id) && !/추가|공동교육/.test(course.section));
+    const fixed = plan.courses.filter(course => course.semesters.includes(key) && !grouped.has(course.id) && !/추가|공동교육/.test(course.section) && course.creditTreatment !== "separate");
     const fixedCredits = fixed.reduce((sum, course) => sum + Number(course.markers[key] || course.credits || 0), 0);
     const choiceCredits = groups.reduce((sum, group) => sum + Number(group.creditText.replace(/[^0-9]/g, '') || 0), 0);
     const sourceSummary = plan.summary?.[key];
@@ -5625,11 +5660,12 @@ function getCurriculumSummaryForScope(plan, semesterKeys) {
     // Never infer missing credits by adjusting a total or summing all choice candidates.
     const credits = sourceSummary && Number.isFinite(Number(sourceSummary.courseCredits)) ? Number(sourceSummary.courseCredits) : calculated;
     if (credits !== calculated) (total.unresolvedTerms ||= []).push(key);
+    total.separateCredits += plan.courses.filter(course => course.creditTreatment === "separate" && course.semesters.includes(key)).reduce((sum,course) => sum + getPlannerCourseCredits(course,...key.split("-")),0);
     total.courseCredits += credits;
     total.creativeCredits += creative;
     total.totalCredits += credits + creative;
     return total;
-  }, { courseCredits: 0, creativeCredits: 0, totalCredits: 0 });
+  }, { courseCredits: 0, creativeCredits: 0, totalCredits: 0, separateCredits: 0 });
 }
 
 function renderSemesterChoiceBadges(course, semesterKeys, groupInfos) {
@@ -6287,6 +6323,7 @@ function renderCourseNameWithInfo(course) {
   return `
     <span class="course-title-with-info">
       <strong>${escapeHtml(course.name)}</strong>
+      ${course.creditTreatment === "separate" ? `<small class="curriculum-separate-badge">${course.credits}학점 별도 이수 · 정규 합계 제외</small>` : ""}
       ${course.subjectId ? `<small class="student-operating-badge">${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}</small>` : ""}
       <button class="subject-info-button" type="button"
         aria-label="${escapeHtml(`${course.name} 과목 안내 보기`)}"
@@ -7263,9 +7300,10 @@ function renderMineSemesterBlock(fixedCourses, grade, semester) {
     ...semesterPlan.joint.map((item) => ({ ...item, zone: "joint" }))
   ];
   const additionalItems = Array.isArray(semesterPlan.additional) ? semesterPlan.additional : [];
-  const fixedCredits = fixedSemesterCourses.reduce((sum, course) => sum + getPlannerCourseCredits(course, grade, semester), 0);
+  const separateCredits = fixedSemesterCourses.filter(course => course.creditTreatment === "separate").reduce((sum,course) => sum+getPlannerCourseCredits(course,grade,semester),0);
+  const fixedCredits = fixedSemesterCourses.filter(course => course.creditTreatment !== "separate").reduce((sum, course) => sum + getPlannerCourseCredits(course, grade, semester), 0);
   const selectedCredits = sumCredits(selectedItems);
-  const totalCourses = fixedSemesterCourses.length + selectedItems.length;
+  const totalCourses = fixedSemesterCourses.filter(course => course.creditTreatment !== "separate").length + selectedItems.length;
   const courseCredits = fixedCredits + selectedCredits;
   const creativeCredits = Number(getPlannerCurriculumPlan().summary?.[semesterKey]?.creativeCredits || 0);
   const totalCredits = courseCredits + creativeCredits;
@@ -7276,6 +7314,7 @@ function renderMineSemesterBlock(fixedCourses, grade, semester) {
         <b>${grade}학년 ${semester}학기</b>
         <span>내 계획 ${totalCourses}과목 · 교과 ${courseCredits} + 창체 ${creativeCredits} = 총 ${totalCredits}학점${additionalItems.length ? ` · 추가 ${additionalItems.length}과목` : ""}</span>
       </div>
+      ${separateCredits ? `<p class="curriculum-separate-note">온라인학교 정보 ${separateCredits}학점 별도 이수 · 정규 합계에서 제외</p>` : ""}
       <p class="student-plan-budget">학교 편성 총 ${getCurriculumSummaryForScope(getPlannerCurriculumPlan(),[semesterKey]).totalCredits}학점 기준. 내 계획 합계는 선택한 과목만 포함하며, 공동·추가 과정의 이수 인정은 학교 확인이 필요합니다.</p>
       <div class="mine-course-section">
         <span class="label">학교지정</span>
@@ -8907,6 +8946,8 @@ function saveState(showMessage) {
   const data = {
     activeGrade: state.activeGrade,
     activeCurriculumPlan: state.activeCurriculumPlan,
+    curriculumDepartment: state.curriculumDepartment,
+    curriculumOffering: state.curriculumOffering,
     activeCurriculumScope: state.activeCurriculumScope,
     curriculumGrade: state.curriculumGrade,
     curriculumSemester: state.curriculumSemester,
@@ -8932,6 +8973,8 @@ function loadState() {
     if (!saved) return;
     state.activeGrade = saved.activeGrade || state.activeGrade;
     state.activeCurriculumPlan = saved.activeCurriculumPlan || state.activeCurriculumPlan;
+    state.curriculumDepartment = saved.curriculumDepartment === "military" ? "military" : "general";
+    state.curriculumOffering = saved.curriculumOffering === "open" ? "open" : "all";
     state.activeCurriculumScope = saved.activeCurriculumScope || state.activeCurriculumScope;
     state.curriculumGrade = /^[123]$/.test(saved.curriculumGrade)
       ? saved.curriculumGrade : currentCurriculumGradeByPlan[state.activeCurriculumPlan] || "1";
@@ -9274,7 +9317,7 @@ function importLegacyStudentDrafts() {
 
 function getPlannerSemesterCreditSummary(grade,semester) {
   const key = `${grade}-${semester}`;
-  const fixed = getPlannerFixedCourses().filter(c=>c.semesters.includes(key)).reduce((sum,c)=>sum+getPlannerCourseCredits(c,grade,semester),0);
+  const fixed = getPlannerFixedCourses().filter(c=>c.semesters.includes(key) && c.creditTreatment !== "separate").reduce((sum,c)=>sum+getPlannerCourseCredits(c,grade,semester),0);
   const selection = state.plan[grade]?.[semester] || {regular:[],joint:[]};
   const courseCredits = fixed + sumCredits(selection.regular) + sumCredits(selection.joint);
   const creativeCredits = Number(getPlannerCurriculumPlan().summary?.[key]?.creativeCredits || 0);

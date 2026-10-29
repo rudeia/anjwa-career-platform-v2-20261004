@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./styles.css?v=20260723g" />
     <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=2.03.00" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.04.00" />
     <link rel="stylesheet" href="./home-design.css?v=2.03.00" />
     <link rel="stylesheet" href="./department.css?v=2.03.00" />
     <link rel="stylesheet" href="./motion.css?v=2.03.00" />
@@ -25,15 +25,15 @@
           <div class="department-intro"><p class="department-kicker">교육과정 · 진로 · 과목 선택</p><h1 id="department-title">안좌고 교육과정 도우미</h1><p>소속 학과를 선택하면 해당 교육과정으로 연결됩니다.</p></div>
           <div class="department-choices">
             <button class="department-choice" type="button" data-view="home"><span class="department-status">이용 가능</span><strong>보통과</strong><span class="department-description">학교 교육과정을 확인하고<br>진로와 선택과목을 탐색합니다.</span><span class="department-action">보통과로 입장 <span aria-hidden="true">→</span></span></button>
-            <button class="department-choice department-military" type="button" data-view="military"><span class="department-status">준비 중</span><strong>부사관과</strong><span class="department-description">부사관과 교육과정과 과목 안내는<br>추후 제공됩니다.</span><span class="department-action">준비 상태 보기 <span aria-hidden="true">→</span></span></button>
+            <button class="department-choice department-military" type="button" data-view="curriculum" data-curriculum-department="military"><span class="department-status">교육과정 조회</span><strong>부사관과</strong><span class="department-description">학년·학기별 교육과정과<br>개설 과목을 확인합니다.</span><span class="department-action">교육과정 보기 <span aria-hidden="true">→</span></span></button>
           </div>
           <footer class="department-footer">안좌고등학교 <span>학과 선택</span></footer>
         </section>
         <section class="view department-page" id="military" aria-labelledby="military-title">
           <header class="department-brand">안좌고등학교 <span>부사관과</span></header>
           <button class="department-back" type="button" data-view="departments">← 학과 선택으로</button>
-          <div class="department-intro"><p class="department-kicker">부사관과</p><h1 id="military-title">교육과정 안내 준비 중</h1><p>부사관과 자료가 등록되면 이곳에서 확인할 수 있습니다.</p></div>
-          <div class="department-empty"><h2>아직 등록된 자료가 없습니다.</h2><p>교육과정과 과목 정보는 확인 후 제공됩니다.</p></div>
+          <div class="department-intro"><p class="department-kicker">부사관과</p><h1 id="military-title">부사관과 교육과정</h1><p>학년·학기별 편성과 실제 개설 과목을 확인할 수 있습니다.</p></div>
+          <div class="department-empty"><h2>부사관과 교육과정 보기</h2><button type="button" class="primary-button" data-view="curriculum" data-curriculum-department="military">과목 목록 확인</button></div>
         </section>
         <section class="view" id="home" aria-labelledby="home-title">
           <header class="home-brand-row">
@@ -130,6 +130,11 @@
             </div>
           </div>
 
+          <div class="curriculum-view-controls">
+            <label>학과<select id="curriculumDepartment"><option value="general">보통과</option><option value="military">부사관과</option></select></label>
+            <label>과목 목록<select id="curriculumOffering"><option value="all">전체 선택과목</option><option value="open">실제 개설 과목(2027)</option></select></label>
+          </div>
+          <p id="curriculumAvailabilityNote" class="curriculum-availability-note" aria-live="polite"></p>
           <div class="curriculum-main">
             <div class="curriculum-filter-panel">
               <label class="filter-plan">
@@ -808,7 +813,7 @@
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="./curriculum-data.js?v=20261002a"></script>
+    <script src="./curriculum-data.js?v=2.04.00"></script>
     <script src="./student-data-model.js"></script>
     <script src="./subject-guide-data.js?v=2.01.00"></script>
     <script src="./recommendation-data.js?v=2.01.00"></script>
@@ -816,9 +821,9 @@
     <script src="./course-designer-data.js?v=2.03.00"></script>
     <script src="./topic-data.js?v=2.03.00"></script>
     <script src="./motion.js?v=2.03.00"></script>
-    <script src="./app.js?v=2.03.00"></script>
+    <script src="./app.js?v=2.04.00"></script>
     <script src="./pwa-install.js?v=2.00.01" defer></script>
-    <script src="./site-meta.js?v=2.03.00" defer></script>
+    <script src="./site-meta.js?v=2.04.00" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

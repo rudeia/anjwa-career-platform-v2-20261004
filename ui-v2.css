@@ -443,3 +443,14 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
 #courseDesigner .course-designer-decision-head { margin-bottom: 6px; }
 #courseDesigner .course-designer-decision-switch { display: flex; flex-wrap: wrap; gap: 6px; }
 #courseDesigner .course-designer-decision-switch button { flex: 1 1 80px; min-height: 44px; padding: 8px 5px; }
+
+/* Curriculum consulting revision: list scope never changes the official credit budget. */
+.curriculum-view-controls { display:flex; flex-wrap:wrap; gap:12px; margin:12px 0 6px; }
+.curriculum-view-controls label { display:grid; gap:5px; min-width:0; color:var(--muted); font-size:13px; flex:1 1 180px; }
+.curriculum-view-controls select { width:100%; min-height:44px; font-size:16px; padding:8px; background:white; }
+.curriculum-availability-note, .curriculum-separate-note { font-size:13px; line-height:1.6; color:var(--muted); margin:6px 0 12px; }
+.curriculum-separate-note { padding:8px 12px; border-left:3px solid #3566b7; background:#f0f5ff; }
+.curriculum-opening-badge { display:block; width:fit-content; font-size:12px; padding:2px 6px; border-radius:4px; background:#f2f4f7; color:#475467; margin-top:4px; }
+.opening-open { background:#e6f4ec; color:#17633c; }
+.opening-not-open { background:#fff1e6; color:#8c420a; }
+.curriculum-separate-badge { display:block; font-size:12px; color:#244b92; }

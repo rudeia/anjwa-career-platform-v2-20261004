@@ -11,11 +11,11 @@ require("../curriculum-data.js");
 const curriculum = window.ANJWA_CURRICULUM_DATA;
 const plans = curriculum.plans;
 
-assert.equal(curriculum.updated, "2026-09-21");
+assert.equal(curriculum.updated, "2026-10-29");
 assert.equal(plans.incoming2024.courses.length, 58);
 assert.equal(plans.incoming2025.courses.length, 84);
-assert.equal(plans.incoming2026.courses.length, 84);
-assert.equal(plans.incoming2027.courses.length, 80);
+assert.equal(plans.incoming2026.courses.length, 83);
+assert.equal(plans.incoming2027.courses.length, 79);
 assert.equal(plans.incoming2027.label, "2027학년도 신입생(예정)");
 
 function digestPlan(plan) {
@@ -46,8 +46,8 @@ function assertCourse(planKey, name, credits, semesters) {
 assertCourse("incoming2027", "(온) 정보", 3, ["1-1"]);
 assertCourse("incoming2027", "(온) 인공지능 기초", 3, ["1-2"]);
 assertCourse("incoming2027", "진로와 직업", 2, ["1-1"]);
-assertCourse("incoming2027", "(온) (고시외)비판적 질문과 창의적 해결", 2, ["1-2"]);
-assertCourse("incoming2027", "독서와 작문", 3, ["2-1"]);
+assert.equal(findCourse("incoming2027", "(온) (고시외)비판적 질문과 창의적 해결"), undefined);
+assertCourse("incoming2027", "독서와 작문", 4, ["2-1"]);
 assertCourse("incoming2027", "문학", 3, ["2-2"]);
 
 for (const removedName of [

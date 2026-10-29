@@ -14,9 +14,9 @@
     plans[key] = { ...plan, courses: plan.courses.map(course => {
       const id = subjectId(course.name, key);
       if (!catalogue.has(id)) catalogue.set(id, { id, name: course.name.replace(/\(온\)|\(고시외\)/g, '').trim(), revision: revision(key) });
-      const deliveryMode = /\(온\)/.test(course.name.normalize('NFC')) ? 'online' : 'classroom';
+      const deliveryMode = course.deliveryMode || (/\(온\)/.test(course.name.normalize('NFC')) ? 'online' : 'classroom');
       const offeringStatus = /추가|공동교육/.test(course.section) ? 'review' : deliveryMode;
-      return { ...course, subjectId: id, cohortPlanKey: key, deliveryMode, offeringStatus, authority: /고시외/.test(course.name) ? 'school-approved' : 'national' };
+      return { ...course, subjectId: id, cohortPlanKey: course.cohortPlanKey || key, deliveryMode, offeringStatus, authority: /고시외/.test(course.name) ? 'school-approved' : 'national' };
     }) };
   }
   const currentYear = Number(Object.keys(source.plans).find(key => /^current\d{4}$/.test(key)).slice(7));
@@ -25,6 +25,7 @@
   const currentSummary = Object.fromEntries(Object.entries(gradeCohorts).flatMap(([grade, key]) => Object.entries(plans[key].summary).filter(([s]) => s.startsWith(grade + '-'))));
   plans.current2026 = { ...source.plans.current2026, courses: currentCourses, summary: currentSummary, gradeCohorts, description: '2026학년도 1학년은 2026 입학생, 2학년은 2025 입학생, 3학년은 2024 입학생의 편성표를 함께 보여줍니다.' };
   const match = (name, planKey) => (plans[planKey]?.courses || []).filter(c => c.subjectId === subjectId(name, c.cohortPlanKey));
-  const label = course => modes[course.offeringStatus] || modes.unavailable;
-  window.ANJWA_STUDENT_MODEL = { curriculum: { ...source, plans }, catalogue, subjectId, match, label, canonicalName, gradeCohorts };
+  const label = course => course.creditTreatment === 'separate' ? '온라인학교 · 별도 이수' : modes[course.offeringStatus] || modes.unavailable;
+  const militaryPlans = Object.fromEntries(Object.entries(source.militaryPlans || {}).map(([key, plan]) => [key, {...plan, courses: plan.courses.map(course => ({...course, subjectId: subjectId(course.name, key), cohortPlanKey: course.cohortPlanKey || key, deliveryMode: course.deliveryMode || (/\(온\)/.test(course.name) ? 'online' : 'classroom'), offeringStatus: /\(온\)/.test(course.name) ? 'online' : 'classroom'}))}]));
+  window.ANJWA_STUDENT_MODEL = { curriculum: { ...source, plans, militaryPlans }, catalogue, subjectId, match, label, canonicalName, gradeCohorts };
 })();
