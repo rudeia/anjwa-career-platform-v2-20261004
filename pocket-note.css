@@ -1,0 +1,203 @@
+/* Visual layer only: existing content, navigation, grids and forms stay intact. */
+@media screen {
+  html[data-theme] {
+    --lit-paper:#f8f5ed;
+    --lit-surface:#fffdf7;
+    --lit-soft:#eee6f5;
+    --lit-ink:#30263c;
+    --lit-muted:#716378;
+    --lit-line:#8b7a99;
+    --lit-accent:#785b96;
+    --lit-on-accent:#fffaf5;
+    --lit-focus:#6d458e;
+    --lit-radius:12px;
+    --pocket-outline:#493b56;
+    --pocket-tint:#e1d2ef;
+    --pocket-shadow:#493b56;
+    --radius:12px;
+    --lit-bg:var(--lit-paper);
+  }
+  html[data-theme="dark"] {
+    --lit-paper:#393342;
+    --lit-surface:#494153;
+    --lit-soft:#50465f;
+    --lit-ink:#f7f1fc;
+    --lit-muted:#e0d5eb;
+    --lit-line:#aa98ba;
+    --lit-accent:#d0b4e5;
+    --lit-on-accent:#302139;
+    --lit-focus:#e6cdf7;
+    --pocket-outline:#aa98ba;
+    --pocket-tint:#69567f;
+    --pocket-shadow:#292330;
+  }
+  html[data-theme] body,
+  html[data-theme] :is(h1,h2,h3,h4,.section-head h2,.section-title-wrap h2),
+  html[data-theme] .department-page .department-choice strong,
+  html[data-theme] #home .home-intro h1,
+  html[data-theme] :is(.subject-info-dialog h2,.pwa-guide-dialog h2,.library-heading h1,.library-dialog-head h2) {
+    font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif!important;
+  }
+  html[data-theme] :is(h1,h2,.section-head h2,.section-title-wrap h2),
+  html[data-theme] .department-page .department-choice strong,
+  html[data-theme] #home .home-intro h1 {font-weight:800!important;letter-spacing:-.6px}
+  html[data-theme] :is(h3,h4) {font-weight:750}
+
+  /* Keep all existing card positions and text; give them the pocket-note outline. */
+  html[data-theme] .department-page .department-choice,
+  html[data-theme] #home .home-area-card,
+  html[data-theme] .military-cards .military-home-card {
+    border:2px solid var(--pocket-outline);
+    border-radius:18px;
+    background:var(--lit-surface);
+    box-shadow:3px 3px 0 var(--pocket-shadow);
+  }
+  html[data-theme] #home .home-curriculum-card,
+  html[data-theme] .military-cards .military-home-card.is-primary {
+    background:var(--lit-soft);
+  }
+  html[data-theme] .department-page .department-choice:hover {
+    border-color:var(--pocket-outline);
+    background:var(--lit-soft);
+    box-shadow:3px 3px 0 var(--pocket-shadow);
+  }
+  html[data-theme] #home :is(.home-library-link,.student-start-grid),
+  html[data-theme] :is(.launch-card,.designer-launch-card,.library-card) {
+    border:1.5px solid var(--pocket-outline);
+    border-radius:14px;
+    box-shadow:2px 2px 0 var(--pocket-shadow);
+  }
+  html[data-theme] :is(.home-library-icon,.launch-icon,.title-planner-icon,.title-topic-icon,.title-designer-icon,.title-self-eval-icon) {
+    border-radius:10px;
+    color:var(--lit-accent);
+    background-color:var(--lit-soft);
+  }
+  html[data-theme] #home .home-area-heading h2 {font-weight:800}
+  html[data-theme] #home .home-search {
+    border:1.5px solid var(--pocket-outline);
+    border-radius:12px;
+  }
+  html[data-theme] :is(.primary-button,.primary,.secondary-button,.link-button,.reset-button,.home-button,.home-link,.print-button,.file-button,.demand-back,.ghost-button,.military-button,.military-link,.subject-info-button,.curriculum-search-toggle,.library-button,.pwa-install-button),
+  html[data-theme] #home .home-shortcut {
+    border:1.5px solid var(--pocket-outline);
+    border-radius:10px;
+    box-shadow:2px 2px 0 var(--pocket-shadow);
+    font-weight:700;
+    transition:box-shadow 100ms ease,transform 100ms ease;
+  }
+  html[data-theme] :is(.primary-button,.primary,.planner-demand-link,.military-primary,.search-link,.card-link),
+  html[data-theme] #home .home-shortcut {
+    background:var(--lit-accent);
+    color:var(--lit-on-accent);
+  }
+  html[data-theme] :is(.secondary-button,.link-button,.reset-button,.home-button,.home-link,.print-button,.file-button,.demand-back,.ghost-button,.military-button,.military-link,.subject-info-button,.curriculum-search-toggle,.library-button) {
+    background:var(--lit-surface);
+    color:var(--lit-ink);
+  }
+  html[data-theme] :is(.primary-button,.primary,.secondary-button,.link-button,.reset-button,.home-button,.home-link,.print-button,.file-button,.demand-back,.ghost-button,.military-button,.military-link,.subject-info-button,.curriculum-search-toggle,.library-button,.pwa-install-button):enabled:active,
+  html[data-theme] a:is(.home-link,.military-link,.library-button):active,
+  html[data-theme] #home .home-shortcut:enabled:active {
+    transform:translate(2px,2px);
+    box-shadow:0 0 0 var(--pocket-shadow);
+  }
+  html[data-theme] .department-page .department-action,
+  html[data-theme] .military-card-action {border-radius:10px;font-weight:750}
+  html[data-theme] :is(input,select,textarea) {border-radius:10px}
+  html[data-theme] :is(.planner-mode-panel,.planner-summary-panel,.planner-fixed-panel,.planner-mine-panel,.semester-board,.curriculum-filter-panel,.subject-list-panel,.course-designer-setup,.course-designer-results,.course-designer-review,.course-designer-exploration,.topic-card,.topic-filter-panel,.military-panel,.military-mini,.military-official,.military-controls,.calendar-day-details,.self-eval-side-panel,.self-eval-main-panel,.course-card,.self-eval-form,.creative-eval-form,.academic-profile,.university-grade-calculator,.search-filters,.university-card,.gate-panel,.student-pane,.detail-pane) {
+    border-radius:12px;
+    border-color:var(--lit-line);
+  }
+  html[data-theme] :is(.planner-mode-buttons,.self-eval-mode-switch,.creative-eval-type-switch,.course-designer-step-tabs,.recommendation-view-tabs,.search-mode-switch,.view-switch) {border-radius:12px}
+  html[data-theme] :is(.planner-mode-buttons button,.self-eval-mode-switch button,.creative-eval-type-switch button,.course-designer-step-tabs button,.course-designer-option-tab,.course-designer-status-switch button,.course-designer-exploration-button,.course-designer-interest-button,.recommendation-view-tabs button,.search-mode-switch button,.view-switch button,.military-tabs button,.military-subnav button,.in-page-tabs a,.curriculum-segments button) {
+    border-radius:10px;
+    border-color:var(--lit-line);
+  }
+  html[data-theme] :is(button.active,button.is-active,button.is-selected,button[aria-pressed="true"],button[aria-selected="true"],button[aria-current="page"],.in-page-tabs a.active) {
+    background:var(--pocket-tint);
+    color:var(--lit-ink);
+    border-color:var(--pocket-outline);
+    box-shadow:inset 0 -3px 0 var(--lit-accent);
+  }
+  html[data-theme] #courseDesigner :is(.course-designer-interest-button.active,.course-designer-exploration-button.active,.course-designer-option-tab.active,.course-designer-status-switch button.active) {
+    background:var(--pocket-tint);color:var(--lit-ink);border-color:var(--pocket-outline);
+  }
+  html[data-theme] #courseDesigner :is(.course-designer-interest-button.active,.course-designer-exploration-button.active) :is(b,strong,span,small) {color:var(--lit-ink)}
+  html[data-theme] .curriculum-segments button[aria-pressed="true"] {background:var(--pocket-tint);color:var(--lit-ink);border-color:var(--pocket-outline)}
+  html[data-theme] .app-bottom-nav {border-color:var(--pocket-outline);box-shadow:0 -2px 0 var(--lit-soft)}
+  html[data-theme] .app-bottom-nav :is(.nav-button,.nav-button.active) {border-radius:10px}
+  html[data-theme] .app-bottom-nav .nav-button.active {
+    background:var(--pocket-tint);color:var(--lit-ink);border:1px solid var(--pocket-outline);box-shadow:2px 2px 0 var(--pocket-shadow);
+  }
+  html[data-theme] :is(.pwa-guide-dialog,.subject-info-dialog,.compare-dialog-shell,.course-designer-dialog,.planner-choice-dialog,.confirm-dialog,#libraryDialog) {
+    border:1.5px solid var(--pocket-outline);border-radius:18px;background:var(--lit-surface);color:var(--lit-ink);
+  }
+  html[data-theme] :is(.subject-info-close,.pwa-guide-close) {border-radius:10px}
+  html[data-theme] :is(.edu-reference,.subject-library-shortcut,.library-major,.student-draft-controls,.course-designer-document-bar) {border-radius:12px}
+  html[data-theme] .department-page .department-brand {color:var(--lit-ink)}
+  html[data-theme] #home .home-library-state {color:var(--lit-accent)}
+  /* Static notebook marks live in unused card corners. Text and hit areas stay straight. */
+  html[data-theme] #home .home-area-card,
+  html[data-theme] .military-cards .military-home-card,
+  html[data-theme] :is(.launch-card,.designer-launch-card) {
+    position:relative;
+    isolation:isolate;
+    border-radius:18px 12px 20px 13px;
+  }
+  html[data-theme] #home .home-area-card::before,
+  html[data-theme] .military-cards .military-home-card::before,
+  html[data-theme] :is(.launch-card,.designer-launch-card)::before {
+    content:'';
+    position:absolute;
+    right:16px;
+    top:14px;
+    width:30px;
+    height:21px;
+    border:1.5px solid var(--lit-accent);
+    border-radius:5px 5px 8px 3px;
+    background:repeating-linear-gradient(0deg,transparent 0 5px,color-mix(in srgb,var(--lit-accent) 35%,transparent) 5px 6px);
+    transform:rotate(9deg);
+    opacity:.28;
+    pointer-events:none;
+    z-index:-1;
+  }
+  html[data-theme] #home .home-area-card::after,
+  html[data-theme] .military-cards .military-home-card::after {
+    content:'';
+    position:absolute;
+    top:0;
+    right:0;
+    width:73px;
+    height:61px;
+    background:var(--pocket-tint);
+    clip-path:polygon(48% 0,100% 0,100% 100%,90% 60%,65% 45%);
+    border-radius:0 10px 0 0;
+    opacity:.45;
+    pointer-events:none;
+    z-index:-2;
+  }
+  html[data-theme] #home .home-plan-card::before,
+  html[data-theme] .military-home-card:nth-child(2)::before {
+    border-radius:50%;width:29px;height:29px;
+    background:conic-gradient(from 20deg,transparent 0 23%,var(--lit-accent) 23% 25%,transparent 25% 73%,var(--lit-accent) 73% 75%,transparent 75%);
+    transform:rotate(-12deg);
+  }
+  html[data-theme] #home .home-career-card::before,
+  html[data-theme] .military-home-card:nth-child(4)::before {
+    width:27px;height:27px;border-radius:5px;transform:rotate(25deg);
+    background:linear-gradient(45deg,transparent 46%,var(--lit-accent) 47% 53%,transparent 54%);
+  }
+  html[data-theme] #home .home-evaluation-card::before {
+    height:24px;transform:rotate(-8deg);border-radius:2px 7px 3px 6px;
+  }
+  html[data-theme] #home .home-area-card:nth-child(even),
+  html[data-theme] .military-cards .military-home-card:nth-child(even) {border-radius:12px 20px 13px 18px}
+  html[data-theme] :is(.library-card,.planner-mode-panel,.course-designer-setup,.topic-filter-panel) {
+    border-top:3px solid color-mix(in srgb,var(--lit-accent) 70%,var(--lit-line));
+  }
+  html[data-theme] .library-card-title>span {
+    background:var(--lit-soft);border:1px solid var(--lit-line);border-radius:7px 4px 7px 4px;padding:3px 6px;
+  }
+  @media (prefers-reduced-motion:reduce) {
+    html[data-theme] :is(button,a) {transition:none}
+  }
+}

@@ -1,4 +1,4 @@
-const CACHE_NAME = "anjwa-career-shell-v2.10.01";
+const CACHE_NAME = "anjwa-career-shell-v2.10.03";
 const DATA_CACHE_NAME = "anjwa-career-data-v1";
 const OFFLINE_URL = "./index.html";
 const APP_SHELL = [
@@ -10,6 +10,7 @@ const APP_SHELL = [
   "./layout-refinement.css",
   "./literary.css",
   "./literary-interior.css",
+  "./pocket-note.css",
   "./assets/literary/after-school-day.jpg",
   "./assets/literary/after-school-night.jpg",
   "./ui-v2.css",
@@ -142,7 +143,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (["/subject-profile.js", "/subject-supplement-data.js", "/subject-library.js", "/subject-library.css", "/subject-detail-data.js", "/literary-interior.css", "/literary.css", "/theme.js", "/theme.css", "/layout-refinement.css", "/military-calendar-data.js", "/military-calendar.js", "/military-guide.js", "/military-guide.css", "/planner-validation.js", "/department.css", "/home-design.css", "/motion.css", "/motion.js", "/demand-core.js", "/demand-files.js", "/demand-ui.js", "/demand.css", "/ui-v2.css", "/styles.css", "/app.js", "/curriculum-data.js", "/student-data-model.js", "/site-meta.js", "/subject-guide-data.js", "/admission-pages.js", "/recommendation-data.js", "/university-recommendation-data.js", "/course-designer-data.js", "/topic-data.js"].some((path) => url.pathname.endsWith(path))) {
+  if (["/pocket-note.css", "/subject-profile.js", "/subject-supplement-data.js", "/subject-library.js", "/subject-library.css", "/subject-detail-data.js", "/literary-interior.css", "/literary.css", "/theme.js", "/theme.css", "/layout-refinement.css", "/military-calendar-data.js", "/military-calendar.js", "/military-guide.js", "/military-guide.css", "/planner-validation.js", "/department.css", "/home-design.css", "/motion.css", "/motion.js", "/demand-core.js", "/demand-files.js", "/demand-ui.js", "/demand.css", "/ui-v2.css", "/styles.css", "/app.js", "/curriculum-data.js", "/student-data-model.js", "/site-meta.js", "/subject-guide-data.js", "/admission-pages.js", "/recommendation-data.js", "/university-recommendation-data.js", "/course-designer-data.js", "/topic-data.js"].some((path) => url.pathname.endsWith(path))) {
     event.respondWith(networkFirst(request, CACHE_NAME));
     return;
   }
