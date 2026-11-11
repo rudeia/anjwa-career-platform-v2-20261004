@@ -45,3 +45,10 @@ test('stable source IDs are retained for the same subjects after row shifts',()=
  assert.equal(source.plans.incoming2026.courses.find(x=>x.name==='융합과학 탐구').credits,3);
  assert.deepEqual(Array.from(source.plans.incoming2026.courses.find(x=>x.name==='융합과학 탐구').semesters),['3-1']);
 });
+test('a restored school search never filters the table invisibly',()=>{
+ const {c,run,el}=setup();c.document.getElementById=id=>el('#'+id);
+ el('#curriculumSearchPanel').hidden=true;el('#curriculumSearch').value='정보';
+ const attributes={};el('#curriculumSearchToggle').setAttribute=(name,value)=>{attributes[name]=value};
+ run('renderCurriculum()');assert.equal(el('#curriculumSearchPanel').hidden,false);assert.equal(attributes['aria-expanded'],'true');assert.equal(el('#curriculumSearchClear').hidden,false);
+ el('#curriculumSearch').value='';run('renderCurriculum()');assert.equal(el('#curriculumSearchClear').hidden,true);
+});

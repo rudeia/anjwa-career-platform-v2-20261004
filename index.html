@@ -10,18 +10,18 @@
     <title>안좌고 교육과정 도우미</title>
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="./styles.css?v=2.10.00" />
-    <link rel="stylesheet" href="./pwa-install.css?v=2.10.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=2.10.00" />
-    <link rel="stylesheet" href="./home-design.css?v=2.10.00" />
-    <link rel="stylesheet" href="./department.css?v=2.10.00" />
-    <link rel="stylesheet" href="./military-guide.css?v=2.10.00" />
-    <link rel="stylesheet" href="./motion.css?v=2.10.00" />
-  <script src="./theme.js?v=2.10.00"></script>
-<link rel="stylesheet" href="./layout-refinement.css?v=2.10.00">
-<link rel="stylesheet" href="./theme.css?v=2.10.00">
-<link rel="stylesheet" href="./literary.css?v=2.10.00">
-<link rel="stylesheet" href="./literary-interior.css?v=2.10.00">
+    <link rel="stylesheet" href="./styles.css?v=2.10.01" />
+    <link rel="stylesheet" href="./pwa-install.css?v=2.10.01" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.10.01" />
+    <link rel="stylesheet" href="./home-design.css?v=2.10.01" />
+    <link rel="stylesheet" href="./department.css?v=2.10.01" />
+    <link rel="stylesheet" href="./military-guide.css?v=2.10.01" />
+    <link rel="stylesheet" href="./motion.css?v=2.10.01" />
+  <script src="./theme.js?v=2.10.01"></script>
+<link rel="stylesheet" href="./layout-refinement.css?v=2.10.01">
+<link rel="stylesheet" href="./theme.css?v=2.10.01">
+<link rel="stylesheet" href="./literary.css?v=2.10.01">
+<link rel="stylesheet" href="./literary-interior.css?v=2.10.01">
 </head>
   <body class="home-design-app department-screen">
     <div class="app-shell">
@@ -127,9 +127,9 @@
 
           <div class="curriculum-view-controls">
             <label>학과<select id="curriculumDepartment"><option value="general">보통과</option><option value="military">부사관과</option></select></label>
-            <label>과목 목록<select id="curriculumOffering"><option value="all">전체 선택과목</option><option value="open" disabled>실제 개설표 확인 후 제공</option></select></label>
+            <label id="curriculumOfferingControl">과목 목록<select id="curriculumOffering"><option value="all">전체 선택과목</option><option value="open" disabled>실제 개설표 확인 후 제공</option></select></label>
           </div>
-          <a class="subject-library-shortcut" href="./subject-library.html">전체 과목 설명 찾기 <span>학교 편성 외 과목·학과 연결도 검색 →</span></a>
+          <a class="subject-library-shortcut" id="subjectLibraryShortcut" href="./subject-library.html?from=curriculum">전체 과목 설명 찾기 <span>학교 편성 외 과목·학과 연결도 검색 →</span></a>
           <div class="curriculum-main">
             <div class="curriculum-filter-panel">
               <label class="filter-plan">
@@ -173,10 +173,10 @@
                   <button type="button" data-curriculum-semester="2" aria-pressed="false">2학기</button>
                 </span>
               </label>
-              <label class="filter-search" id="curriculumSearchPanel" hidden>
-                과목 검색
-                <input id="curriculumSearch" type="search" placeholder="과목명 또는 교과군 검색" />
-              </label>
+              <div class="filter-search" id="curriculumSearchPanel" hidden>
+                <label for="curriculumSearch">과목 검색</label>
+                <div class="curriculum-search-row"><input id="curriculumSearch" type="search" enterkeyhint="search" maxlength="200" placeholder="과목명 또는 교과군 검색" /><button type="button" class="ghost-button" id="curriculumSearchClear" aria-label="학교 과목 검색 지우기" hidden>지우기</button></div>
+              </div>
             </div>
 
             <div class="curriculum-dashboard">
@@ -813,19 +813,19 @@
     <script src="./curriculum-data.js?v=2.04.00"></script>
     <script src="./student-data-model.js"></script><script src="./planner-validation.js?v=2.04.00-curriculum261111"></script>
     <script src="./subject-guide-data.js?v=2.01.00"></script>
-    <script src="./subject-detail-data.js?v=2.10.00"></script>
-<script src="./subject-supplement-data.js?v=2.10.00"></script><script src="./subject-profile.js?v=2.10.00"></script>
+    <script src="./subject-detail-data.js?v=2.10.01"></script>
+<script src="./subject-supplement-data.js?v=2.10.01"></script><script src="./subject-profile.js?v=2.10.01"></script>
     <script src="./recommendation-data.js?v=2.01.00"></script>
     <script src="./university-recommendation-data.js?v=2.01.00"></script>
     <script src="./course-designer-data.js?v=2.03.00"></script>
     <script src="./topic-data.js?v=2.03.00"></script>
     <script src="./motion.js?v=2.03.00"></script>
-    <script src="./military-calendar-data.js?v=2.10.00"></script>
-    <script src="./military-calendar.js?v=2.10.00"></script>
-    <script src="./military-guide.js?v=2.10.00"></script>
-    <script src="./app.js?v=2.10.00"></script>
-    <script src="./pwa-install.js?v=2.10.00" defer></script>
-    <script src="./site-meta.js?v=2.10.00" defer></script>
+    <script src="./military-calendar-data.js?v=2.10.01"></script>
+    <script src="./military-calendar.js?v=2.10.01"></script>
+    <script src="./military-guide.js?v=2.10.01"></script>
+    <script src="./app.js?v=2.10.01"></script>
+    <script src="./pwa-install.js?v=2.10.01" defer></script>
+    <script src="./site-meta.js?v=2.10.01" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

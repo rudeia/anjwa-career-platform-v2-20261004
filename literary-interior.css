@@ -147,3 +147,20 @@ html[data-theme] .subject-guide-sources a{color:var(--lit-accent)}
 @media screen{html[data-theme] .subject-library-shortcut{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 12px;margin:12px 0;padding:10px 12px;min-height:44px;border:1px solid var(--lit-line);border-radius:5px;color:var(--lit-accent);background:var(--lit-soft);font-size:13px;text-decoration:none}.subject-library-shortcut span{font-size:11px}}
 
 @media screen{html[data-theme] .subject-info-button[data-subject-info]{width:auto;min-width:44px;min-height:44px;padding:0 8px;font-size:12px;white-space:nowrap}}
+
+@media screen and (max-width:700px){
+html[data-theme] .mobile-course-entry{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:6px;padding-right:12px;border-bottom:1px solid var(--lit-line);align-items:start}
+html[data-theme] .mobile-course-entry .mobile-course-row{grid-template-columns:minmax(0,1fr) 45px 30px;gap:6px;padding-right:0;border-bottom:0}
+html[data-theme] .mobile-course-entry > .subject-info-button{width:44px;min-width:44px;min-height:44px;margin-top:12px;padding:0 4px;align-self:start}
+html[data-theme] .mobile-table-head{grid-template-columns:minmax(0,1fr) 45px 30px 44px;gap:6px}
+html[data-theme] .mobile-course-entry .mobile-course-name::after{content:'편성 정보 ⌄'}
+html[data-theme] .mobile-course-entry details[open] > .mobile-course-row .mobile-course-name::after{content:'편성 정보 접기 ⌃'}
+html[data-theme] .mobile-course-entry .mobile-course-extra{padding-right:0;border-bottom:0}
+}
+@media screen{html[data-theme] .curriculum-view-controls:has(#curriculumOfferingControl[hidden]){grid-template-columns:minmax(0,1fr)}}
+
+#curriculumOfferingControl[hidden]{display:none!important}
+
+@media screen and (max-width:700px){html[data-theme] .mobile-table-head span:nth-child(3){text-align:right}html[data-theme] .mobile-table-head span:last-child{text-align:center}}
+
+@media screen{html[data-theme] .curriculum-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}html[data-theme] .curriculum-search-row:has(button[hidden]){grid-template-columns:minmax(0,1fr)}html[data-theme] .curriculum-search-row button{min-width:60px;min-height:44px;margin:0}#curriculumSearchClear[hidden],#curriculumSearchPanel[hidden]{display:none!important}}

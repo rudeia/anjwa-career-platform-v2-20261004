@@ -2824,6 +2824,9 @@ function bindCurriculumControls() {
     $("#" + id).addEventListener("change", update);
   });
   $("#curriculumSearch").addEventListener("input", renderCurriculum);
+  $("#curriculumSearchClear")?.addEventListener("click", () => {
+    $("#curriculumSearch").value = ""; renderCurriculum(); $("#curriculumSearch").focus({ preventScroll: true });
+  });
   $all("[data-curriculum-grade]").forEach((button) => button.addEventListener("click", () => {
     state.activeCurriculumScope = button.dataset.curriculumGrade === "all" ? "semesterAllGrades" : "semester";
     if (button.dataset.curriculumGrade !== "all") state.curriculumGrade = button.dataset.curriculumGrade;
@@ -3067,11 +3070,14 @@ function bindSelfEvaluationControls() {
   });
 }
 
+let subjectInfoReturnFocus = null;
+
 function bindSubjectInfoPopup() {
   document.addEventListener("click", (event) => {
     const clicked = event.target instanceof Element ? event.target : null;
     const infoButton = clicked?.closest("[data-subject-info]");
     if (infoButton) {
+      subjectInfoReturnFocus = infoButton;
       event.preventDefault();
       event.stopPropagation();
       openSubjectInfoPopup({
@@ -3083,6 +3089,8 @@ function bindSubjectInfoPopup() {
       return;
     }
 
+    const helpTrigger = clicked?.closest("[data-self-help], [data-creative-help]");
+    if (helpTrigger) subjectInfoReturnFocus = helpTrigger;
     const selfHelpButton = clicked?.closest("[data-self-help]");
     if (selfHelpButton) {
       event.preventDefault();
@@ -3105,7 +3113,19 @@ function bindSubjectInfoPopup() {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeSubjectInfoPopup();
+    const modal = $("#subjectInfoModal");
+    if (!modal || modal.hidden) return;
+    if (event.key === "Escape") { event.preventDefault(); closeSubjectInfoPopup(); return; }
+    if (event.key !== "Tab") return;
+    const controls = [...modal.querySelectorAll('button,a[href],input,select,textarea,summary,[tabindex]:not([tabindex="-1"])')]
+      .filter(element => !element.disabled && !element.hidden && element.getClientRects().length);
+    const first = controls[0], last = controls[controls.length - 1];
+    if (!first) return;
+    if (event.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
+      event.preventDefault(); last.focus();
+    } else if (!event.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) {
+      event.preventDefault(); first.focus();
+    }
   });
 }
 
@@ -5309,6 +5329,10 @@ function renderCurriculum() {
   $("#curriculumPlan").value = state.activeCurriculumPlan;
   $("#curriculumDepartment").value = state.curriculumDepartment;
   $("#curriculumOffering").value = state.curriculumOffering;
+  const offeringControl = document.getElementById?.('curriculumOfferingControl');
+  if (offeringControl) offeringControl.hidden = curriculumData.openingConfirmed === false;
+  const libraryShortcut = document.getElementById?.('subjectLibraryShortcut');
+  if (libraryShortcut) libraryShortcut.href = `./subject-library.html?from=curriculum${state.curriculumDepartment === 'military' ? '&dept=military' : ''}`;
   $("#curriculumScope").value = state.activeCurriculumScope;
   $("#curriculumGrade").value = state.curriculumGrade;
   $("#curriculumSemester").value = state.curriculumSemester;
@@ -5326,6 +5350,13 @@ function renderCurriculum() {
     ? getCurriculumSemesterKeys(scope, grade, semester)
     : selectedSemesters.flatMap((value) => getCurriculumSemesterKeys(scope, grade, value));
   const query = normalizeText($("#curriculumSearch").value);
+  const activeSearchPanel = document.getElementById?.('curriculumSearchPanel');
+  if (query && activeSearchPanel) {
+    activeSearchPanel.hidden = false;
+    document.getElementById?.('curriculumSearchToggle')?.setAttribute('aria-expanded', 'true');
+  }
+  const clearSearch = document.getElementById?.('curriculumSearchClear');
+  if (clearSearch) clearSearch.hidden = !query;
   updateCurriculumScopeControls(scope);
 
   const allScopeCourses = plan.courses
@@ -5398,9 +5429,9 @@ function renderCurriculumMobileList(plan, semesterKeys, courses) {
       const groupId = choice?.id || section;
       const heading = groupId !== previousGroup ? `<div class="mobile-choice-heading"><b>${escapeHtml(section)}</b><span>${choice ? escapeHtml(`${choice.shortLabel} · ${choice.choiceText}${choice.creditText ? " · " + choice.creditText : ""}`) : ""}</span></div>` : "";
       previousGroup = groupId;
-      return `${heading}<details class="mobile-course-detail"><summary class="mobile-course-row"><span class="mobile-course-name">${escapeHtml(course.name)}<small class="student-mobile-mode">${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}</small></span><span class="mobile-course-area">${escapeHtml(course.area)}</span><b class="mobile-course-credits">${getCurriculumCourseCreditsForScope(course,[key]) || "-"}</b></summary><div class="mobile-course-extra"><span>${escapeHtml(course.category)} · ${escapeHtml(getSemesterLabel(key))}</span>${choice ? `<span>${escapeHtml(`${choice.shortLabel} · ${choice.choiceText}`)}</span>` : ""}${renderCurriculumOpeningBadge(course,[key])}${renderCourseNameWithInfo(course)}</div></details>`;
+      return `${heading}<div class="mobile-course-entry"><details class="mobile-course-detail"><summary class="mobile-course-row"><span class="mobile-course-name">${escapeHtml(course.name)}<small class="student-mobile-mode">${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}</small></span><span class="mobile-course-area">${escapeHtml(course.area)}</span><b class="mobile-course-credits">${getCurriculumCourseCreditsForScope(course,[key]) || "-"}</b></summary><div class="mobile-course-extra"><span>${escapeHtml(course.category)} · ${escapeHtml(getSemesterLabel(key))}</span>${choice ? `<span>${escapeHtml(`${choice.shortLabel} · ${choice.choiceText}`)}</span>` : ""}${renderCurriculumOpeningBadge(course,[key])}</div></details>${renderSubjectInfoButton(course)}</div>`;
     }).join("");
-    return `<section class="mobile-semester-section" aria-label="${escapeHtml(getSemesterLabel(key))}">${orderedKeys.length > 1 ? `<h4>${escapeHtml(getSemesterLabel(key))}</h4>` : ""}<div class="mobile-table-head"><span>과목명</span><span>교과군</span><span>학점</span></div>${content}</section>`;
+    return `<section class="mobile-semester-section" aria-label="${escapeHtml(getSemesterLabel(key))}">${orderedKeys.length > 1 ? `<h4>${escapeHtml(getSemesterLabel(key))}</h4>` : ""}<div class="mobile-table-head"><span>과목명</span><span>교과군</span><span>학점</span><span>설명</span></div>${content}</section>`;
   }).join("") || '<p class="empty-note">해당 조건에 맞는 과목이 없습니다.</p>';
 }
 
@@ -6359,16 +6390,20 @@ function renderCourseNameWithInfo(course) {
       <strong>${escapeHtml(course.name)}</strong>
       ${course.creditTreatment === "separate" ? `<small class="curriculum-separate-badge">${course.credits}학점 별도 이수 · 정규 합계 제외</small>` : ""}
       ${course.subjectId ? `<small class="student-operating-badge">${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}</small>` : ""}
-      <button class="subject-info-button" type="button"
+      ${renderSubjectInfoButton(course)}
+    </span>
+  `;
+}
+
+function renderSubjectInfoButton(course) {
+  return `<button class="subject-info-button" type="button"
         aria-label="${escapeHtml(`${course.name} 과목 안내 보기`)}"
         title="과목 안내 보기"
         data-subject-info
         data-subject-id="${escapeAttribute(course.subjectId || "")}"
         data-subject-name="${escapeHtml(course.name)}"
         data-subject-area="${escapeHtml(course.area || "")}"
-        data-subject-category="${escapeHtml(course.category || "")}">설명</button>
-    </span>
-  `;
+        data-subject-category="${escapeHtml(course.category || "")}">설명</button>`;
 }
 
 function openSubjectInfoPopup(course) {
@@ -6444,7 +6479,9 @@ function openSubjectInfoPopup(course) {
 
   modal.hidden = false;
   document.body.classList.add("modal-open");
-  $(".subject-info-close")?.focus();
+  $(".subject-info-close")?.focus({ preventScroll: true });
+  const dialog = modal.querySelector?.(".subject-info-dialog");
+  if (dialog) dialog.scrollTop = 0;
 }
 
 function getSubjectGuideInfo(course, relation) {
@@ -6711,6 +6748,9 @@ function closeSubjectInfoPopup() {
   if (!modal || modal.hidden) return;
   modal.hidden = true;
   document.body.classList.remove("modal-open");
+  const returnTarget = subjectInfoReturnFocus;
+  subjectInfoReturnFocus = null;
+  if (returnTarget?.isConnected) returnTarget.focus({ preventScroll: true });
 }
 
 function getSubjectRelationInfo(course) {
@@ -9434,3 +9474,8 @@ function getCurriculumDataWarning(planKey) {
   const summary=getCurriculumSummaryForScope(plan,Object.keys(plan.summary || {}));
   return summary.unresolvedTerms?.length ? ' · 원본 자료 확인 필요: 일부 과목 행·선택 묶음이 학기 합계와 일치하지 않습니다. 편성 합계는 원본 기준으로 유지했으며, 선택 확정 전 학교 원자료를 확인하세요.' : '';
 }
+
+// History restoration can fill a search input after initial rendering.
+window.addEventListener?.('pageshow', () => {
+  window.requestAnimationFrame?.(() => { if (state.activeView === 'curriculum') renderCurriculum(); });
+});
