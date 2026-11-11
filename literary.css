@@ -61,9 +61,6 @@ html[data-theme] #home .home-library-link,html[data-theme] #home .student-start-
 html[data-theme] #home .home-library-copy strong,html[data-theme] #home .student-start-card b{color:var(--lit-ink)}
 html[data-theme] #home .home-library-copy>span,html[data-theme] #home .student-start-card small{color:var(--lit-muted)}
 html[data-theme] #home .home-library-state{color:var(--lit-accent)}
-.literary-location{display:flex;align-items:center;gap:9px;color:var(--lit-muted);padding:0 0 16px;font-size:13px;flex-wrap:wrap}
-.literary-location[hidden]{display:none}
-.literary-location button{background:var(--lit-surface);color:var(--lit-accent);border:1px solid var(--lit-line);border-radius:5px;padding:8px 12px;font:inherit;min-height:44px}
 html[data-theme] .app-bottom-nav{background:var(--lit-surface);border-color:var(--lit-line);box-shadow:0 -2px 12px #302b3809}
 html[data-theme] .app-bottom-nav :is(.nav-button,.nav-button.active){color:var(--lit-muted);background:transparent;border-color:transparent;border-radius:5px}
 html[data-theme] .app-bottom-nav .nav-button.active{background:var(--lit-soft);color:var(--lit-accent);border-color:var(--lit-line)}
@@ -136,7 +133,7 @@ html[data-theme] .calendar-filters select{font-size:16px}
 }
 @media(max-width:359px){.department-page .department-brand{flex-wrap:wrap;gap:4px 10px}.department-page .department-brand>span{font-size:11px}.department-page .department-choice{padding:13px;grid-template-columns:28px minmax(0,1fr)}.department-symbol svg{width:27px;height:27px}html[data-theme] .site-release-info{font-size:10px}}
 }
-@media print{.literary-banner,.literary-location{display:none!important}}
+@media print{.literary-banner{display:none!important}}
 
 @media screen{body:has(#departments.active) .app-shell{min-height:0}body:has(#departments.active) .site-update-footer{margin-top:18px!important}html[data-theme] .app-motion-layer{background:var(--lit-paper)}}
 

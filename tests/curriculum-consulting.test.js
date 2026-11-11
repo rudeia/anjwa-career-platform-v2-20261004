@@ -23,13 +23,13 @@ test('cohort tables never imply confirmed openings; saved open filters safely sh
  run("state.curriculumOffering='open';renderCurriculum()");
  assert.equal(run('state.curriculumOffering'),'all');
  assert.match(el('#curriculumTableBody').innerHTML,/기하/);
- assert.match(el('#curriculumAvailabilityNote').textContent,/실제 개설 확정표는 제공되지 않아/);
+ assert.doesNotMatch(el('#curriculumAvailabilityNote').textContent,/입학생별 편성표|개설 확정표는 제공되지 않아/);
  assert.equal(el('#curriculumSummary').innerHTML,budget);
 });
 test('future semesters are unconfirmed and military curricula remain separate',()=>{
  const {run,el}=setup();run("state.activeCurriculumPlan='incoming2027';state.curriculumGrade='2';state.curriculumSemesters=['1'];state.curriculumOffering='open';renderCurriculum()");
  assert.doesNotMatch(el('#curriculumTableBody').innerHTML,/opening-open[\s"]/);
- assert.match(el('#curriculumAvailabilityNote').textContent,/개설 확정표는 제공되지 않아/);
+ assert.doesNotMatch(el('#curriculumAvailabilityNote').textContent,/입학생별 편성표|개설 확정표는 제공되지 않아/);
  run("state.curriculumDepartment='military';state.activeCurriculumPlan='current2027';state.curriculumOffering='all';state.curriculumGrade='1';renderCurriculumPlanOptions();renderCurriculum()");
  assert.match(el('#curriculumTableBody').innerHTML,/기본수학1/);
  assert.doesNotMatch(el('#curriculumTableBody').innerHTML,/공통수학1/);

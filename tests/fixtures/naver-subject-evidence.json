@@ -1,0 +1,1447 @@
+[
+  {
+    "name": "공통국어1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/G7R4XENEXA",
+    "majors": []
+  },
+  {
+    "name": "공통국어2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/5EHC170K0N",
+    "majors": []
+  },
+  {
+    "name": "공통수학1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/RY1XWQZ30X",
+    "majors": []
+  },
+  {
+    "name": "공통수학2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/7WQ82WA894",
+    "majors": []
+  },
+  {
+    "name": "공통영어1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/J34JRJ9SQC",
+    "majors": []
+  },
+  {
+    "name": "공통영어2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/39G5297SHC",
+    "majors": []
+  },
+  {
+    "name": "과학의 역사와 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/1V288N67N6",
+    "majors": [
+      "과학교육과",
+      "물리학과",
+      "화학과",
+      "생명과학과",
+      "교육학과"
+    ]
+  },
+  {
+    "name": "과학탐구실험1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/F5KZ742QK3",
+    "majors": []
+  },
+  {
+    "name": "과학탐구실험2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/6P2EV820Z2",
+    "majors": []
+  },
+  {
+    "name": "교육의 이해",
+    "url": "https://edu.naver.com/subjects-guide/subjects/H95D43480F",
+    "majors": [
+      "교육학과",
+      "교육공학과",
+      "초등교육과"
+    ]
+  },
+  {
+    "name": "기하",
+    "url": "https://edu.naver.com/subjects-guide/subjects/MSBCKCMF9X",
+    "majors": [
+      "건축학과",
+      "경제학과",
+      "기계공학과",
+      "물리학과",
+      "지리학과",
+      "전자공학과",
+      "통계학과"
+    ]
+  },
+  {
+    "name": "기후변화와 지속가능한 세계",
+    "url": "https://edu.naver.com/subjects-guide/subjects/HS9M5GE8FR",
+    "majors": [
+      "환경공학과",
+      "에너지자원공학과",
+      "정치외교학과",
+      "사회학과",
+      "대기과학과",
+      "도시공학과",
+      "행정학과",
+      "경제학과",
+      "경영학과",
+      "지리학과",
+      "지리교육과"
+    ]
+  },
+  {
+    "name": "기후변화와 환경생태",
+    "url": "https://edu.naver.com/subjects-guide/subjects/QD0NSCC7G8",
+    "majors": [
+      "환경과학과",
+      "환경공학과",
+      "대기과학과",
+      "지구환경과학과",
+      "생물학과",
+      "생명과학과",
+      "생명공학과",
+      "지구과학교육과",
+      "생물교육과"
+    ]
+  },
+  {
+    "name": "논리와 사고",
+    "url": "https://edu.naver.com/subjects-guide/subjects/SEK0FXF6MP",
+    "majors": [
+      "철학과",
+      "경제학과",
+      "법학과",
+      "사회학과",
+      "수학과",
+      "심리학과",
+      "통계학과",
+      "컴퓨터공학과",
+      "윤리교육과"
+    ]
+  },
+  {
+    "name": "논술",
+    "url": "https://edu.naver.com/subjects-guide/subjects/5VZ64V2YW4",
+    "majors": [
+      "국어국문학과",
+      "신문방송학과"
+    ]
+  },
+  {
+    "name": "대수",
+    "url": "https://edu.naver.com/subjects-guide/subjects/1JKD43XAX1",
+    "majors": []
+  },
+  {
+    "name": "도시의 미래 탐구",
+    "url": "https://edu.naver.com/subjects-guide/subjects/PMBP8R87C6",
+    "majors": [
+      "도시공학과",
+      "도시계획학과",
+      "건축학과",
+      "교통공학과",
+      "경영학과",
+      "경제학과",
+      "사회학과",
+      "행정학과",
+      "부동산학과",
+      "사회복지학과",
+      "지리학과",
+      "지리교육과"
+    ]
+  },
+  {
+    "name": "독서와 작문",
+    "url": "https://edu.naver.com/subjects-guide/subjects/JQ4FRB3EPX",
+    "majors": [
+      "국어국문학과",
+      "국어교육과",
+      "문예창작학과",
+      "신문방송학과",
+      "광고홍보학과",
+      "철학과",
+      "정치외교학과",
+      "법학과"
+    ]
+  },
+  {
+    "name": "동아시아 역사 기행",
+    "url": "https://edu.naver.com/subjects-guide/subjects/EF4BZY4SKF",
+    "majors": [
+      "사학과",
+      "역사교육과",
+      "고고학과",
+      "문화재보존학과",
+      "정치외교학과"
+    ]
+  },
+  {
+    "name": "매체 의사소통",
+    "url": "https://edu.naver.com/subjects-guide/subjects/ZK00H26E5C",
+    "majors": [
+      "신문방송학과",
+      "광고홍보학과",
+      "문화콘텐츠학과"
+    ]
+  },
+  {
+    "name": "문학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/Z492Y4W2WQ",
+    "majors": [
+      "국어국문학과",
+      "국어교육과",
+      "문예창작학과",
+      "신문방송학과",
+      "문헌정보학과",
+      "철학과",
+      "문화콘텐츠학과"
+    ]
+  },
+  {
+    "name": "문학과 영상",
+    "url": "https://edu.naver.com/subjects-guide/subjects/WHSYSM8TCH",
+    "majors": [
+      "국어국문학과",
+      "문예창작학과",
+      "신문방송학과",
+      "연극영화학과",
+      "광고홍보학과"
+    ]
+  },
+  {
+    "name": "물리학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/T615XMBE67",
+    "majors": [
+      "물리학과",
+      "기계공학과",
+      "로봇공학과",
+      "방사선학과"
+    ]
+  },
+  {
+    "name": "물질과 에너지",
+    "url": "https://edu.naver.com/subjects-guide/subjects/XKHDPJGM1M",
+    "majors": [
+      "화학과",
+      "생화학과",
+      "의예과",
+      "약학과",
+      "식품영양학과",
+      "환경화학과",
+      "화학교육과",
+      "나노공학과",
+      "신소재공학과"
+    ]
+  },
+  {
+    "name": "미디어 영어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/BY5353CS5M",
+    "majors": [
+      "영어영문학과"
+    ]
+  },
+  {
+    "name": "미술",
+    "url": "https://edu.naver.com/subjects-guide/subjects/ZWRH8J6N55",
+    "majors": [
+      "미술학과",
+      "동양화과",
+      "서양화과",
+      "산업디자인학과",
+      "패션디자인학과"
+    ]
+  },
+  {
+    "name": "미술 감상과 비평",
+    "url": "https://edu.naver.com/subjects-guide/subjects/Y752D2ATT1",
+    "majors": [
+      "미술학과",
+      "동양화과",
+      "서양화과",
+      "산업디자인학과",
+      "패션디자인학과"
+    ]
+  },
+  {
+    "name": "미술 창작",
+    "url": "https://edu.naver.com/subjects-guide/subjects/J5PNF6ZP72",
+    "majors": [
+      "미술학과",
+      "동양화과",
+      "서양화과",
+      "산업디자인학과",
+      "패션디자인학과"
+    ]
+  },
+  {
+    "name": "미적분Ⅰ",
+    "url": "https://edu.naver.com/subjects-guide/subjects/A6F5CS3BYY",
+    "majors": []
+  },
+  {
+    "name": "미적분Ⅱ",
+    "url": "https://edu.naver.com/subjects-guide/subjects/K7BZW5CTBY",
+    "majors": []
+  },
+  {
+    "name": "보건",
+    "url": "https://edu.naver.com/subjects-guide/subjects/JF3PZ4EMVS",
+    "majors": [
+      "간호학과",
+      "보건행정학과",
+      "임상병리학과",
+      "물리치료학과",
+      "재활학과",
+      "응급구조학과",
+      "건강관리학과"
+    ]
+  },
+  {
+    "name": "사회문제 탐구",
+    "url": "https://edu.naver.com/subjects-guide/subjects/8D85EVP5KW",
+    "majors": [
+      "사회학과",
+      "행정학과",
+      "경영학과",
+      "사회복지학과",
+      "통계학과",
+      "신문방송학과",
+      "미디어학과",
+      "교육학과",
+      "정치외교학과",
+      "문화인류학과"
+    ]
+  },
+  {
+    "name": "사회와 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/E6YH30Z167",
+    "majors": [
+      "사회학과",
+      "통계학과",
+      "사회교육과",
+      "사회복지학과",
+      "행정학과",
+      "신문방송학과",
+      "문화인류학과"
+    ]
+  },
+  {
+    "name": "삶과 종교",
+    "url": "https://edu.naver.com/subjects-guide/subjects/4S9TABDCFH",
+    "majors": [
+      "종교학과",
+      "신학과",
+      "기독교학과",
+      "불교학과",
+      "윤리학과",
+      "철학과",
+      "사회학과",
+      "고고학과",
+      "문화인류학과"
+    ]
+  },
+  {
+    "name": "생명과학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/VWQHBTBM7Q",
+    "majors": [
+      "생명과학과",
+      "생명공학과",
+      "생물교육과",
+      "유전공학과",
+      "생화학과",
+      "의예과",
+      "한의예과",
+      "약학과",
+      "간호학과",
+      "임상병리학과"
+    ]
+  },
+  {
+    "name": "생태와 환경",
+    "url": "https://edu.naver.com/subjects-guide/subjects/XE87B6J0ZX",
+    "majors": [
+      "환경공학과",
+      "환경교육과"
+    ]
+  },
+  {
+    "name": "세계 문화와 영어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/7ZXM1FAER0",
+    "majors": []
+  },
+  {
+    "name": "세계사",
+    "url": "https://edu.naver.com/subjects-guide/subjects/3GJPS5XN87",
+    "majors": [
+      "사학과",
+      "역사교육과",
+      "고고학과",
+      "문화재보존학과"
+    ]
+  },
+  {
+    "name": "세계시민과 지리",
+    "url": "https://edu.naver.com/subjects-guide/subjects/XEMT10PD9B",
+    "majors": [
+      "정치외교학과",
+      "경영학과",
+      "국제통상학과",
+      "무역학과",
+      "문화인류학과",
+      "도시공학과",
+      "건축학과",
+      "환경공학과",
+      "경제학과",
+      "지리학과",
+      "지리교육과"
+    ]
+  },
+  {
+    "name": "세포와 물질대사",
+    "url": "https://edu.naver.com/subjects-guide/subjects/V8MJ3QGHQ4",
+    "majors": [
+      "생명과학과",
+      "생명공학과",
+      "생물교육과",
+      "유전공학과",
+      "생화학과",
+      "의예과",
+      "약학과",
+      "한의예과",
+      "간호학과",
+      "식품영양학과"
+    ]
+  },
+  {
+    "name": "수학과 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/MZSM5YP760",
+    "majors": []
+  },
+  {
+    "name": "수학과제 탐구",
+    "url": "https://edu.naver.com/subjects-guide/subjects/4JKQ9EP1FW",
+    "majors": []
+  },
+  {
+    "name": "스포츠 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/GK1AK1N27E",
+    "majors": [
+      "체육학과",
+      "체육교육과",
+      "사회체육학과",
+      "디자인학과",
+      "심리학과",
+      "문화인류학과"
+    ]
+  },
+  {
+    "name": "스포츠 생활1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/5QWKVMQ1WC",
+    "majors": [
+      "체육학과",
+      "체육교육과",
+      "사회체육학과"
+    ]
+  },
+  {
+    "name": "스포츠 생활2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/EBY906Z525",
+    "majors": [
+      "체육학과",
+      "체육교육과",
+      "사회체육학과"
+    ]
+  },
+  {
+    "name": "실생활 영어 회화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/SY2QBKGKFY",
+    "majors": []
+  },
+  {
+    "name": "심화 영어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/Y546W10QF1",
+    "majors": [
+      "영어영문학과"
+    ]
+  },
+  {
+    "name": "심화 영어 독해와 작문",
+    "url": "https://edu.naver.com/subjects-guide/subjects/B5B18RXNG5",
+    "majors": []
+  },
+  {
+    "name": "언어생활 탐구",
+    "url": "https://edu.naver.com/subjects-guide/subjects/FAAKF311ZE",
+    "majors": [
+      "국어국문학과",
+      "국어교육과",
+      "언어학과",
+      "신문방송학과",
+      "문헌정보학과",
+      "철학과",
+      "법학과"
+    ]
+  },
+  {
+    "name": "여행지리",
+    "url": "https://edu.naver.com/subjects-guide/subjects/BD3T7V7XE6",
+    "majors": [
+      "호텔경영학과",
+      "관광경영학과",
+      "도시공학과",
+      "건축학과",
+      "문화인류학과",
+      "사회학과",
+      "항공서비스학과",
+      "지리학과",
+      "지리교육과"
+    ]
+  },
+  {
+    "name": "역사로 탐구하는 현대 세계",
+    "url": "https://edu.naver.com/subjects-guide/subjects/6AR9D0XXHP",
+    "majors": [
+      "사학과",
+      "역사교육과",
+      "고고학과",
+      "문화재보존학과",
+      "정치외교학과"
+    ]
+  },
+  {
+    "name": "역학과 에너지",
+    "url": "https://edu.naver.com/subjects-guide/subjects/ZVFQ6CYSQW",
+    "majors": [
+      "기계공학과",
+      "항공우주공학과",
+      "로봇공학과",
+      "물리학과"
+    ]
+  },
+  {
+    "name": "영미 문학 읽기",
+    "url": "https://edu.naver.com/subjects-guide/subjects/VMR4DKT1B1",
+    "majors": [
+      "영어영문학과",
+      "영어교육과",
+      "통번역학과",
+      "문화콘텐츠학과"
+    ]
+  },
+  {
+    "name": "영어 독해와 작문",
+    "url": "https://edu.naver.com/subjects-guide/subjects/SASHB42XEF",
+    "majors": [
+      "영어교육과",
+      "영어영문학과",
+      "영어학과",
+      "국제관계학과",
+      "미국학과"
+    ]
+  },
+  {
+    "name": "영어 발표와 토론",
+    "url": "https://edu.naver.com/subjects-guide/subjects/YBQE597M22",
+    "majors": [
+      "국제통상학과",
+      "국제학부",
+      "국제관계학과",
+      "무역학과",
+      "문화콘텐츠학과"
+    ]
+  },
+  {
+    "name": "영어Ⅰ",
+    "url": "https://edu.naver.com/subjects-guide/subjects/F75JG94583",
+    "majors": [
+      "영어교육과",
+      "영어영문학과",
+      "영어학과",
+      "통번역학과"
+    ]
+  },
+  {
+    "name": "영어Ⅱ",
+    "url": "https://edu.naver.com/subjects-guide/subjects/BQ8Y5QCCPR",
+    "majors": [
+      "영어교육과",
+      "영어영문학과",
+      "국제학부"
+    ]
+  },
+  {
+    "name": "운동과 건강",
+    "url": "https://edu.naver.com/subjects-guide/subjects/W1Y67KNDJ1",
+    "majors": [
+      "체육학과",
+      "체육교육과",
+      "사회체육학과",
+      "물리치료학과"
+    ]
+  },
+  {
+    "name": "융합과학 탐구",
+    "url": "https://edu.naver.com/subjects-guide/subjects/MF744WF3WY",
+    "majors": [
+      "물리학과",
+      "화학과",
+      "생물학과",
+      "지질학과",
+      "천문학과",
+      "전기전자공학과",
+      "기계공학과",
+      "화학공학과",
+      "신소재공학과",
+      "고분자공학과",
+      "생화학과",
+      "생명과학과",
+      "생명공학과",
+      "식품공학과",
+      "환경공학과",
+      "지구환경과학과",
+      "지구과학교육과"
+    ]
+  },
+  {
+    "name": "음악",
+    "url": "https://edu.naver.com/subjects-guide/subjects/TV2CMMGT96",
+    "majors": [
+      "음악학과",
+      "기악과",
+      "관현악과",
+      "성악과",
+      "작곡과",
+      "음악교육과"
+    ]
+  },
+  {
+    "name": "음악 감상과 비평",
+    "url": "https://edu.naver.com/subjects-guide/subjects/K9XH6NSPRT",
+    "majors": [
+      "음악학과",
+      "기악과",
+      "관현악과",
+      "성악과",
+      "작곡과",
+      "음악교육과"
+    ]
+  },
+  {
+    "name": "음악 연주와 창작",
+    "url": "https://edu.naver.com/subjects-guide/subjects/1D1C480BAH",
+    "majors": [
+      "음악학과",
+      "기악과",
+      "관현악과",
+      "성악과",
+      "작곡과",
+      "음악교육과"
+    ]
+  },
+  {
+    "name": "인간과 경제활동",
+    "url": "https://edu.naver.com/subjects-guide/subjects/TB96HKW7D1",
+    "majors": [
+      "경제학과",
+      "경영학과",
+      "무역학과",
+      "회계학과",
+      "관광경영학과",
+      "국제통상학과",
+      "금융보험학과",
+      "농업경제학과",
+      "부동산학과",
+      "세무학과"
+    ]
+  },
+  {
+    "name": "인간과 철학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/GD13Y4FK1D",
+    "majors": [
+      "철학과",
+      "윤리교육과",
+      "경제학과",
+      "윤리학과",
+      "사회학과",
+      "심리학과",
+      "문화인류학과"
+    ]
+  },
+  {
+    "name": "인공지능 기초",
+    "url": "https://edu.naver.com/subjects-guide/subjects/3651JR1VQZ",
+    "majors": [
+      "컴퓨터공학과",
+      "정보보호학과"
+    ]
+  },
+  {
+    "name": "전자기와 양자",
+    "url": "https://edu.naver.com/subjects-guide/subjects/8QBK4T9XM5",
+    "majors": [
+      "물리학과"
+    ]
+  },
+  {
+    "name": "정보",
+    "url": "https://edu.naver.com/subjects-guide/subjects/JFB7SHWXS1",
+    "majors": [
+      "컴퓨터공학과",
+      "전자공학과",
+      "로봇공학과",
+      "디지털콘텐츠학과"
+    ]
+  },
+  {
+    "name": "주제 탐구 독서",
+    "url": "https://edu.naver.com/subjects-guide/subjects/D751470GF2",
+    "majors": [
+      "국어국문학과",
+      "국어교육과",
+      "문헌정보학과",
+      "철학과",
+      "정치외교학과",
+      "신문방송학과",
+      "문화콘텐츠학과",
+      "심리학과"
+    ]
+  },
+  {
+    "name": "지구과학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/K2P53Z6A0K",
+    "majors": [
+      "지구환경과학과",
+      "지구과학교육과",
+      "지질학과",
+      "대기과학과",
+      "해양시스템학과",
+      "우주과학과",
+      "환경공학과",
+      "환경과학과",
+      "산림자원학과",
+      "지리학과",
+      "토목공학과"
+    ]
+  },
+  {
+    "name": "지구시스템과학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/FXK5QE4GQQ",
+    "majors": [
+      "지질학과",
+      "지구환경과학과",
+      "천문학과",
+      "에너지자원공학과",
+      "지구과학교육과",
+      "환경공학과",
+      "지리학과"
+    ]
+  },
+  {
+    "name": "진로와 직업",
+    "url": "https://edu.naver.com/subjects-guide/subjects/X7TM0X8AV8",
+    "majors": [
+      "교육학과"
+    ]
+  },
+  {
+    "name": "체육1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/YT5PJZSRH6",
+    "majors": [
+      "체육학과",
+      "체육교육과",
+      "사회체육학과",
+      "경호학과"
+    ]
+  },
+  {
+    "name": "체육2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/RR2FZ9QPNV",
+    "majors": [
+      "체육학과",
+      "체육교육과",
+      "사회체육학과",
+      "경호학과"
+    ]
+  },
+  {
+    "name": "통합과학1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/PXTZHY9WBX",
+    "majors": []
+  },
+  {
+    "name": "통합과학2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/N2EHX5G9TX",
+    "majors": []
+  },
+  {
+    "name": "통합사회1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/8EBEYTPMQS",
+    "majors": []
+  },
+  {
+    "name": "통합사회2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/P9KQ8YENBW",
+    "majors": []
+  },
+  {
+    "name": "한국사1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/A8AQWR4ZZB",
+    "majors": []
+  },
+  {
+    "name": "한국사2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/PPA6SMK57F",
+    "majors": []
+  },
+  {
+    "name": "한국지리 탐구",
+    "url": "https://edu.naver.com/subjects-guide/subjects/V3N4755NRF",
+    "majors": [
+      "도시공학과",
+      "도시계획학과",
+      "정치외교학과",
+      "경영학과",
+      "행정학과",
+      "사회학과",
+      "환경공학과",
+      "북한학과",
+      "사회복지학과",
+      "지리학과",
+      "지리교육과"
+    ]
+  },
+  {
+    "name": "행성우주과학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/8A89NTSSWQ",
+    "majors": [
+      "천문학과",
+      "우주과학과",
+      "항공우주공학과",
+      "지구환경과학과",
+      "지질학과",
+      "대기과학과",
+      "에너지자원공학과",
+      "환경공학과",
+      "지리학과"
+    ]
+  },
+  {
+    "name": "현대사회와 윤리",
+    "url": "https://edu.naver.com/subjects-guide/subjects/KA8HSC8D4R",
+    "majors": [
+      "윤리교육과",
+      "철학과",
+      "사회학과",
+      "정치외교학과",
+      "종교학과",
+      "문화인류학과"
+    ]
+  },
+  {
+    "name": "화법과 언어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/7089QTGEAV",
+    "majors": [
+      "국어국문학과",
+      "국어교육과",
+      "신문방송학과",
+      "언어학과",
+      "통번역학과",
+      "광고홍보학과"
+    ]
+  },
+  {
+    "name": "화학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/96JWQ5MX9E",
+    "majors": [
+      "화학과",
+      "화학공학과",
+      "신소재공학과",
+      "의예과",
+      "약학과",
+      "간호학과",
+      "식품영양학과",
+      "환경공학과"
+    ]
+  },
+  {
+    "name": "화학 반응의 세계",
+    "url": "https://edu.naver.com/subjects-guide/subjects/KPVZGYGDYA",
+    "majors": [
+      "화학과",
+      "생화학과",
+      "의예과",
+      "약학과",
+      "식품영양학과",
+      "환경화학과",
+      "화학교육과",
+      "나노공학과",
+      "신소재공학과"
+    ]
+  },
+  {
+    "name": "확률과 통계",
+    "url": "https://edu.naver.com/subjects-guide/subjects/ZHJ1H75YNE",
+    "majors": []
+  },
+  {
+    "name": "직무 의사소통",
+    "url": "https://edu.naver.com/subjects-guide/subjects/S088TKFF9G",
+    "majors": [
+      "경영학과",
+      "광고홍보학과",
+      "국어국문학과",
+      "심리학과",
+      "교육학과",
+      "법학과",
+      "행정학과"
+    ]
+  },
+  {
+    "name": "독서 토론과 글쓰기",
+    "url": "https://edu.naver.com/subjects-guide/subjects/PW95S1S7CA",
+    "majors": [
+      "국어국문학과",
+      "국어교육과",
+      "문예창작학과",
+      "신문방송학과",
+      "법학과",
+      "정치외교학과",
+      "교육학과",
+      "광고홍보학과"
+    ]
+  },
+  {
+    "name": "기본수학1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/B6NX1EJ4D6",
+    "majors": []
+  },
+  {
+    "name": "기본수학2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/BXRQFYKC1W",
+    "majors": []
+  },
+  {
+    "name": "경제 수학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/AS47NXNSCJ",
+    "majors": [
+      "경영학과",
+      "경제학과",
+      "통계학과"
+    ]
+  },
+  {
+    "name": "인공지능 수학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/8NTHABEMBW",
+    "majors": [
+      "산업공학과",
+      "언어학과",
+      "정보통신공학과",
+      "통계학과"
+    ]
+  },
+  {
+    "name": "직무 수학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/TCTKHS1FKK",
+    "majors": []
+  },
+  {
+    "name": "실용 통계",
+    "url": "https://edu.naver.com/subjects-guide/subjects/4KNY9H1ZNT",
+    "majors": []
+  },
+  {
+    "name": "기본영어1",
+    "url": "https://edu.naver.com/subjects-guide/subjects/K2VC39ZYS5",
+    "majors": []
+  },
+  {
+    "name": "기본영어2",
+    "url": "https://edu.naver.com/subjects-guide/subjects/Q6F9KRM1FX",
+    "majors": []
+  },
+  {
+    "name": "직무 영어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/0R9FT32N44",
+    "majors": [
+      "무역학과"
+    ]
+  },
+  {
+    "name": "정치",
+    "url": "https://edu.naver.com/subjects-guide/subjects/VDRBXSMQGF",
+    "majors": [
+      "정치외교학과",
+      "경찰행정학과",
+      "행정학과",
+      "법학과"
+    ]
+  },
+  {
+    "name": "법과 사회",
+    "url": "https://edu.naver.com/subjects-guide/subjects/SK9S26QMAB",
+    "majors": [
+      "법학과",
+      "세무학과",
+      "정치외교학과",
+      "경찰행정학과",
+      "행정학과",
+      "사회학과",
+      "사회복지학과",
+      "교육학과",
+      "사회교육과"
+    ]
+  },
+  {
+    "name": "경제",
+    "url": "https://edu.naver.com/subjects-guide/subjects/BA6S1VFFJE",
+    "majors": [
+      "경제학과",
+      "경영학과",
+      "무역학과",
+      "세무회계학과"
+    ]
+  },
+  {
+    "name": "윤리와 사상",
+    "url": "https://edu.naver.com/subjects-guide/subjects/0X75VQ67JZ",
+    "majors": [
+      "윤리교육과",
+      "철학과",
+      "사회학과",
+      "정치외교학과",
+      "종교학과",
+      "문화인류학과"
+    ]
+  },
+  {
+    "name": "인문학과 윤리",
+    "url": "https://edu.naver.com/subjects-guide/subjects/XT6E4STRGZ",
+    "majors": [
+      "윤리교육과",
+      "철학과",
+      "사회학과",
+      "정치외교학과",
+      "종교학과",
+      "문화인류학과"
+    ]
+  },
+  {
+    "name": "국제 관계의 이해",
+    "url": "https://edu.naver.com/subjects-guide/subjects/SVDA556PKP",
+    "majors": [
+      "정치외교학과",
+      "국제통상학과",
+      "국제학부",
+      "법학과",
+      "사회복지학과"
+    ]
+  },
+  {
+    "name": "금융과 경제생활",
+    "url": "https://edu.naver.com/subjects-guide/subjects/APGHTR2QKF",
+    "majors": [
+      "경영학과",
+      "경제학과",
+      "세무학과",
+      "회계학과",
+      "국제통상학과",
+      "금융보험학과",
+      "사회교육과"
+    ]
+  },
+  {
+    "name": "윤리문제 탐구",
+    "url": "https://edu.naver.com/subjects-guide/subjects/4D5FZV83KB",
+    "majors": [
+      "사회복지학과",
+      "사회학과",
+      "윤리교육과",
+      "철학과"
+    ]
+  },
+  {
+    "name": "생물의 유전",
+    "url": "https://edu.naver.com/subjects-guide/subjects/HKJ8XSBH1W",
+    "majors": [
+      "생명과학과",
+      "생명공학과",
+      "생물교육과",
+      "유전공학과",
+      "생화학과",
+      "의예과",
+      "약학과",
+      "한의예과",
+      "간호학과",
+      "식품영양학과",
+      "식품공학과"
+    ]
+  },
+  {
+    "name": "스포츠 과학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/9JGT61D751",
+    "majors": [
+      "체육학과",
+      "체육교육과",
+      "사회체육학과",
+      "물리치료학과"
+    ]
+  },
+  {
+    "name": "연극",
+    "url": "https://edu.naver.com/subjects-guide/subjects/SNT687TZA4",
+    "majors": [
+      "연극영화학과"
+    ]
+  },
+  {
+    "name": "음악과 미디어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/MYG37TE7ZA",
+    "majors": [
+      "음악학과",
+      "기악과",
+      "관현악과",
+      "성악과",
+      "작곡과",
+      "음악교육과"
+    ]
+  },
+  {
+    "name": "미술과 매체",
+    "url": "https://edu.naver.com/subjects-guide/subjects/HAQAXDNN59",
+    "majors": [
+      "미술학과",
+      "동양화과",
+      "서양화과",
+      "산업디자인학과",
+      "패션디자인학과"
+    ]
+  },
+  {
+    "name": "기술·가정",
+    "url": "https://edu.naver.com/subjects-guide/subjects/B603NPVBSZ",
+    "majors": [
+      "사회복지학과",
+      "아동가족학과",
+      "식품영양학과",
+      "기계공학과",
+      "자동차공학과",
+      "전기공학과",
+      "전자공학과",
+      "항공우주공학과",
+      "건축공학과",
+      "교통공학과",
+      "도시공학과",
+      "신소재공학과",
+      "에너지자원공학과",
+      "재료공학과"
+    ]
+  },
+  {
+    "name": "로봇과 공학세계",
+    "url": "https://edu.naver.com/subjects-guide/subjects/TWA2J8YJJH",
+    "majors": [
+      "로봇공학과",
+      "메카트로닉스공학과",
+      "기계공학과",
+      "자동차공학과",
+      "항공우주공학과",
+      "IT융합학과",
+      "컴퓨터공학과",
+      "정보통신공학과"
+    ]
+  },
+  {
+    "name": "생활과학 탐구",
+    "url": "https://edu.naver.com/subjects-guide/subjects/9PZB6JB8YP",
+    "majors": [
+      "패션디자인학과",
+      "식품공학과",
+      "식품영양학과",
+      "아동학과"
+    ]
+  },
+  {
+    "name": "데이터 과학",
+    "url": "https://edu.naver.com/subjects-guide/subjects/YRECFGRN2W",
+    "majors": [
+      "컴퓨터공학과",
+      "경영학과",
+      "산업공학과"
+    ]
+  },
+  {
+    "name": "창의 공학 설계",
+    "url": "https://edu.naver.com/subjects-guide/subjects/1XHSRH2KG8",
+    "majors": [
+      "기계공학과",
+      "로봇공학과",
+      "메카트로닉스공학과",
+      "산업디자인학과",
+      "건축학과",
+      "재료공학과",
+      "토목공학과"
+    ]
+  },
+  {
+    "name": "지식 재산 일반",
+    "url": "https://edu.naver.com/subjects-guide/subjects/8ETNKC0RZS",
+    "majors": [
+      "산업경영학과",
+      "경영학과",
+      "법학과",
+      "기술교육과"
+    ]
+  },
+  {
+    "name": "생애 설계와 자립",
+    "url": "https://edu.naver.com/subjects-guide/subjects/V14SZ4TWEV",
+    "majors": [
+      "교육학과",
+      "가정교육과",
+      "사회복지학과",
+      "간호학과",
+      "식품영양학과",
+      "행정학과",
+      "사회학과"
+    ]
+  },
+  {
+    "name": "아동발달과 부모",
+    "url": "https://edu.naver.com/subjects-guide/subjects/PS63R3JZ2K",
+    "majors": [
+      "아동학과",
+      "초등교육과",
+      "가정교육과",
+      "간호학과",
+      "사회복지학과",
+      "사회학과",
+      "심리학과"
+    ]
+  },
+  {
+    "name": "소프트웨어와 생활",
+    "url": "https://edu.naver.com/subjects-guide/subjects/KGTSHQ94X6",
+    "majors": [
+      "컴퓨터공학과",
+      "IT융합학과"
+    ]
+  },
+  {
+    "name": "독일어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/QJ71K8K46K",
+    "majors": []
+  },
+  {
+    "name": "프랑스어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/885HG1EDX6",
+    "majors": []
+  },
+  {
+    "name": "스페인어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/5AHCAD8VVN",
+    "majors": []
+  },
+  {
+    "name": "중국어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/7AW7B2321B",
+    "majors": []
+  },
+  {
+    "name": "일본어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/02HQRR3R30",
+    "majors": []
+  },
+  {
+    "name": "러시아어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/39GPYN7927",
+    "majors": []
+  },
+  {
+    "name": "아랍어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/QSERQ98ZZ2",
+    "majors": []
+  },
+  {
+    "name": "베트남어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/0SCPWHVNNC",
+    "majors": []
+  },
+  {
+    "name": "한문",
+    "url": "https://edu.naver.com/subjects-guide/subjects/HCNQ15KAMQ",
+    "majors": [
+      "한문학과",
+      "한문교육과",
+      "국어국문학과",
+      "한의예과",
+      "고고학과",
+      "문화인류학과",
+      "철학과",
+      "사학과",
+      "법학과",
+      "행정학과"
+    ]
+  },
+  {
+    "name": "독일어 회화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/VPB0JEFFPG",
+    "majors": []
+  },
+  {
+    "name": "프랑스어 회화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/2TH8HK05QA",
+    "majors": []
+  },
+  {
+    "name": "스페인어 회화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/93V4EBT09F",
+    "majors": []
+  },
+  {
+    "name": "중국어 회화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/774Z98YQD5",
+    "majors": []
+  },
+  {
+    "name": "일본어 회화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/D1FRGM9SPV",
+    "majors": []
+  },
+  {
+    "name": "러시아어 회화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/5XZKFC8XFS",
+    "majors": []
+  },
+  {
+    "name": "아랍어 회화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/GAAVCHRE27",
+    "majors": []
+  },
+  {
+    "name": "베트남어 회화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/6TW8689368",
+    "majors": []
+  },
+  {
+    "name": "심화 독일어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/HNJF7H7CZC",
+    "majors": []
+  },
+  {
+    "name": "심화 프랑스어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/JPE5W5MD4F",
+    "majors": []
+  },
+  {
+    "name": "심화 스페인어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/AYS2R7TKSS",
+    "majors": []
+  },
+  {
+    "name": "심화 중국어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/AKE3KH0YJ4",
+    "majors": []
+  },
+  {
+    "name": "심화 일본어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/1431DPW9RG",
+    "majors": []
+  },
+  {
+    "name": "심화 러시아어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/9N7CWV7RAD",
+    "majors": []
+  },
+  {
+    "name": "심화 아랍어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/PQZJRMV0JR",
+    "majors": []
+  },
+  {
+    "name": "심화 베트남어",
+    "url": "https://edu.naver.com/subjects-guide/subjects/SNG6YB5Y41",
+    "majors": []
+  },
+  {
+    "name": "한문 고전 읽기",
+    "url": "https://edu.naver.com/subjects-guide/subjects/GJ1WZFKZCT",
+    "majors": [
+      "한문학과",
+      "한문교육과",
+      "국어국문학과",
+      "한의예과",
+      "고고학과",
+      "문화인류학과",
+      "철학과",
+      "사학과",
+      "법학과",
+      "행정학과"
+    ]
+  },
+  {
+    "name": "독일어권 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/CWV7121M0T",
+    "majors": []
+  },
+  {
+    "name": "프랑스어권 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/GY92HCE6E2",
+    "majors": []
+  },
+  {
+    "name": "스페인어권 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/H1Z4RDVR8S",
+    "majors": []
+  },
+  {
+    "name": "중국 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/M9S24VZ8D5",
+    "majors": []
+  },
+  {
+    "name": "일본 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/BA0CTJ07D0",
+    "majors": []
+  },
+  {
+    "name": "러시아 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/MTKGZKARV3",
+    "majors": []
+  },
+  {
+    "name": "아랍 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/YT6HZAGMCK",
+    "majors": []
+  },
+  {
+    "name": "베트남 문화",
+    "url": "https://edu.naver.com/subjects-guide/subjects/TPVHCPMGY1",
+    "majors": []
+  },
+  {
+    "name": "언어생활과 한자",
+    "url": "https://edu.naver.com/subjects-guide/subjects/FGEMDA2R4V",
+    "majors": [
+      "한문학과",
+      "한문교육과",
+      "국어국문학과",
+      "한의예과",
+      "고고학과",
+      "문화인류학과",
+      "철학과",
+      "사학과",
+      "법학과",
+      "행정학과"
+    ]
+  },
+  {
+    "name": "인간과 심리",
+    "url": "https://edu.naver.com/subjects-guide/subjects/Y0TRJXCSQQ",
+    "majors": [
+      "심리학과",
+      "재활학과",
+      "교육학과",
+      "초등교육과"
+    ]
+  }
+]

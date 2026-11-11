@@ -59,7 +59,6 @@ html[data-theme] .demand-student .check:has(input:checked){background:var(--lit-
 html[data-theme] input:is([type="checkbox"],[type="radio"]){accent-color:var(--lit-accent)}
 html[data-theme] .demand-student .check:hover{background:var(--lit-soft)}
 html[data-theme] :is(.source-student,.feedback-status.is-applied){background:var(--lit-success-bg);color:var(--lit-success-ink)}
-html[data-theme] .literary-location{border-bottom:1px solid var(--lit-line);margin-bottom:18px;padding-bottom:14px}
 html[data-theme] :is(.page-actions,.head-actions) :is(a,button){min-height:44px}
 @media(max-width:700px){
 html[data-theme] :is(.main-content,.admission-shell,.card-shell,.viewer-shell,.dashboard-shell){width:calc(100% - 32px);margin-left:auto;margin-right:auto}
@@ -75,7 +74,6 @@ html[data-theme] :is(.planner-mode-buttons,.self-eval-mode-switch,.creative-eval
 html[data-theme] :is(button,a):focus-visible{outline-offset:2px}
 html[data-theme] :is(.self-eval-mode-switch,.creative-eval-type-switch) button{font-size:14px}
 html[data-theme] .military-panel>h2{font-size:19px}
-html[data-theme] .literary-location{margin-bottom:15px;padding-bottom:12px}
 }
 }
 @media screen{
@@ -135,3 +133,15 @@ html[data-theme] .edu-reference-links{display:grid;gap:0}
 html[data-theme] .mobile-course-name::after{content:'상세 보기 ⌄';display:block;font:500 11px/1.5 sans-serif;color:var(--lit-accent);margin-top:4px}
 html[data-theme] details[open] > .mobile-course-row .mobile-course-name::after{content:'접기 ⌃'}
 }
+
+@media screen{
+html[data-theme] .subject-major-connections{display:grid;gap:8px;margin:10px 0}
+html[data-theme] .subject-major-connections article{border-left:3px solid var(--lit-accent);padding:8px 12px;background:var(--lit-soft);color:var(--lit-ink)}
+html[data-theme] .subject-major-connections p{margin:5px 0 0;line-height:1.65}
+html[data-theme] .subject-guide-sources{margin-top:16px;border-top:1px solid var(--lit-line);padding-top:12px;font-size:12px;line-height:1.6}
+html[data-theme] .subject-guide-sources summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--lit-accent)}
+html[data-theme] .subject-guide-sources a{color:var(--lit-accent)}
+.curriculum-availability-note:empty{display:none}
+}
+
+@media screen{html[data-theme] .subject-library-shortcut{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 12px;margin:12px 0;padding:10px 12px;min-height:44px;border:1px solid var(--lit-line);border-radius:5px;color:var(--lit-accent);background:var(--lit-soft);font-size:13px;text-decoration:none}.subject-library-shortcut span{font-size:11px}}

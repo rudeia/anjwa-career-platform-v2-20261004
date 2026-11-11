@@ -2736,12 +2736,8 @@ function bindNavigation() {
   }));
   $('.home-search')?.addEventListener('submit', event => {
     event.preventDefault();
-    setView('curriculum');
-    $('#curriculumSearchPanel').hidden = false;
-    $('#curriculumSearchToggle').setAttribute('aria-expanded', 'true');
-    $('#curriculumSearch').value = $('#homeSubjectSearch').value.trim();
-    renderCurriculum();
-    $('#curriculumSearch').focus();
+    const query = $('#homeSubjectSearch').value.trim();
+    window.location.href = `./subject-library.html?q=${encodeURIComponent(query)}`;
   });
 }
 
@@ -2780,16 +2776,6 @@ function setView(viewId, updateUrl = true) {
 
 
 function syncDepartmentNavigation(viewId = state.activeView) {
-  const locationBar = document.getElementById('literaryLocation');
-  if (locationBar) {
-    locationBar.hidden = ['departments','home','military'].includes(viewId);
-    const militaryContext = viewId.startsWith('military') || (viewId === 'curriculum' && state.curriculumDepartment === 'military');
-    const homeButton = locationBar.querySelector('button');
-    homeButton.dataset.view = militaryContext ? 'military' : 'home';
-    homeButton.textContent = militaryContext ? '부사관과 홈' : '보통과 홈';
-    const currentHeading = document.getElementById(viewId)?.querySelector('h1,h2');
-    locationBar.querySelector('[aria-current]').textContent = currentHeading?.textContent || '';
-  }
   const militaryPage = ['military','militaryEntry','militarySpecialties','militaryCertificates','militaryCalendar'].includes(viewId);
   const militaryCurriculum = viewId === 'curriculum' && state.curriculumDepartment === 'military';
   document.body?.classList?.toggle('department-screen',viewId === 'departments' || militaryPage);
@@ -3091,7 +3077,8 @@ function bindSubjectInfoPopup() {
       openSubjectInfoPopup({
         name: infoButton.dataset.subjectName || "",
         area: infoButton.dataset.subjectArea || "",
-        category: infoButton.dataset.subjectCategory || ""
+        category: infoButton.dataset.subjectCategory || "",
+        subjectId: infoButton.dataset.subjectId || ""
       });
       return;
     }
@@ -5359,8 +5346,8 @@ function renderCurriculum() {
   const unconfirmed = allScopeCourses.some(course => getCourseOpeningStatus(course, semesterKeys) === 'unconfirmed');
   $('#curriculumAvailabilityNote').textContent = (state.curriculumOffering === 'open'
     ? '2027학년도 통합표에서 개설이 확인된 과목을 보여줍니다. 편성 학점은 목록을 좁혀도 바뀌지 않습니다.'
-    : curriculumData.openingConfirmed === false ? '입학생별 편성표의 과목과 학점을 보여줍니다.' : '전체 선택과목에는 미개설 과목도 포함됩니다. 실제 수강할 과목은 개설 표시와 선택 묶음을 함께 확인하세요.')
-    + (curriculumData.openingConfirmed === false ? ' 제공된 자료는 입학생별 편성표입니다. 실제 개설 확정표는 제공되지 않아 개설 여부를 표시하지 않습니다.' : unconfirmed ? ' 이 조회 범위에는 개설 여부가 아직 확인되지 않은 학기도 있습니다.' : '')
+    : curriculumData.openingConfirmed === false ? '' : '전체 선택과목에는 미개설 과목도 포함됩니다. 실제 수강할 과목은 개설 표시와 선택 묶음을 함께 확인하세요.')
+    + (curriculumData.openingConfirmed === false ? '' : unconfirmed ? ' 이 조회 범위에는 개설 여부가 아직 확인되지 않은 학기도 있습니다.' : '')
     + (plan.approvedSummary ? ` 확정 합계: 교과 ${plan.approvedSummary.courseCredits} + 창체 ${plan.approvedSummary.creativeCredits} = 총 ${plan.approvedSummary.totalCredits}학점.` : '')
     + ((plan.dataQualityNotes || []).length ? ' 원본 확인 필요: ' + plan.dataQualityNotes.join(' ') : '')
     + (state.curriculumDepartment === 'military' ? ' 부사관과 진로·임용 정보는 부사관과 홈에서 확인하세요.' : '');
@@ -6376,6 +6363,7 @@ function renderCourseNameWithInfo(course) {
         aria-label="${escapeHtml(`${course.name} 과목 안내 보기`)}"
         title="과목 안내 보기"
         data-subject-info
+        data-subject-id="${escapeAttribute(course.subjectId || "")}"
         data-subject-name="${escapeHtml(course.name)}"
         data-subject-area="${escapeHtml(course.area || "")}"
         data-subject-category="${escapeHtml(course.category || "")}">?</button>
@@ -6402,11 +6390,6 @@ function openSubjectInfoPopup(course) {
       ${guide.curriculum ? `<span>${escapeHtml(guide.curriculum)}</span>` : ""}
       ${(guide.badges || []).map((badge) => `<span class="subject-guide-badge">${escapeHtml(badge)}</span>`).join("")}
     </div>
-    <section class="subject-guide-opening">
-      <b>우리학교 개설 정보</b>
-      ${renderSubjectGuideOfferings(offerings, course.name)}
-    </section>
-    ${window.AnjwaEduResources?.subjectLink(course.name) || ""}
     <div class="subject-guide-summary-grid">
       <section class="subject-guide-summary-card is-learning">
         <span>무엇을 배우나요</span>
@@ -6419,10 +6402,14 @@ function openSubjectInfoPopup(course) {
         </div>
       </section>
     </div>
+    ${guide.learningTopics.length ? `<section class="subject-guide-detail-section"><b>주요 학습 내용</b><div class="subject-guide-chip-list">${guide.learningTopics.map(item=>`<span>${escapeHtml(item)}</span>`).join('')}</div></section>` : ''}
+    ${guide.majorConnections.length ? `<section class="subject-guide-detail-section"><b>학과와 이렇게 연결돼요</b><div class="subject-major-connections">${guide.majorConnections.map(item=>`<article><strong>${escapeHtml(item.major)}</strong><p>${escapeHtml(item.reason)}</p></article>`).join('')}</div><small>${escapeHtml(guide.majorBasis)}입니다. 대학의 필수·권장 과목 지정과는 구분하세요.</small></section>` : ''}
+    ${guide.relatedMajors.some(major=>!guide.majorConnections.some(item=>item.major===major)) ? `<details class="subject-guide-major-details"><summary>다른 관련 전공</summary><div class="subject-guide-chip-list">${guide.relatedMajors.filter(major=>!guide.majorConnections.some(item=>item.major===major)).map(major=>`<span>${escapeHtml(major)}</span>`).join('')}</div></details>` : ''}
     <section class="subject-guide-detail-section">
-      <b>수업에서 해볼 수 있는 활동</b>
+      <b>수업에서 해볼 수 있는 활동 · 예시</b>
       <ul>${guide.activities.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
     </section>
+    <details class="subject-guide-major-details"><summary>우리학교 편성 정보</summary>${renderSubjectGuideOfferings(offerings, course.name)}</details>
     ${guide.relatedSubjects.length ? `
       <section class="subject-guide-detail-section">
         <b>함께 살펴볼 과목</b>
@@ -6431,7 +6418,7 @@ function openSubjectInfoPopup(course) {
         </div>
       </section>
     ` : ""}
-    <details class="subject-guide-major-details">
+    ${guide.majorConnections.length ? "" : `<details class="subject-guide-major-details">
       <summary>관련 계열·학과 예시 보기</summary>
       <div class="subject-info-track-list">
         ${relation.tracks.map((track) => `
@@ -6443,11 +6430,14 @@ function openSubjectInfoPopup(course) {
           </section>
         `).join("")}
       </div>
-    </details>
+    </details>`}
+    <details class="subject-guide-sources"><summary>자료 출처 · 안내 기준</summary>
+    ${guide.sourceUrl ? `<p><a href="${escapeAttribute(guide.sourceUrl)}" target="_blank" rel="noopener noreferrer">네이버 에듀 · 제공 윈드폴리 ↗</a> · 확인 ${escapeHtml(guide.sourceCheckedAt)}. 과목 설명·학습 내용·관련 전공을 참고해 앱에서 재작성했습니다. 학과 연결 이유와 활동 예시는 앱의 해석·제안입니다.</p>` : ""}
     <p class="subject-guide-basis">안내 기준 · ${escapeHtml(guide.basisLabel)} · ${escapeHtml(formatDateLabel(subjectGuideData.updated))}</p>
     <p class="subject-info-caution">
       교육과정이 다른 과목은 학습 내용이 이어지더라도 같은 공식 과목으로 간주하지 않습니다. 이 안내는 과목 선택을 돕는 참고 자료이며 대학의 공식 핵심·권장 과목을 뜻하지 않습니다. 실제 수업 내용과 개설 여부는 학교 안내를, 대학 반영 여부는 해당 학년도 대학 자료를 확인하세요. 희망 진로와 직접 연결되지 않는 과목도 질문·자료 해석·토론·협업을 통해 학업역량과 공동체역량을 보여줄 수 있습니다.
     </p>
+    </details>
   `;
 
   modal.hidden = false;
@@ -6457,15 +6447,24 @@ function openSubjectInfoPopup(course) {
 
 function getSubjectGuideInfo(course, relation) {
   const profileName = window.ANJWA_STUDENT_MODEL?.catalogue.get(course.subjectId)?.name || course.name.replace(/\(온\)|\(고시외\)/g, "").trim();
-  const subjectProfile = subjectGuideData.subjectProfiles?.[profileName] || {};
+  const exactProfile = subjectGuideData.subjectProfiles?.[profileName] || Object.entries(subjectGuideData.subjectProfiles || {}).find(([name])=>name.replace(/\s/g,'')===profileName.replace(/\s/g,''))?.[1] || {};
+  const oldRevision = String(course.subjectId || '').startsWith('2015:');
+  const schoolSpecific = /고시외|전문/.test(course.name);
+  const subjectProfile = (oldRevision && exactProfile.curriculum === '2022 개정') || (schoolSpecific && exactProfile.sourceUrl) ? {} : exactProfile;
   const areaProfile = subjectGuideData.areaProfiles?.[course.area] || {};
   const groupProfile = subjectGuideData.groupProfiles?.[relation.title] || {};
   return {
     learning: subjectProfile.learning || courseDesignerData.subjectConcepts?.[profileName] || groupProfile.learning || areaProfile.learning || relation.description || getSubjectConnectionPoint(course),
     curriculum: subjectProfile.curriculum || "",
-    activities: groupProfile.activities || areaProfile.activities || ["수업 개념에서 질문 만들기", "자료를 찾아 근거 비교하기", "결과와 한계를 자신의 말로 정리하기"],
+    activities: subjectProfile.activities || groupProfile.activities || areaProfile.activities || ["수업 개념에서 질문 만들기", "자료를 찾아 근거 비교하기", "결과와 한계를 자신의 말로 정리하기"],
     competencies: groupProfile.competencies || areaProfile.competencies || ["질문 만들기", "자료 해석", "성찰"],
     relatedSubjects: groupProfile.relatedSubjects || [],
+    learningTopics: subjectProfile.learningTopics || [],
+    majorConnections: subjectProfile.majorConnections || [],
+    relatedMajors: subjectProfile.relatedMajors || [],
+    majorBasis: subjectProfile.majorBasis || '',
+    sourceUrl: subjectProfile.sourceUrl || '',
+    sourceCheckedAt: subjectProfile.sourceCheckedAt || '',
     badges: groupProfile.badges || ["과목 탐색"],
     basisLabel: subjectGuideData.basisLabel || "교육과정·전공 연계 참고"
   };
