@@ -1,0 +1,98 @@
+[
+  {
+    "key": "incoming2026",
+    "name": "융합과학 탐구",
+    "term": "3-2",
+    "plan": {
+      "3": {
+        "2": {
+          "regular": [
+            {
+              "id": "2026학년도_신입생_87_융합과학_탐구",
+              "credits": 4,
+              "snapshot": {
+                "name": "융합과학 탐구",
+                "credits": 4,
+                "section": "학생선택(3학년)",
+                "deliveryMode": "classroom",
+                "creditTreatment": "regular",
+                "group": {
+                  "count": 3,
+                  "ids": [
+                    "2026학년도_신입생_76_한국지리_탐구",
+                    "2026학년도_신입생_77_여행지리",
+                    "2026학년도_신입생_78_역사로_탐구하는_현대_세계",
+                    "2026학년도_신입생_79_행성우주과학",
+                    "2026학년도_신입생_87_융합과학_탐구"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "key": "incoming2027",
+    "name": "인간과 철학",
+    "term": "3-2",
+    "plan": {
+      "3": {
+        "2": {
+          "regular": [
+            {
+              "id": "2027학년도_신입생_84_인간과_철학",
+              "credits": 3,
+              "snapshot": {
+                "name": "인간과 철학",
+                "credits": 3,
+                "section": "학생선택(3학년)",
+                "deliveryMode": "classroom",
+                "creditTreatment": "regular",
+                "group": {
+                  "count": 1,
+                  "ids": [
+                    "2027학년도_신입생_84_인간과_철학",
+                    "2027학년도_신입생_85_논술"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "key": "incoming2025",
+    "name": "미술 창작",
+    "term": "2-1",
+    "plan": {
+      "2": {
+        "1": {
+          "regular": [
+            {
+              "id": "2025학년도_신입생_38_미술_창작",
+              "credits": 2,
+              "snapshot": {
+                "name": "미술 창작",
+                "credits": 2,
+                "section": "학교지정",
+                "deliveryMode": "classroom",
+                "creditTreatment": "regular",
+                "group": {
+                  "count": 1,
+                  "ids": [
+                    "2025학년도_신입생_38_미술_창작",
+                    "2025학년도_신입생_39_음악_연주와_창작"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+]

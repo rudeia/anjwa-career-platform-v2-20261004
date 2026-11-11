@@ -1,0 +1,137 @@
+/* 내부 화면: 첫 화면과 같은 종이·회보라·문집 제목을 공유합니다. 인쇄는 기존 양식을 유지합니다. */
+@font-face{font-family:AnjwaInteriorSerif;src:url('./assets/home-design/home-heading-serif.woff2') format('woff2');font-weight:600;font-display:swap}
+@media screen{
+html[data-theme]{--lit-radius:5px;--lit-warning-bg:#fff1d8;--lit-warning-ink:#765116;--lit-error-bg:#fbeae7;--lit-error-ink:#9b373b;--lit-success-bg:#e7f0e9;--lit-success-ink:#285e42;--shadow:none;--radius:5px}
+html[data-theme="dark"]{--lit-warning-bg:#453824;--lit-warning-ink:#f0d19c;--lit-error-bg:#4b2d35;--lit-error-ink:#ffc0c3;--lit-success-bg:#263e32;--lit-success-ink:#b0debd}
+html[data-theme] body{font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;line-height:1.6}
+html[data-theme] :is(.admission-shell,.card-shell,.viewer-shell){width:min(1120px,calc(100% - 40px))}
+/* 페이지 제목은 명조, 본문과 조작부는 산세리프로 구분합니다. */
+html[data-theme] :is(h1,.section-head h2,.section-title-wrap h2){font-family:AnjwaInteriorSerif,'AppleMyungjo','Batang',serif;font-weight:600;color:var(--lit-ink);letter-spacing:-.65px;line-height:1.4}
+html[data-theme] :is(.section-head,.page-head,.viewer-head,.dashboard-head,.military-heading){border-bottom:1px solid var(--lit-line);padding-bottom:18px;margin-bottom:20px;gap:14px}
+html[data-theme] :is(.section-head,.page-head,.viewer-head,.dashboard-head) p{color:var(--lit-muted);line-height:1.7}
+html[data-theme] :is(.eyebrow,.label,.military-label,.demand-eyebrow,.page-head .eyebrow){color:var(--lit-accent);font-size:12px;font-weight:600;letter-spacing:.25px}
+html[data-theme] :is(.section-title-row,.section-title-wrap){min-width:0;gap:10px}
+html[data-theme] :is(.title-planner-icon,.title-topic-icon,.title-designer-icon,.title-self-eval-icon,.launch-icon){background-color:var(--lit-soft);color:var(--lit-accent);border-color:var(--lit-line);border-radius:5px;box-shadow:none}
+html[data-theme] :is(.planner-pencil,.self-eval-spark){color:var(--lit-accent)}
+html[data-theme] :is(.planner-mode-panel,.planner-summary-panel,.planner-fixed-panel,.planner-mine-panel,.planner-choice-head,.semester-board,.course-designer-setup,.course-designer-results,.course-designer-review,.course-designer-exploration,.course-designer-compare-card,.course-designer-connect-step,.course-designer-grade-card,.topic-card,.topic-filter-panel,.topic-guide-grid article,.subject-info-section,.subject-info-track-card,.admission-detail-guide,.admission-summary-grid>div,.academic-profile,.grade-records-area,.university-grade-calculator,.region-explorer,.region-map-panel,.region-university-panel,.search-filters,.university-card,.class-toolbar,.student-pane,.detail-pane,.gate-panel,.student-file-bar,.card-status,.provenance-panel>div,.demand-student .panel,.demand-student .condition,.self-eval-side-panel,.self-eval-main-panel,.workspace-current-subject){background:var(--lit-surface);border:1px solid var(--lit-line);border-radius:var(--lit-radius);box-shadow:none;color:var(--lit-ink)}
+html[data-theme] :is(.planner-mode-panel,.planner-summary-panel,.course-designer-setup,.course-designer-results,.course-designer-review,.topic-filter-panel,.demand-student .panel,.gate-panel){padding:18px}
+html[data-theme] :is(.curriculum-filter-panel,.subject-list-panel,.military-panel,.military-mini,.military-official,.military-controls,.calendar-day-details){border-color:var(--lit-line);border-radius:var(--lit-radius);box-shadow:none}
+html[data-theme] :is(.curriculum-results-head,.military-panel>h2,.military-mini>h2,.military-official>h3){color:var(--lit-ink)}
+html[data-theme] :is(.planner-mode-panel h3,.planner-summary-panel h3,.military-panel h2,.self-eval-side-panel h3,.course-designer-setup h3,.course-designer-results h3){font-family:inherit;font-size:18px;line-height:1.5;letter-spacing:-.25px}
+/* 주요 동작은 채운 버튼, 보조 동작은 얇은 테두리로 구분합니다. */
+html[data-theme] :is(.primary-button,.primary,.planner-demand-link,.military-primary,.search-link,.card-link,.region-map-button.is-selected){background:var(--lit-accent);color:var(--lit-on-accent);border:1px solid var(--lit-accent);border-radius:var(--lit-radius);box-shadow:none}
+html[data-theme] :is(.secondary-button,.link-button,.reset-button,.home-button,.home-link,.print-button,.file-button,.demand-back,.ghost-button,.military-button,.military-link,.subject-info-button,.curriculum-search-toggle,.course-designer-control-grid button){background:var(--lit-surface);color:var(--lit-ink);border:1px solid var(--lit-line);border-radius:var(--lit-radius);box-shadow:none}
+html[data-theme] :is(.planner-control-row,.self-eval-control-row,.student-draft-controls,.creative-eval-control-row,.head-actions,.page-actions,.detail-actions){gap:8px}
+html[data-theme] :is(input,select,textarea){border-radius:var(--lit-radius);border-color:var(--lit-line);background:var(--lit-surface);color:var(--lit-ink);box-shadow:none}
+html[data-theme] textarea{line-height:1.8;padding:12px}
+html[data-theme] :is(.planner-mode-buttons,.self-eval-mode-switch,.creative-eval-type-switch,.course-designer-step-tabs,.recommendation-view-tabs,.search-mode-switch,.view-switch){background:transparent;box-shadow:none;gap:7px;border-color:var(--lit-line);border-radius:var(--lit-radius)}
+html[data-theme] :is(.planner-mode-buttons button,.self-eval-mode-switch button,.creative-eval-type-switch button,.course-designer-step-tabs button,.course-designer-option-tab,.course-designer-status-switch button,.course-designer-exploration-button,.course-designer-interest-button,.recommendation-view-tabs button,.search-mode-switch button,.view-switch button,.military-tabs button,.military-subnav button,.in-page-tabs a){background:var(--lit-surface);color:var(--lit-ink);border:1px solid var(--lit-line);border-radius:var(--lit-radius);box-shadow:none}
+html[data-theme] :is(button.active,button.is-active,button.is-selected,button[aria-pressed="true"],button[aria-selected="true"],button[aria-current="page"],.in-page-tabs a.active){background:var(--lit-accent);color:var(--lit-on-accent);border-color:var(--lit-accent);box-shadow:none}
+html[data-theme] :is(.course-designer-step-tabs button.active,.course-designer-option-tab.active) :is(span,strong){background:transparent;color:inherit}
+html[data-theme] :is(.course-designer-path-guide,.course-designer-scope-note,.course-designer-option-intro,.course-designer-suggested-label,.subject-info-major-list span,.course-designer-compare-tags span,.topic-keyword-row span,.military-chips li,.military-ranks li,.source-note,.slot-notice,.storage-note,.privacy-note,.demand-notice,.demand-student #demandContext){background:var(--lit-soft);color:var(--lit-ink);border-color:var(--lit-line);border-radius:var(--lit-radius);box-shadow:none}
+html[data-theme] :is(.course-designer-path-guide,.source-note,.slot-notice,.storage-note,.privacy-note,.demand-notice){border-left:3px solid var(--lit-accent)}
+html[data-theme] :is(.source-note span,.slot-notice span,.privacy-note p,.storage-note p,.course-designer-scope-note p,.course-designer-path-guide p){color:var(--lit-muted)}
+html[data-theme] :is(.course-designer-suggested-label,.course-designer-option-code,.course-designer-connect-step>span,.course-designer-compare-card>span,.course-designer-grade-card>header>span,.course-designer-exploration-head>strong,.course-designer-interest-head>strong,.topic-subject-badge,.topic-grade-badge){background:var(--lit-soft);color:var(--lit-accent);border-color:var(--lit-line)}
+html[data-theme] :is(.planner-save-status,.student-save-help,.self-eval-status,.creative-eval-example-toolbar){background:transparent;border-color:var(--lit-line);color:var(--lit-muted);box-shadow:none}
+html[data-theme] :is(.planner-instruction,.admission-basis-note,.admission-detail-guide,.admission-tone-holistic .admission-detail-guide){background:var(--lit-soft);color:var(--lit-ink);border-color:var(--lit-line);box-shadow:none}
+html[data-theme] :is(.launch-card,.designer-launch-card){background:var(--lit-surface)!important;color:var(--lit-ink);border:1px solid var(--lit-line);border-radius:var(--lit-radius);box-shadow:none}
+html[data-theme] .launch-card:hover{border-color:var(--lit-accent);box-shadow:none}
+html[data-theme] .launch-card strong{color:var(--lit-ink)}
+html[data-theme] .launch-card>span:last-child{color:var(--lit-muted)}
+html[data-theme] :is(.mobile-choice-heading,.mobile-course-extra,.academic-profile,.class-summary>div,.student-row.is-active,.region-university-list button:hover,.student-row:hover){background:var(--lit-soft);color:var(--lit-ink);border-color:var(--lit-line)}
+html[data-theme] :is(table,th,td,.mobile-course-row,.mobile-table-head){border-color:var(--lit-line)}
+html[data-theme] :is(th,.mobile-table-head){background:var(--lit-soft);color:var(--lit-muted)}
+html[data-theme] :is(.calendar-weekdays,.calendar-week){background:var(--lit-soft);color:var(--lit-ink)}
+html[data-theme] .calendar-days button[aria-pressed="true"]{background:var(--lit-soft);color:var(--lit-ink);box-shadow:inset 0 0 0 2px var(--lit-accent)}
+html[data-theme] .calendar-days button[aria-pressed="true"] small{color:var(--lit-muted)}
+html[data-theme] .app-bottom-nav .nav-button.active{background:var(--lit-soft);color:var(--lit-accent);border-color:var(--lit-line)}
+html[data-theme] :is(.military-question,.calendar-course-flow summary,.topic-level-badge.advanced){background:var(--lit-soft);color:var(--lit-accent);border-color:var(--lit-line)}
+html[data-theme] :is(.pwa-guide-dialog,.subject-info-dialog,.compare-dialog-shell,.course-designer-dialog,.planner-choice-dialog,.confirm-dialog){background:var(--lit-surface);color:var(--lit-ink);border:1px solid var(--lit-line);border-radius:7px;box-shadow:0 12px 40px #0002}
+html[data-theme] :is(.subject-info-close,.pwa-guide-close){background:var(--lit-soft);color:var(--lit-ink);border-color:var(--lit-line);border-radius:5px}
+html[data-theme] :is(.subject-info-dialog h2,.pwa-guide-dialog h2){font-family:AnjwaInteriorSerif,'AppleMyungjo','Batang',serif;font-size:23px}
+/* 주의·오류·완료·모집 단계의 색은 의미를 유지합니다. */
+html[data-theme] :is(.review-notice,.subject-info-caution,.topic-caution-panel,.calculator-verification-note,.calculator-empty,.calculator-error-summary,.course-designer-version-notice){background:var(--lit-warning-bg);color:var(--lit-warning-ink);border-color:var(--lit-warning-ink);border-radius:var(--lit-radius);box-shadow:none}
+html[data-theme] :is(.review-notice span,.topic-caution-panel p,.subject-info-caution p,.calculator-verification-note p){color:var(--lit-warning-ink)}
+html[data-theme] :is(.danger-button,.delete-button){background:var(--lit-error-bg);color:var(--lit-error-ink);border:1px solid var(--lit-error-ink);border-radius:var(--lit-radius)}
+html[data-theme] :is(.calculator-error-summary,[aria-invalid="true"]){border-color:var(--lit-error-ink)}
+html[data-theme] .calculator-error-summary{background:var(--lit-error-bg);color:var(--lit-error-ink)}
+html[data-theme] .demand-student .check:has(input:checked){background:var(--lit-soft);border-color:var(--lit-accent);color:var(--lit-ink)}
+html[data-theme] input:is([type="checkbox"],[type="radio"]){accent-color:var(--lit-accent)}
+html[data-theme] .demand-student .check:hover{background:var(--lit-soft)}
+html[data-theme] :is(.source-student,.feedback-status.is-applied){background:var(--lit-success-bg);color:var(--lit-success-ink)}
+html[data-theme] .literary-location{border-bottom:1px solid var(--lit-line);margin-bottom:18px;padding-bottom:14px}
+html[data-theme] :is(.page-actions,.head-actions) :is(a,button){min-height:44px}
+@media(max-width:700px){
+html[data-theme] :is(.main-content,.admission-shell,.card-shell,.viewer-shell,.dashboard-shell){width:calc(100% - 32px);margin-left:auto;margin-right:auto}
+html[data-theme] :is(.admission-shell,.card-shell,.viewer-shell,.dashboard-shell){padding-top:22px}
+html[data-theme] :is(.section-head,.page-head,.viewer-head,.dashboard-head,.military-heading){padding-bottom:14px;margin-bottom:16px;gap:10px}
+html[data-theme] :is(.page-head,.viewer-head,.dashboard-head){flex-wrap:wrap}
+html[data-theme] :is(.page-head,.viewer-head,.dashboard-head,.gate-panel) h1{font-size:27px}
+html[data-theme] :is(.section-head h2,.section-title-wrap h2){font-size:25px}
+html[data-theme] :is(.section-head,.page-head,.viewer-head,.dashboard-head) p{font-size:14px}
+html[data-theme] :is(.planner-mode-panel,.planner-summary-panel,.course-designer-setup,.course-designer-results,.course-designer-review,.topic-filter-panel,.demand-student .panel,.gate-panel){padding:15px}
+html[data-theme] :is(.head-actions,.page-actions){width:100%;justify-content:flex-start;flex-wrap:wrap}
+html[data-theme] :is(.planner-mode-buttons,.self-eval-mode-switch,.creative-eval-type-switch,.course-designer-step-tabs,.search-mode-switch,.view-switch){gap:6px}
+html[data-theme] :is(button,a):focus-visible{outline-offset:2px}
+html[data-theme] :is(.self-eval-mode-switch,.creative-eval-type-switch) button{font-size:14px}
+html[data-theme] .military-panel>h2{font-size:19px}
+html[data-theme] .literary-location{margin-bottom:15px;padding-bottom:12px}
+}
+}
+@media screen{
+html[data-theme] :is(#recommendBox,.planner-next-target,.course-designer-guidance){background:var(--lit-soft);color:var(--lit-muted);border:1px solid var(--lit-line);border-radius:5px;box-shadow:none}
+html[data-theme] #recommendBox strong{color:var(--lit-ink)}
+html[data-theme] :is(.course-card,.self-eval-form,.creative-eval-form,.self-eval-question,.workspace-context-bar){background:var(--lit-surface);color:var(--lit-ink);border-color:var(--lit-line);border-radius:5px;box-shadow:none}
+html[data-theme] .quick-action-pair button{background:var(--lit-surface);color:var(--lit-ink);border-color:var(--lit-line);border-radius:5px;font-weight:600}
+html[data-theme] :is(.course-pool-meta,.course-pool-status){color:var(--lit-muted)}
+@media(max-width:700px){html[data-theme] .main-content{padding-left:0;padding-right:0}}
+}
+@media screen{
+html[data-theme] :is(.student-draft-controls,.course-designer-document-bar){background:var(--lit-surface);color:var(--lit-ink);border:1px solid var(--lit-line);border-radius:5px;box-shadow:none}
+html[data-theme] .student-draft-controls{padding:15px}
+@media(max-width:700px){html[data-theme] :is(.self-eval-control-row,.creative-eval-control-row){grid-template-columns:1fr}}
+}
+@media screen{
+html[data-theme] .course-designer-document-bar{padding:14px}
+html[data-theme] :is(.search-year-control,.related-search-control p){background:var(--lit-soft);color:var(--lit-ink);border-left-color:var(--lit-accent)}
+html[data-theme] :is(.region-kicker,.region-selection-summary span){color:var(--lit-accent)}
+html[data-theme] [data-demand-teacher] :is(.panel,.gate){background:var(--lit-surface);color:var(--lit-ink);border-color:var(--lit-line);border-radius:5px;box-shadow:none}
+html[data-theme] .gate input{font-size:16px}
+@media(min-width:1024px){body:has(.app-bottom-nav) :is(.admission-shell,.card-shell,.viewer-shell){padding-top:104px}}
+@media(max-width:1023px){body:has(.app-bottom-nav) :is(.admission-shell,.card-shell,.viewer-shell){padding-bottom:110px}}
+}
+@media screen{
+html[data-theme] #courseDesigner :is(.course-designer-interest-button.active,.course-designer-exploration-button.active,.course-designer-option-tab.active,.course-designer-status-switch button.active){background:var(--lit-accent);color:var(--lit-on-accent);border-color:var(--lit-accent);box-shadow:none}
+html[data-theme] #courseDesigner :is(.course-designer-interest-button.active,.course-designer-exploration-button.active) :is(b,strong,span,small){color:var(--lit-on-accent)}
+html[data-theme] #courseDesigner :is(.course-designer-interest-button.active,.course-designer-exploration-button.active)::after{color:var(--lit-on-accent)}
+}
+@media screen{
+html[data-theme] #courseDesigner .course-designer-add-button{background:var(--lit-accent);color:var(--lit-on-accent);border-color:var(--lit-accent);border-radius:5px;box-shadow:none}
+html[data-theme] .topic-ai-panel{background:var(--lit-surface);color:var(--lit-ink);border-color:var(--lit-line);border-radius:5px;box-shadow:none}
+}
+@media screen{html[data-theme] :is(.region-map-button.is-selected,.region-university-list button.is-selected) :is(span,small,b,strong){color:inherit}}
+
+/* Compact headings and reference links retain the shared book palette. */
+@media screen {
+html[data-theme] .section-title-wrap{width:100%}
+html[data-theme] .section-title-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:10px;width:100%}
+html[data-theme] .section-title-row :is(h1,h2){flex:1;min-width:0;margin:0}
+html[data-theme] .section-title-row > button{flex:0 0 auto;width:auto;min-height:44px;white-space:nowrap;margin:0;padding:10px 12px;font-size:13px}
+html[data-theme] .edu-reference{margin:16px 0;padding:14px;border:1px solid var(--lit-line);border-radius:5px;background:var(--lit-soft);color:var(--lit-ink);line-height:1.65}
+html[data-theme] .edu-reference a{color:var(--lit-accent);font-weight:650;text-underline-offset:3px;display:inline-flex;align-items:center;min-height:44px}
+.edu-reference small{display:block;margin-top:6px;font-size:12px}
+.edu-reference-links{display:flex;flex-wrap:wrap;gap:4px 20px}
+@media(max-width:700px){
+html[data-theme] .section-title-row :is(h1,h2){font-size:22px;line-height:1.35}
+html[data-theme] .section-title-row > button{font-size:12px;padding:8px 10px}
+html[data-theme] .planner-control-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:100%;align-items:end}
+html[data-theme] .planner-control-row > :is(label:first-child,.planner-save-status){grid-column:1/-1}
+html[data-theme] .planner-control-row > *{min-width:0;width:100%}
+html[data-theme] .planner-control-row :is(button,a,summary,input,select){min-height:44px}
+html[data-theme] .edu-reference-links{display:grid;gap:0}
+}
+}
+@media screen and (max-width:700px){
+html[data-theme] .mobile-course-name::after{content:'상세 보기 ⌄';display:block;font:500 11px/1.5 sans-serif;color:var(--lit-accent);margin-top:4px}
+html[data-theme] details[open] > .mobile-course-row .mobile-course-name::after{content:'접기 ⌃'}
+}

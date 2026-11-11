@@ -5,23 +5,72 @@ function message(s){$('demandMessage').textContent=s;}
 function selectedRecords(){return [...candidates].flatMap(([key,items])=>items.length===1?[items[0]]:resolved.has(key)?[items[resolved.get(key)]]:[]);}
 function conflicts(){return [...candidates].filter(([key,items])=>items.length>1&&!resolved.has(key)).length;}
 const isConditional=c=>c.deliveryMode==='online'||c.offeringStatus==='review';
-async function contextChanged(){
- const token=++generation;if(!teacher){$('applicationPreview').innerHTML='';if($('printOnly'))$('printOnly').innerHTML='';}
- const planKey=$('demandPlan').value,grade=$('demandGrade').value,round=$('demandRound').value.trim();
- const plan=plans[planKey],digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify({courses:plan.courses,summary:plan.summary})));if(token!==generation)return;
- const version=[...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join(''),surveyId=`${planKey}-grade${grade}-year${Number(planKey.replace('incoming',''))+Number(grade)-2}`;
- const next={planKey,grade,round,version,surveyId,groups:D.groups(plan,grade)};if(teacher){legacyCtx=next;if(!batches.size)ctx=next;}else ctx=next;
- $('demandContext').textContent=`${planKey.replace('incoming','')} 입학생 · ${grade}학년 1·2학기 · 이전 학년도 ${Number(planKey.replace('incoming',''))+Number(grade)-2}년 2학기 수합 · 차수 ${round||'미입력'}`;
- if(planKey==='incoming2024'){$('demandContext').textContent+=' · 원자료 불일치 확인이 필요하여 신청 파일 출력을 제한합니다.';}
- answers=Object.fromEntries(ctx.groups.map(g=>[g.id,{groupId:g.id,decision:'unknown',primary:[],alternative:[],conditions:{}}]));
- if(teacher){renderTeacher();}else renderGroups();message('');
+const DRAFT_KEY='anjwa.courseDemand.tabDraft.v1';
+let draftStore={entries:{}},dirty=false,downloadedSignature='',contextBusy=false;
+if(!teacher){try{const saved=JSON.parse(sessionStorage.getItem(DRAFT_KEY)||'null');if(saved&&saved.entries&&typeof saved.entries==='object')draftStore=saved;}catch{message('이 탭의 임시저장 내용을 읽지 못했습니다. 저장한 엑셀이 있으면 불러오세요.');}}
+function draftKey(context){return JSON.stringify([context.planKey,context.grade,context.version]);}
+function studentSignature(){return JSON.stringify([ctx?.round,$('demandNumber').value,$('demandName').value,$('demandStatus').value,answers]);}
+function hasStudentInput(){return !!($('demandNumber').value||$('demandName').value||$('demandStatus').value==='withdrawn'||Object.values(answers).some(a=>a.decision!=='unknown'||a.primary.length||a.alternative.length));}
+function clearPreview(){ $('applicationPreview').innerHTML='';if($('printOnly'))$('printOnly').innerHTML=''; }
+function rememberDraft(){
+ if(teacher||!ctx)return;
+ dirty=hasStudentInput()&&studentSignature()!==downloadedSignature;
+ const entry={number:$('demandNumber').value,name:$('demandName').value,status:$('demandStatus').value,answers:structuredClone(answers),context:D.snapshot(ctx),downloadedSignature};
+ draftStore.entries[draftKey(ctx)]=entry;draftStore.current={planKey:ctx.planKey,grade:ctx.grade,round:ctx.round};
+ try{sessionStorage.setItem(DRAFT_KEY,JSON.stringify(draftStore));if($('draftStatus'))$('draftStatus').textContent=dirty?'이 탭에 임시 보관 중입니다. 제출하려면 엑셀을 내려받아 학교에 전달하세요.':'학교 접수와 최종 수강 확정은 별도입니다. 임시저장은 이 탭에서만 유지됩니다.';}
+ catch{if($('draftStatus'))$('draftStatus').textContent='임시저장을 사용할 수 없습니다. 화면을 닫기 전에 엑셀을 내려받으세요.';}
 }
+function studentChanged(){clearPreview();rememberDraft();}
+function renderPreviousDrafts(){
+ const el=$('previousDrafts');if(!el)return;
+ const archived=Object.entries(draftStore.entries).filter(([key])=>{try{const [planKey,grade,version]=JSON.parse(key);return planKey===ctx.planKey&&grade===ctx.grade&&version!==ctx.version;}catch{return false;}});
+ el.hidden=!archived.length;
+ el.innerHTML=archived.length?'<summary>교육과정 변경 전 임시 입력 보기</summary><p>이전 선택은 따로 보관했습니다. 현재 편성과 조건이 달라 자동 적용하지 않았습니다. 아래 내용을 참고하여 지금 신청할 과목을 다시 골라 주세요.</p>'+archived.map(([,entry])=>{
+  const courses=(entry.context?.groups||[]).flatMap(g=>g.courses),find=id=>courses.find(c=>c.id===id)?.name||plans[ctx.planKey].courses.find(c=>c.id===id)?.name||'현재 편성에서 이름을 확인할 수 없는 과목';
+  return `<p>${e(entry.number||'학번 미입력')} · ${e(entry.name||'이름 미입력')}</p><ul>${Object.values(entry.answers||{}).map(a=>`<li>우선 희망: ${(a.primary||[]).map(find).map(e).join(', ')||'미정'}${a.alternative?.length?'<br>대체 희망: '+a.alternative.map(find).map(e).join(', '):''}</li>`).join('')}</ul>`;
+ }).join(''):'';
+}
+
+function renderContextLabel(){
+ $('demandContext').textContent=`${ctx.planKey.replace('incoming','')} 입학생 · ${ctx.grade}학년 1·2학기 · 이전 학년도 ${Number(ctx.planKey.replace('incoming',''))+Number(ctx.grade)-2}년 2학기 수합 · 차수 ${ctx.round||'미입력'}`;
+ if(ctx.planKey==='incoming2024')$('demandContext').textContent+=' · 원자료 불일치 확인이 필요하여 신청 파일 출력을 제한합니다.';
+}
+async function contextChanged(){
+ const token=++generation,planKey=$('demandPlan').value,grade=$('demandGrade').value,round=$('demandRound').value.trim();
+ if(!teacher&&ctx){
+  if((planKey!==ctx.planKey||grade!==ctx.grade)&&dirty&&!confirm('신청 대상이 달라집니다. 지금 입력은 이 탭에 임시 보관하고 다른 입학생·학년으로 이동할까요?')){
+   $('demandPlan').value=ctx.planKey;$('demandGrade').value=ctx.grade;$('demandRound').value=ctx.round;contextBusy=false;for(const id of ['studentXlsx','studentPdf'])$(id).disabled=false;return;
+  }
+  rememberDraft();
+ }
+ if(!teacher){contextBusy=true;for(const id of ['studentXlsx','studentPdf'])$(id).disabled=true;clearPreview();}
+ try{
+  const plan=plans[planKey],digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify({courses:plan.courses,summary:plan.summary})));if(token!==generation)return;
+  const version=[...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join(''),surveyId=`${planKey}-grade${grade}-year${Number(planKey.replace('incoming',''))+Number(grade)-2}`;
+  const next={planKey,grade,round:teacher?round:$('demandRound').value.trim(),version,surveyId,groups:D.groups(plan,grade)};
+  const same=!teacher&&ctx&&draftKey(ctx)===draftKey(next),previousAnswers=answers;
+  if(teacher){legacyCtx=next;if(!batches.size)ctx=next;}else ctx=next;
+  answers=Object.fromEntries(ctx.groups.map(g=>[g.id,{groupId:g.id,decision:'unknown',primary:[],alternative:[],conditions:{}}]));
+  let restored=false;
+  if(!teacher){
+   const saved=draftStore.entries[draftKey(ctx)];
+   if(same)answers=previousAnswers;
+   else if(saved&&saved.answers){
+    for(const g of ctx.groups){const a=saved.answers[g.id],ids=new Set(g.courses.map(c=>c.id));if(a&&['unknown','decided','considering','help'].includes(a.decision)&&Array.isArray(a.primary)&&Array.isArray(a.alternative)&&a.primary.every(id=>ids.has(id))&&a.alternative.every(id=>ids.has(id))&&a.conditions&&typeof a.conditions==='object')answers[g.id]=structuredClone(a);}
+    $('demandNumber').value=String(saved.number||'');$('demandName').value=String(saved.name||'');$('demandStatus').value=saved.status==='withdrawn'?'withdrawn':'active';downloadedSignature=String(saved.downloadedSignature||'');restored=true;
+   }else{downloadedSignature='';}
+  }
+  if(teacher){const original=ctx;ctx=next;renderContextLabel();ctx=original;renderTeacher();}else{renderContextLabel();renderGroups();renderPreviousDrafts();rememberDraft();}
+  message(restored?'이 탭에 임시 보관한 신청 내용을 불러왔습니다.':!teacher&&same?'신청 내용은 유지했습니다. 조사 차수를 확인하세요.':'');
+ }finally{if(token===generation&&!teacher){contextBusy=false;for(const id of ['studentXlsx','studentPdf'])$(id).disabled=false;}}
+}
+
 function renderGroups(){
  $('demandGroups').innerHTML='<div class="semester-grid">'+['1','2'].map(sem=>`<section class="panel"><h2>${ctx.grade}학년 ${sem}학기</h2>${ctx.groups.filter(g=>g.term.endsWith('-'+sem)).map(g=>{const a=answers[g.id];return `<section class="choice" data-group="${e(g.id)}"><h3>${e(g.section)} · ${g.count}과목 / ${g.credits}학점</h3><label>결정 상태<select data-decision="${e(g.id)}">${[['unknown','미정'],['decided','결정함'],['considering','고민 중'],['help','설명이 더 필요함']].map(([v,label])=>`<option value="${v}" ${a.decision===v?'selected':''}>${label}</option>`).join('')}</select></label><h4>우선 희망 (${g.count}개)</h4>${g.courses.map(c=>`<label class="check"><input type="checkbox" data-course="${e(c.id)}" data-role="primary" ${a.primary.includes(c.id)?'checked':''}><span>${e(c.name)} · ${e(c.area)} · ${g.credits/g.count}학점 · ${e(window.ANJWA_STUDENT_MODEL.label(c))}</span></label>${a.primary.includes(c.id)&&isConditional(c)?`<label class="condition">${e(c.name)} 참여 의향<select data-condition="${e(c.id)}"><option value="">조건 확인이 필요합니다</option>${[['possible','안내 조건으로 참여 가능'],['conditional','시간·기기 등 조건 확인 후 결정'],['unavailable','참여 어려움 · 대안 필요']].map(([v,l])=>`<option value="${v}" ${a.conditions[c.id]===v?'selected':''}>${l}</option>`).join('')}</select></label>`:''}`).join('')}<details><summary>대체 희망 (선택 사항 · 2개까지)</summary>${g.courses.map(c=>`<label class="check"><input type="checkbox" data-course="${e(c.id)}" data-role="alternative" ${a.alternative.includes(c.id)?'checked':''}>${e(c.name)}</label>`).join('')}</details></section>`}).join('')||'<p>이 학기의 선택 묶음이 없습니다. 교육과정 담당자에게 확인하세요.</p>'}</section>`).join('')+'</div>';
- $('demandGroups').onchange=event=>{const el=event.target,gid=el.closest('[data-group]')?.dataset.group;if(!gid)return;const a=answers[gid];if(el.dataset.decision){a.decision=el.value;if(el.value==='unknown'){a.primary=[];a.conditions={};}renderGroups();document.querySelector(`[data-decision="${CSS.escape(gid)}"]`)?.focus();}else if(el.dataset.course){const role=el.dataset.role,id=el.dataset.course;a[role]=el.checked?[...a[role],id]:a[role].filter(x=>x!==id);if(role==='primary'){if(el.checked){a.alternative=a.alternative.filter(x=>x!==id);if(a.decision==='unknown')a.decision='considering';}else delete a.conditions[id];}renderGroups();document.querySelector(`[data-course="${CSS.escape(id)}"][data-role="${role}"]`)?.focus();}else if(el.dataset.condition)a.conditions[el.dataset.condition]=el.value;};
+ $('demandGroups').onchange=event=>{const el=event.target,gid=el.closest('[data-group]')?.dataset.group;if(!gid)return;const a=answers[gid];if(el.dataset.decision){a.decision=el.value;if(el.value==='unknown'){a.primary=[];a.conditions={};}renderGroups();document.querySelector(`[data-decision="${CSS.escape(gid)}"]`)?.focus();}else if(el.dataset.course){const role=el.dataset.role,id=el.dataset.course;a[role]=el.checked?[...a[role],id]:a[role].filter(x=>x!==id);if(role==='primary'){if(el.checked){a.alternative=a.alternative.filter(x=>x!==id);if(a.decision==='unknown')a.decision='considering';}else delete a.conditions[id];}renderGroups();document.querySelector(`[data-course="${CSS.escape(id)}"][data-role="${role}"]`)?.focus();}else if(el.dataset.condition)a.conditions[el.dataset.condition]=el.value;studentChanged();};
 }
 function record(){return {...ctx,groups:undefined,format:D.format,schema:D.schema,studentNumber:$('demandNumber').value.trim(),name:$('demandName').value.trim(),status:$('demandStatus').value,responseId:crypto.randomUUID(),exportedAt:new Date().toISOString(),answers:ctx.groups.map(g=>structuredClone(answers[g.id]))};}
-function checkedRecord(){if(!ctx.round||!ctx.groups.length||ctx.planKey==='incoming2024')throw Error('조사 차수와 선택군을 확인하세요. 2024 원자료는 학교 확인 후 사용할 수 있습니다.');const r=record(),errors=D.validate(r,ctx);if(errors.length)throw Error(errors.join('\n'));return r;}
+function checkedRecord(){if(contextBusy)throw Error('신청 대상을 바꾸고 있습니다. 잠시 후 다시 저장하세요.');if(!ctx.round||!ctx.groups.length||ctx.planKey==='incoming2024')throw Error('조사 차수와 선택군을 확인하세요. 2024 원자료는 학교 확인 후 사용할 수 있습니다.');const r=record(),errors=D.validate(r,ctx);if(errors.length)throw Error(errors.join('\n'));return r;}
 function preview(r){return `<div class="print-sheet"><h1>안좌고 선택과목 신청 희망서</h1><p><strong>학번 ${e(r.studentNumber)} · 이름 ${e(r.name)}</strong>　${r.planKey.replace('incoming','')} 입학생 · ${r.grade}학년 과정 · 차수 ${e(r.round)}</p><p class="print-note">${r.status==='withdrawn'?'기존 신청 희망 철회':'신청 희망'} · 학교 접수와 최종 수강 확정은 별도 확인합니다.</p><table><thead><tr><th>1학기</th><th>2학기</th></tr></thead><tbody><tr>${['1','2'].map(sem=>`<td>${ctx.groups.filter(g=>g.term.endsWith('-'+sem)).map(g=>{const a=r.answers.find(a=>a.groupId===g.id);const names=a.primary.map(id=>{const c=g.courses.find(c=>c.id===id);return e(c.name)+(a.conditions[id]==='conditional'?' (조건 확인)':a.conditions[id]==='unavailable'?' (참여 어려움)':'');});return `<p><b>${e(g.section)} · ${g.count}과목 / ${g.credits}학점</b><br>${a.decision==='unknown'?'미정':names.join(', ')}${a.decision==='help'?' · 설명 필요':a.decision==='considering'?' · 고민 중':''}${a.alternative.length?'<br>대체: '+a.alternative.map(id=>e(g.courses.find(c=>c.id===id).name)).join(', '):''}</p>`}).join('')}</td>`).join('')}</tr></tbody></table><small>편성 확인번호 ${e(r.version.slice(0,12))}<br>작성 ${e(F.displayDate(r.exportedAt))} · 온라인/공동교육과정의 실제 참여 조건과 시간표는 학교 확인이 필요합니다.</small></div>`;}
 function renderTeacher(){renderBatchPicker();const records=selectedRecords(),a=D.aggregate(records,ctx);$('teacherSummary').innerHTML=`<h2>현재 유효본</h2><div class="stats-badges"><span>신청 희망 <b>${a.active}명</b></span><span>철회 <b>${a.withdrawn}명</b></span><span>미정 포함 <b>${a.undecided}명</b></span><span>설명 필요 <b>${a.help}명</b></span><span class="${conflicts()?'needs-attention':''}">유효본 선택 필요 <b>${conflicts()}명</b></span></div><p>동일 학생의 다른 응답은 유효본을 고르기 전까지 통계에서 제외합니다. 접수 완료를 보장하는 중앙 시스템은 아닙니다.</p>`;
  $('teacherConflicts').innerHTML=[...candidates].filter(([,items])=>items.length>1).map(([key,items],i)=>`<article class="conflict"><h3>${e(items[0].studentNumber)} · ${e(items[0].name)} — 응답 비교</h3><label>통계에 사용할 유효본<select data-conflict="${i}"><option value="">선택 필요</option>${items.map((r,j)=>`<option value="${j}" ${resolved.get(key)===j?'selected':''}>${e(r.name)} · ${e(F.displayDate(r.exportedAt))} · ${r.status==='withdrawn'?'철회':'신청 희망'} · 후보${j+1}</option>`).join('')}</select></label>${items.map((r,j)=>`<details><summary>후보 ${j+1}의 희망 과목</summary>${r.answers.map(a=>`<p>${e(a.groupId)}: ${a.decision==='unknown'?'미정':a.primary.map(id=>e(ctx.groups.find(g=>g.id===a.groupId).courses.find(c=>c.id===id).name)).join(', ')}</p>`).join('')}</details>`).join('')}</article>`).join('')||'<p>수정본 충돌 없음</p>';
@@ -55,8 +104,9 @@ async function importTeacher(files){let added=0,duplicates=0;const errors=[],fal
  renderTeacher();message(`새 응답 ${added}건 · 동일 응답 제외 ${duplicates}건 · 조사·편성 ${batches.size}개${errors.length?'\n불러오지 않은 파일:\n'+errors.join('\n'):''}`);
 }
 for(const key of Object.keys(plans).filter(k=>/^incoming/.test(k)).sort().reverse())$('demandPlan').add(new Option(key.replace('incoming','')+'학년도 입학생',key));$('demandPlan').value='incoming2026';
-if(!teacher){const params=new URLSearchParams(location.search);if(/^incoming\d{4}$/.test(params.get('plan')||'')&&plans[params.get('plan')])$('demandPlan').value=params.get('plan');if(['2','3'].includes(params.get('grade')))$('demandGrade').value=params.get('grade');}
+if(!teacher){const params=new URLSearchParams(location.search);const last=draftStore.current;if(last){if(plans[last.planKey])$('demandPlan').value=last.planKey;if(['2','3'].includes(last.grade))$('demandGrade').value=last.grade;$('demandRound').value=String(last.round||'1');}if(/^incoming\d{4}$/.test(params.get('plan')||'')&&plans[params.get('plan')])$('demandPlan').value=params.get('plan');if(['2','3'].includes(params.get('grade')))$('demandGrade').value=params.get('grade');}
 for(const id of ['demandPlan','demandGrade','demandRound'])$(id).addEventListener('change',contextChanged);
+if(!teacher)$('demandRound').addEventListener('input',()=>{if(ctx){ctx.round=$('demandRound').value.trim();renderContextLabel();studentChanged();}});
 await contextChanged();
 if(teacher){
  if($('teacherBatch'))$('teacherBatch').onchange=event=>activateBatch([...batches.keys()][Number(event.target.value)]);
@@ -68,11 +118,12 @@ if(teacher){
  window.addEventListener('beforeunload',event=>{if(batches.size){event.preventDefault();event.returnValue='';}});
  $('lockDemand').onclick=()=>{batches.clear();candidates.clear();resolved.clear();sessionStorage.removeItem('anjwa.teacherDashboard.unlocked');location.reload();};
 }else{
- for(const id of ['demandNumber','demandName','demandStatus'])$(id).addEventListener('input',()=>{$('applicationPreview').innerHTML='';if($('printOnly'))$('printOnly').innerHTML='';});
- $('studentXlsx').onclick=()=>{try{const r=checkedRecord();F.download(F.workbook([r],ctx),`${r.studentNumber}_선택과목_${ctx.grade}학년.xlsx`);$('applicationPreview').innerHTML=preview(r);message('엑셀을 내려받았습니다. 학교가 안내한 방법으로 전달하고 접수 여부를 확인하세요.');}catch(err){message(err.message);}};
+ for(const id of ['demandNumber','demandName','demandStatus'])$(id).addEventListener('input',studentChanged);
+ window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});
+ $('studentXlsx').onclick=()=>{try{const r=checkedRecord();F.download(F.workbook([r],ctx),`${r.studentNumber}_선택과목_${ctx.grade}학년.xlsx`);$('applicationPreview').innerHTML=preview(r);downloadedSignature=studentSignature();rememberDraft();message('엑셀을 내려받았습니다. 학교가 안내한 방법으로 전달하고 접수 여부를 확인하세요.');}catch(err){message(err.message);}};
  $('studentPdf').onclick=()=>{try{const r=checkedRecord();$('applicationPreview').innerHTML=preview(r);let print=$('printOnly');if(!print){print=document.createElement('div');print.id='printOnly';print.hidden=true;document.body.append(print);}print.innerHTML=preview(r);window.print();message('인쇄 창에서 PDF로 저장할 수 있습니다. 엑셀을 수합용으로 함께 전달하세요.');}catch(err){message(err.message);}};
- $('finishDemand').onclick=()=>{if(!confirm('이 화면의 학번·이름·희망 과목을 지울까요?'))return;for(const id of ['demandNumber','demandName'])$(id).value='';$('applicationPreview').innerHTML='';$('demandStatus').value='active';contextChanged();};
- $('importPlanner').onclick=()=>{try{const saved=JSON.parse(localStorage.getItem('anjwa-career-platform-plan-v1')||'null');if(!saved||saved.plannerPlan!==ctx.planKey)throw Error('같은 입학생의 저장된 과목 계획이 없습니다. 과목 설계에서 저장한 뒤 가져오세요.');if(!confirm(`저장된 계획 학번 ${saved.plannerStudentNumber||'미입력'}을 확인하세요. 본인 계획이 맞나요?`))return;let count=0;for(const g of ctx.groups){const [grade,sem]=g.term.split('-'),p=saved.plan?.[grade]?.[sem];const ids=[...(p?.regular||[]),...(p?.joint||[])].map(x=>x.id),a=answers[g.id];a.primary=g.courses.filter(c=>ids.includes(c.id)).map(c=>c.id);a.decision=a.primary.length?'considering':'unknown';a.alternative=[];a.conditions={};count+=a.primary.length;}$('demandNumber').value=saved.plannerStudentNumber||'';renderGroups();message(`${count}개 희망 과목을 가져왔습니다. 학번·이름·선택 개수·온라인 조건을 확인하세요. 추가 개설 요청은 자동 신청하지 않습니다.`);}catch(err){message(err.message);}};
- $('studentFile').onchange=async event=>{try{const file=event.target.files[0];if(!file)return;if(file.size>5*1024*1024)throw Error('5MB 이하 파일만 가능합니다.');const r=F.read(await file.arrayBuffer(),ctx);if(r.length!==1)throw Error('학생 한 명의 신청 엑셀을 선택하세요.');if(!confirm(`학번 ${r[0].studentNumber} · ${r[0].name} 신청서를 불러올까요?`))return;const data=r[0];$('demandNumber').value=data.studentNumber;$('demandName').value=data.name;$('demandStatus').value=data.status;answers=Object.fromEntries(data.answers.map(a=>[a.groupId,a]));renderGroups();message('기존 신청서를 불러왔습니다. 수정한 파일은 학교에 다시 전달하세요.');}catch(err){message(err.message);}finally{event.target.value='';}};
+ $('finishDemand').onclick=()=>{if(!confirm('이 화면의 학번·이름·희망 과목을 지울까요?'))return;for(const id of ['demandNumber','demandName'])$(id).value='';$('applicationPreview').innerHTML='';$('demandStatus').value='active';dirty=false;downloadedSignature='';draftStore={entries:{}};try{sessionStorage.removeItem(DRAFT_KEY);}catch{}ctx=undefined;contextChanged();};
+ $('importPlanner').onclick=()=>{try{const saved=JSON.parse(localStorage.getItem('anjwa-career-platform-plan-v1')||'null');if(!saved||saved.plannerPlan!==ctx.planKey)throw Error('같은 입학생의 저장된 과목 계획이 없습니다. 과목 설계에서 저장한 뒤 가져오세요.');if(!confirm(`저장된 계획 학번 ${saved.plannerStudentNumber||'미입력'}을 확인하세요. 본인 계획이 맞나요?`))return;const validated=AnjwaPlannerValidation.revalidate(saved.plan,plans[ctx.planKey],['2','3'].flatMap(grade=>D.groups(plans[ctx.planKey],grade)));let skipped=0;for(const grade of ['1','2','3'])for(const sem of ['1','2'])skipped+=validated[grade][sem].review.length;let count=0;for(const g of ctx.groups){const [grade,sem]=g.term.split('-'),p=validated[grade]?.[sem];const ids=[...(p?.regular||[]),...(p?.joint||[])].map(x=>x.id),a=answers[g.id];a.primary=g.courses.filter(c=>ids.includes(c.id)).map(c=>c.id);a.decision=a.primary.length?'considering':'unknown';a.alternative=[];a.conditions={};count+=a.primary.length;}$('demandNumber').value=saved.plannerStudentNumber||'';renderGroups();studentChanged();message(`${count}개 희망 과목을 가져왔습니다.${skipped?` 편성 확인이 필요한 ${skipped}건은 가져오지 않았습니다. 과목 설계에서 확인하세요.`:''} 학번·이름·선택 개수·온라인 조건을 확인하세요. 추가 개설 요청은 자동 신청하지 않습니다.`);}catch(err){message(err.message);}};
+ $('studentFile').onchange=async event=>{try{const file=event.target.files[0];if(!file)return;if(file.size>5*1024*1024)throw Error('5MB 이하 파일만 가능합니다.');const r=F.read(await file.arrayBuffer(),ctx);if(r.length!==1)throw Error('학생 한 명의 신청 엑셀을 선택하세요.');if(!confirm(`학번 ${r[0].studentNumber} · ${r[0].name} 신청서를 불러올까요?`))return;const data=r[0];$('demandNumber').value=data.studentNumber;$('demandName').value=data.name;$('demandStatus').value=data.status;answers=Object.fromEntries(data.answers.map(a=>[a.groupId,a]));renderGroups();clearPreview();downloadedSignature=studentSignature();rememberDraft();message('기존 신청서를 불러왔습니다. 수정한 파일은 학교에 다시 전달하세요.');}catch(err){message(err.message);}finally{event.target.value='';}};
 }
 })().catch(error=>{const el=document.getElementById('demandMessage');if(el)el.textContent='화면을 열지 못했습니다: '+error.message;});

@@ -2706,6 +2706,14 @@ function init() {
 
 function bindNavigation() {
   const restore = () => setView(getInitialViewFromHash() || 'departments', false);
+  window.addEventListener('anjwa-military-navigate', event => {
+    const {view,cohort} = event.detail || {};
+    if (view === 'curriculum') {
+      state.curriculumDepartment = 'military';
+      state.activeCurriculumPlan = /^incoming\d{4}$/.test(cohort || '') && Object.hasOwn(curriculumData.militaryPlans || {},cohort) ? cohort : 'current2027';
+      renderCurriculumPlanOptions(); renderCurriculum(); setView('curriculum');
+    } else if (['departments','military','militaryEntry','militarySpecialties','militaryCertificates','militaryCalendar'].includes(view)) setView(view);
+  });
   window.addEventListener('hashchange', restore);
   window.addEventListener('popstate', restore);
   $all('[data-view]').forEach(button => button.addEventListener('click', () => {
@@ -2741,10 +2749,11 @@ function setView(viewId, updateUrl = true) {
   if (!$(`#${viewId}`)?.classList.contains("view")) viewId = "home";
   const finishMotion = window.AnjwaMotion?.begin(state.activeView, viewId, updateUrl);
   state.activeView = viewId;
+  if (viewId === 'home' && state.curriculumDepartment === 'military') {
+    state.curriculumDepartment = 'general'; renderCurriculumPlanOptions(); renderCurriculum();
+  }
   document.body?.classList.toggle('home-screen', viewId === 'home');
-  document.body?.classList.toggle('department-screen', ['departments', 'military'].includes(viewId));
-  const bottomNav = $('.app-bottom-nav');
-  if (bottomNav) bottomNav.hidden = ['departments', 'military'].includes(viewId);
+  syncDepartmentNavigation(viewId);
   saveStudentScreenState();
   if (updateUrl && location.hash !== `#${viewId}`) history.pushState({view: viewId}, "", `#${viewId}`);
   if (viewId === "planner") {
@@ -2761,6 +2770,35 @@ function setView(viewId, updateUrl = true) {
   });
   window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? "instant" : "smooth" });
   finishMotion?.();
+  if (updateUrl) {
+    const heading = document.getElementById(viewId)?.querySelector('h1,h2');
+    heading?.setAttribute('tabindex','-1');
+    heading?.focus?.({preventScroll:true});
+  }
+  window.AnjwaMilitaryGuide?.onViewChange(viewId, updateUrl);
+}
+
+
+function syncDepartmentNavigation(viewId = state.activeView) {
+  const locationBar = document.getElementById('literaryLocation');
+  if (locationBar) {
+    locationBar.hidden = ['departments','home','military'].includes(viewId);
+    const militaryContext = viewId.startsWith('military') || (viewId === 'curriculum' && state.curriculumDepartment === 'military');
+    const homeButton = locationBar.querySelector('button');
+    homeButton.dataset.view = militaryContext ? 'military' : 'home';
+    homeButton.textContent = militaryContext ? '부사관과 홈' : '보통과 홈';
+    const currentHeading = document.getElementById(viewId)?.querySelector('h1,h2');
+    locationBar.querySelector('[aria-current]').textContent = currentHeading?.textContent || '';
+  }
+  const militaryPage = ['military','militaryEntry','militarySpecialties','militaryCertificates','militaryCalendar'].includes(viewId);
+  const militaryCurriculum = viewId === 'curriculum' && state.curriculumDepartment === 'military';
+  document.body?.classList?.toggle('department-screen',viewId === 'departments' || militaryPage);
+  document.body?.classList?.toggle('military-curriculum',militaryCurriculum);
+  const nav = $('.app-bottom-nav');
+  if (nav) nav.hidden = viewId === 'departments' || militaryPage || militaryCurriculum;
+  const back = $('#curriculumBackButton');
+  if (back?.dataset) {back.dataset.view = militaryCurriculum ? 'military' : 'home';back.textContent = militaryCurriculum ? '부사관과 홈으로' : '첫 화면으로';}
+  if (militaryCurriculum) window.AnjwaMilitaryGuide?.setCohort(state.activeCurriculumPlan);
 }
 
 function getInitialViewFromHash() {
@@ -5279,6 +5317,7 @@ function renderCourseDesignerAlternativeList(alternatives, planMeta) {
 function renderCurriculum() {
   const plan = getCurriculumViewPlans()[state.activeCurriculumPlan];
   if (!plan) return;
+  if (curriculumData.openingConfirmed === false) state.curriculumOffering = "all";
 
   $("#curriculumPlan").value = state.activeCurriculumPlan;
   $("#curriculumDepartment").value = state.curriculumDepartment;
@@ -5320,9 +5359,11 @@ function renderCurriculum() {
   const unconfirmed = allScopeCourses.some(course => getCourseOpeningStatus(course, semesterKeys) === 'unconfirmed');
   $('#curriculumAvailabilityNote').textContent = (state.curriculumOffering === 'open'
     ? '2027학년도 통합표에서 개설이 확인된 과목을 보여줍니다. 편성 학점은 목록을 좁혀도 바뀌지 않습니다.'
-    : '전체 선택과목에는 미개설 과목도 포함됩니다. 실제 수강할 과목은 개설 표시와 선택 묶음을 함께 확인하세요.')
-    + (unconfirmed ? ' 이 조회 범위에는 개설 여부가 아직 확인되지 않은 학기도 있습니다.' : '')
-    + (state.curriculumDepartment === 'military' ? ' 부사관과는 교육과정 조회를 제공합니다. 과목 설계·진로 안내는 보통과 기준입니다.' : '');
+    : curriculumData.openingConfirmed === false ? '입학생별 편성표의 과목과 학점을 보여줍니다.' : '전체 선택과목에는 미개설 과목도 포함됩니다. 실제 수강할 과목은 개설 표시와 선택 묶음을 함께 확인하세요.')
+    + (curriculumData.openingConfirmed === false ? ' 제공된 자료는 입학생별 편성표입니다. 실제 개설 확정표는 제공되지 않아 개설 여부를 표시하지 않습니다.' : unconfirmed ? ' 이 조회 범위에는 개설 여부가 아직 확인되지 않은 학기도 있습니다.' : '')
+    + (plan.approvedSummary ? ` 확정 합계: 교과 ${plan.approvedSummary.courseCredits} + 창체 ${plan.approvedSummary.creativeCredits} = 총 ${plan.approvedSummary.totalCredits}학점.` : '')
+    + ((plan.dataQualityNotes || []).length ? ' 원본 확인 필요: ' + plan.dataQualityNotes.join(' ') : '')
+    + (state.curriculumDepartment === 'military' ? ' 부사관과 진로·임용 정보는 부사관과 홈에서 확인하세요.' : '');
   const unresolved = getCurriculumSummaryForScope(plan, semesterKeys).unresolvedTerms || [];
   if (unresolved.length) $('#curriculumPlanDescription').textContent += ' · 이 편성의 일부 과목 행과 선택 묶음은 원본 학기 합계와 일치하지 않아 추가 확인이 필요합니다. 합계는 원본 편성표의 학기 합계를 표시하며, 후보 과목 학점을 모두 더한 값이 아닙니다.';
   updateCurriculumSortHeaders();
@@ -5331,6 +5372,12 @@ function renderCurriculum() {
     : `<tr><td colspan="6">해당 조건에 맞는 과목이 없습니다.</td></tr>`;
   renderCurriculumChoiceGroups(choiceGroups, semesterCourses, Boolean(query));
   renderCurriculumMobileList(plan, semesterKeys, semesterCourses);
+  const military = state.curriculumDepartment === 'military';
+  const careerTitle = $('#curriculumCareerTitle'), careerText = $('#curriculumCareerText'), careerLink = $('#curriculumCareerLink');
+  if (careerTitle) careerTitle.textContent = military ? '학교 공부와 부사관 진로를 함께 살펴보세요' : '과목 선택은 진로를 확인하는 단서입니다';
+  if (careerText) careerText.textContent = military ? '부사관과 홈에서 지원 공고를 읽는 법, 군에서 하는 일과 계급, 학교 공부와 연결되는 자격증을 확인하세요.' : '교육과정을 확인한 뒤에는 희망 학과에서 중요하게 보는 과목과 비교해 봅니다. 내가 들을 수 있는 과목, 추가로 알아볼 과목, 공동교육과정으로 확장할 과목을 구분하면 상담에서 더 구체적인 계획을 세울 수 있습니다.';
+  if (careerLink) {careerLink.href = military ? '#militarySpecialties' : './holistic-subjects.html';careerLink.textContent = military ? '부사관 주특기·계급 알아보기' : '학과별 추천 과목 보기';}
+  if (state.activeView === 'curriculum') syncDepartmentNavigation();
   syncCurriculumButtons(scope, grade, semesterKeys);
 }
 
@@ -6359,6 +6406,7 @@ function openSubjectInfoPopup(course) {
       <b>우리학교 개설 정보</b>
       ${renderSubjectGuideOfferings(offerings, course.name)}
     </section>
+    ${window.AnjwaEduResources?.subjectLink(course.name) || ""}
     <div class="subject-guide-summary-grid">
       <section class="subject-guide-summary-card is-learning">
         <span>무엇을 배우나요</span>
@@ -7458,6 +7506,7 @@ function exportMineCurriculumPdf() {
 
 function buildMineCurriculumPrintDocument(studentNumber, exportTime, fileTitle) {
   const fixedCourses = getPlannerFixedCourses();
+  const pendingReview = getPlannerReviewEntries();
   const grades = ["1", "2", "3"].map((grade) => {
     const semesters = ["1", "2"].map((semester) => {
       const semesterKey = `${grade}-${semester}`;
@@ -7521,7 +7570,7 @@ function buildMineCurriculumPrintDocument(studentNumber, exportTime, fileTitle) 
     <h1>나의 학생부 교육과정</h1>
     <p>학번 ${escapeHtml(studentNumber)} · ${escapeHtml(getCurriculumPlanLabel(state.plannerPlan))}</p>
   </header>
-  ${grades}
+  ${pendingReview.length ? `<section><h2>교육과정 변경 확인 필요 · ${pendingReview.length}건</h2><p>아래 이전 선택은 현재 학점 합계에서 제외했습니다.</p><ul>${pendingReview.map(x=>`<li>${x.grade}학년 ${x.semester}학기 · ${escapeHtml(x.item?.snapshot?.name || x.item?.name || x.item?.id || "과목 정보 확인 필요")} · ${(x.reasons||[]).map(escapeHtml).join(" · ")}</li>`).join("")}</ul></section>` : ""}${grades}
   <footer>
     <p>우리학교 교육과정과 학생의 희망 과목을 함께 정리한 상담용 자료입니다. 최종 수강 가능 여부와 선택 묶음은 학교 안내를 다시 확인하세요.</p>
     <p class="export-time">저장 시각: ${escapeHtml(exportTime.display)}</p>
@@ -8645,6 +8694,7 @@ function renderCourseChoiceStatus(course) {
 }
 
 function renderPlanner() {
+  renderPlannerReview();
   renderPlannerFixedView();
   renderPlannerMineView();
   $("#semesterGrid").innerHTML = ["1", "2"].map((semester) => renderSemesterBoard(state.activeGrade, semester)).join("");
@@ -8856,7 +8906,7 @@ function removeAdditionalCourseFromPlan(grade, semester, index) {
 }
 
 function addCourseToPlan(courseId, grade, semester, zone) {
-  const course = getPlannerCourse(courseId);
+  const course = getPlannerCurriculumPlan().courses.find(c => c.id === courseId);
   if (!course) return false;
   const semesterKey = `${grade}-${semester}`;
 
@@ -8865,8 +8915,9 @@ function addCourseToPlan(courseId, grade, semester, zone) {
     return false;
   }
 
+  if (!["regular", "joint"].includes(zone) || !isPlannerChoiceCourse(course) || course.creditTreatment === "separate") return false;
   const list = state.plan[grade][semester][zone];
-  if (list.some((item) => item.id === course.id)) {
+  if ([...state.plan[grade][semester].regular,...state.plan[grade][semester].joint].some((item) => item.id === course.id)) {
     showToast("이미 이 학기에 추가한 과목입니다.");
     return false;
   }
@@ -8877,7 +8928,7 @@ function addCourseToPlan(courseId, grade, semester, zone) {
     return false;
   }
 
-  list.push({ id: course.id, credits: getPlannerCourseCredits(course, grade, semester) });
+  list.push({ id: course.id, credits: getPlannerCourseCredits(course, grade, semester), snapshot: window.AnjwaPlannerValidation.snapshot(course, semesterKey, getPlannerChoiceGroupsForGrade(grade)) });
 
   const jointCredits = sumCredits(state.plan[grade][semester].joint);
   if (zone === "joint" && jointCredits > 6) {
@@ -8956,6 +9007,7 @@ function saveState(showMessage) {
     plannerPlans: state.plannerPlans,
     plannerStudentNumber: state.plannerStudentNumber,
     plannerSavedAt: state.plannerSavedAt,
+    plannerCurriculumVersion: curriculumData.updated || "",
     selectedTrack: state.selectedTrack,
     targetMajor: state.targetMajor,
     plan: state.plan,
@@ -9005,29 +9057,56 @@ function rememberActivePlannerPlan() {
   state.plannerPlans[state.plannerPlan] = clonePlannerPlan(state.plan);
 }
 
-function clonePlannerPlan(plan) {
-  return normalizePlannerPlan(JSON.parse(JSON.stringify(plan || createEmptyPlan())));
+function clonePlannerPlan(plan, planKey = state.plannerPlan) {
+  return normalizePlannerPlan(JSON.parse(JSON.stringify(plan || createEmptyPlan())), planKey);
 }
 
-function normalizePlannerPlan(plan) {
-  const normalized = createEmptyPlan();
-  ["1", "2", "3"].forEach((grade) => {
-    ["1", "2"].forEach((semester) => {
-      const semesterPlan = plan?.[grade]?.[semester] || {};
-      const reconcile = items => items.map(item => {
-        const course = Object.values(curriculumData.plans).flatMap(plan => plan.courses).find(course => course.id === item.id);
-        return course && course.semesters.includes(`${grade}-${semester}`) ? {...item, credits:getPlannerCourseCredits(course,grade,semester)} : {...item};
-      });
-      normalized[grade][semester] = {
-        regular: Array.isArray(semesterPlan.regular) ? reconcile(semesterPlan.regular) : [],
-        joint: Array.isArray(semesterPlan.joint) ? reconcile(semesterPlan.joint) : [],
-        additional: Array.isArray(semesterPlan.additional)
-          ? semesterPlan.additional.map(normalizeAdditionalCourseItem).filter(Boolean)
-          : []
-      };
-    });
-  });
+function normalizePlannerPlan(plan, planKey = state.plannerPlan) {
+  const curriculum = curriculumData.plans[planKey] || { courses: [] };
+  const normalized = window.AnjwaPlannerValidation.revalidate(plan, curriculum,
+    buildCurriculumChoiceGroups(curriculum.courses || [], curriculumSemesterOrder));
+  for (const grade of ["1", "2", "3"]) for (const semester of ["1", "2"]) {
+    normalized[grade][semester].additional = normalized[grade][semester].additional.map(normalizeAdditionalCourseItem).filter(Boolean);
+  }
   return normalized;
+}
+
+function getPlannerReviewEntries() {
+  return ["1", "2", "3"].flatMap(grade => ["1", "2"].flatMap(semester =>
+    (state.plan[grade]?.[semester]?.review || []).map((entry, index) => ({...entry, grade, semester, index}))));
+}
+
+function renderPlannerReview() {
+  const target = $("#plannerReview");
+  if (!target) return;
+  const entries = getPlannerReviewEntries();
+  target.hidden = !entries.length;
+  target.innerHTML = entries.length ? `<h3>교육과정 변경 확인 · ${entries.length}건</h3>
+    <p>이전 선택은 아래에 보관했습니다. 확인 전에는 선택 과목 수와 학점에 포함하지 않습니다. 학기가 바뀐 과목은 해당 학기에서 다시 골라 주세요.</p>
+    ${entries.map(entry => {
+      const course = getPlannerCurriculumPlan().courses.find(c => c.id === entry.item?.id);
+      const name = entry.item?.snapshot?.name || entry.item?.name || course?.name || entry.item?.id || "과목 정보 확인 필요";
+      const canRestore = course?.semesters.includes(`${entry.grade}-${entry.semester}`) && isPlannerChoiceCourse(course) && course.creditTreatment !== "separate";
+      return `<div class="planner-review-item"><div><b>${escapeHtml(name)}</b><p>${entry.grade}학년 ${entry.semester}학기 · 이전 ${escapeHtml(String(entry.item?.credits ?? "미확인"))}학점${course ? (course.semesters.includes(`${entry.grade}-${entry.semester}`) ? ` · 현재 ${getPlannerCourseCredits(course,entry.grade,entry.semester)}학점` : ` · 현재 편성: ${course.semesters.map(getSemesterLabel).map(escapeHtml).join(", ")}`) : ""}</p><p>${(entry.reasons || []).map(escapeHtml).join(" · ")}</p></div><div>${canRestore ? `<button class="ghost-button" data-restore-review="${entry.index}" data-grade="${entry.grade}" data-semester="${entry.semester}">현재 편성으로 다시 담기</button>` : ""}<button class="ghost-button" data-remove-review="${entry.index}" data-grade="${entry.grade}" data-semester="${entry.semester}">보관 기록 삭제</button></div></div>`;
+    }).join("")}` : "";
+  target.querySelectorAll('[data-restore-review]').forEach(button => button.addEventListener('click', () => {
+    restorePlannerReviewEntry(button.dataset.grade,button.dataset.semester,Number(button.dataset.restoreReview));
+  }));
+  target.querySelectorAll('[data-remove-review]').forEach(button => button.addEventListener('click', () => {
+    if (!window.confirm("이전에 선택한 과목의 보관 기록을 삭제할까요?")) return;
+    state.plan[button.dataset.grade][button.dataset.semester].review.splice(Number(button.dataset.removeReview),1);
+    saveState(false);renderPlanner();
+  }));
+}
+
+function restorePlannerReviewEntry(grade, semester, index) {
+  const list = state.plan[grade]?.[semester]?.review, entry = list?.[index];
+  if (!entry || !window.confirm("현재 과목명·학점·선택 조건을 확인하고 이 학기에 다시 담을까요?")) return false;
+  if (!addCourseToPlan(entry.item.id, grade, semester, entry.zone)) return false;
+  list.splice(index, 1);
+  saveState(false);
+  renderPlanner();
+  return true;
 }
 
 function normalizeAdditionalCourseItem(item) {

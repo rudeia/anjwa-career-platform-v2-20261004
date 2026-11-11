@@ -44,7 +44,7 @@ test('15 guide pages preserve their functional containers and teach year-specifi
  assert.match(pages['subject-calculation'].body,/466.67/);assert.match(pages['subject-calculation'].body,/686/);assert.match(pages['subject-calculation'].body,/2027학년도 고교 신입생/);
 });
 test('133 formerly generic reasons now have course-specific text without merging field introductions',()=>{
- const rows=fs.readFileSync(path.join(root,'검토/내용개편-작업명세/추천이유133건-집필작업표.csv'),'utf8').split(/\r?\n/).filter(Boolean).slice(1);
+ const rows=fs.readFileSync(path.join(__dirname,'fixtures/recommendation-writing-review.csv'),'utf8').split(/\r?\n/).filter(Boolean).slice(1);
  assert.equal(rows.length,133);
  const data=context.window.ANJWA_COURSE_DESIGNER;
  for(const row of rows){const parts=row.split(',');assert.ok(data.interestSubjectReasons[parts[1]]?.[parts[2]],`${parts[1]}:${parts[2]}`);}

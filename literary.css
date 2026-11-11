@@ -1,0 +1,147 @@
+/* 문집의 색과 제목을 사용하고, 조작부는 읽기 쉬운 산세리프로 유지합니다. */
+html{--lit-paper:#f8f5ee;--lit-surface:#fffcf7;--lit-ink:#302b38;--lit-muted:#665e70;--lit-line:#d7cfdc;--lit-accent:#75588b;--lit-on-accent:#fff;--lit-soft:#eee7f2;--lit-focus:#6c428a;--lit-hero:url('./assets/literary/after-school-day.jpg')}
+html[data-theme="dark"]{--lit-paper:#25212b;--lit-surface:#302b37;--lit-ink:#f2ecef;--lit-muted:#c7bccf;--lit-line:#61566d;--lit-accent:#c7abdc;--lit-on-accent:#302139;--lit-soft:#41364d;--lit-focus:#dcc5ee;--lit-hero:url('./assets/literary/after-school-night.jpg')}
+@media screen{
+html[data-theme]{background:var(--lit-paper);color:var(--lit-ink);--bg:var(--lit-paper);--surface:var(--lit-surface);--surface-2:var(--lit-soft);--soft:var(--lit-soft);--ink:var(--lit-ink);--muted:var(--lit-muted);--line:var(--lit-line);--blue:var(--lit-accent);--home-ink:var(--lit-ink);--home-muted:var(--lit-muted);--home-blue:var(--lit-accent);--home-mint:var(--lit-soft)}
+html[data-theme] body,html[data-theme="dark"] body,body.home-screen,body.department-screen{background:var(--lit-paper)!important;color:var(--lit-ink)}
+html[data-theme] :is(.main-content,.military-page,.admission-page){color:var(--lit-ink)}
+html[data-theme] :is(h1,h2,h3,h4){color:var(--lit-ink)}
+html[data-theme] :is(input,select,textarea){color:var(--lit-ink);background:var(--lit-surface);border-color:var(--lit-line);border-radius:5px}
+html[data-theme] :is(.primary-button,.pwa-install-button,.military-primary,.home-shortcut,.planner-mode-buttons button.active,.in-page-tabs a.active,.self-eval-mode-switch button.active,.creative-eval-type-switch button.active,.recommendation-view-tabs button.active,.planner-mode-switch button.active){background:var(--lit-accent);color:var(--lit-on-accent);border-color:var(--lit-accent);border-radius:5px;box-shadow:none}
+html[data-theme] :is(.ghost-button,.military-button,.military-link,.calendar-toolbar button,.military-subnav button,.military-tabs button){color:var(--lit-ink);background:var(--lit-surface);border-color:var(--lit-line);border-radius:5px}
+html[data-theme] :is(.military-subnav button[aria-current="page"],.military-tabs button[aria-selected="true"]){color:var(--lit-on-accent);background:var(--lit-accent);border-color:var(--lit-accent)}
+html[data-theme] :is(.military-panel,.military-mini,.military-official,.military-controls,.admission-panel,.launch-card){background:var(--lit-surface);border-color:var(--lit-line);box-shadow:none;border-radius:7px}
+html[data-theme] :is(.military-muted,.military-heading p,.military-panel p,.section-head p){color:var(--lit-muted)}
+html[data-theme] :is(button,a,select,input,textarea,summary):focus-visible{outline:3px solid var(--lit-focus);outline-offset:3px}
+html[data-theme] :is(button,select,input){min-height:44px}
+html[data-theme] :is(.section-head h2,.military-heading h1,.department-page h1,#home .home-intro h1){font-family:AnjwaHomeSerif,'Noto Serif KR','Batang',serif;font-weight:600;letter-spacing:-.8px}
+html[data-theme] .site-utilities{width:min(1120px,calc(100% - 40px));gap:10px;color:var(--lit-muted);margin:12px auto 0}
+html[data-theme] #siteUtilities .theme-control{padding:0;background:transparent;color:var(--lit-muted);font-size:12px}
+html[data-theme] #siteUtilities .theme-control select{font-size:13px;min-height:44px;max-width:132px;border-radius:5px}
+html[data-theme] #siteUtilities [data-pwa-install-status]{display:none}
+html[data-theme] .site-release-info{color:var(--lit-muted);font-size:11px;gap:4px 12px}
+html[data-theme] .site-release-info strong{color:var(--lit-ink)}
+html[data-theme] .site-update-footer,html[data-theme="dark"] .site-update-footer{color:var(--lit-muted);border-color:var(--lit-line);flex-wrap:wrap;gap:6px 12px}
+html[data-theme] .site-update-footer :is(strong,time){color:var(--lit-muted)}
+html[data-theme] .site-update-footer .teacher-dashboard-link{color:var(--lit-muted);border-color:var(--lit-line);background:var(--lit-surface)}
+body.department-screen .main-content,body.home-screen .main-content{width:min(1120px,calc(100% - 40px));padding-top:18px!important}
+.department-page .department-brand{font-size:20px;color:var(--lit-ink);border-bottom:1px solid var(--lit-line);padding-bottom:16px;gap:12px}
+.department-page .department-brand>span{color:var(--lit-muted);font-size:13px;border-color:var(--lit-line)}
+.department-page .department-intro{margin:24px 0 18px;max-width:none}
+.department-page .department-kicker{font-size:12px;letter-spacing:.3px;color:var(--lit-muted);margin:0 0 9px}
+.department-page h1{font-size:34px;color:var(--lit-ink);margin:0 0 9px;line-height:1.4}
+.department-page .department-intro>p:last-child{font-size:15px;line-height:1.65;color:var(--lit-muted)}
+.department-choices{gap:16px}
+.department-page .department-choice{display:grid;grid-template-columns:42px minmax(0,1fr);gap:12px 16px;align-items:center;min-height:156px;padding:20px 22px;background:var(--lit-surface);border:1px solid var(--lit-line);border-left:3px solid var(--lit-accent);border-radius:5px;color:var(--lit-ink);box-shadow:none;transition:background .15s,border-color .15s}
+.department-page .department-choice:after{display:none}
+.department-page .department-choice:hover{transform:none;background:var(--lit-soft);border-color:var(--lit-accent);box-shadow:none}
+.department-symbol{grid-column:1;grid-row:1;display:grid;place-items:center;color:var(--lit-accent)}.department-symbol svg{width:38px;height:38px}
+.department-copy{grid-column:2;grid-row:1;min-width:0;display:grid;gap:6px}
+.department-page .department-choice strong{font-family:AnjwaHomeSerif,'Noto Serif KR',serif;font-size:27px;line-height:1.25;margin:0;color:var(--lit-ink)}
+.department-page .department-choice .department-description{font-size:14px;line-height:1.55;color:var(--lit-muted)}
+.department-page .department-choice .department-action{grid-column:2;grid-row:2;display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--lit-accent);color:var(--lit-on-accent);padding:8px 14px;margin:0;font:600 14px/1.5 system-ui,sans-serif;border-radius:4px;min-height:44px}
+.department-page .department-footer{margin-top:16px;padding-top:12px;border-color:var(--lit-line);color:var(--lit-muted);font-size:12px}
+.literary-banner{margin:22px 0 0;height:155px;background:var(--lit-hero) center 49%/cover no-repeat;border-radius:4px;position:relative;overflow:hidden}
+.literary-banner figcaption{position:absolute;left:12px;bottom:10px;background:var(--lit-surface);color:var(--lit-muted);padding:4px 9px;font-size:11px;border-radius:3px}
+html[data-theme] #home .home-brand-row{margin-bottom:18px;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--lit-line);padding-bottom:14px}
+html[data-theme] #home .home-brand{font-size:18px;color:var(--lit-ink);padding:0;border:0;min-height:44px;gap:10px}
+html[data-theme] #home .department-switch{color:var(--lit-accent);text-decoration:underline;text-underline-offset:4px}
+html[data-theme] #home .home-search{background:var(--lit-surface);border:1px solid var(--lit-line);border-radius:5px}
+html[data-theme] #home .home-intro h1{font-size:32px;color:var(--lit-ink);line-height:1.4}
+html[data-theme] #home .home-intro p{font-size:15px;line-height:1.65;color:var(--lit-muted);margin-top:8px}
+html[data-theme] #home .home-area-grid{width:100%;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+html[data-theme] #home .home-area-card{display:flex;flex-direction:column;padding:20px;min-height:185px;background:var(--lit-surface);border:1px solid var(--lit-line);border-radius:5px;color:var(--lit-ink);box-shadow:none;overflow:hidden}
+html[data-theme] #home .home-card-number{display:none}
+html[data-theme] #home .home-area-heading{margin-bottom:8px}
+html[data-theme] #home .home-area-heading h2{font-family:system-ui,sans-serif;font-size:22px;line-height:1.4;color:var(--lit-ink);letter-spacing:-.5px;white-space:normal}
+html[data-theme] #home .home-area-card p{color:var(--lit-muted);font-size:14px;line-height:1.65;margin-bottom:14px}
+html[data-theme] #home :is(.home-plan-art,.home-evaluation-art,.home-card-photo){display:none}
+html[data-theme] #home .home-area-card .home-shortcut{background:var(--lit-accent);border:1px solid var(--lit-accent);color:var(--lit-on-accent);border-radius:4px;font-size:14px;margin-top:auto;min-height:44px;padding:9px 13px}
+html[data-theme] #home .home-library-link,html[data-theme] #home .student-start-grid{background:var(--lit-surface);border:1px solid var(--lit-line);box-shadow:none;border-radius:5px;color:var(--lit-ink)}
+html[data-theme] #home .home-library-copy strong,html[data-theme] #home .student-start-card b{color:var(--lit-ink)}
+html[data-theme] #home .home-library-copy>span,html[data-theme] #home .student-start-card small{color:var(--lit-muted)}
+html[data-theme] #home .home-library-state{color:var(--lit-accent)}
+.literary-location{display:flex;align-items:center;gap:9px;color:var(--lit-muted);padding:0 0 16px;font-size:13px;flex-wrap:wrap}
+.literary-location[hidden]{display:none}
+.literary-location button{background:var(--lit-surface);color:var(--lit-accent);border:1px solid var(--lit-line);border-radius:5px;padding:8px 12px;font:inherit;min-height:44px}
+html[data-theme] .app-bottom-nav{background:var(--lit-surface);border-color:var(--lit-line);box-shadow:0 -2px 12px #302b3809}
+html[data-theme] .app-bottom-nav :is(.nav-button,.nav-button.active){color:var(--lit-muted);background:transparent;border-color:transparent;border-radius:5px}
+html[data-theme] .app-bottom-nav .nav-button.active{background:var(--lit-soft);color:var(--lit-accent);border-color:var(--lit-line)}
+html[data-theme] .app-bottom-nav:before{color:var(--lit-ink)}
+html[data-theme] .military-page{max-width:1120px;color:var(--lit-ink)}
+html[data-theme] .military-brand{color:var(--lit-muted)}
+html[data-theme] .military-heading h1{font-size:30px}
+html[data-theme] .military-cards .military-home-card{background:var(--lit-surface);color:var(--lit-ink);border-color:var(--lit-line);border-radius:5px;box-shadow:none;gap:9px}
+html[data-theme] .military-cards .military-home-card.is-primary{background:var(--lit-soft);border-color:var(--lit-line)}
+html[data-theme] .military-card-index{color:var(--lit-accent)}
+html[data-theme] .military-home-card>span:not(.military-card-index):not(.military-card-action){color:var(--lit-muted);font-size:14px}
+html[data-theme] .military-card-action{background:var(--lit-accent);color:var(--lit-on-accent);padding:8px 11px;border-radius:4px;min-height:44px;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+html[data-theme] .calendar-weekdays{background:var(--lit-soft);color:var(--lit-ink)}
+html[data-theme] .calendar-days button{background:var(--lit-surface);color:var(--lit-ink);border-color:var(--lit-line);border-radius:0}
+html[data-theme] .calendar-days button[aria-pressed="true"]{background:var(--lit-soft);box-shadow:inset 0 0 0 2px var(--lit-accent)}
+html[data-theme] .calendar-days small{color:var(--lit-muted)}
+html[data-theme] .pwa-guide-dialog{background:var(--lit-surface);color:var(--lit-ink);border-color:var(--lit-line)}
+html[data-theme] .pwa-guide-close{background:var(--lit-soft);color:var(--lit-ink)}
+@media(min-width:1024px){body.home-screen .main-content{padding-top:20px!important}html[data-theme] body:not(.home-design-app):has(.app-bottom-nav) .site-utilities{display:none}html[data-theme] body:not(.home-design-app):has(.app-bottom-nav) .main-content{padding-top:104px}}
+@media(max-width:600px){
+html[data-theme] .site-utilities{width:calc(100% - 32px);margin-top:10px;justify-content:space-between;gap:8px}
+html[data-theme] .site-release-info{flex-basis:100%;font-size:10px;justify-content:space-between;gap:4px}
+html[data-theme] #siteUtilities .theme-control>span{font-size:12px}
+html[data-theme] #siteUtilities .theme-control select{max-width:126px;font-size:14px}
+html[data-theme] #siteUtilities .pwa-install-button{font-size:13px;padding:9px 14px}
+body.home-screen .main-content,body.department-screen .main-content{width:calc(100% - 32px);padding:16px 0 96px!important}
+body:has(#departments.active) .main-content{padding-bottom:12px!important}
+.department-page .department-brand{font-size:19px;padding-bottom:12px;min-height:36px}
+.department-page .department-brand>span{display:inline-block;font-size:12px;border:0;padding:0}
+.department-page .department-intro{margin:18px 0 14px}
+.department-page .department-kicker{display:none}
+.department-page h1{font-size:27px;margin-bottom:6px}
+.department-page .department-intro>p:last-child{font-size:14px;line-height:1.6}
+.department-choices{grid-template-columns:1fr;gap:12px}
+.department-page .department-choice{grid-template-columns:34px minmax(0,1fr);padding:15px;gap:9px 12px;min-height:132px}
+.department-symbol svg{width:32px;height:32px}
+.department-page .department-choice strong{font-size:25px}
+.department-page .department-choice .department-description{font-size:13px;line-height:1.6;word-break:keep-all}
+.department-page .department-choice .department-action{font-size:14px;padding:8px 12px}
+.literary-banner{height:100px;margin-top:16px}
+.department-footer{margin-top:12px!important;font-size:11px!important}
+html[data-theme] #home .home-brand-row{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:16px}
+html[data-theme] #home .home-brand{flex-wrap:wrap;justify-content:space-between;width:100%;font-size:17px}
+html[data-theme] #home .home-search,html[data-theme] #home .home-search:focus-within{width:100%;min-width:0;height:44px;display:flex;padding:0 10px;position:static}
+html[data-theme] #home .home-search>span{display:none}
+html[data-theme] #home .home-search input{display:block;flex:1;min-width:0;width:100%;font-size:16px;background:transparent;border:0;padding:0 8px}
+html[data-theme] #home .home-search button{font-size:14px;min-width:54px;width:auto;padding:5px 10px;background:var(--lit-soft);color:var(--lit-ink);border-radius:4px}
+html[data-theme] #home .home-search button:before{display:none}
+html[data-theme] #home .home-intro h1{font-size:28px}
+html[data-theme] #home .home-intro p{font-size:14px}
+html[data-theme] #home .home-area-grid{grid-template-columns:1fr;gap:12px}
+html[data-theme] #home .home-area-card{padding:16px;min-height:0}
+html[data-theme] #home .home-area-heading h2{font-size:21px}
+html[data-theme] #home .home-area-card p{font-size:14px;line-height:1.55;margin-bottom:12px}
+html[data-theme] #home .home-shortcut{justify-content:space-between;width:100%;min-height:44px}
+html[data-theme] #home .home-area-card p br{display:none}
+html[data-theme] .military-heading h1{font-size:27px}
+html[data-theme] .military-cards{grid-template-columns:1fr;gap:12px}
+html[data-theme] .military-home-card{min-height:0;padding:16px;display:grid;grid-template-columns:1fr}
+html[data-theme] .military-home-card .military-card-index{display:none}
+html[data-theme] .military-home-card strong{font:600 20px/1.4 system-ui,sans-serif}
+html[data-theme] .military-card-action{margin-top:4px}
+html[data-theme] .military-subnav{gap:6px}
+html[data-theme] .military-subnav button{padding:8px 10px;font-size:13px;min-height:44px}
+html[data-theme] .military-controls{grid-template-columns:1fr;display:grid}
+html[data-theme] .military-controls select{font-size:16px}
+html[data-theme] .site-update-footer{width:calc(100% - 32px)!important;margin-top:18px;font-size:11px!important;padding-top:12px}
+html[data-theme] body:has(#departments.active) .site-update-footer{padding-bottom:16px!important}
+html[data-theme] .calendar-filters select{font-size:16px}
+}
+@media(max-width:359px){.department-page .department-brand{flex-wrap:wrap;gap:4px 10px}.department-page .department-brand>span{font-size:11px}.department-page .department-choice{padding:13px;grid-template-columns:28px minmax(0,1fr)}.department-symbol svg{width:27px;height:27px}html[data-theme] .site-release-info{font-size:10px}}
+}
+@media print{.literary-banner,.literary-location{display:none!important}}
+
+@media screen{body:has(#departments.active) .app-shell{min-height:0}body:has(#departments.active) .site-update-footer{margin-top:18px!important}html[data-theme] .app-motion-layer{background:var(--lit-paper)}}
+
+@media screen{html[data-theme]{--theme-bg-018fa96a:var(--lit-surface);--theme-bg-01d3a379:var(--lit-surface);--theme-bg-0a33ff7d:var(--lit-surface);--theme-bg-0de18b31:var(--lit-surface);--theme-bg-0e47e17b:var(--lit-surface);--theme-bg-0ee823eb:var(--lit-surface);--theme-bg-166130d0:var(--lit-surface);--theme-bg-1c61b9d9:var(--lit-surface);--theme-bg-1fe3b757:var(--lit-surface);--theme-bg-1fef79b6:var(--lit-surface);--theme-bg-202a5f0a:var(--lit-surface);--theme-bg-226fd20d:var(--lit-surface);--theme-bg-23479742:var(--lit-surface);--theme-bg-2be685d8:var(--lit-surface);--theme-bg-2c1d5544:var(--lit-surface);--theme-bg-2cad1500:var(--lit-surface);--theme-bg-2e05e6fa:var(--lit-surface);--theme-bg-2ed9f99f:var(--lit-surface);--theme-bg-31962d01:var(--lit-surface);--theme-bg-34f552c3:var(--lit-surface);--theme-bg-35540fdc:var(--lit-surface);--theme-bg-3898e53f:var(--lit-surface);--theme-bg-3b8f9fd1:var(--lit-surface);--theme-bg-3d6af1c9:var(--lit-surface);--theme-bg-3ddd3f6e:var(--lit-surface);--theme-bg-430164f8:var(--lit-surface);--theme-bg-443c56a3:var(--lit-surface);--theme-bg-4445c91d:var(--lit-surface);--theme-bg-4531ca8d:var(--lit-surface);--theme-bg-46461f86:var(--lit-surface);--theme-bg-49b26671:var(--lit-surface);--theme-bg-4ddef25f:var(--lit-surface);--theme-bg-4f19c3a9:var(--lit-surface);--theme-bg-503a6e2a:var(--lit-surface);--theme-bg-50b1091d:var(--lit-surface);--theme-bg-54c972b6:var(--lit-surface);--theme-bg-55238881:var(--lit-surface);--theme-bg-55b7dee1:var(--lit-surface);--theme-bg-5fad915b:var(--lit-surface);--theme-bg-611a1e8c:var(--lit-surface);--theme-bg-629fc6b7:var(--lit-surface);--theme-bg-62b85d3f:var(--lit-surface);--theme-bg-6a54b807:var(--lit-surface);--theme-bg-6eab6adf:var(--lit-surface);--theme-bg-721979d5:var(--lit-surface);--theme-bg-77e1fbf1:var(--lit-surface);--theme-bg-79211400:var(--lit-surface);--theme-bg-7a5e4b6d:var(--lit-surface);--theme-bg-84129eb5:var(--lit-surface);--theme-bg-84232be3:var(--lit-surface);--theme-bg-8f3543b6:var(--lit-surface);--theme-bg-926aae12:var(--lit-surface);--theme-bg-9311bc6b:var(--lit-surface);--theme-bg-98affd9c:var(--lit-surface);--theme-bg-99e5d2b1:var(--lit-surface);--theme-bg-9c173cab:var(--lit-surface);--theme-bg-9c6471eb:var(--lit-surface);--theme-bg-9e97129e:var(--lit-surface);--theme-bg-a29c3143:var(--lit-surface);--theme-bg-a35be209:var(--lit-surface);--theme-bg-a3a2b10f:var(--lit-surface);--theme-bg-a7a712c8:var(--lit-surface);--theme-bg-a9155c7a:var(--lit-surface);--theme-bg-ab0fd644:var(--lit-surface);--theme-bg-b010f532:var(--lit-surface);--theme-bg-b243b481:var(--lit-surface);--theme-bg-b529ad65:var(--lit-surface);--theme-bg-b7415783:var(--lit-surface);--theme-bg-bab9e53c:var(--lit-surface);--theme-bg-c1ace8a0:var(--lit-surface);--theme-bg-c35bb492:var(--lit-surface);--theme-bg-c8bc7178:var(--lit-surface);--theme-bg-cb566b84:var(--lit-surface);--theme-bg-cbb57ed1:var(--lit-surface);--theme-bg-cc7654ff:var(--lit-surface);--theme-bg-ce1ee170:var(--lit-surface);--theme-bg-d1351ff7:var(--lit-surface);--theme-bg-d3c0f741:var(--lit-surface);--theme-bg-d4469513:var(--lit-surface);--theme-bg-d87f56fa:var(--lit-surface);--theme-bg-d885ec95:var(--lit-surface);--theme-bg-da65e702:var(--lit-surface);--theme-bg-dcb17e17:var(--lit-surface);--theme-bg-dee37dc3:var(--lit-surface);--theme-bg-df2a521a:var(--lit-surface);--theme-bg-e08de713:var(--lit-surface);--theme-bg-e27f1bdd:var(--lit-surface);--theme-bg-e3bd7c50:var(--lit-surface);--theme-bg-e5dc35dc:var(--lit-surface);--theme-bg-e708c509:var(--lit-surface);--theme-bg-ec512ce8:var(--lit-surface);--theme-bg-eccb2879:var(--lit-surface);--theme-bg-eff806b1:var(--lit-surface);--theme-bg-f2074b6c:var(--lit-surface);--theme-bg-f45daea4:var(--lit-surface);--theme-bg-f6b758e1:var(--lit-surface);--theme-bg-f7fc6f98:var(--lit-surface);--theme-bg-fa19882c:var(--lit-surface);--theme-bg-fbc4accb:var(--lit-surface);--theme-bg-fd254709:var(--lit-surface);--theme-bg-fea0682a:var(--lit-surface);--theme-bg-ff2bf681:var(--lit-surface)}html[data-theme] #curriculum .v2-credit-line{background:var(--lit-soft)}html[data-theme] #curriculum .curriculum-filter-panel :is(select,input){background:var(--lit-surface)}html[data-theme] :is(.filter-pills button.active,.filter-pills button[aria-pressed="true"]){background:var(--lit-accent);color:var(--lit-on-accent);border-color:var(--lit-accent)}}
+
+/* 모바일 입력은 본문보다 작아지지 않게 합니다. 체크박스 등의 크기는 유지합니다. */
+@media screen and (max-width:600px){html[data-theme] main :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="range"]):not([type="button"]):not([type="submit"]),select,textarea){font-size:16px}}
+@media screen{html[data-theme] .curriculum-segments button[aria-pressed="true"]{background:var(--lit-accent);color:var(--lit-on-accent);border-color:var(--lit-accent)}}

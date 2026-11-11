@@ -3,6 +3,7 @@ const test = require('node:test'), assert = require('node:assert/strict'), fs = 
 const root = path.join(__dirname,'..');
 const c = { window:{}, document:{addEventListener(){},querySelector(){return null},querySelectorAll(){return[]}}, console };
 for(const file of ['curriculum-data.js','student-data-model.js','topic-data.js','admission-pages.js','app.js'])vm.runInNewContext(fs.readFileSync(path.join(root,file),'utf8'),c);
+c.window.AnjwaPlannerValidation = require('../planner-validation.js');
 const run = code => vm.runInNewContext(code,c);
 const source=c.window.ANJWA_CURRICULUM_DATA, model=c.window.ANJWA_STUDENT_MODEL;
 test('current grade/cohort views share the same course rows, operating modes and calculated credits',()=>{
@@ -62,7 +63,7 @@ test('per-semester credits use choice budget and do not divide it again across s
  assert.equal(run("getPlannerCourseCredits(choice,'3','1')"),4);
  assert.equal(run("getPlannerCourseCredits(choice,'3','2')"),4);
  c.saved={3:{1:{regular:[{id:choice.id,credits:2,reason:'가상 저장 이유'}]}}};
- const restored=run('normalizePlannerPlan(saved)');assert.equal(restored['3']['1'].regular[0].credits,4);assert.equal(restored['3']['1'].regular[0].reason,'가상 저장 이유');assert.equal(c.saved[3][1].regular[0].credits,2);
+ const restored=run('normalizePlannerPlan(saved,"incoming2024")');assert.equal(restored['3']['1'].regular.length,0);assert.equal(restored['3']['1'].review[0].item.credits,2);assert.equal(restored['3']['1'].review[0].item.reason,'가상 저장 이유');assert.match(restored['3']['1'].review[0].reasons.join(),/학점/);assert.equal(c.saved[3][1].regular[0].credits,2);
 });
 test('identical reordered options are grouped; subset options name omitted subjects',()=>{
  const target={innerHTML:''};c.document.querySelector=()=>target;

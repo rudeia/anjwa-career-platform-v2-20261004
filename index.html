@@ -6,66 +6,73 @@
     <meta name="theme-color" content="#235acb" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="안좌고 진로진학" />
-    <title>진로 진학 교육과정 설계 플랫폼</title>
+    <meta name="apple-mobile-web-app-title" content="안좌고 교육과정" />
+    <title>안좌고 교육과정 도우미</title>
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="./styles.css?v=20260723g" />
-    <link rel="stylesheet" href="./pwa-install.css?v=1.04.00" />
-    <link rel="stylesheet" href="./ui-v2.css?v=2.04.00" />
-    <link rel="stylesheet" href="./home-design.css?v=2.03.00" />
-    <link rel="stylesheet" href="./department.css?v=2.03.00" />
-    <link rel="stylesheet" href="./motion.css?v=2.03.00" />
-  </head>
+    <link rel="stylesheet" href="./styles.css?v=2.08.00" />
+    <link rel="stylesheet" href="./pwa-install.css?v=2.08.00" />
+    <link rel="stylesheet" href="./ui-v2.css?v=2.08.00" />
+    <link rel="stylesheet" href="./home-design.css?v=2.08.00" />
+    <link rel="stylesheet" href="./department.css?v=2.08.00" />
+    <link rel="stylesheet" href="./military-guide.css?v=2.08.00" />
+    <link rel="stylesheet" href="./motion.css?v=2.08.00" />
+  <script src="./theme.js?v=2.08.00"></script>
+<link rel="stylesheet" href="./layout-refinement.css?v=2.08.00">
+<link rel="stylesheet" href="./theme.css?v=2.08.00">
+<link rel="stylesheet" href="./literary.css?v=2.08.00">
+<link rel="stylesheet" href="./literary-interior.css?v=2.08.00">
+</head>
   <body class="home-design-app department-screen">
     <div class="app-shell">
       <main class="main-content">
+        <nav id="literaryLocation" class="literary-location" aria-label="현재 위치" hidden><button type="button" data-view="home">보통과 홈</button><span aria-hidden="true">›</span><span aria-current="page"></span></nav>
         <section class="view active department-page" id="departments" aria-labelledby="department-title">
           <header class="department-brand">안좌고등학교 <span>교육과정 도우미</span></header>
-          <div class="department-intro"><p class="department-kicker">교육과정 · 진로 · 과목 선택</p><h1 id="department-title">안좌고 교육과정 도우미</h1><p>소속 학과를 선택하면 해당 교육과정으로 연결됩니다.</p></div>
-          <div class="department-choices">
-            <button class="department-choice" type="button" data-view="home"><span class="department-status">이용 가능</span><strong>보통과</strong><span class="department-description">학교 교육과정을 확인하고<br>진로와 선택과목을 탐색합니다.</span><span class="department-action">보통과로 입장 <span aria-hidden="true">→</span></span></button>
-            <button class="department-choice department-military" type="button" data-view="curriculum" data-curriculum-department="military"><span class="department-status">교육과정 조회</span><strong>부사관과</strong><span class="department-description">학년·학기별 교육과정과<br>개설 과목을 확인합니다.</span><span class="department-action">교육과정 보기 <span aria-hidden="true">→</span></span></button>
+          <div class="department-intro"><p class="department-kicker">교육과정 · 진로 · 과목 선택</p><h1 id="department-title">내 학과를 선택하세요</h1><p>아래에서 보통과 또는 부사관과를 누르면 시작합니다.</p></div>
+          <div class="department-choices" aria-label="학과별 시작 버튼">
+            <button class="department-choice" type="button" data-view="home"><span class="department-symbol"><svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="M14 7C10 5 7 5 3 6v16c4-1 7-1 11 1 4-2 7-2 11-1V6c-4-1-7-1-11 1Zm0 0v16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><span class="department-copy"><strong>보통과</strong><span class="department-description">배울 과목 확인 · 진로 탐색 · 과목 신청</span></span><span class="department-action">보통과로 시작 <span aria-hidden="true">→</span></span></button>
+            <button class="department-choice department-military" type="button" data-view="military"><span class="department-symbol"><svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><circle cx="14" cy="14" r="11" stroke="currentColor" stroke-width="1.5"/><path d="m18 10-2.5 5.5L10 18l2.5-5.5L18 10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><span class="department-copy"><strong>부사관과</strong><span class="department-description">학교 교육과정 · 부사관 준비 · 모집 일정</span></span><span class="department-action">부사관과로 시작 <span aria-hidden="true">→</span></span></button>
           </div>
-          <footer class="department-footer">안좌고등학교 <span>학과 선택</span></footer>
+          <figure class="literary-banner" aria-label="방과 후 교실과 바다를 그린 일러스트"><figcaption>우리의 내일이 시작되는 곳</figcaption></figure>
+          <footer class="department-footer">안좌고등학교 <span>교육과정 도우미</span></footer>
         </section>
-        <section class="view department-page" id="military" aria-labelledby="military-title">
-          <header class="department-brand">안좌고등학교 <span>부사관과</span></header>
-          <button class="department-back" type="button" data-view="departments">← 학과 선택으로</button>
-          <div class="department-intro"><p class="department-kicker">부사관과</p><h1 id="military-title">부사관과 교육과정</h1><p>학년·학기별 편성과 실제 개설 과목을 확인할 수 있습니다.</p></div>
-          <div class="department-empty"><h2>부사관과 교육과정 보기</h2><button type="button" class="primary-button" data-view="curriculum" data-curriculum-department="military">과목 목록 확인</button></div>
-        </section>
+        <section class="view military-page" id="military" aria-labelledby="military-title"></section>
+        <section class="view military-page" id="militaryEntry" aria-labelledby="militaryEntry-title"></section>
+        <section class="view military-page" id="militarySpecialties" aria-labelledby="militarySpecialties-title"></section>
+        <section class="view military-page" id="militaryCertificates" aria-labelledby="militaryCertificates-title"></section>
+      <section class="view military-page" id="militaryCalendar" aria-labelledby="militaryCalendar-title"></section>
         <section class="view" id="home" aria-labelledby="home-title">
           <header class="home-brand-row">
-            <button class="home-brand" type="button" data-view="departments" aria-label="학과 선택으로 돌아가기">안좌고 · 보통과 <span class="department-switch">학과 변경 ↗</span></button>
+            <button class="home-brand" type="button" data-view="departments" aria-label="학과 선택으로 돌아가기">안좌고 · 보통과 <span class="department-switch">학과 다시 선택</span></button>
             <form class="home-search" role="search" aria-label="학교 과목 검색">
               <span aria-hidden="true">⌕</span><input id="homeSubjectSearch" type="search" aria-label="과목 검색" placeholder="과목 검색" /><button type="submit" aria-label="과목 검색하기">검색</button>
             </form>
           </header>
-          <div class="home-intro"><div><h1 id="home-title">안좌고 교육과정 도우미</h1><p>학교 교육과정을 확인하고, 관심 분야에 맞는 선택과목을 비교해보세요.</p></div></div>
+          <div class="home-intro"><div><h1 id="home-title">무엇을 할까요?</h1><p>과목을 확인하려면 ‘교육과정 확인’, 고르고 신청하려면 ‘과목 선택·신청’을 누르세요.</p></div></div>
           <aside class="home-motto" aria-label="탐색 안내"><p>오늘의<br />관심이<br />내일의 가능성이<br />됩니다.</p><small>조금 더 깊이,<br />조금 더 넓게<br />나를 알아가는 시간.</small></aside>
           <div class="home-area-grid">
             <section class="home-area-card home-curriculum-card" data-home-view="curriculum">
               <span class="home-card-number" aria-hidden="true">01</span>
-              <div class="home-area-heading"><h2>학교 교육과정 <span aria-hidden="true">→</span></h2></div>
+              <div class="home-area-heading"><h2>교육과정 확인 <span aria-hidden="true">→</span></h2></div>
               <p>학년·학기별 과목과 학점을 확인하고,<br class="home-desktop-break" /> 교과군과 개설 방식을 살펴보세요.</p>
               <button class="home-shortcut" type="button" data-view="curriculum">교육과정 보기 <span aria-hidden="true">→</span></button>
             </section>
-            <section class="home-area-card home-career-card" data-home-view="careerHub">
-              <span class="home-card-number" aria-hidden="true">02</span>
-              <div class="home-area-heading"><h2>진로 탐색 <span aria-hidden="true">→</span></h2></div>
-              <p>관심 분야와 관련 과목을 찾아보고,<br /> 교과·종합전형의 평가 기준을 확인하세요.</p>
-              <button class="home-shortcut" type="button" data-view="careerHub">진로·전형 살펴보기 <span aria-hidden="true">→</span></button>
-            </section>
             <section class="home-area-card home-plan-card" data-home-view="planner">
               <span class="home-card-number" aria-hidden="true">03</span><span class="home-plan-art" aria-hidden="true"></span>
-              <div class="home-area-heading"><h2>과목 설계 <span aria-hidden="true">→</span></h2></div>
+              <div class="home-area-heading"><h2>과목 선택·신청 <span aria-hidden="true">→</span></h2></div>
               <p>선택과목을 비교하고,<br class="home-desktop-break" /> 다음 학년 신청서를 작성하세요.</p>
               <button class="home-shortcut" type="button" data-view="planner">과목 선택·신청 <span aria-hidden="true">→</span></button>
             </section>
+            <section class="home-area-card home-career-card" data-home-view="careerHub">
+              <span class="home-card-number" aria-hidden="true">02</span>
+              <div class="home-area-heading"><h2>진로·전형 탐색 <span aria-hidden="true">→</span></h2></div>
+              <p>관심 분야와 관련 과목을 찾아보고,<br /> 교과·종합전형의 평가 기준을 확인하세요.</p>
+              <button class="home-shortcut" type="button" data-view="careerHub">진로·전형 살펴보기 <span aria-hidden="true">→</span></button>
+            </section>
             <section class="home-area-card home-evaluation-card" data-home-view="selfEvaluation">
               <span class="home-card-number" aria-hidden="true">04</span><span class="home-evaluation-art" aria-hidden="true"></span>
-              <div class="home-area-heading"><h2>자기평가 <span aria-hidden="true">→</span></h2></div>
+              <div class="home-area-heading"><h2>활동 정리 <span aria-hidden="true">→</span></h2></div>
               <p>지금까지의 활동을 돌아보고,<br /> 나의 배움과 변화를 기록해보세요.</p>
               <button class="home-shortcut" type="button" data-view="selfEvaluation">활동 정리 <span aria-hidden="true">→</span></button>
             </section>
@@ -82,32 +89,21 @@
             <button class="student-start-card" type="button" data-view="courseDesigner" data-student-start="interest"><span class="home-start-icon" aria-hidden="true">♧</span><span><b>관심 분야가 있어요</b><small>내 관심과 잘 맞는 과목을 찾아봐요.</small></span><span aria-hidden="true">›</span></button>
             <button class="student-start-card" type="button" data-view="planner" data-student-start="choices"><span class="home-start-icon" aria-hidden="true">▤</span><span><b>과목을 고를래요</b><small>어떤 과목을 선택하면 좋을까요?</small></span><span aria-hidden="true">›</span></button>
           </div>
-          <details class="home-install-details"><summary>홈 화면에 앱 설치</summary>
-          <section class="pwa-install-panel" data-pwa-install aria-labelledby="pwaInstallTitle">
-            <span class="pwa-install-mark" aria-hidden="true">↓</span>
-            <div class="pwa-install-copy">
-              <h2 id="pwaInstallTitle">홈 화면에서 바로 시작하기</h2>
-              <p>이 기기에 설치하면 브라우저를 다시 찾지 않고 진로진학 플랫폼을 열 수 있습니다.</p>
-            </div>
-            <div class="pwa-install-actions">
-              <button class="pwa-install-button" type="button" data-pwa-install-button>홈 화면에 설치</button>
-              <p class="pwa-install-status" data-pwa-install-status aria-live="polite">설치 가능 여부를 확인하고 있습니다.</p>
-            </div>
-          </section>
-          </details>
+
 
 
 
         </section>
 
         <section class="view" id="careerHub" aria-labelledby="career-hub-title">
-          <div class="section-head"><div><h2 id="career-hub-title">진로·진학</h2><p>관심 분야를 탐색하고 대학 전형과 탐구 방법을 살펴보세요.</p></div><button class="ghost-button" data-view="home">첫 화면으로</button></div>
+          <div class="section-head"><div class="section-title-wrap"><div class="section-title-row"><h2 id="career-hub-title">진로·진학</h2><button class="ghost-button" data-view="home">첫 화면으로</button></div><p>관심 분야를 탐색하고 대학 전형과 탐구 방법을 살펴보세요.</p></div></div>
           <div class="hero-grid">
             <button class="launch-card tone-designer" data-view="courseDesigner"><span class="launch-icon designer-icon" aria-hidden="true"></span><strong>관심 분야 탐색</strong><span>관심 분야를 비교하고 우리학교 과목과 연결합니다.</span></button>
             <a class="launch-card tone-blue" href="./subject.html"><span class="launch-icon score-icon" aria-hidden="true"></span><strong>교과전형 안내</strong><span>반영 교과, 환산 방식과 지원 조건을 살펴봅니다.</span></a>
             <a class="launch-card tone-red" href="./holistic.html"><span class="launch-icon portfolio-icon" aria-hidden="true"></span><strong>종합전형 안내</strong><span>평가 기준과 과목 선택, 학습 경험을 살펴봅니다.</span></a>
             <button class="launch-card tone-teal" data-view="topicExplorer"><span class="launch-icon topic-icon" aria-hidden="true"></span><strong>탐구 주제 예시</strong><span>과목별 질문과 탐구 방법을 참고합니다.</span></button>
           </div>
+          <aside class="edu-reference"><b>함께 찾아보기 · 네이버 에듀</b><div class="edu-reference-links"><a href="https://edu.naver.com/subjects-guide" target="_blank" rel="noopener noreferrer">학과별 추천·과목 설명 ↗</a><a href="https://edu.naver.com/schools/6Y1M4MB44K" target="_blank" rel="noopener noreferrer">안좌고 학교정보 ↗</a><a href="https://edu.naver.com/admission-info" target="_blank" rel="noopener noreferrer">대학·학과·전형 찾기 ↗</a></div><small>새 탭에서 열립니다. 과목 설명은 2022 개정 일반고 기준이며 학교 자체·부사관과 전문과목은 포함되지 않을 수 있습니다. 개설 과목은 학교 편성표, 지원 조건은 해당 연도 대학 모집요강을 확인하세요.</small></aside>
         </section>
 
         <section class="view" id="curriculum" aria-labelledby="curriculum-title">
@@ -124,7 +120,7 @@
                   </svg>
                   <span>우리학교 교육과정</span>
                 </h2>
-                <button class="ghost-button back-home-button" data-view="home">첫 화면으로</button>
+                <button class="ghost-button back-home-button" id="curriculumBackButton" type="button" data-view="home">첫 화면으로</button>
               </div>
               <p class="curriculum-lead">학년과 학기별 과목을 확인하세요.</p>
             </div>
@@ -132,7 +128,7 @@
 
           <div class="curriculum-view-controls">
             <label>학과<select id="curriculumDepartment"><option value="general">보통과</option><option value="military">부사관과</option></select></label>
-            <label>과목 목록<select id="curriculumOffering"><option value="all">전체 선택과목</option><option value="open">실제 개설 과목(2027)</option></select></label>
+            <label>과목 목록<select id="curriculumOffering"><option value="all">전체 선택과목</option><option value="open" disabled>실제 개설표 확인 후 제공</option></select></label>
           </div>
           <p id="curriculumAvailabilityNote" class="curriculum-availability-note" aria-live="polite"></p>
           <div class="curriculum-main">
@@ -241,15 +237,15 @@
           <div class="content-block curriculum-career-note">
             <div>
               <span class="label">진로와 연결하기</span>
-              <h3>과목 선택은 진로를 확인하는 단서입니다</h3>
-              <p>
+              <h3 id="curriculumCareerTitle">과목 선택은 진로를 확인하는 단서입니다</h3>
+              <p id="curriculumCareerText">
                 교육과정을 확인한 뒤에는 희망 학과에서 중요하게 보는 과목과 비교해 봅니다.
                 내가 들을 수 있는 과목, 추가로 알아볼 과목, 공동교육과정으로 확장할 과목을 구분하면 상담에서 더 구체적인 계획을 세울 수 있습니다.
               </p>
             </div>
             <div class="career-note-actions">
               <span>교육과정 업데이트 <b id="curriculumUpdatedDate">-</b></span>
-              <a class="primary-button page-link-button" href="./holistic-subjects.html">학과별 추천 과목 보기</a>
+              <a class="primary-button page-link-button" id="curriculumCareerLink" href="./holistic-subjects.html">학과별 추천 과목 보기</a>
             </div>
           </div>
         </section>
@@ -544,6 +540,7 @@
             </div>
           </div>
 
+          <section id="plannerReview" class="planner-review panel" aria-live="polite" hidden></section>
           <div class="planner-mode-panel">
             <div>
               <span class="label">진행 순서</span>
@@ -796,8 +793,8 @@
       <button class="nav-button active" type="button" data-view="home" aria-current="page"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-7 9 7v11h-6v-7H9v7H3z"/></svg><b>홈</b></button>
       <button class="nav-button" type="button" data-view="curriculum"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3h16v18H4z M8 7h8 M8 12h8 M8 17h5"/></svg><b>교육과정</b></button>
       <button class="nav-button" type="button" data-view="careerHub"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9z M15 9l-2 4-4 2 2-4z"/></svg><b>진로·진학</b></button>
-      <button class="nav-button" type="button" data-view="planner"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14v18H5z M9 7h6 M9 12h6 M9 17h4"/></svg><b>과목 설계</b></button>
-      <button class="nav-button" type="button" data-view="selfEvaluation"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1L20 7l-3-3L5 16z M14 7l3 3"/></svg><b>자기평가</b></button>
+      <button class="nav-button" type="button" data-view="planner"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14v18H5z M9 7h6 M9 12h6 M9 17h4"/></svg><b>선택·신청</b></button>
+      <button class="nav-button" type="button" data-view="selfEvaluation"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1L20 7l-3-3L5 16z M14 7l3 3"/></svg><b>활동 정리</b></button>
     </nav>
 
     <div class="subject-info-modal" id="subjectInfoModal" hidden>
@@ -814,16 +811,20 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="./curriculum-data.js?v=2.04.00"></script>
-    <script src="./student-data-model.js"></script>
+    <script src="./student-data-model.js"></script><script src="./planner-validation.js?v=2.04.00-curriculum261111"></script>
     <script src="./subject-guide-data.js?v=2.01.00"></script>
     <script src="./recommendation-data.js?v=2.01.00"></script>
     <script src="./university-recommendation-data.js?v=2.01.00"></script>
     <script src="./course-designer-data.js?v=2.03.00"></script>
     <script src="./topic-data.js?v=2.03.00"></script>
     <script src="./motion.js?v=2.03.00"></script>
-    <script src="./app.js?v=2.04.00"></script>
-    <script src="./pwa-install.js?v=2.00.01" defer></script>
-    <script src="./site-meta.js?v=2.04.00" defer></script>
+    <script src="./military-calendar-data.js?v=2.08.00"></script>
+    <script src="./military-calendar.js?v=2.08.00"></script>
+    <script src="./military-guide.js?v=2.08.00"></script>
+    <script src="./edu-resources.js?v=2.08.00"></script>
+    <script src="./app.js?v=2.08.00"></script>
+    <script src="./pwa-install.js?v=2.08.00" defer></script>
+    <script src="./site-meta.js?v=2.08.00" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

@@ -4,7 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>선택과목 신청서 | 안좌고 교육과정 도우미</title>
-  <link rel="stylesheet" href="./demand.css?v=2.03.00">
+  <link rel="stylesheet" href="./demand.css?v=2.08.00">
+<script src="./theme.js?v=2.08.00"></script>
+<link rel="stylesheet" href="./layout-refinement.css?v=2.08.00">
+<link rel="stylesheet" href="./theme.css?v=2.08.00">
+<link rel="stylesheet" href="./pwa-install.css?v=2.08.00">
+<link rel="stylesheet" href="./literary.css?v=2.08.00">
+<link rel="stylesheet" href="./literary-interior.css?v=2.08.00">
 </head>
 <body class="demand-student">
   <header class="demand-app-header">
@@ -26,6 +32,8 @@
         <label>조사 차수<input id="demandRound" value="1" maxlength="20" required></label>
       </div>
       <p id="demandContext"></p>
+      <p id="draftStatus" role="status" aria-live="polite"></p>
+      <details id="previousDrafts" class="demand-import" hidden></details>
       <div class="identity">
         <label>학번<input id="demandNumber" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="예: 10101"></label>
         <label>이름<input id="demandName" autocomplete="off" maxlength="40" placeholder="이름 입력"></label>
@@ -44,17 +52,18 @@
     <div id="demandGroups"></div>
     <p id="demandMessage" role="status" aria-live="polite"></p>
     <section class="panel demand-export" aria-labelledby="demand-export-title">
-      <div><h2 id="demand-export-title">신청서 저장</h2><p>엑셀은 수합용, PDF는 확인·인쇄용입니다.<br>이름과 신청 내용은 자동 저장되지 않으니 화면을 나가기 전에 파일로 저장하세요.</p></div>
+      <div><h2 id="demand-export-title">신청서 저장</h2><p>엑셀은 수합용, PDF는 확인·인쇄용입니다.<br>입력은 이 탭에 임시 보관됩니다. 탭을 닫기 전에 엑셀을 내려받고, 학교가 안내한 방법으로 전달하세요.</p></div>
       <div class="actions"><button class="primary" id="studentXlsx">신청 엑셀 내려받기</button><button id="studentPdf">한 페이지 PDF / 인쇄</button></div>
     </section>
     <div class="demand-finish"><button id="finishDemand">작성 마치기 · 입력 지우기</button></div>
     <section class="panel" id="applicationPreview" aria-label="신청서 미리보기"></section>
   </main>
   <script src="./curriculum-data.js"></script>
-  <script src="./student-data-model.js"></script>
+  <script src="./student-data-model.js"></script><script src="./planner-validation.js?v=2.04.00-curriculum261111"></script>
   <script src="./vendor/xlsx.full.min.js"></script>
   <script src="./demand-core.js?v=2.03.00"></script>
   <script src="./demand-files.js?v=2.03.00"></script>
-  <script src="./demand-ui.js?v=2.03.00"></script>
+  <script src="./demand-ui.js?v=2.04.00-curriculum261111"></script>
+<script src="./pwa-install.js?v=2.08.00" defer></script>
 </body>
 </html>

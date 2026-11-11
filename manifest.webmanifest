@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "안좌고 진로진학 플랫폼",
-  "short_name": "안좌고 진로진학",
+  "name": "안좌고 교육과정 도우미",
+  "short_name": "안좌고 교육과정",
   "description": "교육과정, 과목 선택, 학생부와 수시 지원 상담을 연결하는 안좌고 학생용 플랫폼",
   "lang": "ko-KR",
   "start_url": "./index.html",
