@@ -6366,7 +6366,7 @@ function renderCourseNameWithInfo(course) {
         data-subject-id="${escapeAttribute(course.subjectId || "")}"
         data-subject-name="${escapeHtml(course.name)}"
         data-subject-area="${escapeHtml(course.area || "")}"
-        data-subject-category="${escapeHtml(course.category || "")}">?</button>
+        data-subject-category="${escapeHtml(course.category || "")}">설명</button>
     </span>
   `;
 }
@@ -6402,9 +6402,10 @@ function openSubjectInfoPopup(course) {
         </div>
       </section>
     </div>
-    ${guide.learningTopics.length ? `<section class="subject-guide-detail-section"><b>주요 학습 내용</b><div class="subject-guide-chip-list">${guide.learningTopics.map(item=>`<span>${escapeHtml(item)}</span>`).join('')}</div></section>` : ''}
+    ${guide.learningTopics.length ? `<section class="subject-guide-detail-section"><b>${guide.exploratory ? "학습 주제 · 예시" : "주요 학습 내용"}</b><div class="subject-guide-chip-list">${guide.learningTopics.map(item=>`<span>${escapeHtml(item)}</span>`).join('')}</div></section>` : ''}
     ${guide.majorConnections.length ? `<section class="subject-guide-detail-section"><b>학과와 이렇게 연결돼요</b><div class="subject-major-connections">${guide.majorConnections.map(item=>`<article><strong>${escapeHtml(item.major)}</strong><p>${escapeHtml(item.reason)}</p></article>`).join('')}</div><small>${escapeHtml(guide.majorBasis)}입니다. 대학의 필수·권장 과목 지정과는 구분하세요.</small></section>` : ''}
     ${guide.relatedMajors.some(major=>!guide.majorConnections.some(item=>item.major===major)) ? `<details class="subject-guide-major-details"><summary>다른 관련 전공</summary><div class="subject-guide-chip-list">${guide.relatedMajors.filter(major=>!guide.majorConnections.some(item=>item.major===major)).map(major=>`<span>${escapeHtml(major)}</span>`).join('')}</div></details>` : ''}
+    ${guide.militaryConnections.length?`<section class="subject-guide-detail-section"><b>부사관 진로와 연결해 보기</b><div class="subject-major-connections">${guide.militaryConnections.map(item=>`<article><strong>${escapeHtml(item.role)}</strong><p>${escapeHtml(item.reason)}</p></article>`).join('')}</div><small>특기 배정이나 임용 요건을 뜻하지 않습니다.</small></section>`:''}
     <section class="subject-guide-detail-section">
       <b>수업에서 해볼 수 있는 활동 · 예시</b>
       <ul>${guide.activities.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
@@ -6432,7 +6433,8 @@ function openSubjectInfoPopup(course) {
       </div>
     </details>`}
     <details class="subject-guide-sources"><summary>자료 출처 · 안내 기준</summary>
-    ${guide.sourceUrl ? `<p><a href="${escapeAttribute(guide.sourceUrl)}" target="_blank" rel="noopener noreferrer">네이버 에듀 · 제공 윈드폴리 ↗</a> · 확인 ${escapeHtml(guide.sourceCheckedAt)}. 과목 설명·학습 내용·관련 전공을 참고해 앱에서 재작성했습니다. 학과 연결 이유와 활동 예시는 앱의 해석·제안입니다.</p>` : ""}
+    ${guide.sourceUrl ? `<p><a href="${escapeAttribute(guide.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(guide.sourceLabel)} ↗</a> · 확인 ${escapeHtml(guide.sourceCheckedAt)}. ${escapeHtml(guide.sourceNote)}</p>` : `<p>${escapeHtml(guide.sourceLabel)}</p><p>${escapeHtml(guide.sourceNote)}</p>`}
+    ${guide.scopeNote?`<p>${escapeHtml(guide.scopeNote)}</p>`:""}
     <p class="subject-guide-basis">안내 기준 · ${escapeHtml(guide.basisLabel)} · ${escapeHtml(formatDateLabel(subjectGuideData.updated))}</p>
     <p class="subject-info-caution">
       교육과정이 다른 과목은 학습 내용이 이어지더라도 같은 공식 과목으로 간주하지 않습니다. 이 안내는 과목 선택을 돕는 참고 자료이며 대학의 공식 핵심·권장 과목을 뜻하지 않습니다. 실제 수업 내용과 개설 여부는 학교 안내를, 대학 반영 여부는 해당 학년도 대학 자료를 확인하세요. 희망 진로와 직접 연결되지 않는 과목도 질문·자료 해석·토론·협업을 통해 학업역량과 공동체역량을 보여줄 수 있습니다.
@@ -6450,14 +6452,14 @@ function getSubjectGuideInfo(course, relation) {
   const exactProfile = subjectGuideData.subjectProfiles?.[profileName] || Object.entries(subjectGuideData.subjectProfiles || {}).find(([name])=>name.replace(/\s/g,'')===profileName.replace(/\s/g,''))?.[1] || {};
   const oldRevision = String(course.subjectId || '').startsWith('2015:');
   const schoolSpecific = /고시외|전문/.test(course.name);
-  const subjectProfile = (oldRevision && exactProfile.curriculum === '2022 개정') || (schoolSpecific && exactProfile.sourceUrl) ? {} : exactProfile;
+  const subjectProfile = window.AnjwaSubjectProfile ? window.AnjwaSubjectProfile.resolve(subjectGuideData, course) || {} : (oldRevision && exactProfile.curriculum === '2022 개정') || (schoolSpecific && exactProfile.sourceUrl) ? {} : exactProfile;
   const areaProfile = subjectGuideData.areaProfiles?.[course.area] || {};
   const groupProfile = subjectGuideData.groupProfiles?.[relation.title] || {};
   return {
     learning: subjectProfile.learning || courseDesignerData.subjectConcepts?.[profileName] || groupProfile.learning || areaProfile.learning || relation.description || getSubjectConnectionPoint(course),
-    curriculum: subjectProfile.curriculum || "",
+    curriculum: subjectProfile.curriculum ? (window.AnjwaSubjectProfile?.curriculumLabel(subjectProfile.curriculum) || subjectProfile.curriculum) : "",
     activities: subjectProfile.activities || groupProfile.activities || areaProfile.activities || ["수업 개념에서 질문 만들기", "자료를 찾아 근거 비교하기", "결과와 한계를 자신의 말로 정리하기"],
-    competencies: groupProfile.competencies || areaProfile.competencies || ["질문 만들기", "자료 해석", "성찰"],
+    competencies: subjectProfile.competencies || groupProfile.competencies || areaProfile.competencies || ["질문 만들기", "자료 해석", "성찰"],
     relatedSubjects: groupProfile.relatedSubjects || [],
     learningTopics: subjectProfile.learningTopics || [],
     majorConnections: subjectProfile.majorConnections || [],
@@ -6465,7 +6467,12 @@ function getSubjectGuideInfo(course, relation) {
     majorBasis: subjectProfile.majorBasis || '',
     sourceUrl: subjectProfile.sourceUrl || '',
     sourceCheckedAt: subjectProfile.sourceCheckedAt || '',
-    badges: groupProfile.badges || ["과목 탐색"],
+    sourceLabel: subjectProfile.sourceLabel || '네이버 에듀 · 제공 윈드폴리',
+    sourceNote: subjectProfile.sourceNote || '과목 설명·학습 내용·관련 전공을 참고해 앱에서 재작성했습니다. 학과 연결 이유와 활동 예시는 앱의 해석·제안입니다.',
+    scopeNote: subjectProfile.scopeNote || '',
+    exploratory: subjectProfile.exploratory || false,
+    militaryConnections: subjectProfile.militaryConnections || [],
+    badges: subjectProfile.exploratory ? ["학교·전문 과목 탐색"] : groupProfile.badges || ["과목 탐색"],
     basisLabel: subjectGuideData.basisLabel || "교육과정·전공 연계 참고"
   };
 }
@@ -6478,7 +6485,7 @@ function formatSubjectCategory(category) {
 }
 
 function getSubjectGuideOfferings(subject) {
-  return recommendationCurriculumPlans.flatMap((plan) => {
+  const general = recommendationCurriculumPlans.flatMap((plan) => {
     return getSubjectCurriculumMatches(subject, plan.key).map((match) => ({
       ...plan,
       ...match,
@@ -6486,6 +6493,14 @@ function getSubjectGuideOfferings(subject) {
       semesters: match.semesters || []
     }));
   });
+  const normalized = name => String(name || '').replace(/^\s*\(온\)\s*/, '').replace(/\s/g, '');
+  const military = Object.entries(curriculumData.militaryPlans || {})
+    .filter(([key]) => /^incoming\d{4}$/.test(key))
+    .flatMap(([key, plan]) => plan.courses.filter(course => normalized(course.name) === normalized(subject)).map(course => ({
+      ...course, key, shortLabel: `부사관과 · ${key.slice(8)} 입학생`, className: 'military-offering',
+      modeLabel: window.ANJWA_STUDENT_MODEL?.label(course) || '학교 편성 확인', relatedMatch: false
+    })));
+  return [...general, ...military];
 }
 
 function renderSubjectGuideOfferings(offerings, subject) {

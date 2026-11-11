@@ -3,7 +3,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 const root=path.join(__dirname,'..');
 const evidence=JSON.parse(fs.readFileSync(path.join(__dirname,'fixtures/naver-subject-evidence.json'),'utf8'));
 const c={window:{},document:{addEventListener(){},querySelector(){return null},querySelectorAll(){return []}},console};
-for(const file of ['curriculum-data.js','student-data-model.js','subject-guide-data.js','subject-detail-data.js','app.js'])vm.runInNewContext(fs.readFileSync(path.join(root,file),'utf8'),c);
+for(const file of ['curriculum-data.js','student-data-model.js','subject-guide-data.js','subject-detail-data.js','subject-supplement-data.js','subject-profile.js','app.js'])vm.runInNewContext(fs.readFileSync(path.join(root,file),'utf8'),c);
 const run=s=>vm.runInNewContext(s,c);
 const profiles=c.window.ANJWA_SUBJECT_GUIDE.subjectProfiles;
 test('all 155 reviewed subjects have distinct internal explanations and sourced major examples',()=>{
@@ -21,7 +21,8 @@ test('all 155 reviewed subjects have distinct internal explanations and sourced 
 test('revised descriptions are not attached to old curricula or school-specific variants',()=>{
  const guide=(name,id='')=>run(`getSubjectGuideInfo(${JSON.stringify({name,area:'교양',subjectId:id})},{title:'',description:'',tracks:[]})`);
  assert.match(guide('(온) 생태와 환경').learning,/환경 갈등/);
- assert.equal(guide('기하','2015:기하').sourceUrl,'');
+ assert.match(guide('기하','2015:기하').curriculum,/2015 개정.*2024 입학생 적용/);
+ assert.doesNotMatch(guide('기하','2015:기하').sourceUrl,/edu.naver.com/);
  assert.equal(guide('(고시외) 생태와 환경').sourceUrl,'');
  assert.equal(guide('군대윤리(광주)').sourceUrl,'');
  assert.equal(profiles['수학Ⅰ'].curriculum,'2015 개정');

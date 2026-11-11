@@ -145,3 +145,5 @@ html[data-theme] .subject-guide-sources a{color:var(--lit-accent)}
 }
 
 @media screen{html[data-theme] .subject-library-shortcut{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 12px;margin:12px 0;padding:10px 12px;min-height:44px;border:1px solid var(--lit-line);border-radius:5px;color:var(--lit-accent);background:var(--lit-soft);font-size:13px;text-decoration:none}.subject-library-shortcut span{font-size:11px}}
+
+@media screen{html[data-theme] .subject-info-button[data-subject-info]{width:auto;min-width:44px;min-height:44px;padding:0 8px;font-size:12px;white-space:nowrap}}
