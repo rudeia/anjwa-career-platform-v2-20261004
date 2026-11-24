@@ -12,15 +12,31 @@ function mergeCollections(...collections){
  return Object.freeze(merged);
 }
 const data=mergeCollections(root.ANJWA_SUBJECT_OVERVIEW_CORE_DATA,root.ANJWA_SUBJECT_OVERVIEW_SCIENCE_SOCIETY_DATA,root.ANJWA_SUBJECT_OVERVIEW_APPLIED_DATA);
-function get(course={},guide={}){
+function mergeEvidence(...collections){
+ const merged={};
+ for(const collection of collections)for(const [id,entry]of Object.entries(collection||{})){
+  if(Object.hasOwn(merged,id))throw new Error('Duplicate overview evidence: '+id);
+  merged[id]=Object.freeze({...entry,sections:Object.freeze([...(entry.sections||[])]),pointSources:Object.freeze([...(entry.pointSources||[])])});
+ }
+ return Object.freeze(merged);
+}
+const evidence=mergeEvidence(root.ANJWA_SUBJECT_OVERVIEW_CORE_BASIS,root.ANJWA_SUBJECT_OVERVIEW_SCIENCE_SOCIETY_BASIS,root.ANJWA_SUBJECT_OVERVIEW_APPLIED_BASIS);
+function resolveId(course={},guide={}){
  const explicitId=course.subjectId||course.id;
- if(explicitId&&data[explicitId])return [...data[explicitId]];
+ if(explicitId&&data[explicitId])return explicitId;
  const revision=String(explicitId||'').split(':')[0]||String(guide.curriculum||'').match(/^(2015|2022)/)?.[1];
  const revisions=revision?[revision]:['2022','대표','2015'];
- for(const rev of revisions){const points=data[rev+':'+norm(course.name)];if(points)return [...points];}
+ for(const rev of revisions){const id=rev+':'+norm(course.name);if(data[id])return id;}
+ return null;
+}
+function get(course={},guide={}){
+ const id=resolveId(course,guide);if(id)return [...data[id]];
  // A new, unregistered subject can still show its supplied learning topics.
  return [...new Set((guide.learningTopics||[]).filter(Boolean))];
 }
-const api={get,mergeCollections,data};root.AnjwaSubjectOverview=api;
+function basis(course={},guide={}){
+ return evidence[resolveId(course,guide)]||{status:'unverified',scopeNote:'해당 과목의 공식 교육과정 원문을 아직 확인하지 못했습니다.'};
+}
+const api={get,basis,mergeCollections,mergeEvidence,data,evidence};root.AnjwaSubjectOverview=api;
 if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof window==='object'?window:globalThis);

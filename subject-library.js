@@ -44,9 +44,16 @@ function buildCatalogue(curriculum,guide,designer,context={}){
  for(const record of records.values())record.profile=profileAPI.enrich(record.profile,{name:record.name,subjectId:record.id},{designer,...context});
  return [...records.values()].sort((a,b)=>a.name.localeCompare(b.name,'ko')||a.revision.localeCompare(b.revision));
 }
+function overviewPoints(record){return root.AnjwaSubjectOverview?.get?.({id:record.id,name:record.name},record.profile)||[];}
+function overviewBasis(record){return root.AnjwaSubjectOverview?.basis?.({id:record.id,name:record.name},record.profile)||{status:'unverified'};}
+function overviewSearchFields(record){
+ const points=overviewPoints(record);
+ return overviewBasis(record).status==='official-curriculum'?points:[record.profile.learning,...(record.profile.learningTopics||[]),...points];
+}
+function overviewPreview(record){return overviewPoints(record).slice(0,2).join(' · ')||record.profile.learning;}
 function filterCatalogue(records,{query='',area='all',offering='all',revision='all'}={}){
  const words=String(query).split(/[\s,，]+/).map(norm).filter(Boolean);
- return records.filter(r=>(area==='all'||r.area===area)&&(revision==='all'||r.revision===revision)&&(offering==='all'||(offering==='school'?r.offerings.length>0:r.offerings.length===0))&&words.every(word=>norm([r.name,r.area,r.profile.learning,...(r.profile.activities||[]),...(r.profile.classroomPlan?.activityPlans||[]).flatMap(activity=>[activity.title,activity.question,activity.materials,...(activity.steps||[]),activity.output]),...(r.profile.learningTopics||[]),...(r.profile.relatedMajors||[]),...(r.profile.majorConnections||[]).flatMap(m=>[m.major,m.reason]),...(r.profile.careerPaths||[]).flatMap(p=>[p.name,p.reason,...p.majors]),...(r.profile.activityGuides||[]).flatMap(t=>[t.title,t.question,t.method,...(t.keywords||[]),...(t.majors||[])])].join(' ')).includes(word))).sort((a,b)=>{const rank=r=>norm(r.name)===norm(query)?0:norm(query)&&norm(r.name).includes(norm(query))?1:2;return rank(a)-rank(b)||a.name.localeCompare(b.name,'ko');});
+ return records.filter(r=>(area==='all'||r.area===area)&&(revision==='all'||r.revision===revision)&&(offering==='all'||(offering==='school'?r.offerings.length>0:r.offerings.length===0))&&words.every(word=>norm([r.name,r.area,...overviewSearchFields(r),...(r.profile.activities||[]),...(r.profile.classroomPlan?.activityPlans||[]).flatMap(activity=>[activity.title,activity.question,activity.materials,...(activity.steps||[]),activity.output]),...(r.profile.relatedMajors||[]),...(r.profile.majorConnections||[]).flatMap(m=>[m.major,m.reason]),...(r.profile.careerPaths||[]).flatMap(p=>[p.name,p.reason,...p.majors]),...(r.profile.activityGuides||[]).flatMap(t=>[t.title,t.question,t.method,...(t.keywords||[]),...(t.majors||[])])].join(' ')).includes(word))).sort((a,b)=>{const rank=r=>norm(r.name)===norm(query)?0:norm(query)&&norm(r.name).includes(norm(query))?1:2;return rank(a)-rank(b)||a.name.localeCompare(b.name,'ko');});
 }
 function readSearchState(params,records){
  const areas=new Set(records.map(r=>r.area)),revisions=new Set(records.map(r=>r.revision));
@@ -85,7 +92,7 @@ function mount(){
   const url=new URL(root.location.href);url.search=searchStateParams(url.searchParams,state).toString();
   root.history.replaceState(root.history.state,'',url.href);
   $('libraryCount').textContent=`전체 ${records.length}개 안내 중 ${matches.length}개`;
-  results.innerHTML=matches.length?matches.map(r=>`<article class="library-card"><div class="library-card-title"><h2>${esc(r.name)}</h2><span>${esc(revisionLabel(r.revision))}</span></div><p class="library-card-meta">${esc(r.area)} · ${r.offerings.length?'학교 편성표에 있음':'학교 편성표에 없음'}</p><p>${esc(r.profile.learning)}</p><button class="library-button" type="button" data-subject-id="${esc(r.id)}" aria-label="${esc(r.name+' '+r.revision+' 과목 설명')}">배우는 내용과 관련 전공 보기 →</button></article>`).join(''):'<p class="library-empty">일치하는 과목이 없습니다. 검색어를 줄이거나 교과군·편성 필터를 전체로 바꿔 보세요.</p>';
+  results.innerHTML=matches.length?matches.map(r=>`<article class="library-card"><div class="library-card-title"><h2>${esc(r.name)}</h2><span>${esc(revisionLabel(r.revision))}</span></div><p class="library-card-meta">${esc(r.area)} · ${r.offerings.length?'학교 편성표에 있음':'학교 편성표에 없음'}${overviewBasis(r).status==='official-curriculum'?'':' · 교육과정 원문 확인 필요'}</p><p>${esc(overviewPreview(r))}</p><button class="library-button" type="button" data-subject-id="${esc(r.id)}" aria-label="${esc(r.name+' '+r.revision+' 과목 설명')}">배우는 내용과 관련 전공 보기 →</button></article>`).join(''):'<p class="library-empty">일치하는 과목이 없습니다. 검색어를 줄이거나 교과군·편성 필터를 전체로 바꿔 보세요.</p>';
  }
  function detail(record,trigger){
   const p=record.profile;lastTrigger=trigger;$('libraryDialogTitle').textContent=record.name;

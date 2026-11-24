@@ -19,7 +19,7 @@ test('all 250 enriched profiles render with the complete 144-topic collection an
  const linked=new Set();let renderedActivities=0,criteria=0,procedures=0;
  for(const record of records){
   const guide=record.profile,html=api.render({course:record,guide});
-  assert.ok(html.includes(esc(guide.learning)),record.id+' learning');
+  if(w.AnjwaSubjectOverview.basis(record,guide).status!=='official-curriculum')assert.ok(html.includes(esc(guide.learning)),record.id+' exploratory learning');
   assert.doesNotMatch(html,/\bundefined\b|\[object Object\]/,record.id);
   for(const activity of api.activityList(guide)){
    renderedActivities++;

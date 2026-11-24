@@ -22,28 +22,59 @@ test('all catalogue subjects have three to five distinct, concise learning point
   }
  }
 });
-test('the approved Korean example is preserved and school and library lookups use the same text',()=>{
- const {api}=fixture();
- const expected=['토론의 주장·근거와 논리 파악','같은 주제를 다룬 글의 관점 비교','문법·문학·매체의 표현 방식 이해','생각을 정리해 말하기·글쓰기'];
+test('school and library lookups preserve the same curriculum-specific text and evidence',()=>{
+ const {api}=fixture();const expected=Array.from(api.data['2022:공통국어1']);
  assert.deepEqual(Array.from(api.get({subjectId:'2022:공통국어1',name:'공통국어1'})),expected);
  assert.deepEqual(Array.from(api.get({id:'2022:공통국어1',name:'공통국어1'})),expected);
  assert.deepEqual(Array.from(api.get({name:'공통국어1'},{curriculum:'2022 개정'})),expected);
  assert.deepEqual(Array.from(api.get({name:'국어',subjectId:'2015:국어'},{curriculum:'2022 개정'})),Array.from(api.data['2015:국어']));
+ assert.equal(api.basis({subjectId:'2022:공통국어1'}),api.basis({id:'2022:공통국어1'}));
  const editable=api.get({subjectId:'2022:공통국어1'});editable[0]='changed';assert.equal(api.data['2022:공통국어1'][0],expected[0]);
 });
-test('the overview presents one bullet list while preserving the full explanation in an optional disclosure',()=>{
+test('each authored overview either identifies official curriculum evidence or clearly records the missing source',()=>{
+ const {api,records}=fixture();assert.deepEqual(Object.keys(api.evidence).sort(),Array.from(records,r=>r.id).sort());
+ for(const record of records){
+  const basis=api.basis(record,record.profile);assert.ok(['official-curriculum','unverified'].includes(basis.status),record.id);
+  assert.doesNotMatch(JSON.stringify(basis),/\/Users\/|\/private\/|\bMD L\d+|\.md(?:\b|:)/,record.id+' private review detail');
+  if(basis.status==='official-curriculum'){
+   for(const field of ['revision','notice','document','chapter','sourceUrl'])assert.ok(basis[field],record.id+':'+field);
+   const url=new URL(basis.sourceUrl);assert.equal(url.protocol,'https:');assert.ok(/(?:^|\.)(?:moe\.go\.kr|ncic\.re\.kr|ne\.go\.kr|law\.go\.kr)$/.test(url.hostname),record.id+' official source');
+   assert.equal(basis.pointSources.length,api.data[record.id].length,record.id+' per-point evidence');
+   for(const source of basis.pointSources)assert.equal(typeof source,'string',record.id);
+   const sections=basis.sections.join(' ');assert.match(sections,/성격/);assert.match(sections,/목표/);assert.match(sections,/내용/);
+  }else assert.ok((basis.scopeNote||basis.reason||'').length>=15,record.id+' missing source reason');
+ }
+});
+test('the overview shows one bullet list and exposes the correct source instead of stale secondary descriptions',()=>{
  const {api,w,records}=fixture();
  for(const record of records){
   const html=w.AnjwaSubjectExperience.render({course:record,guide:record.profile});
   const intro=html.match(/<div class="subject-experience-intro">([\s\S]*?)<\/div>/)?.[1];
-  assert.ok(intro,record.id);assert.doesNotMatch(intro,/<p\b|subject-experience-topics/,record.id+' duplicated introduction');
-  assert.equal((intro.match(/<li>/g)||[]).length,api.data[record.id].length,record.id);
+  assert.ok(intro,record.id);assert.equal((intro.match(/<li>/g)||[]).length,api.data[record.id].length,record.id);
   for(const point of api.data[record.id])assert.ok(intro.includes(escape(point)),record.id+': '+point);
   const detail=html.match(/<details class="subject-experience-sources subject-experience-learning-detail">([\s\S]*?)<\/details>/)?.[1];
-  assert.ok(detail?.includes(escape(record.profile.learning)),record.id+' original explanation');
-  for(const topic of record.profile.learningTopics||[])assert.ok(detail.includes(escape(topic)),record.id+' original topic');
-  assert.doesNotMatch(html,/class="subject-experience-topics"/,record.id+' second learning list');
+  const basis=api.basis(record,record.profile);assert.ok(detail,record.id);
+  if(basis.status==='official-curriculum'){
+   assert.ok(detail.includes(escape(basis.document))&&detail.includes(escape(basis.chapter)),record.id+' source trace');
+   assert.match(detail,/교육과정 근거 확인/);assert.doesNotMatch(detail,/<p>기존 안내/);
+   assert.ok(!detail.includes(escape(record.profile.learning)),record.id+' stale description');
+  }else{
+   assert.match(intro,/공식 교육과정 원문 확인이 필요한 탐색 안내/);
+   assert.ok(detail.includes(escape(record.profile.learning)),record.id+' disclosed exploration');
+  }
+  assert.doesNotMatch(html,/class="subject-experience-topics"/,record.id+' duplicate learning block');
  }
+});
+test('checked differences preserve the correct sports categories and the older plane-vector scope',()=>{
+ const {api}=fixture();
+ assert.match(api.data['2022:스포츠생활2'].join(' '),/필드형/);assert.doesNotMatch(api.data['2022:스포츠생활2'].join(' '),/영역형/);
+ assert.match(api.data['2015:기하'].join(' '),/평면\s*벡터/);assert.doesNotMatch(api.data['2015:기하'].join(' '),/공간\s*벡터/);
+});
+test('library search uses checked curriculum summaries rather than superseded descriptions',()=>{
+ const {w}=fixture();
+ const sample=[{id:'2022:스포츠생활2',name:'스포츠생활2',area:'체육',revision:'2022',offerings:[],profile:{learning:'폐기설명전용어',learningTopics:['오류단원전용어']}}];
+ assert.equal(w.AnjwaSubjectLibrary.filterCatalogue(sample,{query:'필드형'}).length,1);
+ for(const query of ['폐기설명전용어','오류단원전용어'])assert.equal(w.AnjwaSubjectLibrary.filterCatalogue(sample,{query}).length,0);
 });
 test('a new subject can show its supplied topics without inventing a summary or importing another curriculum',()=>{
  const {api}=fixture();
