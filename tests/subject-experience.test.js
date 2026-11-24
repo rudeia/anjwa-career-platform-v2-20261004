@@ -1,7 +1,7 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.join(__dirname,'..');
-const files=['curriculum-data.js','subject-guide-data.js','subject-detail-data.js','subject-supplement-data.js','subject-classroom-data.js','course-designer-data.js','topic-data.js','topic-stem-society-data.js','topic-arts-language-data.js','topic-data-loader.js','recommendation-data.js','university-recommendation-data.js','subject-profile.js','subject-experience.js','subject-library.js'];
+const files=['curriculum-data.js','subject-guide-data.js','subject-detail-data.js','subject-supplement-data.js','subject-classroom-data.js','course-designer-data.js','topic-data.js','topic-stem-society-data.js','topic-arts-language-data.js','topic-data-loader.js','recommendation-data.js','university-recommendation-data.js','subject-profile.js','subject-overview-core-data.js','subject-overview-science-society-data.js','subject-overview-applied-data.js','subject-overview.js','subject-experience.js','subject-library.js'];
 function fixture(){
  const context={window:{},URL};
  for(const file of files)vm.runInNewContext(fs.readFileSync(path.join(root,file),'utf8'),context);
@@ -133,4 +133,34 @@ test('binding once supports click, forward/backward wrapping and Home/End withou
  const click=dom.event('',dom.tabs[0]);dom.handlers.click[0](click);assert.equal(click.prevented,true);assertSelection(dom,'overview');
  const open={dataset:{subjectOpenTab:'activities'},closest(selector){return selector==='.subject-experience'?dom.scope:selector.includes('[data-subject-open-tab]')?this:null;}};
  const next=dom.event('',open);dom.handlers.click[0](next);assert.equal(next.prevented,true);assertSelection(dom,'activities');
+});
+
+
+test('basic activity ideas remain available beside details, excluding only complete matching titles or questions',()=>{
+ const {api}=fixture();
+ const title='측정 자료 비교',question='표본의 범위가 평균에 영향을 줄까요?',idea='다른 표본의 평균을 직접 비교하기',hostile='<img src=x onerror="alert(1)">';
+ const guide={learning:'설명',learningTopics:['자료의 범위','평균'],activities:[title,question,idea,hostile],activityGuides:[{title,question,method:'범위를 비교합니다.',materials:'공개 표',output:'비교표',limits:'표본의 범위를 밝힙니다.'}]};
+ const before=JSON.stringify(guide),html=api.render({course:{name:'예시 과목'},guide});
+ assert.equal(count(html,esc(title)),1);assert.equal(count(html,esc(question)),1);
+ assert.match(html,/함께 살펴볼 활동 아이디어 · 2개/);
+ assert.ok(html.includes('<li>'+esc(idea)+'</li>'));assert.ok(html.includes('<li>'+esc(hostile)+'</li>'));
+ assert.doesNotMatch(html,/<img|onerror="alert/);
+ assert.match(html,/data-subject-open-tab="activities"/);
+ assert.equal(JSON.stringify(guide),before);
+ const fallback=api.render({course:{name:'기본 활동 과목'},guide:{learning:'설명',activities:[idea]}});
+ assert.equal(count(fallback,esc(idea)),1);assert.doesNotMatch(fallback,/함께 살펴볼 활동 아이디어/);
+});
+
+test('every stored basic activity remains reachable after the detailed activity redesign',()=>{
+ const {records,api}=fixture();let restored=0;
+ for(const record of records){
+  const html=api.render({course:{name:record.name,area:record.area},guide:record.profile});
+  for(const idea of record.profile.activities||[])assert.ok(html.includes(esc(idea)),record.id+' lost basic activity: '+idea);
+  if(api.activityList(record.profile).length&&record.profile.activities?.length)restored++;
+ }
+ assert.ok(restored>0);
+ const economics=records.find(record=>record.name==='경제 수학'&&record.revision==='2022');
+ const html=api.render({course:{name:economics.name},guide:economics.profile});
+ assert.ok(html.includes(esc('가격 변화에 따른 수요 모형을 함수로 비교하기')));
+ assert.match(html,/함께 살펴볼 활동 아이디어/);
 });

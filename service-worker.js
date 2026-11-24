@@ -1,7 +1,11 @@
-const CACHE_NAME = "anjwa-career-shell-v2.12.00";
+const CACHE_NAME = "anjwa-career-shell-v2.13.00";
 const DATA_CACHE_NAME = "anjwa-career-data-v1";
 const OFFLINE_URL = "./index.html";
 const APP_SHELL = [
+  "./subject-overview.js",
+  "./subject-overview-applied-data.js",
+  "./subject-overview-science-society-data.js",
+  "./subject-overview-core-data.js",
   "./topic-data-loader.js",
   "./topic-arts-language-data.js",
   "./topic-stem-society-data.js",
@@ -149,7 +153,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (["/topic-stem-society-data.js", "/topic-arts-language-data.js", "/topic-data-loader.js", "/subject-experience.js", "/curriculum-experience.css", "/subject-classroom-data.js", "/pocket-note.css", "/subject-profile.js", "/subject-supplement-data.js", "/subject-library.js", "/subject-library.css", "/subject-detail-data.js", "/literary-interior.css", "/literary.css", "/theme.js", "/theme.css", "/layout-refinement.css", "/military-calendar-data.js", "/military-calendar.js", "/military-guide.js", "/military-guide.css", "/planner-validation.js", "/department.css", "/home-design.css", "/motion.css", "/motion.js", "/demand-core.js", "/demand-files.js", "/demand-ui.js", "/demand.css", "/ui-v2.css", "/styles.css", "/app.js", "/curriculum-data.js", "/student-data-model.js", "/site-meta.js", "/subject-guide-data.js", "/admission-pages.js", "/recommendation-data.js", "/university-recommendation-data.js", "/course-designer-data.js", "/topic-data.js"].some((path) => url.pathname.endsWith(path))) {
+  if (["/subject-overview-core-data.js","/subject-overview-science-society-data.js","/subject-overview-applied-data.js","/subject-overview.js","/topic-stem-society-data.js", "/topic-arts-language-data.js", "/topic-data-loader.js", "/subject-experience.js", "/curriculum-experience.css", "/subject-classroom-data.js", "/pocket-note.css", "/subject-profile.js", "/subject-supplement-data.js", "/subject-library.js", "/subject-library.css", "/subject-detail-data.js", "/literary-interior.css", "/literary.css", "/theme.js", "/theme.css", "/layout-refinement.css", "/military-calendar-data.js", "/military-calendar.js", "/military-guide.js", "/military-guide.css", "/planner-validation.js", "/department.css", "/home-design.css", "/motion.css", "/motion.js", "/demand-core.js", "/demand-files.js", "/demand-ui.js", "/demand.css", "/ui-v2.css", "/styles.css", "/app.js", "/curriculum-data.js", "/student-data-model.js", "/site-meta.js", "/subject-guide-data.js", "/admission-pages.js", "/recommendation-data.js", "/university-recommendation-data.js", "/course-designer-data.js", "/topic-data.js"].some((path) => url.pathname.endsWith(path))) {
     event.respondWith(networkFirst(request, CACHE_NAME));
     return;
   }

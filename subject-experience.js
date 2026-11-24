@@ -44,6 +44,9 @@ function render({course,guide,offeringHtml=''}){
  const profile=root.AnjwaSubjectProfile;
  const majors=profile?.mergeMajorConnections?.(guide)||guide.majorConnections||[];
  const activities=activityList(guide),topics=guide.learningTopics||[];
+ const understanding=root.AnjwaSubjectOverview?.get(course,guide)||topics;
+ const detailedActivityTexts=new Set(activities.flatMap(activity=>[clean(activity.title),clean(activity.question)]));
+ const activityIdeas=(guide.activities||[]).filter(idea=>!detailedActivityTexts.has(clean(idea)));
  const metadata=[course.area,course.category,guide.curriculum].filter(Boolean);
  const extraMajors=[...new Set([...(guide.relatedMajors||[]),...(guide.majorConnections||[]).map(item=>item.major)])].filter(name=>!majors.some(m=>clean(m.major)===clean(name)));
  const universityHtml=profile?.renderContext?.(guide,{onlyUniversity:true})||'';
@@ -51,16 +54,16 @@ function render({course,guide,offeringHtml=''}){
   <p class="subject-experience-meta">${metadata.map(esc).join('<span aria-hidden="true"> · </span>')}</p>
   <div class="subject-experience-tabs" role="tablist" aria-label="과목 안내 내용">${tabs.map(([id,label],index)=>`<button type="button" role="tab" id="subject-tab-${id}" aria-controls="subject-panel-${id}" aria-selected="${index===0}" tabindex="${index===0?'0':'-1'}" data-subject-tab="${id}">${label}</button>`).join('')}</div>
   <section class="subject-experience-panel" role="tabpanel" id="subject-panel-overview" aria-labelledby="subject-tab-overview" data-subject-panel="overview">
-   <div class="subject-experience-intro"><h4>무엇을 배우나요</h4><p>${esc(guide.learning)}</p>${guide.classroomPlan?.learningBridge?`<p>${esc(guide.classroomPlan.learningBridge)}</p>`:''}</div>
-   ${topics.length?`<section class="subject-experience-section"><h4>${guide.exploratory?'학습 주제 예시':'배우는 내용'}</h4><ol class="subject-experience-topics">${topics.map((topic,index)=>`<li><span aria-hidden="true">${String(index+1).padStart(2,'0')}</span><strong>${esc(topic)}</strong></li>`).join('')}</ol></section>`:''}
-   ${guide.conceptExplanation?`<section class="subject-experience-section"><h4>개념을 어떻게 활용하나요</h4><p>${esc(guide.conceptExplanation)}</p></section>`:''}
+   <div class="subject-experience-intro"><h4>무엇을 배우나요</h4><ul class="subject-experience-understanding">${understanding.map(point=>`<li>${esc(point)}</li>`).join('')}</ul></div>
+   <details class="subject-experience-sources subject-experience-learning-detail"><summary>학습 내용 자세히 보기</summary><p>${esc(guide.learning)}</p>${guide.classroomPlan?.learningBridge?`<p>${esc(guide.classroomPlan.learningBridge)}</p>`:''}${guide.conceptExplanation?`<p>${esc(guide.conceptExplanation)}</p>`:''}${topics.length?`<p class="subject-experience-note">학습 범위 · ${topics.map(esc).join(' · ')}</p>`:''}</details>
    ${guide.learningMethods?.length||guide.competencies?.length?`<details class="subject-experience-sources"><summary>함께 익히는 학습 방법</summary><p>${(guide.competencies||[]).map(esc).join(' · ')}</p><ul>${(guide.learningMethods||[]).map(method=>`<li>${esc(method)}</li>`).join('')}</ul></details>`:''}
    ${guide.relatedSubjects?.length?`<details class="subject-experience-sources"><summary>함께 살펴볼 과목</summary><p>${guide.relatedSubjects.map(esc).join(' · ')}</p></details>`:''}
    ${guide.exploratory?`<p class="subject-experience-note">학교·전문 과목의 탐색 안내입니다. 실제 수업 주제와 실습 내용은 학교 수업계획에서 확인하세요.</p>`:''}
-   <div class="subject-experience-next"><p>${activities.length?`질문·준비 자료·결과물을 갖춘 활동 ${activities.length}개를 살펴보세요.`:'이 과목의 학습 내용이 어떤 전공과 이어지는지 살펴보세요.'}</p><button type="button" data-subject-open-tab="activities">활동과 진로 살펴보기 <span aria-hidden="true">→</span></button></div>
+   <div class="subject-experience-next"><p>활동 예시 · 준비 자료 · 결과물</p><button type="button" data-subject-open-tab="activities">활동과 진로 살펴보기 <span aria-hidden="true">→</span></button></div>
   </section>
   <section class="subject-experience-panel" role="tabpanel" id="subject-panel-activities" aria-labelledby="subject-tab-activities" data-subject-panel="activities" hidden>
    <section class="subject-experience-section"><h4>수업에서 해볼 활동</h4>${activities.length?`<div class="subject-experience-activities">${activities.map(renderActivity).join('')}</div>`:`<ul>${(guide.activities||[]).map(item=>`<li>${esc(item)}</li>`).join('')}</ul>`}</section>
+   ${activities.length&&activityIdeas.length?`<details class="subject-experience-sources"><summary>함께 살펴볼 활동 아이디어 · ${activityIdeas.length}개</summary><ul>${activityIdeas.map(idea=>`<li>${esc(idea)}</li>`).join('')}</ul></details>`:''}
    ${majors.length?`<section class="subject-experience-section"><h4>어떤 전공에서 활용하나요</h4><p class="subject-experience-note">수업과 활동에서 쓰는 개념을 전공 공부와 연결한 예시입니다.</p><div class="subject-experience-careers">${majors.slice(0,6).map(renderCareer).join('')}</div>${majors.length>6?`<details class="subject-experience-sources"><summary>다른 전공 연결 ${majors.length-6}개 더 보기</summary><div class="subject-experience-careers">${majors.slice(6).map(renderCareer).join('')}</div></details>`:''}</section>`:''}
    ${guide.militaryConnections?.length?`<section class="subject-experience-section"><h4>부사관 진로에서 살펴볼 일</h4><div class="subject-experience-careers">${guide.militaryConnections.map(m=>`<article><h4>${esc(m.role)}</h4><p>${esc(m.reason)}</p></article>`).join('')}</div><p class="subject-experience-note">특기 배정이나 임용 요건을 뜻하지 않습니다.</p></section>`:''}
    ${extraMajors.length?`<details class="subject-experience-sources"><summary>함께 살펴볼 다른 전공</summary><p>${extraMajors.map(esc).join(' · ')}</p></details>`:''}

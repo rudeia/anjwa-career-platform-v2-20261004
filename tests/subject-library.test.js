@@ -35,3 +35,21 @@ test('library distinguishes confirmed, cancelled, mixed and missing semester inf
  assert.equal(offeringOpeningLabel({...offering,openingStatusBySemester:{}}),'학생선택 · 개설 확인 필요');
 });
 console.log('catalogue',records.length,'nationally reviewed',records.filter(r=>r.profile.sourceUrl?.includes("edu.naver.com")).length,'outside',records.filter(r=>!r.offerings.length).length);
+
+
+test('search includes basic ideas and classroom questions, materials, procedures and outputs',()=>{
+ const sample=[{id:'2022:검색과목',name:'검색 과목',area:'수학',revision:'2022',offerings:[],profile:{learning:'과목 설명',activities:['함수로 수요 모형 비교하기'],classroomPlan:{activityPlans:[{title:'좌석 배치 계획',question:'같은 조가 이웃할 조건은 무엇인가요?',materials:'색깔 역할 카드',steps:['번호표를 무작위로 섞습니다.','겹친 배열을 지우고 비교합니다.'],output:'가능한 배치 비교표'}]}}}];
+ const before=JSON.stringify(sample);
+ for(const query of ['수요 모형','좌석 배치','이웃할 조건','색깔 역할','번호표 무작위로','겹친 배열','가능한 배치 비교표']){
+  assert.deepEqual(filterCatalogue(sample,{query}).map(record=>record.id),['2022:검색과목'],query);
+ }
+ assert.equal(JSON.stringify(sample),before);
+});
+
+test('stored economics ideas and the common-mathematics seating activity are discoverable',()=>{
+ assert.ok(filterCatalogue(records,{query:'수요 모형'}).some(record=>record.name==='경제 수학'&&record.revision==='2022'));
+ const classroomContext={window:{}};
+ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','subject-classroom-data.js'),'utf8'),classroomContext);
+ const withClassroom=buildCatalogue(source,guide,designer,{classroom:classroomContext.window.ANJWA_SUBJECT_CLASSROOM_PLANS});
+ assert.ok(filterCatalogue(withClassroom,{query:'좌석 배치'}).some(record=>record.name==='공통수학1'&&record.revision==='2022'));
+});

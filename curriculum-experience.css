@@ -482,3 +482,28 @@
   html[data-theme] #curriculum .filter-scope {grid-area:scope;}
   html[data-theme] #curriculum .filter-search {grid-area:search;}
 }
+
+
+@media screen {
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-understanding {
+    display:grid;
+    gap:12px;
+    margin:16px 0 0;
+    padding:0 0 0 1.2em;
+    list-style:disc;
+    color:var(--lit-ink);
+    font-size:15px;
+    font-weight:550;
+    line-height:1.75;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-understanding > li {
+    margin:0;
+    padding:0 0 0 4px;
+    border:0;
+    background:transparent;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-understanding > li::marker {color:var(--lit-accent);}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-learning-detail {margin-top:0;}
+}
