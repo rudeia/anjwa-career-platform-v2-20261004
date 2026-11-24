@@ -48,7 +48,7 @@ function overviewPoints(record){return root.AnjwaSubjectOverview?.get?.({id:reco
 function overviewBasis(record){return root.AnjwaSubjectOverview?.basis?.({id:record.id,name:record.name},record.profile)||{status:'unverified'};}
 function overviewSearchFields(record){
  const points=overviewPoints(record);
- return overviewBasis(record).status==='official-curriculum'?points:[record.profile.learning,...(record.profile.learningTopics||[]),...points];
+ return (overviewBasis(record).status==='official-curriculum'||overviewBasis(record).references?.length)?points:[record.profile.learning,...(record.profile.learningTopics||[]),...points];
 }
 function overviewPreview(record){return overviewPoints(record).slice(0,2).join(' · ')||record.profile.learning;}
 function filterCatalogue(records,{query='',area='all',offering='all',revision='all'}={}){

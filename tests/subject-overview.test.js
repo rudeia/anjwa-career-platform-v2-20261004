@@ -59,8 +59,8 @@ test('the overview shows one bullet list and exposes the correct source instead 
    assert.match(detail,/교육과정 근거 확인/);assert.doesNotMatch(detail,/<p>기존 안내/);
    assert.ok(!detail.includes(escape(record.profile.learning)),record.id+' stale description');
   }else{
-   assert.match(intro,/공식 교육과정 원문 확인이 필요한 탐색 안내/);
-   assert.ok(detail.includes(escape(record.profile.learning)),record.id+' disclosed exploration');
+   assert.match(intro,/승인 교육과정 원문 미확보/);
+   for(const ref of basis.references||[])assert.ok(detail.includes(escape(ref.url)),record.id+' reference link');
   }
   assert.doesNotMatch(html,/class="subject-experience-topics"/,record.id+' duplicate learning block');
  }
@@ -81,4 +81,9 @@ test('a new subject can show its supplied topics without inventing a summary or 
  assert.deepEqual(Array.from(api.get({name:'미등록 과목',subjectId:'2022:미등록과목'},{learningTopics:['첫 단원','둘째 단원','첫 단원']})),['첫 단원','둘째 단원']);
  assert.deepEqual(Array.from(api.get({name:'국어',subjectId:'2022:국어'},{learningTopics:['제공된 범위']})),['제공된 범위']);
  assert.throws(()=>api.mergeCollections({'2022:예시':['a']},{'2022:예시':['b']}),/Duplicate subject overview/);
+});
+
+test('all 23 previously missing subjects have reviewed reference learning points without claiming an approved curriculum',()=>{
+ const {api}=fixture();const entries=Object.entries(api.evidence).filter(([,b])=>b.status==='unverified');assert.equal(entries.length,23);
+ for(const [id,b]of entries){assert.ok(b.references.length,id);assert.equal(b.pointSources.length,api.data[id].length,id);for(const r of b.references){assert.equal(new URL(r.url).protocol,'https:');assert.ok(r.scope.length>20,id);assert.equal(r.checkedAt,'2026-11-25');}}
 });
