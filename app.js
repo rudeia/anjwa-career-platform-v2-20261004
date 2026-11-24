@@ -2597,6 +2597,8 @@ const state = {
   topicLevel: "all",
   topicGrade: "all",
   topicQuery: "",
+  topicVisibleLimit: 18,
+  topicResultKey: "",
   courseDesignerPlan: "incoming2026",
   courseDesignerStep: "setup",
   courseDesignerStudentNumber: "",
@@ -3220,6 +3222,20 @@ function bindTopicExplorerControls() {
     renderTopicExplorer();
   });
 
+  $("#topicResultList")?.addEventListener("click", event => {
+    const button = event.target.closest?.('[data-topic-more]');
+    if (!button) return;
+    const expandedTopics = new Set([...$("#topicResultList").querySelectorAll('.topic-card[data-topic-id]')].filter(card=>card.querySelector('.topic-details')?.open).map(card=>card.dataset.topicId));
+    const firstNewIndex = state.topicVisibleLimit;
+    state.topicVisibleLimit += 18;
+    renderTopicExplorer();
+    for (const card of $("#topicResultList").querySelectorAll('.topic-card[data-topic-id]')) {
+      if (expandedTopics.has(card.dataset.topicId)) card.querySelector('.topic-details').open = true;
+    }
+    const firstNew = $("#topicResultList")?.querySelectorAll('.topic-card')[firstNewIndex];
+    if (firstNew) { firstNew.tabIndex = -1; firstNew.focus({preventScroll:true}); firstNew.scrollIntoView({block:'start',behavior:'auto'}); }
+  });
+
   resetButton?.addEventListener("click", () => {
     state.topicArea = "all";
     state.topicSubject = "all";
@@ -3288,14 +3304,19 @@ function renderTopicExplorer() {
   state.topicQuery = query;
 
   const topics = getFilteredTopicRecords({ area, subject, level, grade, query });
-  const visibleLimit = area === "all" && subject === "all" && level === "all" && grade === "all" && !query.trim() ? 18 : 36;
+  const resultKey = JSON.stringify([area,subject,level,grade,query.trim()]);
+  if (state.topicResultKey !== resultKey) {
+    state.topicResultKey = resultKey;
+    state.topicVisibleLimit = area === "all" && subject === "all" && level === "all" && grade === "all" && !query.trim() ? 18 : 36;
+  }
+  const visibleLimit = state.topicVisibleLimit;
   const visibleTopics = topics.slice(0, visibleLimit);
   const emptyTopicMessage = level !== "all"
     ? `${level} 난이도에 맞는 예시가 아직 없습니다. 과목을 넓히거나 전체 난이도로 다시 확인해 보세요.`
     : "검색 조건에 맞는 탐구 주제를 찾지 못했습니다. 과목을 넓히거나 검색어를 짧게 입력해 보세요.";
   if (resultCount) resultCount.textContent = topics.length > visibleTopics.length ? `${topics.length}개 중 ${visibleTopics.length}개` : `${topics.length}개`;
   resultList.innerHTML = topics.length
-    ? `${visibleTopics.map((topic) => renderTopicCard(topic)).join("")}${topics.length > visibleTopics.length ? `<div class="empty-note topic-more-note">교과군·과목·학년을 선택하면 나머지 주제를 더 정확하게 확인할 수 있습니다.</div>` : ""}`
+    ? `${visibleTopics.map((topic) => renderTopicCard(topic)).join("")}${topics.length > visibleTopics.length ? `<div class="topic-more-actions"><p>${topics.length}개 중 ${visibleTopics.length}개를 보고 있습니다.</p><button class="ghost-button" type="button" data-topic-more>탐구 주제 ${Math.min(18,topics.length-visibleTopics.length)}개 더 보기</button></div>` : ""}`
     : `<div class="empty-note topic-empty">${escapeHtml(emptyTopicMessage)}</div>`;
 }
 
@@ -3339,6 +3360,8 @@ function getFilteredTopicRecords({ area, subject, level, grade, query }) {
       topic.question,
       topic.method,
       topic.output,
+      topic.materials || '',
+      topic.reference?.title || '',
       ...(topic.keywords || []),
       ...(topic.majors || [])
     ].join(" "));
@@ -3376,57 +3399,41 @@ function renderTopicResearch(topic) {
       <small>${escapeHtml(source.verificationLevel)}</small><p>${escapeHtml(source.transferLimit)}</p></div>`).join("")}</div>`;
 }
 
+function renderTopicReference(topic) {
+  const reference = topic.reference;
+  if (!reference?.title) return '';
+  return `<div class="topic-card-section topic-reference"><b>참고한 자료</b><p>${escapeHtml(reference.title)}${reference.pages ? ` · ${escapeHtml(reference.pages)}` : ''}</p>${reference.note ? `<small>${escapeHtml(reference.note)}</small>` : ''}</div>`;
+}
+
 function renderTopicCard(topic) {
   const keywords = Array.isArray(topic.keywords) ? topic.keywords : [];
   const majors = Array.isArray(topic.majors) ? topic.majors : [];
   return `
-    <article class="topic-card">
+    <article class="topic-card" data-topic-id="${escapeAttribute(topic.id || '')}">
       <div class="topic-card-head">
-        <div>
-          <span class="topic-subject-badge">${escapeHtml(topic.area)} · ${escapeHtml(topic.subject)}</span>
-          <h4>${escapeHtml(topic.title)}</h4>
-        </div>
-        <div class="topic-badge-stack">
-          <span class="topic-grade-badge">${escapeHtml(getTopicGradeLabel(topic))}</span>
-          <span class="topic-level-badge ${topic.level === "심화" ? "advanced" : "basic"}">${escapeHtml(topic.level)}</span>
-        </div>
+        <div><span class="topic-subject-badge">${escapeHtml(topic.area)} · ${escapeHtml(topic.subject)}</span><h4>${escapeHtml(topic.title)}</h4></div>
+        <div class="topic-badge-stack"><span class="topic-grade-badge">${escapeHtml(getTopicGradeLabel(topic))}</span><span class="topic-level-badge ${topic.level === "심화" ? "advanced" : "basic"}">${escapeHtml(topic.level)}</span></div>
       </div>
-      <div class="topic-card-section">
-        <b>탐구 질문</b>
-        <p>${escapeHtml(topic.question)}</p>
-      </div>
-      <div class="topic-card-section">
-        <b>해볼 방법</b>
-        <p>${escapeHtml(topic.method)}</p>
-      </div>
-      ${topic.measure ? `<div class="topic-card-section"><b>확인할 자료·값</b><p>${escapeHtml(topic.measure)}</p></div>` : ""}
-      <div class="topic-card-section topic-limits"><b>결론을 쓸 때 확인하세요</b><p>${escapeHtml(topic.limits || "사용한 자료와 조건을 함께 적습니다.")}</p></div>
-      <details class="compact-guide topic-details"><summary>준비 자료·분석 순서·연구 보기</summary>
-        ${topic.concepts?.length ? `<div class="topic-card-section"><b>배울 개념</b><p>${topic.concepts.map(escapeHtml).join(" · ")}</p></div>` : ""}
-        <div class="topic-card-section"><b>준비 자료와 조건</b><p>${escapeHtml(topic.materials || topic.preparation || "자료와 수행 범위를 선생님과 확인합니다.")}</p></div>
-        ${topic.steps?.length ? `<ol>${topic.steps.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol>` : ""}
-        ${topic.resultPrompt || topic.reflection ? `<p><b>결과를 해석할 질문</b> ${escapeHtml(topic.resultPrompt || topic.reflection)}</p>` : ""}
-        ${topic.worksheet ? `<div class="topic-card-section"><a class="ghost-button" href="${escapeAttribute(topic.worksheet.url)}" download>${escapeHtml(topic.worksheet.label)}</a><p>${escapeHtml(topic.worksheet.note)}</p></div>` : ""}
-        ${renderTopicResearch(topic)}
-        <p class="topic-context-note">${escapeHtml(topic.gradeBasis || "선수 개념과 학교 개설 학년을 확인합니다.")} ${escapeHtml(topic.exampleStatus || "")}</p>
-      </details>
+      <div class="topic-card-section"><b>탐구 질문</b><p>${escapeHtml(topic.question)}</p></div>
+      <div class="topic-card-section"><b>해볼 방법</b><p>${escapeHtml(topic.method)}</p></div>
       <div class="topic-card-footer">
-        <div>
-          <b>결과물</b>
-          <p>${escapeHtml(topic.output)}</p>
-        </div>
-        <div>
-          <b>연결 학과 예시</b>
-          <p>${majors.map((major) => escapeHtml(major)).join(" · ")}</p>
-        </div>
+        <div><b>남길 결과물</b><p>${escapeHtml(topic.output)}</p></div>
+        ${majors.length ? `<div><b>관련 전공</b><p>${majors.map(escapeHtml).join(' · ')}</p></div>` : ''}
       </div>
-      <div class="topic-card-section topic-development">
-        <b>더 알아보고 싶다면</b>
-        <p>${escapeHtml(getTopicDevelopmentText(topic))}</p>
-      </div>
-      <div class="topic-keyword-row">
-        ${keywords.map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}
-      </div>
+      <details class="compact-guide topic-details"><summary>준비 자료·진행 순서·해석</summary>
+        ${topic.concepts?.length ? `<div class="topic-card-section"><b>먼저 알아둘 개념</b><p>${topic.concepts.map(escapeHtml).join(' · ')}</p></div>` : ''}
+        <div class="topic-card-section"><b>준비 자료</b><p>${escapeHtml(topic.materials || topic.preparation || '자료와 수행 범위를 선생님과 확인합니다.')}</p></div>
+        ${topic.steps?.length ? `<ol>${topic.steps.map(step => `<li>${escapeHtml(step)}</li>`).join('')}</ol>` : ''}
+        ${topic.measure ? `<div class="topic-card-section"><b>비교할 기준</b><p>${escapeHtml(topic.measure)}</p></div>` : ''}
+        <div class="topic-card-section topic-limits"><b>결과를 해석할 때</b><p>${escapeHtml(topic.limits || '사용한 자료와 조건을 함께 적습니다.')}</p></div>
+        ${topic.resultPrompt || topic.reflection ? `<p><b>돌아볼 질문</b> ${escapeHtml(topic.resultPrompt || topic.reflection)}</p>` : ''}
+        <div class="topic-card-section topic-development"><b>다음에 해볼 일</b><p>${escapeHtml(getTopicDevelopmentText(topic))}</p></div>
+        ${topic.worksheet ? `<div class="topic-card-section"><a class="ghost-button" href="${escapeAttribute(topic.worksheet.url)}" download>${escapeHtml(topic.worksheet.label)}</a><p>${escapeHtml(topic.worksheet.note)}</p></div>` : ''}
+        ${renderTopicReference(topic)}
+        ${renderTopicResearch(topic)}
+        <p class="topic-context-note">${escapeHtml(topic.gradeBasis || '선수 개념과 학교 개설 학년을 확인합니다.')} ${escapeHtml(topic.exampleStatus || '')}</p>
+      </details>
+      <div class="topic-keyword-row">${keywords.map(keyword=>`<span>${escapeHtml(keyword)}</span>`).join('')}</div>
     </article>
   `;
 }
@@ -3524,17 +3531,18 @@ function getCurriculumViewPlans() {
 }
 
 function getCourseOpeningStatus(course, semesterKeys) {
-  const statuses = semesterKeys.filter(key => course.semesters.includes(key)).map(key => course.openingStatusBySemester?.[key] || 'unconfirmed');
-  return statuses.includes('open') ? 'open' : statuses.includes('not-open') ? 'not-open' : 'unconfirmed';
+  const statuses = semesterKeys.filter(key => course.semesters.includes(key)).map(key => window.ANJWA_STUDENT_MODEL?.isSchoolDesignated(course) ? 'open' : course.openingStatusBySemester?.[key] || 'unconfirmed');
+  return !statuses.length ? 'unconfirmed' : statuses.every(status => status === statuses[0]) ? statuses[0] : 'mixed';
 }
 
 function curriculumCourseIsVisible(course, semesterKeys, offering = state.curriculumOffering) {
-  return offering !== 'open' || getCourseOpeningStatus(course, semesterKeys) === 'open';
+  return offering !== 'open' || semesterKeys.some(key => course.semesters.includes(key) && getCourseOpeningStatus(course, [key]) === 'open');
 }
 
 function renderCurriculumOpeningBadge(course, semesterKeys) {
   const status = getCourseOpeningStatus(course, semesterKeys);
-  const label = {open: '2027 개설', 'not-open': '2027 미개설', unconfirmed: '개설 여부 미확정'}[status];
+  const designated = window.ANJWA_STUDENT_MODEL?.isSchoolDesignated(course);
+  const label = designated ? '학교지정 · 개설 확정' : {open: '개설 확정', 'not-open': '미개설', unconfirmed: '학생선택 · 개설 확인 필요', mixed: '학기별 개설 상태 다름'}[status];
   return `<small class="curriculum-opening-badge opening-${status}">${label}${course.enrollmentNote ? ' · ' + escapeHtml(course.enrollmentNote) : ''}</small>`;
 }
 
@@ -5037,12 +5045,13 @@ function renderCourseDesignerCourseCard(candidate, grade) {
         <summary>자세히 보기 · 활동·준비·출처</summary>
         <dl class="student-course-explanation">
           <div><dt>무엇을 배우나요</dt><dd>${escapeHtml(guide.learning)}</dd></div>
-          <div><dt>수업 활동 예시</dt><dd>${escapeHtml(guide.activities[0])}</dd></div>
+          <div><dt>수업 활동 예시</dt><dd><ul>${guide.activities.map(activity => `<li>${escapeHtml(activity)}</li>`).join('')}</ul></dd></div>
           <div><dt>미리 살펴볼 내용</dt><dd>${escapeHtml(guide.competencies.join(' · '))}. 선수 과목 여부는 학교에 확인하세요.</dd></div>
           <div><dt>개설 정보</dt><dd>${escapeHtml(course.semesters.map(getSemesterLabel).join(' · '))} · ${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}. ${escapeHtml(state.courseDesignerPlan.replace("incoming", ""))} 입학생 편성 기준입니다.</dd></div>
         </dl>
         ${primarySource.startsWith("official-") ? `<p class="course-designer-source-note">${escapeHtml(getCourseDesignerCourseSourceNote(candidate))}</p>` : ""}
         ${renderCourseDesignerOfficialEvidence(candidate)}
+        ${window.AnjwaSubjectProfile?.renderContext?.(guide) || ''}
       </details>
       ${renderCourseDesignerDecision(course, grade)}
       ${renderCourseDesignerPlannerActions(course, grade)}
@@ -5212,15 +5221,18 @@ function getCourseDesignerCourseReason(candidate) {
   const linkedInterests = selectedInterests.filter((interest) => candidate.interests.has(interest.label));
   const sourceSubjects = [...candidate.subjects];
   const conceptMap = courseDesignerData.subjectConcepts || {};
-  const concept = conceptMap[candidate.course?.name]
+  const norm = window.AnjwaSubjectProfile?.norm || normalizeText;
+  const subjectName = candidate.course?.name || '';
+  const concept = Object.entries(conceptMap).find(([name]) => norm(name) === norm(subjectName))?.[1]
     || sourceSubjects.map((subject) => conceptMap[subject]).find(Boolean)
     || `${candidate.course?.name || "이 과목"}에서 다루는 개념과 탐구 방법을 익힙니다.`;
   const interestLabel = primaryInterest?.label || [...candidate.interests][0] || "선택한 관심";
   const interestReasonMap = courseDesignerData.interestSubjectReasons?.[primaryInterest?.id] || {};
-  const specificReason = interestReasonMap[candidate.course?.name]
+  const specificReason = Object.entries(interestReasonMap).find(([name]) => norm(name) === norm(subjectName))?.[1]
     || sourceSubjects.map((subject) => interestReasonMap[subject]).find(Boolean)
     || "";
-  const connectionText = specificReason
+  const profile = getSubjectGuideInfo(candidate.course, getSubjectRelationInfo(candidate.course));
+  const connectionText = specificReason || profile.careerPaths.find(path => path.id === primaryInterest?.id || primaryInterest?.recordIds?.includes(path.id))?.reason
     || "이 과목에서 배우는 내용과 관심 학과의 수업 내용을 비교해 보세요. 어떤 내용이 관련되는지는 과목 안내와 학과 수업 소개에서 확인해야 합니다.";
   const sharedText = linkedInterests.length > 1
     ? ` 다른 관심 분야인 ${linkedInterests.slice(1).map((interest) => interest.label).join("·")}에서도 이 과목을 비교 후보로 골랐습니다.`
@@ -5364,7 +5376,7 @@ function renderCurriculum() {
     .sort((a, b) => a.row - b.row);
   const semesterCourses = allScopeCourses
     .filter(course => curriculumCourseIsVisible(course, semesterKeys))
-    .map(course => state.curriculumOffering === "open" ? {...course, semesters: course.semesters.filter(key => course.openingStatusBySemester?.[key] === "open")} : course)
+    .map(course => state.curriculumOffering === "open" ? {...course, semesters: course.semesters.filter(key => getCourseOpeningStatus(course, [key]) === "open")} : course)
     .filter((course) => {
       if (!query) return true;
       return normalizeText(`${course.name} ${course.area} ${course.category} ${course.section}`).includes(query);
@@ -5374,11 +5386,9 @@ function renderCurriculum() {
   const visibleCourses = sortCurriculumCourses(semesterCourses, semesterKeys, courseGroupMap);
 
   renderCurriculumSummary(plan, semesterKeys, semesterCourses);
-  const unconfirmed = allScopeCourses.some(course => getCourseOpeningStatus(course, semesterKeys) === 'unconfirmed');
-  $('#curriculumAvailabilityNote').textContent = (state.curriculumOffering === 'open'
-    ? '2027학년도 통합표에서 개설이 확인된 과목을 보여줍니다. 편성 학점은 목록을 좁혀도 바뀌지 않습니다.'
-    : curriculumData.openingConfirmed === false ? '' : '전체 선택과목에는 미개설 과목도 포함됩니다. 실제 수강할 과목은 개설 표시와 선택 묶음을 함께 확인하세요.')
-    + (curriculumData.openingConfirmed === false ? '' : unconfirmed ? ' 이 조회 범위에는 개설 여부가 아직 확인되지 않은 학기도 있습니다.' : '')
+  const unconfirmed = allScopeCourses.some(course => course.semesters.some(key => semesterKeys.includes(key) && getCourseOpeningStatus(course, [key]) === 'unconfirmed'));
+  $('#curriculumAvailabilityNote').textContent = '학교지정 과목은 개설 확정입니다. 온라인 수업 여부와 선택 묶음의 택N 조건은 별도로 확인하세요.'
+    + (state.curriculumOffering === 'open' ? ' 지금은 개설 확정 과목만 표시합니다. 편성 학점은 목록을 좁혀도 바뀌지 않습니다.' : unconfirmed ? ' 학생선택 과목 중 개설 확인이 필요한 과목은 수요 조사와 학교 안내를 확인하세요.' : ' 학생선택 과목은 개설 표시와 선택 묶음을 함께 확인하세요.')
     + (plan.approvedSummary ? ` 확정 합계: 교과 ${plan.approvedSummary.courseCredits} + 창체 ${plan.approvedSummary.creativeCredits} = 총 ${plan.approvedSummary.totalCredits}학점.` : '')
     + ((plan.dataQualityNotes || []).length ? ' 원본 확인 필요: ' + plan.dataQualityNotes.join(' ') : '')
     + (state.curriculumDepartment === 'military' ? ' 부사관과 진로·임용 정보는 부사관과 홈에서 확인하세요.' : '');
@@ -5392,8 +5402,8 @@ function renderCurriculum() {
   renderCurriculumMobileList(plan, semesterKeys, semesterCourses);
   const military = state.curriculumDepartment === 'military';
   const careerTitle = $('#curriculumCareerTitle'), careerText = $('#curriculumCareerText'), careerLink = $('#curriculumCareerLink');
-  if (careerTitle) careerTitle.textContent = military ? '학교 공부와 부사관 진로를 함께 살펴보세요' : '과목 선택은 진로를 확인하는 단서입니다';
-  if (careerText) careerText.textContent = military ? '부사관과 홈에서 지원 공고를 읽는 법, 군에서 하는 일과 계급, 학교 공부와 연결되는 자격증을 확인하세요.' : '교육과정을 확인한 뒤에는 희망 학과에서 중요하게 보는 과목과 비교해 봅니다. 내가 들을 수 있는 과목, 추가로 알아볼 과목, 공동교육과정으로 확장할 과목을 구분하면 상담에서 더 구체적인 계획을 세울 수 있습니다.';
+  if (careerTitle) careerTitle.textContent = military ? '학교 공부와 부사관 진로를 함께 살펴보세요' : '관심 학과의 과목 안내와 비교해 보세요';
+  if (careerText) careerText.textContent = military ? '부사관과 홈에서 지원 공고를 읽는 법, 군에서 하는 일과 계급, 학교 공부와 연결되는 자격증을 확인하세요.' : '관심 학과의 핵심·권장 과목과 학교 편성표를 비교해 보세요. 학교에 없는 과목은 공동교육과정 등 다른 수강 방법을 담당 선생님과 상담할 수 있습니다.';
   if (careerLink) {careerLink.href = military ? '#militarySpecialties' : './holistic-subjects.html';careerLink.textContent = military ? '부사관 주특기·계급 알아보기' : '학과별 추천 과목 보기';}
   if (state.activeView === 'curriculum') syncDepartmentNavigation();
   syncCurriculumButtons(scope, grade, semesterKeys);
@@ -5429,7 +5439,7 @@ function renderCurriculumMobileList(plan, semesterKeys, courses) {
       const groupId = choice?.id || section;
       const heading = groupId !== previousGroup ? `<div class="mobile-choice-heading"><b>${escapeHtml(section)}</b><span>${choice ? escapeHtml(`${choice.shortLabel} · ${choice.choiceText}${choice.creditText ? " · " + choice.creditText : ""}`) : ""}</span></div>` : "";
       previousGroup = groupId;
-      return `${heading}<div class="mobile-course-entry"><details class="mobile-course-detail"><summary class="mobile-course-row"><span class="mobile-course-name">${escapeHtml(course.name)}<small class="student-mobile-mode">${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}</small></span><span class="mobile-course-area">${escapeHtml(course.area)}</span><b class="mobile-course-credits">${getCurriculumCourseCreditsForScope(course,[key]) || "-"}</b></summary><div class="mobile-course-extra"><span>${escapeHtml(course.category)} · ${escapeHtml(getSemesterLabel(key))}</span>${choice ? `<span>${escapeHtml(`${choice.shortLabel} · ${choice.choiceText}`)}</span>` : ""}${renderCurriculumOpeningBadge(course,[key])}</div></details>${renderSubjectInfoButton(course)}</div>`;
+      return `${heading}<div class="mobile-course-entry"><details class="mobile-course-detail"><summary class="mobile-course-row"><span class="mobile-course-name">${escapeHtml(course.name)}<small class="student-mobile-mode">${escapeHtml(window.ANJWA_STUDENT_MODEL.label(course))}</small></span><span class="mobile-course-area">${escapeHtml(course.area)}</span><b class="mobile-course-credits">${getCurriculumCourseCreditsForScope(course,[key]) || "-"}</b>${renderSubjectInfoButton(course)}</summary><div class="mobile-course-extra"><span>${escapeHtml(course.category)} · ${escapeHtml(getSemesterLabel(key))}</span>${choice ? `<span>${escapeHtml(`${choice.shortLabel} · ${choice.choiceText}`)}</span>` : ""}${renderCurriculumOpeningBadge(course,[key])}</div></details></div>`;
     }).join("");
     return `<section class="mobile-semester-section" aria-label="${escapeHtml(getSemesterLabel(key))}">${orderedKeys.length > 1 ? `<h4>${escapeHtml(getSemesterLabel(key))}</h4>` : ""}<div class="mobile-table-head"><span>과목명</span><span>교과군</span><span>학점</span><span>설명</span></div>${content}</section>`;
   }).join("") || '<p class="empty-note">해당 조건에 맞는 과목이 없습니다.</p>';
@@ -5446,21 +5456,18 @@ function renderCurriculumSummary(plan, semesterKeys, semesterCourses) {
 
 function renderCurriculumRow(course, semesterKeys, groupInfos) {
   const rowClass = groupInfos.length ? ` class="choice-linked-row ${groupInfos[0].colorClass}"` : "";
-  const sectionClass = [
-    getCurriculumSectionClass(course, semesterKeys),
-    getCurriculumGradeClass(course, semesterKeys),
-    getCurriculumGradeLabel(course, semesterKeys) ? "has-grade" : ""
-  ].filter(Boolean).join(" ");
-  return `
-    <tr${rowClass}>
-      <td><span class="section-badge ${sectionClass}">${formatCurriculumSectionLabel(course, semesterKeys)}</span></td>
-      <td>${renderSemesterChoiceBadges(course, semesterKeys, groupInfos)}</td>
-      <td>${escapeHtml(course.area)}</td>
-      <td>${escapeHtml(course.category)}</td>
-      <td>${renderCourseNameWithInfo(course)}${renderCurriculumOpeningBadge(course,semesterKeys)}</td>
-      <td>${getCurriculumCourseCreditsForScope(course,semesterKeys) || "-"}</td>
-    </tr>
-  `;
+  const designated = window.ANJWA_STUDENT_MODEL?.isSchoolDesignated(course);
+  const status = getCourseOpeningStatus(course, semesterKeys);
+  const statusLabel = designated ? "" : {open:"개설 확정", "not-open":"미개설", unconfirmed:"개설 확인 필요", mixed:"학기별 개설 상태 다름"}[status];
+  const meta = [window.ANJWA_STUDENT_MODEL?.label(course) || "교내 대면", course.creditTreatment === "separate" ? `${course.credits}학점 별도 · 정규 합계 제외` : "", statusLabel, course.enrollmentNote].filter(Boolean).map(escapeHtml).join(" · ");
+  return `<tr${rowClass} data-opening-status="${status}">
+    <td><strong class="course-cell-name">${escapeHtml(course.name)}</strong><span class="course-cell-meta">${meta}</span></td>
+    <td class="course-cell-classification">${escapeHtml(course.area)}<small>${escapeHtml(course.category)}</small></td>
+    <td class="course-cell-section">${formatCurriculumSectionLabel(course, semesterKeys)}</td>
+    <td class="course-cell-term">${renderSemesterChoiceBadges(course, semesterKeys, groupInfos)}</td>
+    <td class="course-cell-credit">${getCurriculumCourseCreditsForScope(course,semesterKeys) || "-"}</td>
+    <td class="course-cell-action">${renderSubjectInfoButton(course)}</td>
+  </tr>`;
 }
 
 function buildCurriculumChoiceGroups(allCourses, semesterKeys) {
@@ -5563,7 +5570,7 @@ function compareCurriculumBySort(a, b, sort, semesterKeys, courseGroupMap) {
   if (sort.key === "area") return compareTextSort(a.area, b.area, sort.direction);
   if (sort.key === "category") return compareTextSort(a.category, b.category, sort.direction);
   if (sort.key === "name") return compareTextSort(a.name, b.name, sort.direction);
-  if (sort.key === "credits") return compareNumberSort(a.credits, b.credits, sort.direction);
+  if (sort.key === "credits") return compareNumberSort(getCurriculumCourseCreditsForScope(a, semesterKeys), getCurriculumCourseCreditsForScope(b, semesterKeys), sort.direction);
   return 0;
 }
 
@@ -6416,66 +6423,13 @@ function openSubjectInfoPopup(course) {
   const relation = getSubjectRelationInfo(course);
   const guide = getSubjectGuideInfo(course, relation);
   const offerings = getSubjectGuideOfferings(course.name);
-  if (label) label.textContent = "과목 선택 안내";
+  if (label) label.textContent = "과목 안내";
   title.textContent = course.name;
-  content.innerHTML = `
-    <div class="subject-guide-meta" aria-label="과목 기본 정보">
-      <span>${escapeHtml(course.area || "교과 확인")}</span>
-      <span>${escapeHtml(formatSubjectCategory(course.category))}</span>
-      ${guide.curriculum ? `<span>${escapeHtml(guide.curriculum)}</span>` : ""}
-      ${(guide.badges || []).map((badge) => `<span class="subject-guide-badge">${escapeHtml(badge)}</span>`).join("")}
-    </div>
-    <div class="subject-guide-summary-grid">
-      <section class="subject-guide-summary-card is-learning">
-        <span>무엇을 배우나요</span>
-        <p>${escapeHtml(guide.learning)}</p>
-      </section>
-      <section class="subject-guide-summary-card">
-        <span>준비하면 좋은 역량</span>
-        <div class="subject-guide-chip-list">
-          ${guide.competencies.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
-        </div>
-      </section>
-    </div>
-    ${guide.learningTopics.length ? `<section class="subject-guide-detail-section"><b>${guide.exploratory ? "학습 주제 · 예시" : "주요 학습 내용"}</b><div class="subject-guide-chip-list">${guide.learningTopics.map(item=>`<span>${escapeHtml(item)}</span>`).join('')}</div></section>` : ''}
-    ${guide.majorConnections.length ? `<section class="subject-guide-detail-section"><b>학과와 이렇게 연결돼요</b><div class="subject-major-connections">${guide.majorConnections.map(item=>`<article><strong>${escapeHtml(item.major)}</strong><p>${escapeHtml(item.reason)}</p></article>`).join('')}</div><small>${escapeHtml(guide.majorBasis)}입니다. 대학의 필수·권장 과목 지정과는 구분하세요.</small></section>` : ''}
-    ${guide.relatedMajors.some(major=>!guide.majorConnections.some(item=>item.major===major)) ? `<details class="subject-guide-major-details"><summary>다른 관련 전공</summary><div class="subject-guide-chip-list">${guide.relatedMajors.filter(major=>!guide.majorConnections.some(item=>item.major===major)).map(major=>`<span>${escapeHtml(major)}</span>`).join('')}</div></details>` : ''}
-    ${guide.militaryConnections.length?`<section class="subject-guide-detail-section"><b>부사관 진로와 연결해 보기</b><div class="subject-major-connections">${guide.militaryConnections.map(item=>`<article><strong>${escapeHtml(item.role)}</strong><p>${escapeHtml(item.reason)}</p></article>`).join('')}</div><small>특기 배정이나 임용 요건을 뜻하지 않습니다.</small></section>`:''}
-    <section class="subject-guide-detail-section">
-      <b>수업에서 해볼 수 있는 활동 · 예시</b>
-      <ul>${guide.activities.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-    </section>
-    <details class="subject-guide-major-details"><summary>우리학교 편성 정보</summary>${renderSubjectGuideOfferings(offerings, course.name)}</details>
-    ${guide.relatedSubjects.length ? `
-      <section class="subject-guide-detail-section">
-        <b>함께 살펴볼 과목</b>
-        <div class="subject-guide-related-list">
-          ${guide.relatedSubjects.map((subject) => `<span>${escapeHtml(subject)}</span>`).join("")}
-        </div>
-      </section>
-    ` : ""}
-    ${guide.majorConnections.length ? "" : `<details class="subject-guide-major-details">
-      <summary>관련 계열·학과 예시 보기</summary>
-      <div class="subject-info-track-list">
-        ${relation.tracks.map((track) => `
-          <section class="subject-info-track-card">
-            <strong>${escapeHtml(track.name)}</strong>
-            <div class="subject-info-major-list">
-              ${track.majors.map((major) => `<span>${escapeHtml(major)}</span>`).join("")}
-            </div>
-          </section>
-        `).join("")}
-      </div>
-    </details>`}
-    <details class="subject-guide-sources"><summary>자료 출처 · 안내 기준</summary>
-    ${guide.sourceUrl ? `<p><a href="${escapeAttribute(guide.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(guide.sourceLabel)} ↗</a> · 확인 ${escapeHtml(guide.sourceCheckedAt)}. ${escapeHtml(guide.sourceNote)}</p>` : `<p>${escapeHtml(guide.sourceLabel)}</p><p>${escapeHtml(guide.sourceNote)}</p>`}
-    ${guide.scopeNote?`<p>${escapeHtml(guide.scopeNote)}</p>`:""}
-    <p class="subject-guide-basis">안내 기준 · ${escapeHtml(guide.basisLabel)} · ${escapeHtml(formatDateLabel(subjectGuideData.updated))}</p>
-    <p class="subject-info-caution">
-      교육과정이 다른 과목은 학습 내용이 이어지더라도 같은 공식 과목으로 간주하지 않습니다. 이 안내는 과목 선택을 돕는 참고 자료이며 대학의 공식 핵심·권장 과목을 뜻하지 않습니다. 실제 수업 내용과 개설 여부는 학교 안내를, 대학 반영 여부는 해당 학년도 대학 자료를 확인하세요. 희망 진로와 직접 연결되지 않는 과목도 질문·자료 해석·토론·협업을 통해 학업역량과 공동체역량을 보여줄 수 있습니다.
-    </p>
-    </details>
-  `;
+  content.innerHTML = window.AnjwaSubjectExperience.render({
+    course: {...course, category: formatSubjectCategory(course.category)},
+    guide,
+    offeringHtml: renderSubjectGuideOfferings(offerings, course.name)
+  });
 
   modal.hidden = false;
   document.body.classList.add("modal-open");
@@ -6489,7 +6443,8 @@ function getSubjectGuideInfo(course, relation) {
   const exactProfile = subjectGuideData.subjectProfiles?.[profileName] || Object.entries(subjectGuideData.subjectProfiles || {}).find(([name])=>name.replace(/\s/g,'')===profileName.replace(/\s/g,''))?.[1] || {};
   const oldRevision = String(course.subjectId || '').startsWith('2015:');
   const schoolSpecific = /고시외|전문/.test(course.name);
-  const subjectProfile = window.AnjwaSubjectProfile ? window.AnjwaSubjectProfile.resolve(subjectGuideData, course) || {} : (oldRevision && exactProfile.curriculum === '2022 개정') || (schoolSpecific && exactProfile.sourceUrl) ? {} : exactProfile;
+  const resolvedProfile = window.AnjwaSubjectProfile ? window.AnjwaSubjectProfile.resolve(subjectGuideData, course) || {} : (oldRevision && exactProfile.curriculum === '2022 개정') || (schoolSpecific && exactProfile.sourceUrl) ? {} : exactProfile;
+  const subjectProfile = window.AnjwaSubjectProfile?.enrich?.(resolvedProfile, course) || resolvedProfile;
   const areaProfile = subjectGuideData.areaProfiles?.[course.area] || {};
   const groupProfile = subjectGuideData.groupProfiles?.[relation.title] || {};
   return {
@@ -6498,6 +6453,12 @@ function getSubjectGuideInfo(course, relation) {
     activities: subjectProfile.activities || groupProfile.activities || areaProfile.activities || ["수업 개념에서 질문 만들기", "자료를 찾아 근거 비교하기", "결과와 한계를 자신의 말로 정리하기"],
     competencies: subjectProfile.competencies || groupProfile.competencies || areaProfile.competencies || ["질문 만들기", "자료 해석", "성찰"],
     relatedSubjects: groupProfile.relatedSubjects || [],
+    classroomPlan: subjectProfile.classroomPlan || null,
+    learningMethods: (groupProfile.activities || []).filter(activity => !(subjectProfile.activities || []).includes(activity)),
+    conceptExplanation: subjectProfile.conceptExplanation || '',
+    careerPaths: subjectProfile.careerPaths || [],
+    activityGuides: subjectProfile.activityGuides || [],
+    universityEvidence: subjectProfile.universityEvidence || [],
     learningTopics: subjectProfile.learningTopics || [],
     majorConnections: subjectProfile.majorConnections || [],
     relatedMajors: subjectProfile.relatedMajors || [],
@@ -6550,7 +6511,7 @@ function renderSubjectGuideOfferings(offerings, subject) {
       ${offerings.map((offering) => {
         const semesterLabel = offering.semesters.map((semesterKey) => getSemesterLabel(semesterKey)).join(" · ") || "학년·학기 확인";
         const actualName = normalizeText(offering.name) === normalizeText(subject) ? "" : ` · ${offering.name}`;
-        return `<span class="subject-guide-offering ${offering.className}"><b>${escapeHtml(offering.shortLabel)}</b> · ${escapeHtml(semesterLabel)}${escapeHtml(actualName)} · ${escapeHtml(offering.modeLabel)}${offering.relatedMatch ? " · 유사 과목(공식 동등 아님)" : ""}</span>`;
+        return `<span class="subject-guide-offering ${offering.className}"><b>${escapeHtml(offering.shortLabel)}</b> · ${escapeHtml(semesterLabel)}${escapeHtml(actualName)} · ${escapeHtml(offering.modeLabel)} · ${window.ANJWA_STUDENT_MODEL?.isSchoolDesignated(offering) ? "학교지정 · 개설 확정" : {open:"개설 확정","not-open":"미개설",unconfirmed:"학생선택 · 개설 확인 필요",mixed:"학기별 개설 상태 다름"}[getCourseOpeningStatus(offering, offering.semesters)]}${offering.relatedMatch ? " · 유사 과목(공식 동등 아님)" : ""}</span>`;
       }).join("")}
     </div>
   `;
@@ -9465,7 +9426,14 @@ function getCourseDesignerCardConnection(candidate) {
     const reasons=courseDesignerData.interestSubjectReasons?.[interest.id] || {};
     return reasons[name] || [...candidate.subjects].map(subject=>reasons[subject]).find(Boolean);
   }).filter(Boolean);
-  return [...new Set(reason)].join(' ') || `${[...candidate.interests].join('·')} 분야와 이 과목의 학습 내용을 비교해 보세요.`;
+  if (reason.length) return [...new Set(reason)].join(' ');
+  const guide = getSubjectGuideInfo(candidate.course, getSubjectRelationInfo(candidate.course));
+  const interestMajors = linked.flatMap(interest => [interest.label, ...(recommendationData.records || []).filter(record => (interest.recordIds || []).includes(record.id)).flatMap(record => record.departments || [])]);
+  const connections = (window.AnjwaSubjectProfile?.mergeMajorConnections?.(guide) || guide.majorConnections).filter(connection => interestMajors.some(major => normalizeText(major).includes(normalizeText(connection.major)) || normalizeText(connection.major).includes(normalizeText(major))));
+  if (connections.length) return connections.map(connection => `${connection.major}: ${connection.reason}`).join(' ');
+  const paths = guide.careerPaths.filter(path => linked.some(interest => interest.id === path.id || interest.recordIds?.includes(path.id)));
+  if (paths.length) return paths.map(path => path.reason).join(' ');
+  return `${guide.learning} ${[...candidate.interests].join('·')} 분야의 관련 전공과 활동은 과목 설명에서 함께 살펴보세요.`;
 }
 
 function getCurriculumDataWarning(planKey) {

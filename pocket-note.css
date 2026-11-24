@@ -201,3 +201,404 @@
     html[data-theme] :is(button,a) {transition:none}
   }
 }
+
+/* Shared action geometry. Cards, calendar cells and form labels keep their own layout. */
+@media screen {
+  html[data-theme] :is(.primary-button,.ghost-button,.primary,.secondary-button,.reset-button,.home-button,.home-link,.print-button,.demand-back,.military-button,.military-link,.military-primary,.library-button,.pwa-install-button,.planner-demand-link,.course-designer-add-button) {
+    box-sizing:border-box;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    min-width:0;
+    min-height:44px;
+    max-width:100%;
+    padding:9px 12px;
+    line-height:1.45;
+    text-align:center;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  html[data-theme] :is(.primary-button,.ghost-button,.military-button,.military-link,.military-primary,.library-button) > svg {
+    flex:0 0 auto;
+  }
+  html[data-theme] :is(.course-designer-planner-actions,.course-designer-result-tools > div,.self-eval-submit-row,.mine-export-actions) {
+    align-items:stretch;
+    gap:10px;
+  }
+  html[data-theme] :is(.course-designer-planner-actions,.course-designer-result-tools > div) > :is(button,a) {
+    flex:1 1 140px;
+  }
+  html[data-theme] :is(.quick-action-pair button,.cancel-choice-button,.remove-course,.additional-course-remove) {
+    min-height:44px;
+    padding:8px;
+    line-height:1.4;
+  }
+  html[data-theme] .course-designer-decision-switch button {
+    font-size:12px;
+    line-height:1.4;
+  }
+  html[data-theme] .course-designer-step-tabs button > span:not(.button-feedback-wave) {
+    flex:0 0 25px;
+    align-self:center;
+  }
+  html[data-theme] :is(.course-designer-interest-button,.course-designer-exploration-button) {
+    align-content:start;
+    justify-items:start;
+  }
+  html[data-theme] :is(.course-designer-interest-button,.course-designer-exploration-button) > :is(b,small) {
+    width:100%;
+    min-width:0;
+  }
+  html[data-theme] #home .student-start-card > span:nth-child(2) {
+    flex:1;
+    min-width:0;
+  }
+  html[data-theme] #home .student-start-card > span:last-child {
+    flex:0 0 auto;
+    margin-left:auto;
+    line-height:1;
+  }
+  html[data-theme] .launch-card {
+    align-content:start;
+    justify-items:start;
+  }
+  html[data-theme] .launch-card > .launch-icon {
+    grid-column:1;
+  }
+  html[data-theme] .library-dialog-head > #libraryClose {
+    flex:0 0 auto;
+    min-width:56px;
+  }
+  html[data-theme] .library-heading h1,
+  html[data-theme] .library-dialog-head h2 {
+    min-width:0;
+    overflow-wrap:anywhere;
+  }
+  @media(max-width:700px) {
+    html[data-theme] .launch-card > .launch-icon {
+      grid-row:1 / 3;
+      align-self:center;
+    }
+    html[data-theme] .launch-card > strong {grid-column:2;}
+    html[data-theme] .course-designer-planner-actions > :is(button,a) {width:100%;}
+  }
+  @media(max-width:560px) {
+    html[data-theme] .course-designer-step-tabs button {
+      flex-direction:column;
+      gap:5px;
+      min-height:68px;
+      padding:8px 5px;
+    }
+    html[data-theme] .course-designer-step-tabs button > span:not(.button-feedback-wave) {
+      flex:0 0 23px;
+      width:23px;
+      height:23px;
+    }
+    html[data-theme] .course-designer-step-tabs button > b {font-size:12px;line-height:1.35;}
+  }
+  @media(max-width:480px) {
+    html[data-theme] .course-designer-option-tab {
+      align-content:start;
+      gap:7px;
+      padding:10px 6px;
+      min-height:82px;
+    }
+    html[data-theme] .course-designer-option-tab > span:not(.button-feedback-wave) {
+      width:auto;
+      height:auto;
+      min-height:24px;
+      padding:3px 6px;
+      line-height:1.4;
+    }
+    html[data-theme] .course-designer-option-tab > b {
+      display:block;
+      min-width:0;
+      align-self:start;
+      font-size:12px;
+      line-height:1.4;
+      overflow-wrap:anywhere;
+    }
+  }
+}
+
+/* Subject evidence uses the same readable structure in search, planning and dialogs. */
+@media screen {
+  html[data-theme] #courseDesigner .course-designer-results {gap:12px;}
+  html[data-theme] #courseDesigner .course-designer-option-tabs > .student-option-difference {margin:0;}
+  html[data-theme] #courseDesigner .course-designer-option-tabs:not(:has(button)) {display:block;}
+  html[data-theme] #courseDesigner .course-designer-result-detail {margin:0;}
+  html[data-theme] .subject-context-concept {
+    padding:12px;
+    margin:12px 0;
+    background:var(--lit-soft);
+    color:var(--lit-ink);
+    border-radius:8px;
+    line-height:1.7;
+    overflow-wrap:anywhere;
+  }
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) {
+    min-width:0;
+    margin:12px 0;
+    border-top:1px solid var(--lit-line);
+    font-size:14px;
+    line-height:1.7;
+  }
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) summary {
+    min-height:44px;
+    padding:10px 0;
+    color:var(--lit-accent);
+    font-size:14px;
+    font-weight:700;
+    line-height:1.55;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    cursor:pointer;
+  }
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) > summary {padding:12px 0;}
+  html[data-theme] :is(.subject-context-career,.subject-context-activity,.subject-context-university) {
+    min-width:0;
+    padding:14px 0;
+    border-top:1px solid var(--lit-line);
+    overflow-wrap:anywhere;
+  }
+  html[data-theme] :is(.subject-context-career,.subject-context-activity,.subject-context-university) h4 {
+    margin:0 0 8px;
+    font-size:15px;
+    line-height:1.5;
+    color:var(--lit-ink);
+  }
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) p {margin:8px 0;line-height:1.7;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) .subject-context-note {
+    color:var(--lit-muted);
+    font-size:12px;
+    line-height:1.65;
+  }
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) dl {display:grid;gap:10px;margin:12px 0;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) dl > div {
+    display:grid;
+    grid-template-columns:72px minmax(0,1fr);
+    align-items:start;
+    gap:6px 12px;
+  }
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) dt {font-weight:700;color:var(--lit-ink);}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) dd {min-width:0;margin:0;line-height:1.7;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) :is(ol,ul) {padding-left:22px;margin:10px 0;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) li {margin:7px 0;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) a {color:var(--lit-accent);text-underline-offset:3px;overflow-wrap:anywhere;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) a[download] {
+    display:inline-flex;
+    align-items:center;
+    min-height:44px;
+    padding:6px 0;
+  }
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) details {min-width:0;margin-top:8px;}
+  @media(max-width:560px) {
+    html[data-theme] :is(.subject-context-section,.subject-context-classroom) dl > div {grid-template-columns:minmax(0,1fr);gap:3px;}
+  }
+}
+
+/* Keep subject dialogs on one content edge; distinguish section headings from entries. */
+@media screen {
+  html[data-theme] .subject-info-dialog {padding:20px;}
+  html[data-theme] .subject-info-toolbar {top:-20px;margin:-20px -20px 16px;padding:12px 20px;}
+  html[data-theme] #subjectInfoTitle {margin:0 0 14px;font-size:23px;line-height:1.4;}
+  html[data-theme] .subject-guide-meta {margin:0 0 16px;gap:7px;}
+  html[data-theme] .subject-guide-summary-grid {margin-top:0;}
+  html[data-theme] .subject-guide-summary-card {padding:16px 0;}
+  html[data-theme] .subject-guide-summary-card + .subject-guide-summary-card {padding-left:16px;}
+  html[data-theme] .subject-guide-detail-section {padding:16px 0;}
+  html[data-theme] .subject-guide-major-details {padding:0;}
+  html[data-theme] :is(.subject-guide-summary-card > span,.subject-guide-detail-section > b) {
+    margin:0 0 10px;font-size:15px;font-weight:750;line-height:1.5;
+  }
+  html[data-theme] .subject-guide-summary-card p {font-size:14px;line-height:1.75;}
+  html[data-theme] .subject-guide-detail-section ul {gap:8px;line-height:1.7;}
+  html[data-theme] .subject-guide-major-details > summary {min-height:44px;padding:12px 0;font-size:14px;line-height:1.55;}
+  html[data-theme] .subject-major-connections {gap:10px;margin:0 0 10px;}
+  html[data-theme] .subject-major-connections article {padding:12px 14px;}
+  html[data-theme] .subject-major-connections strong {display:block;font-size:14px;line-height:1.5;}
+  html[data-theme] .subject-major-connections p {margin:6px 0 0;font-size:14px;line-height:1.7;}
+  html[data-theme] .subject-guide-detail-section > small {display:block;color:var(--lit-muted);font-size:12px;line-height:1.65;}
+  html[data-theme] #libraryDetail > section {padding:16px 0;}
+  html[data-theme] #libraryDetail h3 {margin:0 0 10px;font-size:15px;line-height:1.5;}
+  html[data-theme] #libraryDetail :is(ul,ol) {padding-left:22px;}
+  html[data-theme] #libraryDetail li {margin:7px 0;}
+  html[data-theme] #libraryDetail small {display:block;margin-top:10px;font-size:12px;line-height:1.65;color:var(--lit-muted);}
+  html[data-theme] #libraryDetail .library-major {margin:10px 0;padding:12px 14px;}
+  html[data-theme] #libraryDetail .library-major strong {display:block;font-size:14px;line-height:1.5;}
+  html[data-theme] #libraryDetail .library-major p {margin:6px 0 0;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) {margin:0;border-top:0;border-bottom:1px solid var(--lit-line);}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) > summary {font-size:15px;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) > .subject-context-note {margin:0 0 12px;}
+  html[data-theme] :is(.subject-context-career,.subject-context-activity,.subject-context-university) {
+    margin:0 0 12px;padding:14px;border:1px solid var(--lit-line);border-radius:8px;
+  }
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) dl {margin:12px 0 0;gap:12px;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) dl > div {padding:0;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) dd {margin:0;font-size:14px;}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) dt {font-size:12px;color:var(--lit-muted);}
+  html[data-theme] :is(.subject-context-section,.subject-context-classroom) article > details {margin-top:12px;border-top:1px solid var(--lit-line);}
+  html[data-theme] .library-card-title {align-items:flex-start;gap:12px;}
+  html[data-theme] .library-card-title > span {flex:0 0 auto;max-width:42%;}
+  html[data-theme] .library-card p:last-of-type {margin-bottom:16px;}
+  html[data-theme] .library-card > .library-button {align-self:stretch;width:100%;}
+  html[data-theme] .topic-card {gap:16px;padding:18px;align-content:start;}
+  html[data-theme] .topic-card h4 {margin:8px 0 0;line-height:1.45;}
+  html[data-theme] .topic-card-section {padding-top:14px;}
+  html[data-theme] .topic-card-section p {font-size:14px;line-height:1.7;}
+  @media(max-width:700px) {
+    html[data-theme] .subject-guide-summary-grid {grid-template-columns:minmax(0,1fr);}
+    html[data-theme] .subject-guide-summary-card + .subject-guide-summary-card {border-left:0;border-top:1px solid var(--lit-line);padding-left:0;}
+    html[data-theme] .topic-card {padding:16px;}
+    html[data-theme] .topic-card h4 {font-size:18px;}
+  }
+  @media(max-width:560px) {
+    html[data-theme] .subject-info-dialog {padding:16px;}
+    html[data-theme] .subject-info-toolbar {top:-16px;margin:-16px -16px 16px;padding:10px 16px;}
+    html[data-theme] #subjectInfoTitle {font-size:21px;}
+    html[data-theme] :is(.subject-context-career,.subject-context-activity,.subject-context-university) {padding:12px;}
+  }
+}
+
+/* Description belongs to the course summary row, including when details are expanded. */
+@media screen and (max-width:700px) {
+  html[data-theme] .mobile-course-entry {display:block;padding:0 12px;}
+  html[data-theme] .mobile-course-entry .mobile-course-row {
+    grid-template-columns:minmax(0,1fr) 45px 30px 44px;
+    align-items:center;
+    gap:6px;
+    padding:12px 0;
+  }
+  html[data-theme] .mobile-course-entry .mobile-course-row > .subject-info-button {
+    position:static;
+    inset:auto;
+    align-self:center;
+    justify-self:end;
+    width:44px;
+    height:44px;
+    min-width:44px;
+    min-height:44px;
+    margin:0;
+    padding:0 4px;
+  }
+  html[data-theme] .mobile-course-entry .mobile-course-extra {padding:0 0 12px;}
+}
+
+@media screen {
+  html[data-theme] .subject-context-classroom {padding:16px 0;}
+  html[data-theme] .subject-context-classroom > h3 {margin:0 0 10px;font-size:15px;line-height:1.5;}
+  html[data-theme] .subject-context-classroom > p:first-of-type {margin:0 0 14px;}
+}
+
+@media screen {
+  html[data-theme] .subject-info-heading {display:grid;flex:1;min-width:0;gap:4px;}
+  html[data-theme] .subject-info-heading > .label {margin:0;color:var(--lit-muted);font-size:11px;line-height:1.5;}
+  html[data-theme] .subject-info-toolbar #subjectInfoTitle {margin:0;font-size:20px;line-height:1.4;overflow-wrap:anywhere;}
+  html[data-theme] .subject-info-toolbar .subject-info-close {
+    flex:0 0 56px;width:56px;min-width:56px;height:44px;min-height:44px;
+    margin:0;padding:8px;font-size:13px;line-height:1.4;font-weight:700;
+  }
+  @media(max-width:760px) {
+    html[data-theme] .course-designer-actions {
+      justify-content:normal;
+      justify-items:stretch;
+      grid-template-columns:minmax(0,1fr);
+      width:100%;
+    }
+    html[data-theme] .course-designer-actions > div {min-width:0;width:100%;}
+  }
+  @media(max-width:560px) {
+    html[data-theme] .subject-info-toolbar #subjectInfoTitle {font-size:18px;}
+  }
+}
+
+/* Exploration starts with filters and examples; optional guides share one compact disclosure. */
+@media screen {
+  html[data-theme] .subject-guide-summary-grid.has-learning-only {grid-template-columns:minmax(0,1fr);}
+  html[data-theme] .topic-start-guide {
+    margin:12px 0;
+    padding:0 14px;
+    border:1px solid var(--lit-line);
+    border-radius:10px;
+    background:var(--lit-surface);
+  }
+  html[data-theme] .topic-start-guide > summary {
+    min-height:44px;
+    padding:12px 0;
+    color:var(--lit-accent);
+    font-size:14px;
+    font-weight:700;
+    line-height:1.5;
+    white-space:normal;
+    cursor:pointer;
+  }
+  html[data-theme] .topic-start-guide > .topic-guide-grid {margin:0 0 14px;gap:12px;}
+  html[data-theme] .topic-start-guide .topic-guide-grid article {padding:14px;}
+  html[data-theme] .topic-start-guide .topic-guide-grid h3 {font-size:16px;line-height:1.5;}
+  html[data-theme] .topic-start-guide > .topic-ai-panel {margin:0 0 14px;padding:14px;gap:14px;}
+  html[data-theme] .topic-start-guide > .content-status-note {margin:0 0 14px;font-size:12px;line-height:1.65;}
+  html[data-theme] .topic-scope-note {margin:12px 0;font-size:12px;line-height:1.65;color:var(--lit-muted);}
+  html[data-theme] .topic-result-head {margin:16px 0 12px;}
+  html[data-theme] .topic-card {display:flex;flex-direction:column;}
+  html[data-theme] .topic-card-footer {margin-top:auto;}
+  html[data-theme] .topic-details {margin:0;padding:0 12px;}
+  html[data-theme] .topic-details > summary {min-height:44px;padding:12px 0;font-size:14px;line-height:1.5;white-space:normal;}
+  html[data-theme] .topic-details > :last-child {margin-bottom:12px;}
+  html[data-theme] .topic-keyword-row {margin:0;}
+  html[data-theme] .topic-more-actions {
+    grid-column:1 / -1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px 20px;
+    padding:18px 0;
+  }
+  html[data-theme] .topic-more-actions > p {margin:0;color:var(--lit-muted);font-size:13px;line-height:1.5;}
+  @media(max-width:700px) {
+    html[data-theme] .topic-filter-panel {grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0 12px;}
+    html[data-theme] .topic-filter-panel .topic-search-label {grid-column:1 / -1;}
+    html[data-theme] #topicResetButton {grid-column:1 / -1;justify-self:end;width:auto;}
+    html[data-theme] .topic-more-actions {display:grid;text-align:center;gap:12px;padding:16px 0;}
+    html[data-theme] .topic-more-actions > button {width:100%;}
+  }
+}
+
+@media screen {
+  html[data-theme] .topic-filter-panel > .topic-search-row {
+    grid-column:span 2;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:end;
+    gap:10px;
+    min-width:0;
+  }
+  html[data-theme] .topic-filter-panel .topic-search-row > .topic-search-label {grid-column:auto;min-width:0;}
+  html[data-theme] .topic-search-row > #topicResetButton {grid-column:auto;justify-self:stretch;width:auto;min-height:44px;}
+}
+@media screen and (max-width:700px) {
+  html[data-theme] .topic-filter-panel > .topic-search-row {grid-column:1 / -1;}
+}
+
+/* Native selects must fit their grid track even when an option has a long name. */
+@media screen {
+  html[data-theme] #topicExplorer .topic-filter-panel label,
+  html[data-theme] #topicExplorer .topic-filter-panel :is(select,input) {min-width:0;width:100%;max-width:100%;box-sizing:border-box;}
+  html[data-theme] #topicExplorer .topic-result-head > div {min-width:0;}
+  html[data-theme] #topicExplorer .topic-result-head h3 {margin:0;font-size:20px;line-height:1.4;}
+}
+
+@media screen and (max-width:700px) {
+  html[data-theme] .subject-info-modal {padding:12px;place-items:center;}
+  html[data-theme] .subject-info-dialog {
+    position:relative;bottom:auto;width:100%;max-width:680px;
+    max-height:calc(100dvh - 24px);border-radius:12px;
+    padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  }
+}
+
+@media screen {
+  html[data-theme] .planner-control-row label {min-width:0;}
+  html[data-theme] .planner-control-row :is(input,select) {min-width:0;width:100%;max-width:100%;box-sizing:border-box;}
+}

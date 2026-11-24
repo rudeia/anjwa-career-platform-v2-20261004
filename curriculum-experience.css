@@ -1,0 +1,484 @@
+/* Curriculum reading experience: a subject-first table and a single-column guide. */
+@media screen {
+  #curriculum {
+    --curri-row-hover:color-mix(in srgb,var(--lit-soft) 45%,var(--lit-surface));
+    --curri-rule:color-mix(in srgb,var(--lit-line) 58%,var(--lit-surface));
+  }
+
+  /* A stable six-column scan: subject, category, requirement, term, credits, action. */
+  html[data-theme] #curriculum .curriculum-experience-table {
+    width:100%;
+    min-width:720px;
+    border:0;
+    border-collapse:collapse;
+    table-layout:fixed;
+    color:var(--lit-ink);
+    font-size:14px;
+  }
+  html[data-theme] #curriculum .curriculum-experience-table :is(th,td) {
+    box-sizing:border-box;
+    width:auto;
+    border:0;
+    border-bottom:1px solid var(--curri-rule);
+    text-align:left;
+    vertical-align:middle;
+    overflow-wrap:anywhere;
+  }
+  html[data-theme] #curriculum .curriculum-experience-table th {
+    height:48px;
+    padding:0 16px;
+    background:var(--lit-surface);
+    color:var(--lit-muted);
+    font-size:12px;
+    font-weight:600;
+  }
+  html[data-theme] #curriculum .curriculum-experience-table td {
+    height:76px;
+    padding:14px 16px;
+    background:transparent;
+    line-height:1.5;
+  }
+  html[data-theme] #curriculum .curriculum-experience-table :is(th,td):nth-child(1) {width:36%;padding-left:20px;border-left:0;}
+  html[data-theme] #curriculum .curriculum-experience-table :is(th,td):nth-child(2) {width:15%;}
+  html[data-theme] #curriculum .curriculum-experience-table :is(th,td):nth-child(3) {width:12%;}
+  html[data-theme] #curriculum .curriculum-experience-table :is(th,td):nth-child(4) {width:19%;}
+  html[data-theme] #curriculum .curriculum-experience-table :is(th,td):nth-child(5) {width:7%;text-align:right;}
+  html[data-theme] #curriculum .curriculum-experience-table :is(th,td):nth-child(6) {width:11%;padding-right:20px;text-align:right;}
+  html[data-theme] #curriculum .curriculum-experience-table tbody tr {background:transparent;}
+  html[data-theme] #curriculum .curriculum-experience-table tbody tr:hover {background:var(--curri-row-hover);}
+  html[data-theme] #curriculum .curriculum-experience-table tbody tr:last-child td {border-bottom:0;}
+  html[data-theme] #curriculum .curriculum-experience-table .sort-button {
+    justify-content:flex-start;
+    min-height:44px;
+    margin:0;
+    padding:0;
+    font:inherit;
+    color:inherit;
+    white-space:normal;
+  }
+  html[data-theme] #curriculum .curriculum-experience-table th:nth-child(5) .sort-button {justify-content:flex-end;}
+  html[data-theme] #curriculum .curriculum-experience-table .sort-indicator {min-width:14px;height:18px;font-size:10px;}
+  html[data-theme] #curriculum .course-cell-name {
+    display:block;
+    margin:0;
+    color:var(--lit-ink);
+    font-size:15px;
+    font-weight:750;
+    line-height:1.45;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  html[data-theme] #curriculum .course-cell-meta {display:block;margin-top:5px;color:var(--lit-muted);font-size:12px;line-height:1.45;font-weight:400;}
+  html[data-theme] #curriculum .course-cell-classification {color:var(--lit-muted);font-size:13px;line-height:1.55;}
+  html[data-theme] #curriculum .course-cell-classification :is(span,small) {display:block;font-size:12px;line-height:1.5;}
+  html[data-theme] #curriculum .course-cell-section {font-size:13px;color:var(--lit-ink);}
+  html[data-theme] #curriculum .course-cell-term {font-size:13px;color:var(--lit-muted);line-height:1.55;}
+  html[data-theme] #curriculum .course-cell-term :is(span,small) {display:block;font-size:12px;}
+  html[data-theme] #curriculum .course-cell-credit {font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.4px;}
+  html[data-theme] #curriculum .course-cell-action .subject-info-button {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:58px;
+    width:auto;
+    min-height:44px;
+    height:44px;
+    margin:0;
+    padding:8px 10px;
+    border:1px solid var(--curri-rule);
+    border-radius:8px;
+    background:var(--lit-surface);
+    color:var(--lit-accent);
+    box-shadow:none;
+    font-size:13px;
+    font-weight:650;
+    line-height:1.4;
+    white-space:nowrap;
+  }
+  html[data-theme] #curriculum .course-cell-action .subject-info-button:hover {border-color:var(--lit-accent);background:var(--lit-soft);}
+  html[data-theme] #curriculum .curriculum-table-note {
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:6px 20px;
+    padding:12px 20px;
+    border-bottom:1px solid var(--curri-rule);
+    color:var(--lit-muted);
+    font-size:12px;
+    line-height:1.6;
+  }
+  html[data-theme] #curriculum .curriculum-table-note strong {font-size:13px;color:var(--lit-ink);font-weight:650;}
+  html[data-theme] #curriculum .curriculum-experience-table .section-badge,
+  html[data-theme] #curriculum .curriculum-experience-table .choice-badge {
+    min-height:0;
+    margin:0;
+    padding:0;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    color:inherit;
+    box-shadow:none;
+    font:inherit;
+    white-space:normal;
+  }
+  @media (min-width:701px) and (max-width:1000px) {
+    html[data-theme] #curriculum .curriculum-experience-table :is(th,td) {padding-left:12px;padding-right:12px;}
+    html[data-theme] #curriculum .curriculum-experience-table :is(th,td):nth-child(1) {padding-left:16px;}
+    html[data-theme] #curriculum .curriculum-experience-table :is(th,td):nth-child(6) {padding-right:16px;}
+  }
+}
+
+@media screen {
+  /* Dialog chrome is shared by the school table and the all-subject catalogue. */
+  html[data-theme] :is(.subject-info-dialog,#libraryDialog):has(.subject-experience) {
+    --subject-rule:color-mix(in srgb,var(--lit-line) 55%,var(--lit-surface));
+    position:relative;
+    bottom:auto;
+    width:min(760px,100%);
+    max-width:760px;
+    max-height:calc(100dvh - 64px);
+    margin:auto;
+    padding:0;
+    border:1px solid var(--subject-rule);
+    border-radius:16px;
+    background:var(--lit-surface);
+    color:var(--lit-ink);
+    box-shadow:0 24px 80px #0003;
+    overflow:auto;
+    scrollbar-gutter:stable;
+  }
+  html[data-theme] :is(.subject-info-dialog,#libraryDialog):has(.subject-experience) :is(.subject-info-toolbar,.library-dialog-head) {
+    position:sticky;
+    top:0;
+    z-index:3;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin:0;
+    padding:20px 28px;
+    border-bottom:1px solid var(--subject-rule);
+    background:var(--lit-surface);
+  }
+  html[data-theme] :is(.subject-info-dialog,#libraryDialog):has(.subject-experience) :is(#subjectInfoTitle,#libraryDialogTitle) {
+    min-width:0;
+    margin:0;
+    color:var(--lit-ink);
+    font-size:24px;
+    font-weight:800;
+    line-height:1.4;
+    letter-spacing:-.6px;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  html[data-theme] .subject-info-dialog:has(.subject-experience) .subject-info-heading {gap:3px;}
+  html[data-theme] .subject-info-dialog:has(.subject-experience) .subject-info-heading > .label {font-size:11px;font-weight:500;color:var(--lit-muted);}
+  html[data-theme] :is(.subject-info-dialog,#libraryDialog):has(.subject-experience) :is(.subject-info-close,#libraryClose) {
+    display:inline-flex;
+    flex:0 0 56px;
+    align-items:center;
+    justify-content:center;
+    width:56px;
+    min-width:56px;
+    height:44px;
+    min-height:44px;
+    margin:0;
+    padding:8px;
+    border:1px solid var(--subject-rule);
+    border-radius:8px;
+    background:var(--lit-surface);
+    color:var(--lit-ink);
+    box-shadow:none;
+    font-size:13px;
+    font-weight:600;
+    line-height:1.4;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience {
+    --subject-rule:color-mix(in srgb,var(--lit-line) 55%,var(--lit-surface));
+    min-width:0;
+    padding:20px 28px 28px;
+    color:var(--lit-ink);
+    font-size:14px;
+    line-height:1.75;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-meta {
+    display:flex;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:5px 14px;
+    margin:0 0 18px;
+    color:var(--lit-muted);
+    font-size:12px;
+    line-height:1.5;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-meta > :is(span,small) {
+    display:inline;
+    min-height:0;
+    margin:0;
+    padding:0;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    color:inherit;
+    font:inherit;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-tabs {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    align-items:stretch;
+    gap:4px;
+    margin:0;
+    padding:0;
+    border-bottom:1px solid var(--subject-rule);
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-tabs button[role="tab"] {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-width:0;
+    min-height:48px;
+    margin:0 0 -1px;
+    padding:12px 8px;
+    border:0;
+    border-bottom:2px solid transparent;
+    border-radius:8px 8px 0 0;
+    background:transparent;
+    color:var(--lit-muted);
+    box-shadow:none;
+    font-size:14px;
+    font-weight:600;
+    line-height:1.5;
+    text-align:center;
+    white-space:normal;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-tabs button[role="tab"][aria-selected="true"] {
+    border-bottom-color:var(--lit-accent);
+    background:color-mix(in srgb,var(--lit-soft) 45%,transparent);
+    color:var(--lit-ink);
+    box-shadow:none;
+    font-weight:750;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-tabs button[role="tab"]:hover {color:var(--lit-accent);}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-panel {display:block;min-width:0;margin:0;padding:24px 0 0;border:0;background:transparent;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-panel[hidden] {display:none!important;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-panel > :first-child {margin-top:0;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-intro {margin:0 0 28px;padding:0;border:0;background:transparent;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-intro > :is(h2,h3,h4) {margin:0 0 10px;font-size:16px;line-height:1.5;font-weight:750;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-intro p {margin:0;color:var(--lit-ink);font-size:15px;line-height:1.9;word-break:keep-all;overflow-wrap:anywhere;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-section {margin:24px 0 0;padding:24px 0 0;border:0;border-top:1px solid var(--subject-rule);background:transparent;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-section > :is(h2,h3,h4) {margin:0 0 16px;color:var(--lit-ink);font-size:16px;line-height:1.5;font-weight:750;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-topics {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px 28px;
+    margin:0;
+    padding:0;
+    list-style:none;
+    counter-reset:subject-topic;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-topics > li {
+    display:grid;
+    grid-template-columns:24px minmax(0,1fr);
+    align-items:baseline;
+    gap:8px;
+    min-width:0;
+    margin:0;
+    padding:0 0 12px;
+    border-bottom:1px solid var(--subject-rule);
+    color:var(--lit-ink);
+    font-size:14px;
+    line-height:1.65;
+    counter-increment:subject-topic;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-topics > li::before {content:counter(subject-topic,decimal-leading-zero);color:var(--lit-accent);font-size:11px;font-weight:650;font-variant-numeric:tabular-nums;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-careers {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px;margin:0;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-careers > article {min-width:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-careers h4 {margin:0 0 7px;color:var(--lit-ink);font-size:14px;font-weight:750;line-height:1.5;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-careers p {margin:0;color:var(--lit-muted);font-size:14px;line-height:1.8;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities {display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin:0;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities > article {
+    min-width:0;
+    margin:0;
+    padding:20px;
+    border:0;
+    border-radius:12px;
+    background:color-mix(in srgb,var(--lit-soft) 40%,var(--lit-surface));
+    box-shadow:none;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities h4 {margin:0 0 12px;color:var(--lit-ink);font-size:15px;line-height:1.55;font-weight:750;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities p {margin:8px 0;color:var(--lit-ink);font-size:14px;line-height:1.8;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities dl {display:grid;gap:14px;margin:16px 0;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities dl > div {display:grid;grid-template-columns:72px minmax(0,1fr);gap:8px 16px;align-items:baseline;padding:0;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities dt {color:var(--lit-muted);font-size:12px;line-height:1.6;font-weight:600;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities dd {min-width:0;margin:0;color:var(--lit-ink);font-size:14px;line-height:1.8;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities ol {margin:12px 0;padding-left:22px;color:var(--lit-ink);}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities li {margin:8px 0;line-height:1.8;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities details {margin:14px 0 0;padding:0;border:0;border-top:1px solid var(--subject-rule);border-radius:0;background:transparent;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities summary {min-height:44px;padding:12px 0 0;color:var(--lit-accent);font-size:13px;font-weight:650;line-height:1.6;white-space:normal;cursor:pointer;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities details[open] > summary {padding-bottom:12px;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-offerings {margin:0;color:var(--lit-ink);font-size:14px;line-height:1.8;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-offerings > :is(p,article) {margin:0;padding:14px 0;border:0;border-bottom:1px solid var(--subject-rule);background:transparent;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-offerings :is(b,strong) {font-size:14px;font-weight:700;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-sources {margin:24px 0 0;padding:0;border:0;border-top:1px solid var(--subject-rule);background:transparent;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-sources > summary {min-height:44px;padding:12px 0;color:var(--lit-accent);font-size:13px;font-weight:650;line-height:1.6;cursor:pointer;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-sources :is(p,li) {color:var(--lit-muted);font-size:12px;line-height:1.8;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-note {margin:14px 0 0;color:var(--lit-muted);font-size:12px;line-height:1.7;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience a {color:var(--lit-accent);text-underline-offset:3px;overflow-wrap:anywhere;}
+  @media (max-width:700px) {
+    html[data-theme] :is(.subject-info-dialog,#libraryDialog):has(.subject-experience) {width:100%;max-height:calc(100dvh - 24px);border-radius:14px;}
+  }
+  @media (max-width:560px) {
+    html[data-theme] :is(.subject-info-dialog,#libraryDialog):has(.subject-experience) :is(.subject-info-toolbar,.library-dialog-head) {gap:12px;padding:16px 20px;}
+    html[data-theme] :is(.subject-info-dialog,#libraryDialog):has(.subject-experience) :is(#subjectInfoTitle,#libraryDialogTitle) {font-size:20px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience {padding:18px 20px 24px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-meta {gap:5px 12px;margin-bottom:16px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-tabs button[role="tab"] {min-height:44px;padding:10px 4px;font-size:13px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-panel {padding-top:22px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-intro {margin-bottom:24px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-section {margin-top:22px;padding-top:22px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-topics {grid-template-columns:minmax(0,1fr);gap:10px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-careers {grid-template-columns:minmax(0,1fr);gap:18px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities > article {padding:16px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities dl > div {grid-template-columns:minmax(0,1fr);gap:3px;}
+  }
+}
+
+@media screen {
+  html[data-theme] #curriculum .course-cell-credit :is(b,strong) {font:inherit;}
+  html[data-theme] #libraryDialog:has(.subject-experience) {width:min(760px,calc(100% - 48px));}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities > details {
+    margin:0;
+    padding:20px;
+    border:0;
+    border-radius:12px;
+    background:color-mix(in srgb,var(--lit-soft) 40%,var(--lit-surface));
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities > details > summary {
+    min-height:44px;
+    margin:0;
+    padding:0;
+    color:var(--lit-ink);
+    font-size:15px;
+    font-weight:750;
+    line-height:1.6;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities > details[open] > summary {padding-bottom:14px;}
+  @media(max-width:700px) {
+    html[data-theme] #libraryDialog:has(.subject-experience) {width:calc(100% - 24px);}
+  }
+  @media(max-width:560px) {
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities > details {padding:16px;}
+  }
+}
+
+/* Integration details for the shared renderer. */
+@media screen {
+  html[data-theme] #curriculum .curriculum-experience-table {min-width:760px;}
+  html[data-theme] #curriculum .curriculum-experience-table :is(th,td):nth-child(1) {width:33%;}
+  html[data-theme] #curriculum .curriculum-experience-table :is(th,td):nth-child(2) {width:18%;}
+  html[data-theme] #curriculum .curriculum-experience-table th:nth-child(2) {white-space:nowrap;}
+  html[data-theme] #curriculum .curriculum-experience-table th:nth-child(2) > .sort-button {
+    display:inline-flex;
+    width:auto;
+    min-width:44px;
+    min-height:44px;
+    gap:3px;
+    vertical-align:middle;
+    white-space:nowrap;
+  }
+  html[data-theme] #curriculum .curriculum-experience-table th:nth-child(2) > .classification-type-sort {margin-left:6px;font-size:11px;font-weight:500;color:var(--lit-muted);}
+  html[data-theme] #curriculum .curriculum-experience-table th:nth-child(2) > .classification-type-sort.active {color:var(--lit-ink);}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-meta {display:block;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-meta > span {margin:0 8px;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-topics > li::before {content:none;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-topics > li > span {color:var(--lit-accent);font-size:11px;line-height:1.65;font-weight:650;font-variant-numeric:tabular-nums;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-topics > li > strong {font-size:14px;font-weight:500;line-height:1.65;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities > article > details {margin:0;padding:0;border:0;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities .subject-experience-activity-toggle {
+    display:grid;
+    grid-template-columns:24px minmax(0,1fr) 18px;
+    align-items:center;
+    gap:10px;
+    min-height:44px;
+    margin:0;
+    padding:0;
+    list-style:none;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activity-toggle::-webkit-details-marker {display:none;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activity-toggle h4 {margin:0;font-size:15px;line-height:1.55;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activity-number {color:var(--lit-accent);font-size:11px;font-weight:650;font-variant-numeric:tabular-nums;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activity-arrow {justify-self:end;color:var(--lit-muted);font-size:17px;line-height:1;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) details[open] > .subject-experience-activity-toggle .subject-experience-activity-arrow {transform:rotate(180deg);}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-activities .subject-experience-question {margin:12px 0;font-size:15px;line-height:1.8;font-weight:650;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-next {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin:24px 0 0;
+    padding:20px 0 0;
+    border-top:1px solid var(--subject-rule);
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-next > p {min-width:0;margin:0;color:var(--lit-muted);font-size:13px;line-height:1.7;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-next > button {
+    display:inline-flex;
+    flex:0 0 auto;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    min-height:44px;
+    margin:0;
+    padding:10px 14px;
+    border:1px solid var(--subject-rule);
+    border-radius:8px;
+    background:var(--lit-soft);
+    color:var(--lit-ink);
+    box-shadow:none;
+    font-size:13px;
+    font-weight:650;
+    line-height:1.5;
+  }
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-next > button:hover {border-color:var(--lit-accent);}
+  @media(max-width:560px) {
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-next {display:grid;gap:12px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-next > p {font-size:12px;}
+    html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-next > button {width:100%;justify-content:space-between;}
+  }
+}
+
+@media screen {
+  html[data-theme] #curriculum .course-cell-term .choice-badge-list {display:grid;justify-content:stretch;justify-items:start;gap:3px;text-align:left;}
+}
+
+/* Sorting is a text control, and the native catalogue dialog keeps viewport centering. */
+@media screen {
+  html[data-theme] #curriculum .curriculum-experience-table .sort-button,
+  html[data-theme] #curriculum .curriculum-experience-table .sort-button.active {
+    border:0;
+    border-radius:0;
+    background:transparent;
+    color:var(--lit-muted);
+    box-shadow:none;
+  }
+  html[data-theme] #curriculum .curriculum-experience-table .sort-button.active {color:var(--lit-ink);font-weight:750;}
+  html[data-theme] #curriculum .curriculum-experience-table .sort-button.active .sort-indicator {background:var(--lit-soft);color:var(--lit-accent);box-shadow:none;}
+  html[data-theme] #libraryDialog:has(.subject-experience) {position:fixed;inset:0;margin:auto;}
+  html[data-theme] :is(#subjectInfoContent,#libraryDetail) .subject-experience-panel > .subject-experience-section:first-child {margin-top:0;padding-top:0;border-top:0;}
+}
+
+@media screen and (max-width:900px) {
+  html[data-theme] #curriculum .curriculum-table-wrap {display:none;}
+  html[data-theme] #curriculum .curriculum-mobile-list {display:block;}
+}
+@media screen and (min-width:901px) and (max-width:1100px) {
+  html[data-theme] #curriculum .curriculum-filter-panel {
+    grid-template-columns:minmax(220px,1.2fr) minmax(240px,1fr) minmax(170px,.7fr);
+    grid-template-areas:"plan grade semester" "scope scope scope" "search search search";
+  }
+  html[data-theme] #curriculum .filter-plan {grid-area:plan;}
+  html[data-theme] #curriculum .filter-grade {grid-area:grade;}
+  html[data-theme] #curriculum .filter-semester {grid-area:semester;}
+  html[data-theme] #curriculum .filter-scope {grid-area:scope;}
+  html[data-theme] #curriculum .filter-search {grid-area:search;}
+}

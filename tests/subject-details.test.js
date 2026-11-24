@@ -3,7 +3,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 const root=path.join(__dirname,'..');
 const evidence=JSON.parse(fs.readFileSync(path.join(__dirname,'fixtures/naver-subject-evidence.json'),'utf8'));
 const c={window:{},document:{addEventListener(){},querySelector(){return null},querySelectorAll(){return []}},console};
-for(const file of ['curriculum-data.js','student-data-model.js','subject-guide-data.js','subject-detail-data.js','subject-supplement-data.js','subject-profile.js','app.js'])vm.runInNewContext(fs.readFileSync(path.join(root,file),'utf8'),c);
+for(const file of ['curriculum-data.js','student-data-model.js','subject-guide-data.js','subject-detail-data.js','subject-supplement-data.js','subject-profile.js','subject-experience.js','app.js'])vm.runInNewContext(fs.readFileSync(path.join(root,file),'utf8'),c);
 const run=s=>vm.runInNewContext(s,c);
 const profiles=c.window.ANJWA_SUBJECT_GUIDE.subjectProfiles;
 test('all 155 reviewed subjects have distinct internal explanations and sourced major examples',()=>{
@@ -34,7 +34,7 @@ test('subject popup renders learning and major reasons inside the app',()=>{
  c.getSubjectRelationInfo=()=>({title:'',description:'',tracks:[]});c.getSubjectGuideOfferings=()=>[];
  run(`openSubjectInfoPopup({name:'생태와 환경',area:'교양',category:'일반'})`);
  const html=elements.get('#subjectInfoContent').innerHTML;
- assert.match(html,/환경 갈등과 기후위기/);assert.match(html,/학과와 이렇게 연결돼요/);assert.match(html,/환경교육과/);assert.match(html,/환경 문제를 이해하고 참여를 이끄는 교육/);
+ assert.match(html,/환경 갈등과 기후위기/);assert.match(html,/어떤 전공에서 활용하나요/);assert.match(html,/환경교육과/);assert.match(html,/환경 문제를 이해하고 참여를 이끄는 교육/);
  assert.doesNotMatch(html,/네이버에서 과목 설명.*보기/);
- assert.match(html,/자료 출처 · 안내 기준/);
+ assert.match(html,/과목 안내의 출처와 기준/);
 });

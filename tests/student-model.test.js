@@ -84,3 +84,33 @@ test('mixed current-year lookup retains each cohort curriculum revision',()=>{
  assert.ok(matches.some(c=>c.cohortPlanKey==='incoming2024'&&c.subjectId.startsWith('2015:')));
  for(const match of matches)assert.equal(match.subjectId,model.subjectId('기하',match.cohortPlanKey));
 });
+
+// A school confirmation concerns opening; online participation and choice limits
+// still come from their existing fields. Imported workbook evidence is retained.
+test('school-designated openings are confirmed in every department without changing workbook rows or choices',()=>{
+ let confirmed=0,online=0,designatedChoice=0;
+ for(const store of ['plans','militaryPlans'])for(const [key,plan] of Object.entries(source[store]||{})){
+  const live=model.curriculum[store][key];if(!live)continue;
+  for(const imported of plan.courses){
+   const course=live.courses.find(c=>c.id===imported.id&&c.cohortPlanKey===(imported.cohortPlanKey||key))||live.courses.find(c=>c.id===imported.id);
+   if(!course)continue;
+   const designated=/^학교\s*지정/.test(imported.section);
+   assert.equal(model.isSchoolDesignated(course),designated);
+   for(const term of course.semesters){
+    if(designated){assert.equal(course.openingStatusBySemester[term],'open');confirmed++;}
+    else assert.equal(course.openingStatusBySemester[term],imported.openingStatusBySemester?.[term]||'unconfirmed');
+   }
+   if(designated){
+    assert.equal(course.openingBasis,'school-designated');
+    assert.equal(JSON.stringify(course.markers),JSON.stringify(imported.markers));
+    assert.equal(course.credits,imported.credits);
+    if(course.deliveryMode==='online'){online++;assert.equal(course.offeringStatus,'online');}
+    if(Object.values(course.markers).some(v=>String(v).includes('택')))designatedChoice++;
+   }
+  }
+ }
+ assert.ok(confirmed>0&&online>0&&designatedChoice>0);
+ // Source imports still describe provenance, independent of the school rule.
+ for(const store of ['plans','militaryPlans'])for(const year of [2025,2026,2027])for(const course of source[store]['incoming'+year].courses)
+  for(const term of course.semesters)assert.equal(course.openingStatusBySemester[term],'unconfirmed');
+});

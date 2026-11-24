@@ -10,9 +10,9 @@ for (const file of ['curriculum-data.js','student-data-model.js','admission-page
 const run = source => vm.runInNewContext(source,context);
 const topics = context.window.ANJWA_TOPIC_DATA.topics;
 
-test('all 79 activities keep unique IDs, individual extensions and valid research references', () => {
- assert.equal(topics.length,79);assert.equal(new Set(topics.map(t=>t.id)).size,79);
- assert.equal(new Set(topics.map(t=>t.nextStep)).size,79);
+test('all activities retain the original catalogue, unique IDs, individual extensions and valid research references', () => {
+ const originalIds=require('./fixtures/topic-original-ids.json');assert.ok(originalIds.every(id=>topics.some(t=>t.id===id)));assert.equal(new Set(topics.map(t=>t.id)).size,topics.length);
+ assert.equal(new Set(topics.map(t=>t.nextStep)).size,topics.length);
  for(const t of topics){assert.ok(t.question && t.method && t.output && t.measure && t.limits && t.nextStep,t.id);
   for(const id of t.sourceIds)assert.ok(context.window.ANJWA_TOPIC_DATA.researchSources[id],id);
  }

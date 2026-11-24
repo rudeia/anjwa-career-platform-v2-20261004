@@ -9,7 +9,7 @@ button,input,select { font:inherit; }
 .eyebrow { margin:0 0 7px; color:var(--green); font-size:.85rem; font-weight:800; }
 h1 { margin:0; font-size:clamp(2rem,4vw,3.15rem); letter-spacing:0; line-height:1.18; }
 .page-summary { margin:10px 0 0; color:var(--muted); line-height:1.55; }
-.home-button,.card-link,#resetFilters { min-height:42px; border:1px solid var(--line); border-radius:6px; background:var(--theme-bg-e08de713, #fff); color:var(--ink); font-weight:750; text-decoration:none; }
+.home-button,.card-link,#resetFilters { min-height:44px; border:1px solid var(--line); border-radius:6px; background:var(--theme-bg-e08de713, #fff); color:var(--ink); font-weight:750; text-decoration:none; }
 .page-actions { display:flex; align-items:center; gap:8px; flex:0 0 auto; }
 .card-link { display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:0 14px; color:var(--theme-fg-e08de713, #fff); background:var(--ink); }
 .card-link span { min-width:30px; padding:2px 6px; border-radius:999px; background:var(--theme-bg-e08de713, #fff); color:var(--ink); font-size:.75rem; text-align:center; }
@@ -41,7 +41,7 @@ h1 { margin:0; font-size:clamp(2rem,4vw,3.15rem); letter-spacing:0; line-height:
 .region-kicker { margin:0 0 5px; color:var(--green); font-size:.75rem; font-weight:850; letter-spacing:.03em; }
 .region-explorer h2 { margin:0; font-size:1.18rem; line-height:1.35; }
 .region-explorer-head div > p:last-child { margin:6px 0 0; color:var(--muted); font-size:.84rem; line-height:1.5; }
-#clearMapRegion { min-height:36px; flex:0 0 auto; padding:0 12px; border:1px solid var(--theme-line-d45e71a1, #b9ccc0); border-radius:5px; background:var(--theme-bg-e08de713, #fff); color:var(--green); font-size:.78rem; font-weight:800; cursor:pointer; }
+#clearMapRegion { min-height:44px; flex:0 0 auto; padding:0 12px; border:1px solid var(--theme-line-d45e71a1, #b9ccc0); border-radius:5px; background:var(--theme-bg-e08de713, #fff); color:var(--green); font-size:.78rem; font-weight:800; cursor:pointer; }
 #clearMapRegion:disabled { color:var(--theme-fg-5a480cb5, #98a29c); border-color:var(--line); background:var(--soft); cursor:default; }
 .region-explorer-layout { display:grid; grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr); gap:16px; margin-top:16px; }
 .region-map-panel,.region-university-panel { min-width:0; border:1px solid var(--line); background:var(--theme-bg-e08de713, #fff); }

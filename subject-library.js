@@ -6,7 +6,16 @@ const norm=s=>String(s||'').normalize('NFC').replace(/^\s*\(온\)\s*/,'').replac
 const areaName=s=>({'기술∙가정/정보':'기술·가정/정보','기술·가정':'기술·가정/정보','교양 선택':'교양','한국사':'사회'}[s]||s||'미기재');
 const clean=s=>String(s||'').replace(/^\s*\(온\)\s*/,'').trim();
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function buildCatalogue(curriculum,guide,designer){
+function offeringOpeningLabel(offering){
+ if(/^학교\s*지정/.test(offering.section||''))return '개설 확정';
+ const terms=offering.semesters||[],statuses=terms.map(term=>offering.openingStatusBySemester?.[term]||'unconfirmed');
+ if(!statuses.length)return '개설 학기 확인 필요';
+ if(statuses.every(status=>status==='open'))return '개설 확정';
+ if(statuses.every(status=>status==='not-open'))return '미개설';
+ if(statuses.every(status=>status==='unconfirmed'))return '학생선택 · 개설 확인 필요';
+ return '학기별 개설 상태 다름 · '+terms.map((term,index)=>`${term.replace('-', '학년 ')}학기 ${{open:'개설 확정','not-open':'미개설',unconfirmed:'확인 필요'}[statuses[index]]||'확인 필요'}`).join(' / ');
+}
+function buildCatalogue(curriculum,guide,designer,context={}){
  const records=new Map(), profiles=guide.subjectProfiles||{};
  for(const [name,profile] of Object.entries(profiles)){
   const revision=profile.curriculum?.startsWith('2015')?'2015':'2022',id=revision+':'+norm(name);
@@ -24,7 +33,7 @@ function buildCatalogue(curriculum,guide,designer){
     records.set(id,{id,name,revision,area:areaName(course.area),profile:exact?.[1]||{learning,activities:areaProfile.activities||[]},offerings:[]});
    }
    const record=records.get(id);if(record.area==='미기재'&&course.area)record.area=areaName(course.area);
-   record.offerings.push({department,cohort:key.slice(8),semesters:[...(course.semesters||[])],online:/^\s*\(온\)/.test(course.name)});
+   record.offerings.push({department,category:course.category||'',cohort:key.slice(8),semesters:[...(course.semesters||[])],online:/^\s*\(온\)/.test(course.name),section:course.section||'',openingStatusBySemester:Object.fromEntries((course.semesters||[]).map(term=>[term,/^학교\s*지정/.test(course.section||'')?'open':course.openingStatusBySemester?.[term]||'unconfirmed']))});
   }
  }
  for(const [name,learning] of Object.entries(designer.subjectConcepts||{})){
@@ -32,11 +41,12 @@ function buildCatalogue(curriculum,guide,designer){
   const id='대표:'+norm(name);records.set(id,{id,name,revision:'대표',area:'대표 과목',profile:{learning},offerings:[]});
  }
  for(const record of records.values()){const profile=profileAPI.resolve(guide,{name:record.name,subjectId:record.id},record.revision);if(profile){record.profile=profile;if(profile.area)record.area=areaName(profile.area);if(profile.curriculum?.startsWith('2015'))record.revision='2015';}}
+ for(const record of records.values())record.profile=profileAPI.enrich(record.profile,{name:record.name,subjectId:record.id},{designer,...context});
  return [...records.values()].sort((a,b)=>a.name.localeCompare(b.name,'ko')||a.revision.localeCompare(b.revision));
 }
 function filterCatalogue(records,{query='',area='all',offering='all',revision='all'}={}){
  const words=String(query).split(/[\s,，]+/).map(norm).filter(Boolean);
- return records.filter(r=>(area==='all'||r.area===area)&&(revision==='all'||r.revision===revision)&&(offering==='all'||(offering==='school'?r.offerings.length>0:r.offerings.length===0))&&words.every(word=>norm([r.name,r.area,r.profile.learning,...(r.profile.learningTopics||[]),...(r.profile.relatedMajors||[]),...(r.profile.majorConnections||[]).flatMap(m=>[m.major,m.reason])].join(' ')).includes(word))).sort((a,b)=>{const rank=r=>norm(r.name)===norm(query)?0:norm(query)&&norm(r.name).includes(norm(query))?1:2;return rank(a)-rank(b)||a.name.localeCompare(b.name,'ko');});
+ return records.filter(r=>(area==='all'||r.area===area)&&(revision==='all'||r.revision===revision)&&(offering==='all'||(offering==='school'?r.offerings.length>0:r.offerings.length===0))&&words.every(word=>norm([r.name,r.area,r.profile.learning,...(r.profile.learningTopics||[]),...(r.profile.relatedMajors||[]),...(r.profile.majorConnections||[]).flatMap(m=>[m.major,m.reason]),...(r.profile.careerPaths||[]).flatMap(p=>[p.name,p.reason,...p.majors]),...(r.profile.activityGuides||[]).flatMap(t=>[t.title,t.question,t.method,...(t.keywords||[]),...(t.majors||[])])].join(' ')).includes(word))).sort((a,b)=>{const rank=r=>norm(r.name)===norm(query)?0:norm(query)&&norm(r.name).includes(norm(query))?1:2;return rank(a)-rank(b)||a.name.localeCompare(b.name,'ko');});
 }
 function readSearchState(params,records){
  const areas=new Set(records.map(r=>r.area)),revisions=new Set(records.map(r=>r.revision));
@@ -49,7 +59,7 @@ function searchStateParams(params,state){
  }
  return next;
 }
-const api={buildCatalogue,filterCatalogue,norm,readSearchState,searchStateParams};if(typeof module==='object'&&module.exports)module.exports=api;root.AnjwaSubjectLibrary=api;
+const api={buildCatalogue,filterCatalogue,norm,readSearchState,searchStateParams,offeringOpeningLabel};if(typeof module==='object'&&module.exports)module.exports=api;root.AnjwaSubjectLibrary=api;
 if(!root.document)return;
 function mount(){
  const doc=root.document,$=id=>doc.getElementById(id),guide=root.ANJWA_SUBJECT_GUIDE||{},records=buildCatalogue(root.ANJWA_CURRICULUM_DATA||{},guide,root.ANJWA_COURSE_DESIGNER||{}),params=new URLSearchParams(root.location.search);
@@ -66,7 +76,7 @@ function mount(){
  }else if(params.get('dept')==='military')$('libraryHome').href='./index.html#military';
  for(const value of [...new Set(records.map(r=>r.area))].sort((a,b)=>a.localeCompare(b,'ko'))){const option=doc.createElement('option');option.value=value;option.textContent=value;area.append(option);}
  const restored=readSearchState(params,records);query.value=restored.query;area.value=restored.area;offering.value=restored.offering;revision.value=restored.revision;
- $('libraryScope').textContent=`2022 개정 보통교과 155과목 + 기존 대표·학교 과목`;
+ $('libraryScope').textContent=`전체 ${records.length}개 과목 · 상세 활동 안내 ${records.filter(r=>r.profile.activityGuides?.length||r.profile.classroomPlan).length}개 · 대학·학과별 참고 과목 ${records.filter(r=>r.profile.universityEvidence?.length).length}개`;
  function render(){
   const state={query:query.value,area:area.value,offering:offering.value,revision:revision.value};
   const matches=filterCatalogue(records,state),activeFilters=[state.area,state.offering,state.revision].filter(value=>value!=='all').length;
@@ -75,12 +85,15 @@ function mount(){
   const url=new URL(root.location.href);url.search=searchStateParams(url.searchParams,state).toString();
   root.history.replaceState(root.history.state,'',url.href);
   $('libraryCount').textContent=`전체 ${records.length}개 안내 중 ${matches.length}개`;
-  results.innerHTML=matches.length?matches.map(r=>`<article class="library-card"><div class="library-card-title"><h2>${esc(r.name)}</h2><span>${esc(revisionLabel(r.revision))}</span></div><p class="library-card-meta">${esc(r.area)} · ${r.offerings.length?'학교 편성표에 있음':'학교 편성표에 없음'}</p><p>${esc(r.profile.learning)}</p><button class="library-button" type="button" data-subject-id="${esc(r.id)}" aria-label="${esc(r.name+' '+r.revision+' 과목 설명')}">과목 설명·학과 연결 보기 →</button></article>`).join(''):'<p class="library-empty">일치하는 과목이 없습니다. 검색어를 줄이거나 교과군·편성 필터를 전체로 바꿔 보세요.</p>';
+  results.innerHTML=matches.length?matches.map(r=>`<article class="library-card"><div class="library-card-title"><h2>${esc(r.name)}</h2><span>${esc(revisionLabel(r.revision))}</span></div><p class="library-card-meta">${esc(r.area)} · ${r.offerings.length?'학교 편성표에 있음':'학교 편성표에 없음'}</p><p>${esc(r.profile.learning)}</p><button class="library-button" type="button" data-subject-id="${esc(r.id)}" aria-label="${esc(r.name+' '+r.revision+' 과목 설명')}">배우는 내용과 관련 전공 보기 →</button></article>`).join(''):'<p class="library-empty">일치하는 과목이 없습니다. 검색어를 줄이거나 교과군·편성 필터를 전체로 바꿔 보세요.</p>';
  }
  function detail(record,trigger){
   const p=record.profile;lastTrigger=trigger;$('libraryDialogTitle').textContent=record.name;
-  const offerings=[...new Set(record.offerings.map(o=>`${o.department} · ${o.cohort} 입학생${o.online?' · 학교 편성 온라인':''}`))];
-  $('libraryDetail').innerHTML=`<p class="library-card-meta">${esc(record.area)} · ${esc(revisionLabel(record.revision))}</p>${p.exploratory?`<p class="library-scope">학교 수업계획을 확인하기 위한 과목명 기반 탐색 안내입니다.</p>`:""}<section><h3>무엇을 배우나요</h3><p>${esc(p.learning)}</p></section>${p.learningTopics?.length?`<section><h3>${p.exploratory?"학습 주제 · 예시":"주요 학습 내용"}</h3><ul>${p.learningTopics.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></section>`:''}${p.majorConnections?.length?`<section><h3>학과와 이렇게 연결돼요</h3>${p.majorConnections.map(m=>`<article class="library-major"><strong>${esc(m.major)}</strong><p>${esc(m.reason)}</p></article>`).join('')}<small>${esc(p.majorBasis)}입니다. 대학의 필수·권장 지정은 별도 확인하세요.</small></section>`:''}${p.relatedMajors?.some(m=>!p.majorConnections?.some(c=>c.major===m))?`<details><summary>다른 관련 전공</summary><p>${p.relatedMajors.filter(m=>!p.majorConnections?.some(c=>c.major===m)).map(esc).join(' · ')}</p></details>`:''}${p.militaryConnections?.length?`<section><h3>부사관 진로와 연결해 보기</h3>${p.militaryConnections.map(m=>`<article class="library-major"><strong>${esc(m.role)}</strong><p>${esc(m.reason)}</p></article>`).join('')}<small>특기 배정이나 임용 요건을 뜻하지 않습니다.</small></section>`:''}${p.activities?.length?`<section><h3>학습 활동 · 예시</h3><ul>${p.activities.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></section>`:''}<section><h3>학교 편성·학습 경로</h3><p>${offerings.length?offerings.map(esc).join('<br>'):'수록된 학교 편성표에 없는 과목입니다.'}</p><p>공동교육과정·온라인학교·학교 밖 교육·방과후 수업의 개설과 수강 자격은 담당 선생님과 확인하세요. 이 안내만으로 수강 가능 여부나 학점 인정을 확정하지 않습니다.</p></section><details><summary>자료 출처 · 안내 기준</summary>${p.sourceUrl?`<p><a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener noreferrer">${esc(p.sourceLabel||'네이버 에듀 · 제공 윈드폴리')} ↗</a> · 확인 ${esc(p.sourceCheckedAt)}. ${esc(p.sourceNote||'설명은 자료를 참고해 재작성했으며 학과 연결 이유와 활동은 앱의 해석·제안입니다.')}</p>`:`<p>${esc(p.sourceLabel||'학교 제공 편성표와 기존 대표 과목 안내')}</p><p>${esc(p.sourceNote||'해당 교육과정과 수업 계획에서 상세 내용을 확인하세요.')}</p>`}${p.scopeNote?`<p>${esc(p.scopeNote)}</p>`:''}</details>`;
+  const offerings=[...new Set(record.offerings.map(o=>`${o.department} · ${o.cohort} 입학생 · ${(o.semesters||[]).map(term=>term.replace('-', '학년 ')+'학기').join(' · ')} · ${o.section||'학교 편성'} · ${offeringOpeningLabel(o)}${o.online?' · 온라인 수강 조건 확인':''}`))];
+  const course={name:record.name,area:record.area,category:[...new Set(record.offerings.map(offering=>offering.category).filter(Boolean))].join(' · ')||p.category||'',subjectId:record.id};
+  const guide={...p,curriculum:p.curriculum||revisionLabel(record.revision)};
+  const offeringHtml=offerings.map(offering=>`<p>${esc(offering)}</p>`).join('');
+  $('libraryDetail').innerHTML=root.AnjwaSubjectExperience.render({course,guide,offeringHtml});
   dialog.showModal();$('libraryClose').focus({preventScroll:true});dialog.scrollTop=0;
  }
  $('librarySearchForm').addEventListener('submit',event=>{event.preventDefault();render();query.blur();$('libraryCount').focus({preventScroll:true});});query.addEventListener('input',render);for(const element of [area,offering,revision])element.addEventListener('change',render);

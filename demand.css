@@ -153,3 +153,35 @@
 .teacher-legacy-settings > summary::before { content:'＋'; margin-right:8px; }
 .teacher-legacy-settings[open] > summary::before { content:'−'; }
 .teacher-batch-panel select { width:100%; }
+
+/* Use one complete upload action instead of a styled label around a second native button. */
+@media screen {
+  .demand-student .demand-import .actions {align-items:stretch;gap:10px;}
+  .demand-student .demand-import .actions > * {flex:1 1 180px;}
+  .demand-student .demand-import .file-button {
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:44px;
+    padding:9px 12px;
+    font-size:14px;
+    line-height:1.45;
+    text-align:center;
+  }
+  .demand-student .demand-import .file-button input[type="file"] {
+    position:absolute;
+    width:1px;
+    height:1px;
+    min-height:1px;
+    margin:0;
+    padding:0;
+    border:0;
+    clip-path:inset(50%);
+    overflow:hidden;
+  }
+  .demand-student .demand-import .file-button:focus-within {
+    outline:3px solid var(--lit-focus,#6d458e);
+    outline-offset:3px;
+  }
+}

@@ -17,18 +17,19 @@ test('all six revised cohort budgets reconcile, and online subjects follow the s
  run("state.plannerPlan='incoming2027';state.plan=createEmptyPlan()");
  assert.equal(run("getPlannerSemesterCreditSummary('1','1').totalCredits"),31);
 });
-test('cohort tables never imply confirmed openings; saved open filters safely show all options',()=>{
+test('school-designated courses show confirmed openings while saved global filters preserve all options',()=>{
  const {run,el}=setup();run("state.activeCurriculumPlan='current2027';state.curriculumGrade='3';state.curriculumSemester='1';state.curriculumSemesters=['1'];renderCurriculum()");
  const budget=el('#curriculumSummary').innerHTML;
  run("state.curriculumOffering='open';renderCurriculum()");
  assert.equal(run('state.curriculumOffering'),'all');
  assert.match(el('#curriculumTableBody').innerHTML,/기하/);
+ assert.match(el('#curriculumTableBody').innerHTML,/data-opening-status="open"/);
  assert.doesNotMatch(el('#curriculumAvailabilityNote').textContent,/입학생별 편성표|개설 확정표는 제공되지 않아/);
  assert.equal(el('#curriculumSummary').innerHTML,budget);
 });
-test('future semesters are unconfirmed and military curricula remain separate',()=>{
+test('school-designated confirmation applies to future terms and military curricula stay separate',()=>{
  const {run,el}=setup();run("state.activeCurriculumPlan='incoming2027';state.curriculumGrade='2';state.curriculumSemesters=['1'];state.curriculumOffering='open';renderCurriculum()");
- assert.doesNotMatch(el('#curriculumTableBody').innerHTML,/opening-open[\s"]/);
+ assert.match(el('#curriculumTableBody').innerHTML,/data-opening-status="open"/);
  assert.doesNotMatch(el('#curriculumAvailabilityNote').textContent,/입학생별 편성표|개설 확정표는 제공되지 않아/);
  run("state.curriculumDepartment='military';state.activeCurriculumPlan='current2027';state.curriculumOffering='all';state.curriculumGrade='1';renderCurriculumPlanOptions();renderCurriculum()");
  assert.match(el('#curriculumTableBody').innerHTML,/기본수학1/);
@@ -51,4 +52,14 @@ test('a restored school search never filters the table invisibly',()=>{
  const attributes={};el('#curriculumSearchToggle').setAttribute=(name,value)=>{attributes[name]=value};
  run('renderCurriculum()');assert.equal(el('#curriculumSearchPanel').hidden,false);assert.equal(attributes['aria-expanded'],'true');assert.equal(el('#curriculumSearchClear').hidden,false);
  el('#curriculumSearch').value='';run('renderCurriculum()');assert.equal(el('#curriculumSearchClear').hidden,true);
+});
+
+test('credit sorting uses the displayed semester total rather than the annual course credit',()=>{
+ const {run}=setup();
+ const result=run(`(()=>{
+  const courses=curriculumData.plans.incoming2024.courses;
+  const korean=courses.find(c=>c.name==='국어'),music=courses.find(c=>c.name==='음악');
+  return {korean:getCurriculumCourseCreditsForScope(korean,['1-1']),music:getCurriculumCourseCreditsForScope(music,['1-1']),asc:compareCurriculumBySort(korean,music,{key:'credits',direction:'asc'},['1-1'],new Map()),desc:compareCurriculumBySort(korean,music,{key:'credits',direction:'desc'},['1-1'],new Map())};
+ })()`);
+ assert.equal(result.korean,3);assert.equal(result.music,4);assert.ok(result.asc<0);assert.ok(result.desc>0);
 });

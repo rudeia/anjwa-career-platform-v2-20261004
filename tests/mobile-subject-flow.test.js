@@ -22,7 +22,7 @@ test('the curriculum subject popup resets scrolling, traps focus and returns to 
  const modal={hidden:true,querySelector:()=>dialog,querySelectorAll:()=>[close,link],contains:e=>e===close||e===link};
  elements.set('#subjectInfoModal',modal);elements.set('.subject-info-close',close);
  const c={window:{},document:doc,Element,console};
- for(const file of ['curriculum-data.js','student-data-model.js','subject-guide-data.js','subject-detail-data.js','subject-supplement-data.js','subject-profile.js','app.js'])vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),c);
+ for(const file of ['curriculum-data.js','student-data-model.js','subject-guide-data.js','subject-detail-data.js','subject-supplement-data.js','subject-profile.js','subject-experience.js','app.js'])vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),c);
  c.$=selector=>{if(!elements.has(selector))elements.set(selector,{innerHTML:'',textContent:''});return elements.get(selector)};
  c.getSubjectRelationInfo=()=>({title:'',tracks:[],description:''});c.getSubjectGuideOfferings=()=>[];
  c.bindSubjectInfoPopup();doc.activeElement=opener;
