@@ -87,3 +87,12 @@ test('all 23 previously missing subjects have reviewed reference learning points
  const {api}=fixture();const entries=Object.entries(api.evidence).filter(([,b])=>b.status==='unverified');assert.equal(entries.length,23);
  for(const [id,b]of entries){assert.ok(b.references.length,id);assert.equal(b.pointSources.length,api.data[id].length,id);for(const r of b.references){assert.equal(new URL(r.url).protocol,'https:');assert.ok(r.scope.length>20,id);assert.equal(r.checkedAt,'2026-11-25');}}
 });
+
+test('reference guidance displays each scope once while retaining the missing-curriculum notice',()=>{
+ const {api,w,records}=fixture();
+ for(const record of records){const b=api.basis(record,record.profile);if(!b.references?.length)continue;const html=w.AnjwaSubjectExperience.render({course:record,guide:record.profile});
+ for(const r of b.references)assert.equal(html.split(escape(r.scope)).length-1,1,record.id+' repeated scope');
+ assert.match(html,/승인 교육과정 원문 미확보/);assert.match(html,/실제 단원과 실습 범위는 학교 수업계획/);
+ assert.doesNotMatch(html,/학교·전문 과목의 탐색 안내입니다/);
+ }
+});
