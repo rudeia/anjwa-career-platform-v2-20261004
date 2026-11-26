@@ -296,7 +296,7 @@ window.ANJWA_ADMISSION_PAGES = {
           <section aria-labelledby="holistic-steps-title">
             <h2 id="holistic-steps-title">종합전형은 어떻게 준비하나요?</h2>
             <ol class="admission-checklist">
-              <li><h3>관심 대학의 전형을 살펴봅니다</h3><p>대학이 학교생활기록부(학생부) 등의 자료를 읽고 평가하는 과정을 <strong>서류평가</strong>라고 합니다. 지원할 학년도의 모집요강에서 어떤 기록을 보는지 확인하세요. 면접이 있는지, 수능에서 맞춰야 할 성적 기준인 <strong>수능최저</strong>도 있는지 살펴보세요.</p></li>
+              <li><h3>관심 대학의 전형을 살펴봅니다</h3><p>대학이 학교생활기록부(학생부) 등의 자료를 읽고 평가하는 과정을 <strong>서류평가</strong>라고 합니다. 지원할 학년도의 모집요강에서 어떤 기록을 보는지 확인하세요. 면접이 있는지도 살펴보세요. <strong>수능최저</strong>가 있다면 수능에서 어떤 성적 기준을 충족해야 하는지 확인하세요.</p></li>
               <li><h3>내가 들은 과목과 성적을 함께 봅니다</h3><p>학생부를 보며 어떤 과목을 들었고 수업에서 무엇을 배웠는지 떠올려 보세요. 앞으로 들을 과목은 우리 학교 편성표에서 찾고, 관심 대학의 과목 안내도 확인하세요.</p></li>
               <li><h3>수업에서 실제로 한 일을 떠올립니다</h3><p><strong>세부능력 및 특기사항(세특)</strong>에는 교사가 수업과 평가에서 관찰한 내용이 담깁니다. 수업에서 무엇이 궁금했고 무엇을 직접 확인했는지 적어 보세요. 모둠 활동이라면 내가 맡은 역할도 적어 보세요.</p></li>
             </ol>
@@ -322,8 +322,8 @@ window.ANJWA_ADMISSION_PAGES = {
             <div class="holistic-lookup-example">
               <h3>부산대 면접전형의 숫자를 읽어볼까요?</h3>
               <dl>
-                <div><dt>최종 합격자를 정할 때</dt><dd>1단계 서류 점수는 <strong>70%</strong>, 면접 점수는 <strong>30%</strong> 반영합니다.</dd></div>
-                <div><dt>서류 점수를 매길 때</dt><dd>학생부를 바탕으로 학업역량은 <strong>30%</strong>, 탐구역량은 <strong>50%</strong>, 사회역량은 <strong>20%</strong>를 서류 점수에 반영합니다.</dd></div>
+                <div><dt>최종 합격자를 정할 때</dt><dd>최종 점수에 1단계 서류 점수를 <strong>70%</strong>, 면접 점수를 <strong>30%</strong> 반영합니다.</dd></div>
+                <div><dt>서류 점수를 매길 때</dt><dd>서류 점수에서 학업역량은 <strong>30%</strong>, 탐구역량은 <strong>50%</strong>, 사회역량은 <strong>20%</strong>를 차지합니다.</dd></div>
               </dl>
               <details class="admission-reading-more">
                 <summary>면접을 최종 점수에 몇 퍼센트 반영하나요?</summary>
