@@ -314,9 +314,27 @@ window.ANJWA_ADMISSION_PAGES = {
               <a href="https://ipsi.kongju.ac.kr/kor/contents/3" target="_blank" rel="noopener noreferrer">국립공주대 입학처 서류평가 사례 · 윤리교육과 <span aria-hidden="true">↗</span></a>
             </div>
           </section>
-          <section aria-labelledby="holistic-next-title">
-            <h2 id="holistic-next-title">내 수업에서 해볼 일</h2>
-            <p>최근 수업 하나를 골라 질문을 한 줄로 적어 보세요. 관련 책이나 자료를 한 편 읽고 읽기 전과 후에 생각이 어떻게 달라졌는지 적습니다. 아직 풀리지 않은 질문에는 다음에 어떤 자료를 비교할지 써 보세요. 이미 한 일과 앞으로 해 볼 일은 구분해 적습니다.</p>
+          <section class="admission-reading-panel holistic-practice" aria-labelledby="holistic-next-title">
+            <h2 id="holistic-next-title">내 수업으로 세 줄 써 보기</h2>
+            <p>최근 수업 하나를 골라 예시처럼 한 칸에 한 문장씩 써 보세요. 예시는 확률과 통계 수업에서 출발합니다.</p>
+            <div class="holistic-practice-fields">
+              <div>
+                <label for="holistic-practice-question">수업에서 생긴 질문</label>
+                <p id="holistic-practice-question-example">버스를 아주 오래 기다린 날이 하루 있으면 평균과 중앙값은 어떻게 달라질까?</p>
+                <textarea id="holistic-practice-question" rows="2" autocomplete="off" aria-describedby="holistic-practice-question-example"></textarea>
+              </div>
+              <div>
+                <label for="holistic-practice-reading">읽은 자료에서 얻은 힌트</label>
+                <p id="holistic-practice-reading-example">교과서에서 다른 값보다 유난히 큰 값 하나가 평균을 크게 바꿀 수 있다는 설명을 읽었다.</p>
+                <textarea id="holistic-practice-reading" rows="2" autocomplete="off" aria-describedby="holistic-practice-reading-example"></textarea>
+              </div>
+              <div>
+                <label for="holistic-practice-next">다음에 확인할 일</label>
+                <p id="holistic-practice-next-example">대기 시간 다섯 개를 놓고 가장 긴 시간만 바꿔 평균과 중앙값이 각각 얼마나 달라지는지 계산해 보겠다.</p>
+                <textarea id="holistic-practice-next" rows="2" autocomplete="off" aria-describedby="holistic-practice-next-example"></textarea>
+              </div>
+            </div>
+            <p>이 칸에 적은 문장은 저장되지 않습니다. 남겨 두려면 복사해 두세요.</p>
             <div class="admission-reading-links">
               <a href="./holistic-subjects.html">대학별 과목 안내 보기 <span aria-hidden="true">→</span></a>
               <a href="./holistic-record.html">독서와 학생부 기록 확인하기 <span aria-hidden="true">→</span></a>
