@@ -1,0 +1,105 @@
+.holistic-lookup {
+  padding-top: 20px;
+  border-top: 1px solid var(--lit-line);
+  scroll-margin-top: 90px;
+}
+
+.holistic-lookup-example,
+.holistic-lookup-track {
+  padding: clamp(12px, 3vw, 18px);
+  background: var(--lit-surface);
+  border: 1px solid var(--lit-line);
+  border-radius: var(--lit-radius, 5px);
+}
+
+.holistic-lookup-example {
+  margin-bottom: 14px;
+  border-left: 3px solid var(--lit-accent);
+}
+
+.holistic-lookup-example > h3 { font-size: 17px; }
+
+.holistic-lookup dl {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+
+.holistic-lookup dl dt { font-weight: 700; }
+.holistic-lookup dl dd { margin: 2px 0 0; }
+
+.holistic-lookup-scope { color: var(--lit-muted); }
+
+.holistic-lookup-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  column-gap: 16px;
+  row-gap: 6px;
+  margin: 12px 0;
+}
+
+.holistic-lookup-controls > label { font-weight: 700; }
+.holistic-lookup-controls > label:last-of-type { grid-area: 1 / 2; }
+
+.holistic-lookup-search-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.holistic-lookup-controls :is(input, select) {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 10px;
+  font-size: 16px;
+}
+
+.holistic-lookup-controls button { min-height: 44px; margin: 0; }
+.holistic-lookup-status { margin: 10px 0; color: var(--lit-muted); }
+.holistic-lookup-status:empty { margin: 0; }
+.holistic-lookup-status.is-announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.holistic-lookup-results > h3 { scroll-margin-top: 96px; }
+
+.holistic-lookup-tracks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr));
+  align-items: start;
+  gap: 12px;
+  margin: 12px 0 16px;
+}
+
+.holistic-lookup-track dl > div + div {
+  padding-top: 7px;
+  border-top: 1px solid var(--lit-line);
+}
+
+.holistic-lookup-track dd p.holistic-lookup-note {
+  margin: 4px 0 0;
+}
+
+.holistic-lookup-note { font-size: 14px; color: var(--lit-muted); }
+
+.holistic-lookup-matches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.holistic-lookup [hidden] { display: none; }
+
+@media (max-width: 600px) {
+  .holistic-lookup { scroll-margin-top: 20px; }
+
+  .holistic-lookup-controls { grid-template-columns: minmax(0, 1fr); }
+  .holistic-lookup-controls > label:last-of-type { grid-area: auto; margin-top: 6px; }
+  .holistic-lookup-results > h3 { scroll-margin-top: 20px; }
+}

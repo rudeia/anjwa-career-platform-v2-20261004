@@ -84,12 +84,31 @@ window.ANJWA_ADMISSION_PAGES = {
     "subject": {
       "group": "subject",
       "tone": "subject",
-      "title": "학생부교과전형 이해하기",
-      "summary": "교과 성적을 중심으로 평가하는 전형입니다. 대학마다 성적 계산 방법과 지원 조건이 다릅니다.",
-      "heroLabel": "학생용 첫 이해",
-      "heroTitle": "교과전형은 성적 계산과 지원 조건이 중요합니다.",
-      "heroText": "학생부교과전형은 교과 성적을 중심으로 평가하는 전형입니다. 대학이 정한 방식으로 성적을 계산하며, 반영 교과와 과목 수, 학점수, 성적 산출 방법은 대학과 전형에 따라 다릅니다.",
-      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>일부 전형은 서류평가·면접·출결 등도 함께 반영합니다. 수능최저나 학교장추천이 필요한 전형도 있으므로 성적과 지원 조건을 함께 확인해야 합니다.</p></article><article class=\"explainer-card\"><p>학생부종합전형은 성적과 과목 이수, 학습 경험 등을 대학의 기준에 따라 종합적으로 살펴봅니다. 교과전형과 종합전형 모두 대학이 실제로 무엇을 어떻게 평가하는지 확인해야 합니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>본인의 지원 학년도와 관심 대학의 전형명을 확인하세요.</span></aside>",
+      "title": "학생부교과전형",
+      "summary": "교과 성적을 대학이 어떻게 점수로 바꾸는지 알아봅니다. 학교장 추천과 수능최저가 필요한지도 확인합니다.",
+      "guided": true,
+      "body": `<div class="admission-reading">
+          <section aria-labelledby="subject-steps-title">
+            <h2 id="subject-steps-title">모집요강은 이 순서로 읽어보세요</h2>
+            <ol class="admission-checklist">
+              <li><h3>지원할 수 있는지 봅니다</h3><p>내가 지원하는 학년도의 모집요강에서 지원자격을 확인하세요. 학교장추천이 필요한 전형이라면 학교의 추천 절차도 알아보세요. 일부 전형은 이수 학점 같은 조건도 둡니다.</p></li>
+              <li><h3>내 성적을 대학 방식으로 계산합니다</h3><p>어떤 과목과 학기 성적을 넣는지 확인하세요. 대학에 따라 석차등급, 성취도, 학점수를 사용하는 방식이 다릅니다. 이렇게 대학의 기준으로 바꾼 점수를 <strong>환산점수</strong>라고 합니다.</p></li>
+              <li><h3>성적과 함께 보는 기준을 확인합니다</h3><p>서류, 면접, 출결을 함께 반영하는지 살펴보세요. <strong>수능최저학력기준</strong>이 있다면 수능에서 어느 영역의 성적을 얼마까지 받아야 하는지도 확인하세요.</p></li>
+            </ol>
+          </section>
+          <section class="admission-reading-case" aria-labelledby="subject-case-title">
+            <h2 id="subject-case-title">같은 성적표로 비교해 볼까요?</h2>
+            <p><strong>가상 사례 · 간호학에 관심 있는 학생</strong></p>
+            <p>영어는 2등급, 생명과학은 4등급이라고 가정합니다. 등급을 그대로 평균 낸다면 A 전형은 영어만 반영해 2등급입니다. B 전형은 두 과목을 같은 비중으로 반영해 3등급입니다.</p>
+            <p>이 학생은 각 대학에서 생명과학을 반영하는지부터 확인합니다. 그다음 요강의 점수표와 계산식으로 실제 환산점수를 구합니다.</p>
+            <a href="./subject-calculation.html">실제 대학 비교 · 2027학년도 대입 용인대·동국대 서울 <span aria-hidden="true">→</span></a>
+          </section>
+          <section aria-labelledby="subject-next-title">
+            <h2 id="subject-next-title">내 성적표로 해볼 일</h2>
+            <p>관심 대학 한 곳의 모집요강과 성적표를 나란히 놓고 반영 과목에 표시하세요. 교과 점수를 계산하고, 추천·수능최저·추가 평가가 있는지 적어 상담 때 가져가세요.</p>
+            <a href="./holistic.html">같은 학생의 종합전형 준비 보기 <span aria-hidden="true">→</span></a>
+          </section>
+        </div>`,
       "guide": {
         "title": "이해 점검",
         "items": [
@@ -267,25 +286,91 @@ window.ANJWA_ADMISSION_PAGES = {
     "holistic": {
       "group": "holistic",
       "tone": "holistic",
-      "title": "학생부종합전형 이해하기",
-      "summary": "학교에서의 성취와 학습 경험을 대학의 기준으로 살펴보는 전형입니다.",
-      "heroLabel": "학생용 첫 이해",
-      "heroTitle": "종합전형은 성취와 실제 학습 경험을 함께 봅니다.",
-      "heroText": "학생부종합전형은 학생부에 나타난 성취, 과목 이수와 학습 경험 등을 대학의 기준에 따라 종합적으로 평가합니다. 성적도 중요한 자료이며 활동의 개수만으로 평가하지 않습니다.",
-      "body": "<div class=\"subject-page-grid reviewed-copy\"><article class=\"explainer-card\"><p>모든 과목과 활동을 하나의 진로에 맞출 필요는 없습니다. 여러 수업에서 배운 내용과 맡은 역할, 그 과정에서 달라진 점도 의미 있는 학습 경험입니다.</p></article><article class=\"explainer-card\"><p>학업·진로·공동체역량은 여러 대학이 사용하는 대표적인 평가 기준입니다. 실제 평가항목과 반영 방식은 대학마다 다르므로 지원하려는 전형의 안내를 확인하세요.</p></article><article class=\"explainer-card\"><p>면접이 없는 전형도 있습니다. 면접이 있다면 서류 기반인지 제시문·교과 구술 등 다른 형식인지부터 확인합니다.</p></article><article class=\"explainer-card\"><p>예를 들어 수업에서 글 두 편의 주장을 비교했다면, 실제로 어떤 근거를 확인했고 해석을 어떻게 수정했는지 돌아보세요. 보고서를 몇 개 썼는지만으로 학습 과정을 설명하기는 어렵습니다. 이 사례는 가상 학습 예시이며 특정 활동의 합격 효과를 뜻하지 않습니다.</p></article></div><aside class=\"admission-basis-note\"><strong>다음에 확인할 것</strong><span>관심 전형의 평가 기준과 면접 유무를 확인하세요.</span></aside>",
+      "title": "학생부종합전형",
+      "summary": "학생부종합전형에서 대학은 성적과 이수한 과목을 살펴봅니다. 수업과 학교생활에서 무엇을 배웠는지도 함께 봅니다.",
+      "guided": true,
+      "body": `<div class="admission-reading">
+          <nav class="admission-reading-links" aria-label="종합전형 안내 바로가기">
+            <a href="#holistic-universities">대학별 종합전형 기준 바로 찾기 <span aria-hidden="true">↓</span></a>
+          </nav>
+          <section aria-labelledby="holistic-steps-title">
+            <h2 id="holistic-steps-title">종합전형은 어떻게 준비하나요?</h2>
+            <ol class="admission-checklist">
+              <li><h3>관심 대학의 전형을 살펴봅니다</h3><p>대학이 학교생활기록부(학생부) 등의 자료를 읽고 평가하는 과정을 <strong>서류평가</strong>라고 합니다. 지원할 학년도의 모집요강에서 어떤 기록을 보는지 확인하세요. 면접이 있는지, 수능에서 맞춰야 할 성적 기준인 <strong>수능최저</strong>도 있는지 살펴보세요.</p></li>
+              <li><h3>내가 들은 과목과 성적을 함께 봅니다</h3><p>학생부를 보며 어떤 과목을 들었고 수업에서 무엇을 배웠는지 떠올려 보세요. 앞으로 들을 과목은 우리 학교 편성표에서 찾고, 관심 대학의 과목 안내도 확인하세요.</p></li>
+              <li><h3>수업에서 실제로 한 일을 떠올립니다</h3><p><strong>세부능력 및 특기사항(세특)</strong>에는 교사가 수업과 평가에서 관찰한 내용이 담깁니다. 수업에서 무엇이 궁금했고 무엇을 직접 확인했는지 적어 보세요. 모둠 활동이라면 내가 맡은 역할도 적어 보세요.</p></li>
+            </ol>
+          </section>
+          <section class="admission-reading-case" aria-labelledby="holistic-case-title">
+            <h2 id="holistic-case-title">생명과학 수업에서 배운 것을 어떻게 설명할까요?</h2>
+            <p><strong>가상 사례 · 간호학에 관심 있는 학생</strong></p>
+            <p>생명과학 시간에 면역을 배운 학생이 백신의 작용에 궁금증을 품었습니다. 수업에서 본 그림과 설명을 비교해 우리 몸이 항원에 처음 노출됐을 때와 다시 노출됐을 때 면역 반응이 어떻게 다른지 정리했습니다.</p>
+            <p>면접을 준비한다면 처음에 무엇이 궁금했는지, 자료를 어떻게 비교했는지 떠올려 보세요. 비교하면서 새로 알게 된 점을 자기 말로 설명해 보세요.</p>
+            <a href="./holistic-competency.html">대학의 평가 항목을 수업 사례로 보기 <span aria-hidden="true">→</span></a>
+          </section>
+          <section aria-labelledby="holistic-next-title">
+            <h2 id="holistic-next-title">내 수업에서 해볼 일</h2>
+            <p>최근 수업 하나를 골라 ‘궁금했던 점 → 직접 한 일 → 새로 알게 된 점’을 한 줄씩 적어 보세요. 아직 진로가 정해지지 않았다면 기억에 남는 수업부터 시작해도 됩니다.</p>
+            <div class="admission-reading-links">
+              <a href="./holistic-subjects.html">대학별 과목 안내 보기 <span aria-hidden="true">→</span></a>
+              <a href="./index.html#selfEvaluation">활동 정리에서 써 보기 <span aria-hidden="true">→</span></a>
+              <a href="./subject.html">같은 학생의 교과전형 준비 보기 <span aria-hidden="true">→</span></a>
+            </div>
+          </section>
+          <section class="holistic-lookup" id="holistic-universities" aria-labelledby="holistic-lookup-title">
+            <h2 id="holistic-lookup-title">대학별 종합전형 기준 찾기</h2>
+            <div class="holistic-lookup-example">
+              <h3>부산대 면접전형의 숫자를 읽어볼까요?</h3>
+              <dl>
+                <div><dt>최종 합격자를 정할 때</dt><dd>1단계 서류 점수는 <strong>70%</strong>, 면접 점수는 <strong>30%</strong> 반영합니다.</dd></div>
+                <div><dt>서류 점수를 매길 때</dt><dd>학생부를 바탕으로 학업역량은 <strong>30%</strong>, 탐구역량은 <strong>50%</strong>, 사회역량은 <strong>20%</strong>를 서류 점수에 반영합니다.</dd></div>
+              </dl>
+              <details class="admission-reading-more">
+                <summary>면접을 최종 점수에 몇 퍼센트 반영하나요?</summary>
+                <p><strong>30%입니다.</strong> 서류 점수의 50%는 탐구역량에 해당합니다.</p>
+              </details>
+            </div>
+            <p class="holistic-lookup-scope"><strong>2028학년도 대입 시행계획</strong>을 기준으로 수도권 주요 대학 15곳과 지역 거점국립대 9곳의 대표 전형을 볼 수 있습니다. 실제 지원 조건은 해당 학년도의 최종 모집요강에서 확인하세요.</p>
+            <form class="holistic-lookup-controls" role="search" aria-label="대학별 종합전형 기준">
+              <label for="holistic-university-query">대학 이름으로 검색</label>
+              <div class="holistic-lookup-search-row">
+                <input id="holistic-university-query" type="search" name="university" placeholder="예: 부산대, 전남대" autocomplete="off" maxlength="60">
+                <button class="primary-button" type="submit">조회</button>
+              </div>
+              <label for="holistic-university-select">대학 목록에서 선택</label>
+              <select id="holistic-university-select"><option value="">대학을 선택하세요</option></select>
+            </form>
+            <details class="admission-reading-more holistic-lookup-terms">
+              <summary>‘3배수’, ‘2합 5’는 무슨 뜻인가요?</summary>
+              <dl>
+                <div><dt>1단계 3배수</dt><dd>예를 들어 10명을 뽑는 전형이라면, 1단계에서 30명을 선발한다는 뜻입니다.</dd></div>
+                <div><dt>수능최저 2합 5</dt><dd>대학이 정한 조건에 맞는 수능 두 영역의 등급을 더했을 때 5 이하여야 한다는 뜻입니다. 두 영역에서 각각 2등급과 3등급을 받았다면 등급 합은 5입니다.</dd></div>
+              </dl>
+            </details>
+            <div id="holistic-university-status" class="holistic-lookup-status" role="status" aria-atomic="true"></div>
+            <div id="holistic-university-results" class="holistic-lookup-results" hidden></div>
+          </section>
+        </div>`,
       "guide": {
         "title": "이해 점검",
         "items": [
-          "종합전형은 성적을 보지 않는 전형인가요?"
+          "종합전형에서 내 교과 성적도 보나요?",
+          "2028 시행계획에 배점이 없으면 2027 배점을 써도 될까요?"
         ]
       },
       "basis": "일반 설명과 대학별 사례를 구분해 읽으세요. 지원 조건은 본인의 지원 학년도 최종 모집요강과 변경 공지로 확인합니다.",
       "understandingChecks": [
         {
-          "question": "종합전형은 성적을 보지 않는 전형인가요?",
-          "answer": "성적도 살펴봅니다. 종합전형은 성적을 보지 않는 전형이 아닙니다.",
-          "explanation": "교과 성적과 선택·이수한 과목, 수업과 활동에서 확인되는 학습 과정 등을 대학별 기준으로 함께 평가합니다.",
-          "nextAction": "실제 수업의 질문·자료 해석·수정 과정을 한 사례로 정리하고 대학의 평가 요소를 읽으세요."
+          "question": "종합전형에서 내 교과 성적도 보나요?",
+          "answer": "교과 성적도 살펴봅니다.",
+          "explanation": "교과 성적과 이수한 과목을 살펴봅니다. 수업과 활동에서 무엇을 어떻게 배웠는지도 대학별 기준에 따라 함께 평가합니다.",
+          "nextAction": "수업에서 어떤 질문을 품었는지, 자료를 보며 무엇을 확인했는지 적어 보세요. 관심 대학이 이런 경험을 어떻게 평가하는지 살펴보세요."
+        },
+        {
+          "question": "2028 시행계획에 배점이 없으면 2027 배점을 써도 될까요?",
+          "answer": "2028학년도 배점은 해당 학년도의 자료에서 확인해야 합니다.",
+          "explanation": "대학은 전형 이름이나 배점을 해마다 바꿀 수 있습니다. 2027학년도 배점은 그해 전형을 이해할 때 참고하세요.",
+          "nextAction": "관심 대학의 2028학년도 최종 모집요강에서 서류 기준을 찾으세요."
         }
       ]
     },

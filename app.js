@@ -9230,7 +9230,8 @@ function initAdmissionDetailPage() {
 
 function renderAdmissionDetailPage(pageKey, page, tabs) {
   const toneClass = page.tone === "holistic" ? "admission-tone-holistic" : "admission-tone-subject";
-  return `
+  const guideHref = page.group === "holistic" ? "./holistic.html" : "./subject.html";
+  const heading = `
     <div class="section-head subject-section-head admission-detail-head ${toneClass}">
       <div class="section-title-wrap">
         <div class="section-title-row">
@@ -9238,18 +9239,36 @@ function renderAdmissionDetailPage(pageKey, page, tabs) {
             ${renderAdmissionTitleIcon(page.tone)}
             <span>${escapeHtml(page.title)}</span>
           </h1>
-          <a class="ghost-button back-home-button" href="./index.html">첫 화면으로</a>
+          <a class="ghost-button back-home-button" href="${page.guided ? "./index.html#careerHub" : guideHref}">${page.guided ? "진로·진학으로" : "전형 안내로"}</a>
         </div>
         <p>${escapeHtml(page.summary)}</p>
       </div>
-    </div>
-
+    </div>`;
+  const detailLinks = `
     <nav class="in-page-tabs admission-page-tabs ${page.tone === "holistic" ? "holistic-tabs" : ""}" aria-label="${escapeHtml(page.title)} 세부 안내">
-      ${tabs.map((tab) => `<a class="${tab.key === pageKey ? "active" : ""}" href="${escapeAttribute(tab.href)}">${escapeHtml(tab.label)}</a>`).join("")}
-    </nav>
+      ${tabs.map((tab) => `<a${tab.key === pageKey ? ' class="active" aria-current="page"' : ""} href="${escapeAttribute(tab.href)}">${escapeHtml(tab.label)}</a>`).join("")}
+    </nav>`;
+  const basis = page.basis ? `<aside class="admission-basis-note"><strong>자료 기준</strong><span>${escapeHtml(page.basis)}</span>${page.checkedAt ? `<small>사례 자료 확인 ${escapeHtml(page.checkedAt)}</small>` : ""}</aside>` : "";
 
-    ${page.basis ? `<aside class="admission-basis-note"><strong>자료 기준</strong><span>${escapeHtml(page.basis)}</span>${page.checkedAt ? `<small>사례 자료 확인 ${escapeHtml(page.checkedAt)}</small>` : ""}</aside>` : ""}
+  if (page.guided) {
+    return `${heading}
+      ${page.body}
+      <div class="admission-reading admission-reading-details">
+        <details class="admission-reading-more">
+          <summary>배운 내용 확인하기</summary>
+          <div class="admission-detail-guide">${renderAdmissionDetailGuide(pageKey, page)}</div>
+        </details>
+        <details class="admission-reading-more">
+          <summary>전형 세부 안내 찾아보기</summary>
+          ${detailLinks}
+          ${basis}
+        </details>
+      </div>`;
+  }
 
+  return `${heading}
+    ${detailLinks}
+    ${basis}
     ${page.feature === "recommendations" ? '<details class="compact-guide recommendation-intro"><summary>추천 과목 사용법</summary>' : ''}
     <div class="detail-hero ${page.tone === "holistic" ? "holistic-hero" : "subject-hero"}">
       <div>

@@ -164,3 +164,104 @@ html[data-theme] .mobile-course-entry .mobile-course-extra{padding-right:0;borde
 @media screen and (max-width:700px){html[data-theme] .mobile-table-head span:nth-child(3){text-align:right}html[data-theme] .mobile-table-head span:last-child{text-align:center}}
 
 @media screen{html[data-theme] .curriculum-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}html[data-theme] .curriculum-search-row:has(button[hidden]){grid-template-columns:minmax(0,1fr)}html[data-theme] .curriculum-search-row button{min-width:60px;min-height:44px;margin:0}#curriculumSearchClear[hidden],#curriculumSearchPanel[hidden]{display:none!important}}
+
+.admission-reading {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 24px;
+  font-size: 16px;
+  line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.admission-reading :is(h2, h3, h4) {
+  margin: 0 0 8px;
+  line-height: 1.45;
+}
+
+.admission-reading :is(h2, section > h3) { font-size: clamp(19px, 2.2vw, 24px); }
+.admission-reading :is(h4, li > h3) { font-size: 17px; }
+.admission-reading p { margin: 0 0 8px; }
+
+.admission-reading-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 12px 0 0;
+}
+
+.admission-reading-panel,
+.admission-reading-case {
+  padding: clamp(14px, 3vw, 24px);
+  background: var(--lit-surface);
+  border: 1px solid var(--lit-line);
+  border-radius: var(--lit-radius, 5px);
+}
+
+.admission-reading-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.admission-reading-panel > a { align-self: flex-start; margin-top: auto; }
+.admission-reading-case { border-top: 3px solid var(--lit-accent); }
+
+.admission-reading-case dl > div {
+  padding: 12px;
+  background: var(--lit-soft);
+  border-radius: var(--lit-radius, 5px);
+}
+
+.admission-reading-case dt { margin-bottom: 4px; font-weight: 700; }
+.admission-reading-case dd { margin: 0; }
+
+.admission-checklist {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-left: 1.6em;
+}
+
+.admission-checklist > li { padding-left: 4px; }
+.admission-checklist > li::marker { color: var(--lit-accent); font-weight: 700; }
+.admission-checklist > li > strong { display: block; }
+.admission-checklist li > p { margin-bottom: 0; }
+
+.admission-reading-more {
+  border-top: 1px solid var(--lit-line);
+}
+
+.admission-reading-case .admission-reading-more { margin-top: 16px; }
+.admission-reading-details { gap: 8px; }
+
+.admission-reading-more > summary {
+  min-height: 44px;
+  padding: 9px 4px;
+  cursor: pointer;
+  color: var(--lit-accent);
+  font-weight: 650;
+}
+
+.admission-reading a:not(.in-page-tabs a) {
+  display: inline-block;
+  min-height: 44px;
+  padding-block: 9px;
+  color: var(--lit-accent);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.admission-reading-links {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 18px;
+}
+
+.admission-reading .in-page-tabs a,
+.admission-detail-head .back-home-button { min-height: 44px; }
+
+@media (max-width: 600px) {
+  .admission-reading-pair { grid-template-columns: minmax(0, 1fr); }
+}
