@@ -97,10 +97,10 @@ window.ANJWA_ADMISSION_PAGES = {
             </ol>
           </section>
           <section class="admission-reading-case" aria-labelledby="subject-case-title">
-            <h2 id="subject-case-title">같은 성적표로 비교해 볼까요?</h2>
+            <h2 id="subject-case-title">생명과학 성적은 교과 점수에 어떻게 들어갈까요?</h2>
             <p><strong>가상 사례 · 간호학에 관심 있는 학생</strong></p>
-            <p>영어는 2등급, 생명과학은 4등급이라고 가정합니다. 등급을 그대로 평균 낸다면 A 전형은 영어만 반영해 2등급입니다. B 전형은 두 과목을 같은 비중으로 반영해 3등급입니다.</p>
-            <p>이 학생은 각 대학에서 생명과학을 반영하는지부터 확인합니다. 그다음 요강의 점수표와 계산식으로 실제 환산점수를 구합니다.</p>
+            <p>간호학에 관심 있는 이 학생은 영어 2등급, 생명과학 4등급입니다. 영어만 반영하는 가상의 A 전형에서는 2등급을 씁니다. 두 과목의 등급을 그대로 평균 내는 가상의 B 전형에서는 (2 + 4) ÷ 2 = 3등급입니다.</p>
+            <p>실제 지원할 때는 모집요강에서 생명과학을 반영하는지 먼저 찾으세요. 그다음 대학이 제시한 점수표와 계산식으로 내 교과 점수를 구해 보세요.</p>
             <a href="./subject-calculation.html">실제 대학 비교 · 2027학년도 대입 용인대·동국대 서울 <span aria-hidden="true">→</span></a>
           </section>
           <section aria-labelledby="subject-next-title">
@@ -304,8 +304,8 @@ window.ANJWA_ADMISSION_PAGES = {
           <section class="admission-reading-case" aria-labelledby="holistic-case-title">
             <h2 id="holistic-case-title">생명과학 수업에서 배운 것을 어떻게 설명할까요?</h2>
             <p><strong>가상 사례 · 간호학에 관심 있는 학생</strong></p>
-            <p>생명과학 시간에 면역을 배운 학생이 백신의 작용에 궁금증을 품었습니다. 수업에서 본 그림과 설명을 비교해 우리 몸이 항원에 처음 노출됐을 때와 다시 노출됐을 때 면역 반응이 어떻게 다른지 정리했습니다.</p>
-            <p>면접을 준비한다면 처음에 무엇이 궁금했는지, 자료를 어떻게 비교했는지 떠올려 보세요. 비교하면서 새로 알게 된 점을 자기 말로 설명해 보세요.</p>
+            <p>생명과학 수업에서 백신을 맞으면 우리 몸이 어떻게 대비하는지 궁금했습니다. 수업 자료의 그래프에서 같은 항원에 처음 노출됐을 때와 다시 노출됐을 때의 항체 양을 비교했습니다. 두 번째에는 항체가 더 빨리 늘어나는 것을 확인했습니다.</p>
+            <p>면접이 있는 전형이라면 ‘그래프에서 무엇을 비교했나요? 그 차이를 보고 백신의 작용을 어떻게 이해했나요?’에 답해 보세요. 처음 품은 질문부터 새로 알게 된 점까지 자기 말로 설명하면 됩니다.</p>
             <a href="./holistic-competency.html">대학의 평가 항목을 수업 사례로 보기 <span aria-hidden="true">→</span></a>
           </section>
           <section aria-labelledby="holistic-next-title">
