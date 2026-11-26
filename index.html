@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="./layout-refinement.css?v=2.14.02">
 <link rel="stylesheet" href="./theme.css?v=2.14.02">
 <link rel="stylesheet" href="./literary.css?v=2.14.02">
-<link rel="stylesheet" href="./literary-interior.css?v=2.15.00">
+<link rel="stylesheet" href="./literary-interior.css?v=2.16.06">
 <link rel="stylesheet" href="./pocket-note.css?v=2.14.02"><link rel="stylesheet" href="./curriculum-experience.css?v=2.14.02">
 </head>
   <body class="home-design-app department-screen">
@@ -710,6 +710,29 @@
             </div>
           </div>
 
+          <section class="admission-reading-panel holistic-practice-draft" id="holisticPracticeDraft" aria-labelledby="holisticPracticeDraftTitle" hidden>
+            <h3 id="holisticPracticeDraftTitle" tabindex="-1">옮겨 온 세 줄 연습</h3>
+            <p>문장을 다듬고 위에서 이 수업의 과목을 고르세요. 저장하면 각 항목에 추가됩니다.</p>
+            <div class="holistic-practice-fields">
+              <div>
+                <label for="practice-draft-question">탐구 질문</label>
+                <textarea id="practice-draft-question" data-practice-field="question" rows="2" autocomplete="off"></textarea>
+              </div>
+              <div>
+                <label for="practice-draft-process">탐구 과정 · 읽은 자료에서 얻은 힌트</label>
+                <textarea id="practice-draft-process" data-practice-field="process" rows="2" autocomplete="off"></textarea>
+              </div>
+              <div>
+                <label for="practice-draft-follow-up">후속 탐구·실천</label>
+                <textarea id="practice-draft-follow-up" data-practice-field="followUp" rows="2" autocomplete="off"></textarea>
+              </div>
+            </div>
+            <div class="holistic-practice-actions">
+              <button class="primary-button" id="saveHolisticPractice" type="button">과목에 추가하고 저장</button>
+              <p id="holisticPracticeDraftStatus" role="status"></p>
+            </div>
+          </section>
+
           <div class="self-eval-layout" id="selfEvalSubjectWorkspace">
 
 
@@ -866,9 +889,9 @@
     <script src="./military-calendar-data.js?v=2.14.02"></script>
     <script src="./military-calendar.js?v=2.14.02"></script>
     <script src="./military-guide.js?v=2.14.02"></script>
-    <script src="./app.js?v=2.16.04"></script>
+    <script src="./app.js?v=2.16.06"></script>
     <script src="./pwa-install.js?v=2.14.02" defer></script>
-    <script src="./site-meta.js?v=2.16.05" defer></script>
+    <script src="./site-meta.js?v=2.16.06" defer></script>
     <script src="./button-effects.js?v=20261004c" defer></script>
   </body>
 </html>

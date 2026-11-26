@@ -1,5 +1,6 @@
 const STORAGE_KEY = "anjwa-career-platform-plan-v1";
 const SELF_EVAL_STORAGE_KEY = "anjwa-career-platform-self-eval-v1";
+const HOLISTIC_PRACTICE_STORAGE_KEY = "anjwa-holistic-practice-v1";
 const CREATIVE_EVAL_STORAGE_KEY = "anjwa-career-platform-creative-eval-v1";
 const SELF_EVAL_IDENTITY_STORAGE_KEY = "anjwa-career-platform-self-eval-identity-v1";
 const COURSE_DESIGNER_STORAGE_KEY = "anjwa-career-platform-course-designer-v1";
@@ -2621,6 +2622,7 @@ const state = {
   selfEvalEntries: {},
   selfEvalMode: "subject",
   selfEvalStudentNumber: "",
+  holisticPracticeDraft: null,
   creativeEvalPlan: "incoming2026",
   creativeEvalGrade: "1",
   creativeEvalType: "autonomy",
@@ -2673,6 +2675,9 @@ function getCourse(id) {
 function init() {
   loadState();
   restoreStudentScreenState();
+  const initialView = getInitialViewFromHash() || "departments";
+  state.holisticPracticeDraft = readHolisticPracticeDraft();
+  if (initialView === "selfEvaluation" && state.holisticPracticeDraft) state.selfEvalMode = "subject";
   loadCourseDesignerState();
   loadSelfEvaluationIdentity();
   loadSelfEvaluationState();
@@ -2703,7 +2708,15 @@ function init() {
   renderCreativeEvaluation();
   renderSelfEvaluationMode();
   updateFormValues();
-  setView(getInitialViewFromHash() || "departments", false);
+  setView(initialView, false);
+  if (initialView === "selfEvaluation" && state.holisticPracticeDraft) {
+    window.addEventListener("load", () => {
+      if (state.activeView !== "selfEvaluation" || $("#holisticPracticeDraft")?.hidden) return;
+      const title = $("#holisticPracticeDraftTitle");
+      title?.focus({ preventScroll: true });
+      title?.scrollIntoView({ block: "start", behavior: "instant" });
+    }, { once: true });
+  }
 }
 
 function bindNavigation() {
@@ -2913,6 +2926,7 @@ function bindSelfEvaluationControls() {
     if (state.selfEvalOwnerConfirmed) {
       updateSelfEvaluationEntryFromForm(); updateCreativeEvaluationEntryFromForm();
       saveSelfEvaluationState(false); saveCreativeEvaluationState(false);
+      clearHolisticPracticeDraft();
     }
     state.selfEvalOwnerConfirmed = false;
     state.selfEvalEntries = {}; state.creativeEvalEntries = {};
@@ -2923,8 +2937,10 @@ function bindSelfEvaluationControls() {
 
   $('#confirmSelfEvalOwner')?.addEventListener('click', beginStudentDraftSession);
   $('#importLegacySelfEval')?.addEventListener('click', importLegacyStudentDrafts);
-  $('#selfEvalDeviceMode')?.addEventListener('change', () => clearSelfEvaluationStudentNumber());
-  $("#clearSelfEvalStudentNumberButton")?.addEventListener("click", clearSelfEvaluationStudentNumber);
+  $('#selfEvalDeviceMode')?.addEventListener('change', () => clearSelfEvaluationStudentNumber({ keepPracticeDraft: true }));
+  $("#clearSelfEvalStudentNumberButton")?.addEventListener("click", () => clearSelfEvaluationStudentNumber());
+  $("#holisticPracticeDraft")?.addEventListener("input", updateHolisticPracticeDraft);
+  $("#saveHolisticPractice")?.addEventListener("click", saveHolisticPracticeToCourse);
 
   $("#selfEvalPlanSelect")?.addEventListener("change", (event) => {
     updateSelfEvaluationEntryFromForm();
@@ -7623,8 +7639,10 @@ function renderSelfEvaluationMode() {
     if (element) element.hidden = !isCreative;
   });
 
-  if (isCreative) renderCreativeEvaluation();
-  else renderSelfEvaluation();
+  if (isCreative) {
+    renderCreativeEvaluation();
+    renderHolisticPracticeDraft();
+  } else renderSelfEvaluation();
 }
 
 function normalizeStudentNumber(value) {
@@ -7656,7 +7674,8 @@ function renderSelfEvaluationIdentity() {
   $all('#selfEvalForm textarea, #creativeEvalForm textarea, [data-self-eval-competency], [data-creative-eval-competency]').forEach(input => input.disabled = !state.selfEvalOwnerConfirmed);
 }
 
-function clearSelfEvaluationStudentNumber() {
+function clearSelfEvaluationStudentNumber({ keepPracticeDraft = false } = {}) {
+  if (!keepPracticeDraft) clearHolisticPracticeDraft();
   if (state.selfEvalOwnerConfirmed) {
     updateSelfEvaluationEntryFromForm(); updateCreativeEvaluationEntryFromForm();
     saveSelfEvaluationState(false); saveCreativeEvaluationState(false);
@@ -8188,6 +8207,7 @@ function renderSelfEvaluation() {
   renderSelfEvaluationStatus();
   resizeSelfEvaluationTextareas();
   renderSelfEvaluationIdentity();
+  renderHolisticPracticeDraft();
 }
 
 function renderSelfEvaluationField(field, value) {
@@ -8235,15 +8255,135 @@ function updateSelfEvaluationEntryFromForm() {
 }
 
 function saveSelfEvaluationState(showMessage) {
-  if (!state.selfEvalOwnerConfirmed) { if (showMessage) requireSelfEvaluationStudentNumber(); return; }
+  if (!state.selfEvalOwnerConfirmed) {
+    if (showMessage) requireSelfEvaluationStudentNumber();
+    return false;
+  }
   const data = {
     selfEvalPlan: state.selfEvalPlan,
     selfEvalSemester: state.selfEvalSemester,
     selfEvalSubject: state.selfEvalSubject,
     selfEvalEntries: state.selfEvalEntries
   };
-  if (!writeStudentDraft(SELF_EVAL_STORAGE_KEY, data)) return;
+  if (!writeStudentDraft(SELF_EVAL_STORAGE_KEY, data)) return false;
   if (showMessage) showToast("자기평가서를 저장했습니다.");
+  return true;
+}
+
+function readHolisticPracticeDraft() {
+  try {
+    const draft = JSON.parse(sessionStorage.getItem(HOLISTIC_PRACTICE_STORAGE_KEY));
+    if (!draft || typeof draft !== "object") return null;
+    const fields = ["question", "process", "followUp"];
+    return Object.fromEntries(fields.map((key) => [key, typeof draft[key] === "string" ? draft[key] : ""]));
+  } catch {
+    return null;
+  }
+}
+
+function writeHolisticPracticeDraft(draft) {
+  try {
+    sessionStorage.setItem(HOLISTIC_PRACTICE_STORAGE_KEY, JSON.stringify(draft));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function clearHolisticPracticeDraft() {
+  state.holisticPracticeDraft = null;
+  try { sessionStorage.removeItem(HOLISTIC_PRACTICE_STORAGE_KEY); } catch { /* The browser may block tab storage. */ }
+}
+
+function getHolisticPracticeLines(container) {
+  const fields = [...container.querySelectorAll("[data-practice-field]")];
+  return Object.fromEntries(fields.map((field) => [field.dataset.practiceField, field.value]));
+}
+
+function bindHolisticPracticeTransfer() {
+  const button = $("#sendHolisticPractice");
+  if (!button) return;
+  const panel = button.closest(".holistic-practice");
+  const status = $("#holisticPracticeTransferStatus");
+  button.addEventListener("click", () => {
+    const draft = getHolisticPracticeLines(panel);
+    if (!Object.values(draft).some((line) => line.trim())) {
+      status.textContent = "한 칸 이상 써 보세요.";
+      panel.querySelector("textarea")?.focus();
+      return;
+    }
+    if (!writeHolisticPracticeDraft(draft)) {
+      status.textContent = "이 브라우저에서 내용을 옮길 수 없습니다. 지금 쓴 문장은 이 화면에 남아 있습니다.";
+      return;
+    }
+    status.textContent = "";
+    window.location.assign("./index.html#selfEvaluation");
+  });
+}
+
+function renderHolisticPracticeDraft() {
+  const panel = $("#holisticPracticeDraft");
+  if (!panel) return;
+  const draft = state.holisticPracticeDraft;
+  panel.hidden = !draft || state.selfEvalMode !== "subject";
+  if (panel.hidden) return;
+
+  panel.querySelectorAll("[data-practice-field]").forEach((field) => {
+    field.value = draft[field.dataset.practiceField];
+  });
+  const course = state.selfEvalOwnerConfirmed ? getSelfEvaluationCourse() : null;
+  $("#saveHolisticPractice").textContent = course ? `${course.name}에 추가하고 저장` : "과목에 추가하고 저장";
+  $("#holisticPracticeDraftStatus").textContent = state.selfEvalOwnerConfirmed ? "" : "먼저 위에서 학번을 확인하고 작성을 시작하세요.";
+}
+
+function updateHolisticPracticeDraft(event) {
+  if (!event.target.matches("[data-practice-field]")) return;
+  const status = $("#holisticPracticeDraftStatus");
+  state.holisticPracticeDraft = getHolisticPracticeLines(event.currentTarget);
+  const saved = writeHolisticPracticeDraft(state.holisticPracticeDraft);
+  status.textContent = saved ? "" : "이 탭에 수정한 문장을 보관할 수 없습니다. 이 화면에서 과목에 추가하고 저장해 보세요.";
+}
+
+function saveHolisticPracticeToCourse() {
+  const panel = $("#holisticPracticeDraft");
+  if (!panel || panel.hidden || !requireSelfEvaluationStudentNumber()) return;
+  const course = getSelfEvaluationCourse();
+  if (!course) {
+    showToast("먼저 과목을 선택하세요.");
+    $("#selfEvalSubjectSelect")?.focus();
+    return;
+  }
+  const lines = Object.entries(getHolisticPracticeLines(panel))
+    .map(([key, value]) => [key, value.trim()])
+    .filter(([, value]) => value);
+  const status = $("#holisticPracticeDraftStatus");
+  if (!lines.length) {
+    status.textContent = "저장할 문장을 한 칸 이상 써 보세요.";
+    panel.querySelector("textarea")?.focus();
+    return;
+  }
+
+  updateSelfEvaluationEntryFromForm();
+  const entry = getSelfEvaluationEntry();
+  const previous = {};
+  const separator = "\n\n";
+  lines.forEach(([key, value]) => {
+    const current = String(entry[key] || "");
+    previous[key] = entry[key];
+    if (!(separator + current.trim() + separator).includes(separator + value + separator)) {
+      entry[key] = current.trim() ? current + separator + value : value;
+    }
+  });
+  if (!saveSelfEvaluationState(false)) {
+    Object.assign(entry, previous);
+    status.textContent = "저장할 수 없습니다. 수정한 문장은 이 화면에 남아 있습니다.";
+    return;
+  }
+
+  clearHolisticPracticeDraft();
+  renderSelfEvaluation();
+  $(`#self-eval-${lines[0][0]}`)?.focus();
+  showToast(`${course.name} 자기평가서에 추가하고 저장했습니다.`);
 }
 
 function resetCurrentSelfEvaluationEntry() {
@@ -9214,6 +9354,7 @@ function initAdmissionDetailPage() {
 
   document.title = `${page.title} | 진로진학 플랫폼`;
   root.innerHTML = renderAdmissionDetailPage(pageKey, page, admissionPages.groups?.[page.group] || []);
+  if (pageKey === "holistic") bindHolisticPracticeTransfer();
 
   if (page.feature === "recommendations") {
     state.recommendationMode = "major";

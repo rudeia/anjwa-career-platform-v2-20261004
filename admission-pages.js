@@ -321,24 +321,26 @@ window.ANJWA_ADMISSION_PAGES = {
               <div>
                 <label for="holistic-practice-question">수업에서 생긴 질문</label>
                 <p id="holistic-practice-question-example">버스를 아주 오래 기다린 날이 하루 있으면 평균과 중앙값은 어떻게 달라질까?</p>
-                <textarea id="holistic-practice-question" rows="2" autocomplete="off" aria-describedby="holistic-practice-question-example"></textarea>
+                <textarea id="holistic-practice-question" data-practice-field="question" rows="2" autocomplete="off" aria-describedby="holistic-practice-question-example"></textarea>
               </div>
               <div>
                 <label for="holistic-practice-reading">읽은 자료에서 얻은 힌트</label>
                 <p id="holistic-practice-reading-example">교과서에서 다른 값보다 유난히 큰 값 하나가 평균을 크게 바꿀 수 있다는 설명을 읽었다.</p>
-                <textarea id="holistic-practice-reading" rows="2" autocomplete="off" aria-describedby="holistic-practice-reading-example"></textarea>
+                <textarea id="holistic-practice-reading" data-practice-field="process" rows="2" autocomplete="off" aria-describedby="holistic-practice-reading-example"></textarea>
               </div>
               <div>
                 <label for="holistic-practice-next">다음에 확인할 일</label>
                 <p id="holistic-practice-next-example">대기 시간 다섯 개를 놓고 가장 긴 시간만 바꿔 평균과 중앙값이 각각 얼마나 달라지는지 계산해 보겠다.</p>
-                <textarea id="holistic-practice-next" rows="2" autocomplete="off" aria-describedby="holistic-practice-next-example"></textarea>
+                <textarea id="holistic-practice-next" data-practice-field="followUp" rows="2" autocomplete="off" aria-describedby="holistic-practice-next-example"></textarea>
               </div>
             </div>
-            <p>이 칸에 적은 문장은 저장되지 않습니다. 남겨 두려면 복사해 두세요.</p>
+            <div class="holistic-practice-actions">
+              <button class="primary-button" id="sendHolisticPractice" type="button">활동 정리로 옮기기</button>
+              <p id="holisticPracticeTransferStatus" role="status"></p>
+            </div>
             <div class="admission-reading-links">
               <a href="./holistic-subjects.html">대학별 과목 안내 보기 <span aria-hidden="true">→</span></a>
               <a href="./holistic-record.html">독서와 학생부 기록 확인하기 <span aria-hidden="true">→</span></a>
-              <a href="./index.html#selfEvaluation">활동 정리에서 써 보기 <span aria-hidden="true">→</span></a>
               <a href="./subject.html">교과전형의 성적 계산 사례 보기 <span aria-hidden="true">→</span></a>
             </div>
           </section>

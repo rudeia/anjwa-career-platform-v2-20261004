@@ -228,7 +228,20 @@ html[data-theme] .mobile-course-entry .mobile-course-extra{padding-right:0;borde
 .admission-checklist > li > strong { display: block; }
 .admission-checklist li > p { margin-bottom: 0; }
 
-/* Student practice below the holistic admissions case. */
+/* Student practice and the transferred draft in activity notes. */
+.holistic-practice-draft { margin-bottom: 24px; }
+.holistic-practice-draft > h3 { margin: 0 0 6px; }
+
+.holistic-practice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.holistic-practice-actions button { min-height: 44px; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.holistic-practice-actions p { margin: 0; }
+
 .holistic-practice-fields {
   display: grid;
   gap: 16px;
